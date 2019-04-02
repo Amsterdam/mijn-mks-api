@@ -1,5 +1,5 @@
 zeep==1.6.0
-flask==0.12
+flask
 xmltodict==0.10.2
 connexion==1.1.9
 signxml==2.5.2
@@ -7,4 +7,4 @@ flex
 click==6.7
 werkzeug
 lxmlbind
-cryptography==2.2.2
+cryptography==2.6.1
