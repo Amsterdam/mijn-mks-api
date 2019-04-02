@@ -1,5 +1,5 @@
 zeep==1.6.0
-flask
+flask==1.0.2
 xmltodict==0.10.2
 connexion==1.1.9
 signxml==2.5.2
