@@ -25,7 +25,7 @@ node {
     stage("Build image") {
         tryStep "build", {
             docker.withRegistry("${DOCKER_REGISTRY}",'docker-registry') {
-                def image = docker.build("mijnams/mks:${env.BUILD_NUMBER}", "--build-arg http_proxy=${JENKINS_HTTP_PROXY_STRING} --build-arg https_proxy=${JENKINS_HTTP_PROXY_STRING} mks")
+                def image = docker.build("mijnams/mks:${env.BUILD_NUMBER}", "--build-arg http_proxy=${JENKINS_HTTP_PROXY_STRING} --build-arg https_proxy=${JENKINS_HTTP_PROXY_STRING} .")
                 image.push()
             }
         }
