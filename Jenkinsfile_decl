@@ -1,0 +1,78 @@
+pipeline {
+  agent any
+
+  environment {
+    GLOBAL_REGISTRY = "${DOCKER_REGISTRY}"
+    IMAGE_BASE = "${GLOBAL_REGISTRY}/mijnams/mks"
+    IMAGE_BUILD = "${IMAGE_BASE}:${BUILD_NUMBER}"
+    IMAGE_ACCEPTANCE = "${IMAGE_BASE}:acceptance"
+    IMAGE_PRODUCTION = "${IMAGE_BASE}:production"
+    IMAGE_LATEST = "${IMAGE_BASE}:latest"
+    registryCredentialsId 'docker-registry'
+  }
+
+  stages {
+    stage('Build MKS Acceptance image') {
+      steps {
+        sh "docker build -t ${IMAGE_BUILD} ."
+        sh "docker push ${IMAGE_BUILD}"
+      }
+    }
+
+    stage('Deploy MKS') {
+      steps {
+        sh "docker pull ${IMAGE_BUILD}"
+        sh "docker tag ${IMAGE_BUILD} ${IMAGE_ACCEPTANCE}"
+        sh "docker push ${IMAGE_ACCEPTANCE}"
+        build job: 'Subtask_Openstack_Playbook', parameters: [
+          [$class: 'StringParameterValue', name: 'INVENTORY', value: 'acceptance'],
+          [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-mks.yml']
+        ]
+      }
+    }
+
+    stage('Waiting for approval (Master)') {
+      when { branch 'master' }
+      steps {
+        script {
+          input "Deploy to Production?"
+          echo "Okay, moving on"
+        }
+      }
+    }
+
+    stage('Build MKS Production image') {
+      steps {
+        sh "docker pull -t ${IMAGE_ACCEPTANCE} ."
+        sh "docker tag ${IMAGE_ACCEPTANCE} ${IMAGE_PRODUCTION}"
+        sh "docker tag ${IMAGE_ACCEPTANCE} ${IMAGE_LATEST}"
+        sh "docker push ${IMAGE_PRODUCTION}"
+        sh "docker push ${IMAGE_LATEST}"
+      }
+    }
+
+    stage('Deploy MKS Production') {
+      steps {
+        build job: 'Subtask_Openstack_Playbook', parameters: [
+          [$class: 'StringParameterValue', name: 'INVENTORY', value: 'production'],
+          [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-mks.yml']
+        ]
+      }
+    }
+  }
+
+  post {
+    success {
+      echo 'Pipeline success'
+    }
+
+    failure {
+      echo 'Something went wrong while running pipeline'
+      slackSend(
+        channel: 'ci-channel',
+        color: 'danger',
+        message: "${JOB_NAME}: failure ${BUILD_URL}"
+      )
+    }
+  }
+}

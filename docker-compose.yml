@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8108:8000"
+    environment:
+      BRP_APPLICATIE: ${BRP_APPLICATIE}
+      BRP_GEBRUIKER: ${BRP_GEBRUIKER}
+      MKS_BRP_ENDPOINT: ${MKS_BRP_ENDPOINT}
+      MKS_CLIENT_CERT: ${MKS_CLIENT_CERT}
+      MKS_CLIENT_KEY: ${MKS_CLIENT_KEY}
+      TMA_CERTIFICATE: ${TMA_CERTIFICATE}
+      UWSGI_HTTP: 0.0.0.0:8000
+      UWSGI_MODULE: mks.server
+      UWSGI_MASTER: 1
+      UWSGI_CALLABLE: webapp
+      UWSGI_BUFFER_SIZE: 32768
+      UWSGI_PROCESSES: 4
+      UWSGI_VACUUM: 1
+      UWSGI_HARAKIRI: 15

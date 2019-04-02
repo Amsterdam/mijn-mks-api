@@ -1,0 +1,344 @@
+{
+  "type": "object",
+  "id": "persoon",
+  "properties": {
+    "a-nummer": {
+      "id": "/properties/a-nummer",
+      "type": "string"
+    },
+    "aanduidingNaamgebruik": {
+      "id": "/properties/aanduidingNaamgebruik",
+      "type": "string"
+    },
+    "bsn": {
+      "id": "/properties/bsn",
+      "type": "string"
+    },
+    "burgerlijkeStaat": {
+      "id": "/properties/burgerlijkeStaat",
+      "type": "string"
+    },
+    "correspondentieAdres": {
+      "id": "/properties/correspondentieAdres",
+      "type": "null"
+    },
+    "datumInschrijving": {
+      "id": "/properties/datumInschrijving",
+      "type": "string"
+    },
+    "datumVestigingInNederland": {
+      "id": "/properties/datumVestigingInNederland",
+      "type": "string"
+    },
+    "geboorteLand": {
+      "id": "/properties/geboorteLand",
+      "type": "string"
+    },
+    "geboortedatum": {
+      "id": "/properties/geboortedatum",
+      "type": "string"
+    },
+    "geboorteplaats": {
+      "id": "/properties/geboorteplaats",
+      "type": "string"
+    },
+    "gemeenteVanInschrijving": {
+      "id": "/properties/gemeenteVanInschrijving",
+      "type": "string"
+    },
+    "geslachtsaanduiding": {
+      "id": "/properties/geslachtsaanduiding",
+      "type": "string"
+    },
+    "geslachtsnaam": {
+      "id": "/properties/geslachtsnaam",
+      "type": "string"
+    },
+    "heeftAlsEchtgenootPartner": {
+      "id": "/properties/heeftAlsEchtgenootPartner",
+      "properties": {
+        "datumSluiting": {
+          "id": "/properties/heeftAlsEchtgenootPartner/properties/datumSluiting",
+          "type": "string"
+        },
+        "gerelateerde": {
+          "id": "/properties/heeftAlsEchtgenootPartner/properties/gerelateerde",
+          "properties": {
+            "bsn": {
+              "id": "/properties/heeftAlsEchtgenootPartner/properties/gerelateerde/properties/bsn",
+              "type": "string"
+            },
+            "geboortedatum": {
+              "id": "/properties/heeftAlsEchtgenootPartner/properties/gerelateerde/properties/geboortedatum",
+              "type": "string"
+            },
+            "geslachtsnaam": {
+              "id": "/properties/heeftAlsEchtgenootPartner/properties/gerelateerde/properties/geslachtsnaam",
+              "type": "string"
+            },
+            "voorletters": {
+              "id": "/properties/heeftAlsEchtgenootPartner/properties/gerelateerde/properties/voorletters",
+              "type": "string"
+            },
+            "voornamen": {
+              "id": "/properties/heeftAlsEchtgenootPartner/properties/gerelateerde/properties/voornamen",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "landSluiting": {
+          "id": "/properties/heeftAlsEchtgenootPartner/properties/landSluiting",
+          "type": "string"
+        },
+        "plaatsSluiting": {
+          "id": "/properties/heeftAlsEchtgenootPartner/properties/plaatsSluiting",
+          "type": "string"
+        },
+        "soortVerbintenis": {
+          "id": "/properties/heeftAlsEchtgenootPartner/properties/soortVerbintenis",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "heeftAlsKinderen": {
+      "id": "/properties/heeftAlsKinderen",
+      "items": {
+        "id": "/properties/heeftAlsKinderen/items",
+        "properties": {
+          "gerelateerde": {
+            "id": "/properties/heeftAlsKinderen/items/properties/gerelateerde",
+            "properties": {
+              "geboortedatum": {
+                "id": "/properties/heeftAlsKinderen/items/properties/gerelateerde/properties/geboortedatum",
+                "type": "string"
+              },
+              "geslachtsaanduiding": {
+                "id": "/properties/heeftAlsKinderen/items/properties/gerelateerde/properties/geslachtsaanduiding",
+                "type": "string"
+              },
+              "geslachtsnaam": {
+                "id": "/properties/heeftAlsKinderen/items/properties/gerelateerde/properties/geslachtsnaam",
+                "type": "string"
+              },
+              "voorletters": {
+                "id": "/properties/heeftAlsKinderen/items/properties/gerelateerde/properties/voorletters",
+                "type": "string"
+              },
+              "voornamen": {
+                "id": "/properties/heeftAlsKinderen/items/properties/gerelateerde/properties/voornamen",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "heeftAlsNationaliteit": {
+      "id": "/properties/heeftAlsNationaliteit",
+      "items": {
+        "id": "/properties/heeftAlsNationaliteit/items",
+        "properties": {
+          "datumVerkrijging": {
+            "id": "/properties/heeftAlsNationaliteit/items/properties/datumVerkrijging",
+            "type": "string"
+          },
+          "gerelateerde": {
+            "id": "/properties/heeftAlsNationaliteit/items/properties/gerelateerde",
+            "properties": {
+              "code": {
+                "id": "/properties/heeftAlsNationaliteit/items/properties/gerelateerde/properties/code",
+                "type": "string"
+              },
+              "omschrijving": {
+                "id": "/properties/heeftAlsNationaliteit/items/properties/gerelateerde/properties/omschrijving",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "tijdvakRelatie": {
+            "id": "/properties/heeftAlsNationaliteit/items/properties/tijdvakRelatie",
+            "properties": {
+              "beginRelatie": {
+                "id": "/properties/heeftAlsNationaliteit/items/properties/tijdvakRelatie/properties/beginRelatie",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "heeftAlsOuders": {
+      "id": "/properties/heeftAlsOuders",
+      "items": {
+        "id": "/properties/heeftAlsOuders/items",
+        "properties": {
+          "gerelateerde": {
+            "id": "/properties/heeftAlsOuders/items/properties/gerelateerde",
+            "properties": {
+              "geboortedatum": {
+                "id": "/properties/heeftAlsOuders/items/properties/gerelateerde/properties/geboortedatum",
+                "type": "string"
+              },
+              "geslachtsaanduiding": {
+                "id": "/properties/heeftAlsOuders/items/properties/gerelateerde/properties/geslachtsaanduiding",
+                "type": "string"
+              },
+              "geslachtsnaam": {
+                "id": "/properties/heeftAlsOuders/items/properties/gerelateerde/properties/geslachtsnaam",
+                "type": "string"
+              },
+              "voorletters": {
+                "id": "/properties/heeftAlsOuders/items/properties/gerelateerde/properties/voorletters",
+                "type": "string"
+              },
+              "voornamen": {
+                "id": "/properties/heeftAlsOuders/items/properties/gerelateerde/properties/voornamen",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "immigratieLand": {
+      "id": "/properties/immigratieLand",
+      "type": "string"
+    },
+    "indicatieGeheim": {
+      "id": "/properties/indicatieGeheim",
+      "type": "string"
+    },
+    "tijdvakGeldigheid": {
+      "id": "/properties/tijdvakGeldigheid",
+      "properties": {
+        "beginGeldigheid": {
+          "id": "/properties/tijdvakGeldigheid/properties/beginGeldigheid",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "verblijfsadres": {
+      "id": "/properties/verblijfsadres",
+      "properties": {
+        "begindatumVerblijf": {
+          "id": "/properties/verblijfsadres/properties/begindatumVerblijf",
+          "type": "string"
+        },
+        "huisnummer": {
+          "id": "/properties/verblijfsadres/properties/huisnummer",
+          "type": "string"
+        },
+        "huisnummertoevoeging": {
+          "id": "/properties/verblijfsadres/properties/huisnummertoevoeging",
+          "type": "string"
+        },
+        "identificatie": {
+          "id": "/properties/verblijfsadres/properties/identificatie",
+          "type": "string"
+        },
+        "openbareRuimteNaam": {
+          "id": "/properties/verblijfsadres/properties/openbareRuimteNaam",
+          "type": "string"
+        },
+        "postcode": {
+          "id": "/properties/verblijfsadres/properties/postcode",
+          "type": "string"
+        },
+        "straatnaam": {
+          "id": "/properties/verblijfsadres/properties/straatnaam",
+          "type": "string"
+        },
+        "woonplaatsNaam": {
+          "id": "/properties/verblijfsadres/properties/woonplaatsNaam",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "verblijftIn": {
+      "id": "/properties/verblijftIn",
+      "properties": {
+        "gerelateerde": {
+          "id": "/properties/verblijftIn/properties/gerelateerde",
+          "properties": {
+            "adresAanduidingGrp": {
+              "id": "/properties/verblijftIn/properties/gerelateerde/properties/adresAanduidingGrp",
+              "properties": {
+                "huisnummer": {
+                  "id": "/properties/verblijftIn/properties/gerelateerde/properties/adresAanduidingGrp/properties/huisnummer",
+                  "type": "string"
+                },
+                "huisnummertoevoeging": {
+                  "id": "/properties/verblijftIn/properties/gerelateerde/properties/adresAanduidingGrp/properties/huisnummertoevoeging",
+                  "type": "string"
+                },
+                "identificatie": {
+                  "id": "/properties/verblijftIn/properties/gerelateerde/properties/adresAanduidingGrp/properties/identificatie",
+                  "type": "string"
+                },
+                "openbareRuimteNaam": {
+                  "id": "/properties/verblijftIn/properties/gerelateerde/properties/adresAanduidingGrp/properties/openbareRuimteNaam",
+                  "type": "string"
+                },
+                "postcode": {
+                  "id": "/properties/verblijftIn/properties/gerelateerde/properties/adresAanduidingGrp/properties/postcode",
+                  "type": "string"
+                },
+                "woonplaatsNaam": {
+                  "id": "/properties/verblijftIn/properties/gerelateerde/properties/adresAanduidingGrp/properties/woonplaatsNaam",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "authentiek": {
+              "id": "/properties/verblijftIn/properties/gerelateerde/properties/authentiek",
+              "type": "string"
+            },
+            "identificatie": {
+              "id": "/properties/verblijftIn/properties/gerelateerde/properties/identificatie",
+              "type": "string"
+            },
+            "typering": {
+              "id": "/properties/verblijftIn/properties/gerelateerde/properties/typering",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "tijdvakRelatie": {
+          "id": "/properties/verblijftIn/properties/tijdvakRelatie",
+          "properties": {
+            "beginRelatie": {
+              "id": "/properties/verblijftIn/properties/tijdvakRelatie/properties/beginRelatie",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "voorletters": {
+      "id": "/properties/voorletters",
+      "type": "string"
+    },
+    "voornamen": {
+      "id": "/properties/voornamen",
+      "type": "string"
+    }
+  }
+}

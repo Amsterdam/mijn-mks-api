@@ -1,0 +1,3 @@
+## Docker volume mount for certificates. Try not to leak this into git or docker
+/certificates/
+/.idea/
