@@ -16,7 +16,8 @@ log_response = False
 def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
     session = requests.Session()
     session.headers.update({
-        'Content-Type': 'text/xml;charset=UTF-8'
+        'Content-Type': 'text/xml;charset=UTF-8',
+        'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0310/npsLv01Integraal',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
     post_response = session.post(mks_brp_url, data=soap_request)
