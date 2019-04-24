@@ -6,7 +6,8 @@ from flask import jsonify, request
 
 from mks.service import mks_client
 from mks.service import saml
-from mks.service.config import *
+# from mks.service.config import *
+from mks.service.config import TMA_CERTIFICATE
 from mks.service.exceptions import NoResultException, InvalidBSNException
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import SamlVerificationException
@@ -31,7 +32,7 @@ def log_and_generate_response(exception, response_type='json'):
 
 def get_bsn_from_saml_token() -> int:
     """
-    Check if the BSN retrieved from the token is actually valid and parse it 
+    Check if the BSN retrieved from the token is actually valid and parse it
     to int format for further use
     :return: The bsn in int form or an error in case it's not 11proef safe.
     """
@@ -93,5 +94,6 @@ def get_bsn():
 
 
 def log_request(req):
+    # TODO: fix this, make this more readable in kibana
     logging.info(req.url)
     logging.info(req.data)

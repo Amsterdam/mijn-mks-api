@@ -97,15 +97,15 @@ class StuffReply:
             self.nationaliteiten = objectify.ObjectPath(
                 self._base_paths['base'] +
                 self._base_paths['nationaliteiten'])(self.response_root)
-            self.parsed_succesfully = True
-        except AttributeError as foutje:
+            self.parsed_successfully = True
+        except AttributeError:
             traceback.print_exc()
-            self.parsed_succesfully = False
+            self.parsed_successfully = False
 
     def is_valid_response(self) -> bool:
-        return self.parsed_succesfully \
-               and self.persoon['inp.bsn'] is not None \
-               and self.persoon['inp.bsn'].pyval > 0
+        return self.parsed_successfully \
+            and self.persoon['inp.bsn'] is not None \
+            and self.persoon['inp.bsn'].pyval > 0
 
     def get_persoon(self):
         return self.persoon
@@ -163,7 +163,7 @@ class StuffReply:
 
         return filtered_xml.xpath('//persoon', namespaces=self._namespaces)[0]
 
-    def check_and_fix_dates(self, iterable) -> None:
+    def check_and_fix_dates(self, iterable) -> None:  # noqa: C901
         """
         FIXME: dangerous
         :param item:
@@ -217,7 +217,7 @@ class StuffReply:
                 pass
         return item
 
-    def _do_clean(self, xml: ElementTree) -> None:
+    def _do_clean(self, xml: ElementTree) -> None:  # noqa: C901
         """
         Process response xml and clean, rename it in one go.
         :param xml: the xml rootnode to be cleaned

@@ -8,3 +8,5 @@ click==6.7
 werkzeug
 lxmlbind
 cryptography==2.6.1
+flake8
+coverage
