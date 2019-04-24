@@ -6,7 +6,6 @@ from flask import jsonify, request
 
 from mks.service import mks_client
 from mks.service import saml
-# from mks.service.config import *
 from mks.service.config import TMA_CERTIFICATE
 from mks.service.exceptions import NoResultException, InvalidBSNException
 from mks.service.exceptions import ServiceException, onbekende_fout
