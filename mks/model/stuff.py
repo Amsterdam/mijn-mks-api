@@ -32,16 +32,6 @@ class StuffReply:
 
     }  # type: Dict[str, List[str]]
 
-    _add_data = [
-        ['aanduidingNaamgebruikOmschrijving', 'persoon.aanduidingNaamgebruikOmschrijving'],
-        ['omschrijvingGeslachtsaanduiding', 'persoon.omschrijvingGeslachtsaanduiding'],
-        ['geboortelandnaam', 'persoon.geboorteLandNaam'],
-        ['omschrijvingBurgerlijkeStaat', 'persoon.omschrijvingBurgerlijkeStaat'],
-        ['gemeentenaamInschrijving', 'persoon.gemeentenaamInschrijving'],
-        ['soortVerbintenisOmschrijving', 'persoon.heeftAlsEchtgenootPartner.soortVerbintenisOmschrijving'],
-        ['landnaamSluiting', 'persoon.heeftAlsEchtgenootPartner.landnaamSluiting'],
-    ]
-
     def __init__(self, response: ElementTree) -> Optional[Any]:
         self._process_response(response)
 
@@ -50,6 +40,8 @@ class StuffReply:
             self.response_root = resp
         else:
             self.response_root = resp.getroot()
+
+        # import ipdb; ipdb.set_trace()
 
         try:
             self.gerelateerde = objectify.ObjectPath(
@@ -82,6 +74,7 @@ class StuffReply:
             self.persoon = objectify.ObjectPath(
                 self._base_paths['base'])(self.response_root)
 
+            # FIXME: there might be multiple partners. Only show if it is a current partner (not gescheiden, still alive)
             self.partner = objectify.ObjectPath(
                 self._base_paths['base'] +
                 self._base_paths['partner'])(self.response_root)
@@ -108,7 +101,40 @@ class StuffReply:
             and self.persoon['inp.bsn'].pyval > 0
 
     def get_persoon(self):
-        return self.persoon
+        result = {}
+
+        stufns = "{" + self._namespaces['StUF'] + "}"
+        bgns = "{" + self._namespaces['BG'] + "}"
+        fields = [
+            {'name': 'inp.bsn', 'parser': self.to_string},
+            {'name': 'geslachtsnaam', 'parser': self.to_string},
+            {'name': 'voornamen', 'parser': self.to_string},
+            {'name': 'geboortedatum', 'parser': self.to_date},
+        ]
+        extra_fields = [
+            {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
+            {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': self.to_string},
+            {'name': 'geboortelandnaam', 'parser': self.to_string},
+            {'name': 'geboorteplaatsnaam', 'parser': self.to_string},
+            {'name': 'gemeentenaamInschrijving', 'parser': self.to_string},
+            {'name': 'landnaamImmigratie', 'parser': self.to_string},
+            {'name': 'omschrijvingBurgerlijkeStaat', 'parser': self.to_string},
+            {'name': 'opgemaakteNaam', 'parser': self.to_string},
+        ]
+
+        for field in fields:
+            value = self.persoon[f'{bgns}{field["name"]}']
+            value = field['parser'](value)
+            result[field['name']] = value
+
+        extra = self.persoon[f'{stufns}extraElementen']
+
+        for field in extra_fields:
+            value = extra.find(f"{stufns}extraElement[@naam='{field['name']}']")
+            value = field['parser'](value)
+            result[field['name']] = value
+
+        return result
 
     def get_partner(self):
         return {
@@ -117,10 +143,31 @@ class StuffReply:
         }
 
     def get_kinderen(self):
-        return [{
+        result = []
+
+        kinderen = [{
             'kind': k,
             'gerelateerde': self.gerelateerde_kind(k)
         } for k in self.kinderen]
+
+        fields = [
+            {'name': 'inp.bsn', 'parser': self.to_string},
+            {'name': 'voornamen', 'parser': self.to_string},
+            {'name': 'geslachtsnaam', 'parser': self.to_string},
+            {'name': 'geslachtsaanduiding', 'parser': self.to_string},
+            {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'overlijdensdatum', 'parser': self.to_date},
+        ]
+        for k in kinderen:
+            kind = {}
+            for field in fields:
+                value = k['gerelateerde'][field['name']]
+                value = field['parser'](value)
+                kind[field['name']] = value
+
+            result.append(kind)
+
+        return result
 
     def get_ouders(self):
         return [{
@@ -169,6 +216,8 @@ class StuffReply:
         :param item:
         :return:
         """
+        print("!!! check_and_fix_dates")
+
         if isinstance(iterable, dict):
             for key, value in iterable.items():
                 if isinstance(value, dict) or isinstance(value, list):
@@ -203,25 +252,30 @@ class StuffReply:
                 return result[0].pyval.strip()
 
     @staticmethod
-    def to_date(item):
+    def to_date(value):
         """
         FIXME: dangerous
-        :param item:
+        :param value:
         :return:
         """
-        if item is not None:
+        if value is not None:
             try:
-                parsed_value = datetime.datetime.strptime(item, '%Y%m%d')
+                parsed_value = datetime.datetime.strptime(str(value), '%Y%m%d')
                 return parsed_value.isoformat()
             except ValueError:
                 pass
-        return item
+        return value
+
+    @staticmethod
+    def to_string(value):
+        return str(value).strip()
 
     def _do_clean(self, xml: ElementTree) -> None:  # noqa: C901
         """
         Process response xml and clean, rename it in one go.
         :param xml: the xml rootnode to be cleaned
         """
+        print("CLEAN")
 
         element_tags = xml.xpath('//StUF:extraElement', namespaces=self._namespaces)
         # fix extraElementen to have their own tag, works better with toDict

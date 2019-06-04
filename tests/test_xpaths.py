@@ -11,6 +11,7 @@ RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response.xml")
 RESPONSE_2_PATH = os.path.join(FIXTURE_PATH, "response2.xml")
 RESPONSE_3_PATH = os.path.join(FIXTURE_PATH, "response3.xml")
 RESPONSE_4_PATH = os.path.join(FIXTURE_PATH, "response4.xml")
+RESPONSE_4_PARTNER_ORDER_SWITCHED_PATH = os.path.join(FIXTURE_PATH, "response4_partner_order_switched.xml")
 
 
 class ResponseTests(unittest.TestCase):
@@ -22,6 +23,20 @@ class ResponseTests(unittest.TestCase):
                     responsefile.read()
                 )
             )
+
+    def test_funcs(self):
+        reply = self.reply
+        persoon = reply.get_persoon()
+        partner = reply.get_partner()
+        kinderen = reply.get_kinderen()
+
+        from pprint import pprint
+        print("----")
+        pprint(persoon)
+        pprint(partner)
+        pprint(kinderen)
+        print("----")
+
 
     def testParseAll(self):
         reply = self.reply
