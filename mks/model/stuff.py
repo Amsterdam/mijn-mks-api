@@ -167,6 +167,8 @@ class StuffReply:
 
             result.append(kind)
 
+        result.sort(key=lambda x: x['geboortedatum'])
+
         return result
 
     def get_ouders(self):
