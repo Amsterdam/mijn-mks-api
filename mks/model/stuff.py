@@ -74,8 +74,7 @@ class StuffReply:
             self.persoon = objectify.ObjectPath(
                 self._base_paths['base'])(self.response_root)
 
-            # FIXME: there might be multiple partners. Only show if it is a current partner (not gescheiden, still alive)
-            self.partner = objectify.ObjectPath(
+            self.partners = objectify.ObjectPath(
                 self._base_paths['base'] +
                 self._base_paths['partner'])(self.response_root)
 
@@ -137,12 +136,63 @@ class StuffReply:
         return result
 
     def get_partner(self):
-        return {
-            'partner': self.partner,
-            'gerelateerde': self.gerelateerde_partner(self.partner)
-        }
+        if not self.partners:
+            return {}
+
+        result = []
+
+        partners = [{
+            'partner': p,
+            'gerelateerde': self.gerelateerde_partner(p)
+        } for p in self.partners]
+
+
+        ## extra:
+        # soortVerbintenisOmschrijving
+
+        fields = [
+            {'name': 'soortVerbintenis', 'parser': self.to_string},
+            {'name': 'datumSluiting', 'parser': self.to_date},
+            {'name': 'datumOntbinding', 'parser': self.to_date},
+        ]
+
+        fieldspartner = [
+            {'name': 'inp.bsn', 'parser': self.to_string},
+            {'name': 'voornamen', 'parser': self.to_string},
+            {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
+            {'name': 'geslachtsnaam', 'parser': self.to_string},
+            {'name': 'geslachtsaanduiding', 'parser': self.to_string},
+            {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'overlijdensdatum', 'parser': self.to_date},
+        ]
+
+        def setFields(source, fields, target):
+            for field in fields:
+                value = source[field['name']]
+                value = field['parser'](value)
+                target[field['name']] = value
+
+        for p in partners:
+            partner = {}
+            setFields(p['partner'], fields, partner)
+            setFields(p['gerelateerde'], fieldspartner, partner)
+
+            result.append(partner)
+
+        # if there is no datumSluiting, sort using the minimum datetime
+        result.sort(key=lambda x: x['datumSluiting'] or datetime.datetime.min)
+
+        result = [p for p in result if not p['datumOntbinding']]
+
+        if result:
+            return result[0]
+        else:
+            return {}
 
     def get_kinderen(self):
+        if not self.kinderen:
+            return {}
+
         result = []
 
         kinderen = [{
@@ -153,6 +203,7 @@ class StuffReply:
         fields = [
             {'name': 'inp.bsn', 'parser': self.to_string},
             {'name': 'voornamen', 'parser': self.to_string},
+            {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
             {'name': 'geslachtsnaam', 'parser': self.to_string},
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
@@ -256,14 +307,14 @@ class StuffReply:
     @staticmethod
     def to_date(value):
         """
-        FIXME: dangerous
         :param value:
         :return:
         """
         if value is not None:
             try:
                 parsed_value = datetime.datetime.strptime(str(value), '%Y%m%d')
-                return parsed_value.isoformat()
+                return parsed_value
+                # return parsed_value.isoformat()
             except ValueError:
                 pass
         return value

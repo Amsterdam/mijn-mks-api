@@ -216,9 +216,7 @@
                                            StUF:noValue="waardeOnbekend"/>
                         <StUF:extraElement naam="aanduidingGegevensInOnderzoekVerblijfstitel" xsi:nil="true"
                                            StUF:noValue="waardeOnbekend"/>
-                        <StUF:extraElement naam="aanduidingNaamgebruikOmschrijving">Geslachtsnaam
-                            echtgenoot/geregistreerd partner
-                        </StUF:extraElement>
+                        <StUF:extraElement naam="aanduidingNaamgebruikOmschrijving">Geslachtsnaam echtgenoot/geregistreerd partner</StUF:extraElement>
                         <StUF:extraElement naam="adellijkeTitelsoort" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                         <StUF:extraElement naam="bic" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                         <StUF:extraElement naam="codeGeboorteplaats">0974</StUF:extraElement>

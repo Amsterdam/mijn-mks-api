@@ -17,7 +17,7 @@ RESPONSE_4_PARTNER_ORDER_SWITCHED_PATH = os.path.join(FIXTURE_PATH, "response4_p
 class ResponseTests(unittest.TestCase):
     # noinspection PyAttributeOutsideInit
     def setUp(self):
-        with open(RESPONSE_PATH, 'rb') as responsefile:
+        with open(RESPONSE_2_PATH, 'rb') as responsefile:
             self.reply = StuffReply(
                 objectify.fromstring(
                     responsefile.read()
@@ -33,7 +33,9 @@ class ResponseTests(unittest.TestCase):
         from pprint import pprint
         print("----")
         pprint(persoon)
+        print("2----")
         pprint(partner)
+        print("3----")
         pprint(kinderen)
         print("----")
 
