@@ -151,7 +151,7 @@ class StuffReply:
 
     def get_partner(self):
         """ Get only the current partner """
-        if len(self.partners) == 0:
+        if not self.partners:
             return {}
 
         stufns = "{" + _namespaces['StUF'] + "}"
@@ -206,7 +206,7 @@ class StuffReply:
             return {}
 
     def get_kinderen(self):
-        if len(self.kinderen) == 0:
+        if not self.kinderen:
             return {}
 
         result = []
