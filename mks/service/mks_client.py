@@ -45,13 +45,10 @@ def _get_soap_request(bsn: int) -> str:
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S') + '00'
     applicatie = BRP_APPLICATIE
     gebruiker = BRP_GEBRUIKER
-    if request:
-        request_remote_addr = request.remote_addr
-    else:
-        request_remote_addr = '%s' % (randint(100000, 999999))
+    ref = '%s' % (randint(100000, 999999))
 
     referentienummer = \
-        f'MijnAmsterdam||{request_remote_addr}'
+        f'MijnAmsterdam||{ref}'
 
     return f'<soapenv:Envelope ' \
            f'xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
