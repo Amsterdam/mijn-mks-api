@@ -10,3 +10,5 @@ lxmlbind
 cryptography==2.6.1
 flake8
 coverage
+lxml
+requests
