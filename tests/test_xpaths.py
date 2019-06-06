@@ -1,3 +1,4 @@
+import json
 import os
 import unittest
 
@@ -17,7 +18,7 @@ RESPONSE_4_PARTNER_ORDER_SWITCHED_PATH = os.path.join(FIXTURE_PATH, "response4_p
 class ResponseTests(unittest.TestCase):
     # noinspection PyAttributeOutsideInit
     def setUp(self):
-        with open(RESPONSE_2_PATH, 'rb') as responsefile:
+        with open(RESPONSE_PATH, 'rb') as responsefile:
             self.reply = StuffReply(
                 objectify.fromstring(
                     responsefile.read()
@@ -64,8 +65,9 @@ class ResponseTests(unittest.TestCase):
             msg='Geslachtsnaam niet gevonden')
 
     def test_json(self):
-        response = self.reply.as_dict()
-        self.assertEqual(response['persoon']['bsn'], '123456789', "bsn niet gevonden")
+        response = self.reply.as_json()
+        data = json.loads(response)
+        self.assertEqual(data['persoon']['bsn'], '123456789', "bsn niet gevonden")
 
     def test_content(self):
         response = self.reply.as_dict()
