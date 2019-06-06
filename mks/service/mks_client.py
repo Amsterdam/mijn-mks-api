@@ -7,7 +7,6 @@ from lxml import objectify
 from mks.model.stuff import StuffReply
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, MKS_ENDPOINT, BRP_APPLICATIE, BRP_GEBRUIKER
 from mks.service.exceptions import NoResultException
-from flask import request
 
 # print incoming soap xml when true
 log_response = False
