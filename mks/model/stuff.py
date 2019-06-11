@@ -123,6 +123,11 @@ class StuffReply:
             traceback.print_exc()
             self.parsed_successfully = False
 
+    def is_valid_response(self) -> bool:
+        return (self.parsed_successfully and
+                self.persoon['inp.bsn'] is not None and
+                self.persoon['inp.bsn'].pyval > 0)
+
     def get_persoon(self):
         result = {}
 
@@ -260,7 +265,7 @@ class StuffReply:
                 return obj.isoformat()
 
         data = self.as_dict()
-        return json.dumps(data, default=serializer, indent=4)
+        return json.dumps(data, default=serializer)
 
     @staticmethod
     def to_date(value):

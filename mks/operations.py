@@ -2,7 +2,7 @@ import logging
 
 # helpers #
 import connexion
-from flask import jsonify, request
+from flask import request
 
 from mks.service import mks_client
 from mks.service import saml
@@ -69,7 +69,7 @@ def get_brp():
     try:
         log_request(request)
         response = mks_client.get_response(get_bsn_from_saml_token())
-        return jsonify(response)
+        return response
     except Exception as e:
         return log_and_generate_response(e)
 

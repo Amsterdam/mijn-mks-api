@@ -12,7 +12,7 @@ from mks.service.exceptions import NoResultException
 log_response = False
 
 
-def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
+def _get_response(mks_brp_url, soap_request):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
@@ -20,7 +20,11 @@ def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
     post_response = session.post(mks_brp_url, data=soap_request)
-    response_content = post_response.content
+    return post_response.content
+
+
+def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
+    response_content = _get_response(mks_brp_url, soap_request)
     if log_response:
         print(response_content)
     reply = StuffReply(
@@ -36,7 +40,7 @@ def get_response(burgerservicenummer: int):
     return _get_xml_response(
         mks_brp_url=MKS_ENDPOINT,
         soap_request=_get_soap_request(burgerservicenummer)
-    ).as_dict()
+    ).as_json()
 
 
 def _get_soap_request(bsn: int) -> str:
