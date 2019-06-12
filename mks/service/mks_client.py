@@ -48,7 +48,7 @@ def _get_soap_request(bsn: int) -> str:
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S') + '00'
     applicatie = BRP_APPLICATIE
     gebruiker = BRP_GEBRUIKER
-    ref = '%s' % (randint(100000, 999999))
+    ref = str(randint(100000, 999999))
 
     referentienummer = \
         f'MijnAmsterdam||{ref}'

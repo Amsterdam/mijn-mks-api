@@ -94,11 +94,6 @@ class ResponseTests(unittest.TestCase):
 
 
 class MultiplePartnersTest(unittest.TestCase):
-    """
-        FIXME:
-        This test is supposed to test the multiple partners case, but there is insufficient test data available.
-        So this test only test that they show up, but not that the extra data gets merged.
-    """
 
     def get_result(self):
         return {

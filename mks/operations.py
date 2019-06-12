@@ -93,6 +93,4 @@ def get_bsn():
 
 
 def log_request(req):
-    # TODO: fix this, make this more readable in kibana
     logging.info(req.url)
-    logging.info(req.data)
