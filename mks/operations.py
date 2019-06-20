@@ -3,13 +3,12 @@ import logging
 # helpers #
 import connexion
 from flask import jsonify, request
+from tma_saml import SamlVerificationException
 
 from mks.service import mks_client
-from mks.service import saml
-from mks.service.config import *
 from mks.service.exceptions import NoResultException, InvalidBSNException
 from mks.service.exceptions import ServiceException, onbekende_fout
-from mks.service.saml import SamlVerificationException
+from mks.service.saml import get_bsn_from_request
 
 
 def log_and_generate_response(exception, response_type='json'):
@@ -37,32 +36,7 @@ def get_bsn_from_saml_token() -> int:
     """
     # return 307741837
     # return 230012346
-    saml_token = connexion.request.headers.get('x-saml-attribute-token1')
-    raw_bsn = saml.verify_saml_token_and_retrieve_saml_attribute(
-        saml_token=saml_token,
-        attribute='uid',
-        saml_cert=TMA_CERTIFICATE)
-
-    # BSN of 8 character misses a 0 prefix which is required for elfproef
-    if len(raw_bsn) == 8:
-        raw_bsn = '0' + raw_bsn
-
-    # BSN Should be 9 characters long.
-    if len(raw_bsn) == 9:
-        bsn_sum = 0
-        for index, nr in enumerate(reversed(raw_bsn)):
-            if index == 0:
-                multiplier = -1
-            else:
-                multiplier = index + 1
-            bsn_sum += int(nr) * multiplier
-
-        # Elfproef
-        if bsn_sum % 11 == 0:
-            return int(raw_bsn)
-
-    raise InvalidBSNException()
-
+    return get_bsn_from_request(connexion.request)
 
 # operations #
 def get_brp():

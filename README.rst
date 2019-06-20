@@ -36,10 +36,18 @@ Ontwikkeling:
 -------------
 
 
-
 Running tests
--------------
+=============
 * activate virtual env
 * :code:`python -m unittest`
 
 There are test targets in the make file, I (Johan) could not get them to work.
+
+
+Updating dependencies
+=====================
+Direct dependencies are specified in `requirements-root.txt`. These should not have pinned a version (except when needed)
+
+* ``pip install -r requirements-root.txt``
+* ``pip freeze > requirements.txt``
+* Add back at the top in requirements.txt ``--extra-index-url https://nexus.secure.amsterdam.nl/repository/pypi-hosted/simple``
