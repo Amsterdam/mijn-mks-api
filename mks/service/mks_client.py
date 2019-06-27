@@ -1,4 +1,4 @@
-from _datetime import datetime
+from datetime import datetime
 from random import randint
 
 import requests
