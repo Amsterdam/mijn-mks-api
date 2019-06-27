@@ -1,8 +1,9 @@
+--extra-index-url https://nexus.secure.amsterdam.nl/repository/pypi-hosted/simple
 zeep==1.6.0
 flask==1.0.2
 xmltodict==0.10.2
 connexion==1.1.9
-signxml==2.5.2
+signxml==2.6.0
 flex
 click==6.7
 werkzeug
@@ -12,3 +13,4 @@ flake8
 coverage
 lxml
 requests
+tma-saml==0.2
