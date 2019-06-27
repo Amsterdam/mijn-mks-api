@@ -5,4 +5,4 @@ import mks.service.mks_client as mks_client
 mks_client.log_response = True
 
 bsn = 123456789
-print( mks_client.get_response(bsn))
+print(mks_client.get_response(bsn))

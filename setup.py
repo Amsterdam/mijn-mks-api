@@ -1,10 +1,10 @@
 """
-Setup voor de MKS koppeling 
+Setup voor de MKS koppeling
 """
 from codecs import open
 
 from os import path
-from setuptools import setup, find_packages
+from setuptools import setup
 
 # Get the long description from the README file
 readme_file = path.join(path.abspath(path.dirname(__file__)), 'README.rst')

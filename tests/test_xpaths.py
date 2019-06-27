@@ -1,6 +1,8 @@
+import json
 import os
 import unittest
 
+from datetime import datetime
 from lxml import objectify
 
 from mks.model.stuff import StuffReply
@@ -14,6 +16,7 @@ RESPONSE_4_PATH = os.path.join(FIXTURE_PATH, "response4.xml")
 
 
 class ResponseTests(unittest.TestCase):
+
     # noinspection PyAttributeOutsideInit
     def setUp(self):
         with open(RESPONSE_PATH, 'rb') as responsefile:
@@ -23,76 +26,93 @@ class ResponseTests(unittest.TestCase):
                 )
             )
 
-    def testParseAll(self):
-        reply = self.reply
-
-        self.assertCountEqual(
-            [kind['gerelateerde'].voornamen for kind in reply.get_kinderen()],
-            ['Yassine', 'Marwan'],
-            msg='Niet alle items komen overeen')
-
-        self.assertCountEqual(
-            [n['gerelateerde'].omschrijving for n in reply.get_nationaliteiten()],
-            ['Nederlandse', 'Marokkaanse'],
-            msg='Niet alle items komen overeen')
-
-        self.assertEqual(
-            reply.get_persoon()['inp.bsn'].pyval,
-            123456789,
-            msg='Bsn niet gevonden')
-
-        self.assertEqual(
-            reply.get_persoon()['geslachtsnaam'].pyval,
-            'Kosterijk',
-            msg='Geslachtsnaam niet gevonden')
-
-    def test_json(self):
-        response = self.reply.as_dict()
-        self.assertEqual(response['persoon']['bsn'], '123456789', "bsn niet gevonden")
+    def get_result(self):
+        return {
+            'persoon': {
+                'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
+                'bsn': '123456789',
+                'geboortedatum': datetime(1988, 1, 1, 0, 0),
+                'geboortelandnaam': 'Marokko',
+                'geboorteplaatsnaam': 'Mijlaou',
+                'gemeentenaamInschrijving': 'Amsterdam',
+                'geslachtsnaam': 'Kosterijk',
+                'omschrijvingBurgerlijkeStaat': 'Gehuwd',
+                'omschrijvingGeslachtsaanduiding': 'Man',
+                'opgemaakteNaam': 'A. Kosterijk',
+                'voornamen': 'Abdelouahed'
+            },
+            'verbintenis': {
+                'datumOntbinding': None,
+                'datumSluiting': datetime(1999, 1, 1, 0, 0),
+                'landnaamSluiting': 'Marokko',
+                'persoon': {
+                    'bsn': '123456780',
+                    'geboortedatum': datetime(1985, 1, 1, 0, 0),
+                    'geslachtsaanduiding': None,
+                    'geslachtsnaam': 'Bakker',
+                    'overlijdensdatum': None,
+                    'voornamen': 'Souad',
+                    'voorvoegselGeslachtsnaam': None
+                },
+                'plaatsnaamSluitingOmschrijving': 'Asilah',
+                'soortVerbintenis': 'H',
+                'soortVerbintenisOmschrijving': 'Huwelijk'
+            },
+            'kinderen': [
+                {
+                    'bsn': None,
+                    'geboortedatum': datetime(2004, 1, 1, 0, 0),
+                    'geslachtsaanduiding': 'M',
+                    'geslachtsnaam': 'Kosterijk',
+                    'overlijdensdatum': None,
+                    'voornamen': 'Yassine',
+                    'voorvoegselGeslachtsnaam': None},
+                {
+                    'bsn': None,
+                    'geboortedatum': datetime(2008, 1, 1, 0, 0),
+                    'geslachtsaanduiding': 'M',
+                    'geslachtsnaam': 'Kosterijk',
+                    'overlijdensdatum': None,
+                    'voornamen': 'Marwan',
+                    'voorvoegselGeslachtsnaam': None
+                }
+            ],
+        }
 
     def test_content(self):
-        response = self.reply.as_dict()
-        persoon = response['persoon']
+        reply = self.reply
 
-        self.assertEqual(persoon['geslachtsaanduiding'], 'M')
-        self.assertEqual(persoon['omschrijvingGeslachtsaanduiding'], 'Man')
+        result = reply.as_dict()
 
-        self.assertEqual(persoon['geboorteLand'], '5022')
-        self.assertEqual(persoon['geboorteLandNaam'], 'Marokko')
+        self.maxDiff = None
+        self.assertEqual(result, self.get_result())
 
-        self.assertEqual(persoon['aanduidingNaamgebruik'], 'E')
-        self.assertEqual(persoon['aanduidingNaamgebruikOmschrijving'], 'Eigen geslachtsnaam')
-
-        self.assertEqual(persoon['burgerlijkeStaat'], '2')
-        self.assertEqual(persoon['omschrijvingBurgerlijkeStaat'], 'Gehuwd')
-
-        self.assertEqual(persoon['gemeenteVanInschrijving'], '363')
-        self.assertEqual(persoon['gemeentenaamInschrijving'], 'Amsterdam')
-
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner']['soortVerbintenis'], 'H')
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner']['soortVerbintenisOmschrijving'], 'Huwelijk')
-
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner']['landSluiting'], '5022')
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner']['landnaamSluiting'], 'Marokko')
-
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner']['plaatsnaamSluitingOmschrijving'], 'Asilah')
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner']['soortVerbintenisOmschrijving'], 'Huwelijk')
-
-        self.assertEqual(persoon['gemeenteVanInschrijving'], '363'),
-        self.assertEqual(persoon['gemeentenaamInschrijving'], 'Amsterdam'),
-
-        self.assertEqual(persoon['immigratieLand'], '5022')
-        self.assertEqual(persoon['landnaamImmigratie'], 'Marokko')
-
-        self.assertEqual(persoon['opgemaakteNaam'], 'A. Kosterijk')
+    def test_json(self):
+        response = self.reply.as_json()
+        data = json.loads(response)
+        self.assertEqual(data['persoon']['bsn'], '123456789', "bsn niet gevonden")
 
 
 class MultiplePartnersTest(unittest.TestCase):
-    """
-        FIXME:
-        This test is supposed to test the multiple partners case, but there is insufficient test data available.
-        So this test only test that they show up, but not that the extra data gets merged.
-    """
+
+    def get_result(self):
+        return {
+            'datumOntbinding': None,
+            'datumSluiting': '1974-01-01T00:00:00',
+            'landnaamSluiting': None,
+            'persoon': {
+                'bsn': '345678901',
+                'geboortedatum': '1940-01-01T00:00:00',
+                'geslachtsaanduiding': None,
+                'geslachtsnaam': 'Dijk',
+                'overlijdensdatum': None,
+                'voornamen': 'Henk',
+                'voorvoegselGeslachtsnaam': None
+            },
+            'plaatsnaamSluitingOmschrijving': None,
+            'soortVerbintenis': None,
+            'soortVerbintenisOmschrijving': None
+        }
 
     def setUp(self):
         with open(RESPONSE_4_PATH, 'rb') as responsefile:
@@ -103,22 +123,15 @@ class MultiplePartnersTest(unittest.TestCase):
             )
 
     def test_partners(self):
-        response = self.reply.as_dict()
-        persoon = response['persoon']
+        response = self.reply.as_json()
+        data = json.loads(response)
 
-        # Test data needs to be improved to test the merging.
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner'][0]['gerelateerde']['bsn'], '456789013')
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner'][1]['gerelateerde']['bsn'], '456789014')
-
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner'][0]['datumSluiting'], '1974-01-01T00:00:00')
-        self.assertFalse(persoon['heeftAlsEchtgenootPartner'][0].get('datumOntbinding', False))
-        # test data does not have datumSluiting for ex-partner
-        self.assertEqual(persoon['heeftAlsEchtgenootPartner'][1]['datumOntbinding'], '1973-01-01T00:00:00')
+        # deep equal test
+        self.assertEqual(data['verbintenis'], self.get_result())
 
 
 class ResponsesTest(unittest.TestCase):
     def test_json(self):
-
         for response_path in [RESPONSE_2_PATH, RESPONSE_3_PATH, RESPONSE_4_PATH]:
             with open(response_path, 'rb') as responsefile:
                 reply = StuffReply(

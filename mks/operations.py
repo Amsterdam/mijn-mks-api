@@ -2,10 +2,12 @@ import logging
 
 # helpers #
 import connexion
-from flask import jsonify, request
+from flask import request
 from tma_saml import SamlVerificationException
 
 from mks.service import mks_client
+from mks.service import saml
+from mks.service.config import TMA_CERTIFICATE
 from mks.service.exceptions import NoResultException, InvalidBSNException
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import get_bsn_from_request
@@ -30,7 +32,7 @@ def log_and_generate_response(exception, response_type='json'):
 
 def get_bsn_from_saml_token() -> int:
     """
-    Check if the BSN retrieved from the token is actually valid and parse it 
+    Check if the BSN retrieved from the token is actually valid and parse it
     to int format for further use
     :return: The bsn in int form or an error in case it's not 11proef safe.
     """
@@ -43,7 +45,7 @@ def get_brp():
     try:
         log_request(request)
         response = mks_client.get_response(get_bsn_from_saml_token())
-        return jsonify(response)
+        return response
     except Exception as e:
         return log_and_generate_response(e)
 
@@ -68,4 +70,3 @@ def get_bsn():
 
 def log_request(req):
     logging.info(req.url)
-    logging.info(req.data)

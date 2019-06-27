@@ -9,4 +9,8 @@ click==6.7
 werkzeug
 lxmlbind
 cryptography==2.6.1
+flake8
+coverage
+lxml
+requests
 tma-saml==0.2

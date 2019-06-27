@@ -5,15 +5,14 @@ import requests
 from lxml import objectify
 
 from mks.model.stuff import StuffReply
-from mks.service.config import *
+from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, MKS_ENDPOINT, BRP_APPLICATIE, BRP_GEBRUIKER
 from mks.service.exceptions import NoResultException
-from flask import request
 
 # print incoming soap xml when true
 log_response = False
 
 
-def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
+def _get_response(mks_brp_url, soap_request):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
@@ -21,7 +20,11 @@ def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
     post_response = session.post(mks_brp_url, data=soap_request)
-    response_content = post_response.content
+    return post_response.content
+
+
+def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
+    response_content = _get_response(mks_brp_url, soap_request)
     if log_response:
         print(response_content)
     reply = StuffReply(
@@ -37,7 +40,7 @@ def get_response(burgerservicenummer: int):
     return _get_xml_response(
         mks_brp_url=MKS_ENDPOINT,
         soap_request=_get_soap_request(burgerservicenummer)
-    ).as_dict()
+    ).as_json()
 
 
 def _get_soap_request(bsn: int) -> str:
@@ -45,13 +48,10 @@ def _get_soap_request(bsn: int) -> str:
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S') + '00'
     applicatie = BRP_APPLICATIE
     gebruiker = BRP_GEBRUIKER
-    if request:
-        request_remote_addr = request.remote_addr
-    else:
-        request_remote_addr = '%s' % (randint(100000, 999999))
+    ref = str(randint(100000, 999999))
 
     referentienummer = \
-        f'MijnAmsterdam||{request_remote_addr}'
+        f'MijnAmsterdam||{ref}'
 
     return f'<soapenv:Envelope ' \
            f'xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
