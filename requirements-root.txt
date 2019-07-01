@@ -1,0 +1,13 @@
+--extra-index-url https://nexus.secure.amsterdam.nl/repository/pypi-hosted/simple
+
+connexion<2
+requests
+lxml
+
+flask
+Flask-Testing
+
+tma_saml>=0.2
+
+flake8
+coverage

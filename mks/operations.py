@@ -6,8 +6,6 @@ from flask import request
 from tma_saml import SamlVerificationException
 
 from mks.service import mks_client
-from mks.service import saml
-from mks.service.config import TMA_CERTIFICATE
 from mks.service.exceptions import NoResultException, InvalidBSNException
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import get_bsn_from_request
@@ -39,6 +37,7 @@ def get_bsn_from_saml_token() -> int:
     # return 307741837
     # return 230012346
     return get_bsn_from_request(connexion.request)
+
 
 # operations #
 def get_brp():
