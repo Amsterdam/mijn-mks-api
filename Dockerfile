@@ -17,6 +17,8 @@ WORKDIR /app
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY .flake8 /app/
+
 COPY mks /app/mks
 COPY docker-entrypoint.sh /app/
 USER datapunt
