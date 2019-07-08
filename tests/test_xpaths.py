@@ -39,7 +39,8 @@ class ResponseTests(unittest.TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'opgemaakteNaam': 'A. Kosterijk',
-                'voornamen': 'Abdelouahed'
+                'voornamen': 'Abdelouahed',
+                'voorvoegselGeslachtsnaam': None
             },
             'verbintenis': {
                 'datumOntbinding': None,

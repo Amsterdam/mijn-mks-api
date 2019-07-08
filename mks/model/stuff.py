@@ -153,6 +153,7 @@ class StuffReply:
             {'name': 'geslachtsnaam', 'parser': self.to_string},
             {'name': 'voornamen', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
         ]
         extra_fields = [
             {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
