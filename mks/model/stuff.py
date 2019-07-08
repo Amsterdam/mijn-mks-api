@@ -88,9 +88,9 @@ class StuffReply:
             #     self._base_paths['ouders'] +
             #     self._base_paths['gerelateerde'])
             #
-            # self.gerelateerde_nationaliteit = objectify.ObjectPath(
-            #     self._base_paths['nationaliteiten'] +
-            #     self._base_paths['gerelateerde'])
+            self.gerelateerde_nationaliteit = objectify.ObjectPath(
+                self._base_paths['nationaliteiten'] +
+                self._base_paths['gerelateerde'])
             #
             # self.kind_verblijfsadres = objectify.ObjectPath(
             #     self._base_paths['gerelateerde'] +
@@ -115,9 +115,9 @@ class StuffReply:
             #     self._base_paths['base'] +
             #     self._base_paths['ouders'])(self.response_root)
             #
-            # self.nationaliteiten = objectify.ObjectPath(
-            #     self._base_paths['base'] +
-            #     self._base_paths['nationaliteiten'])(self.response_root)
+            self.nationaliteiten = objectify.ObjectPath(
+                self._base_paths['base'] +
+                self._base_paths['nationaliteiten'])(self.response_root)
             self.parsed_successfully = True
         except AttributeError:
             traceback.print_exc()
@@ -245,17 +245,32 @@ class StuffReply:
     #         'gerelateerde': self.gerelateerde_ouder(o)
     #     } for o in self.ouders]
     #
-    # def get_nationaliteiten(self):
-    #     return [{
-    #         'nationaliteit': n,
-    #         'gerelateerde': self.gerelateerde_nationaliteit(n)
-    #     } for n in self.nationaliteiten]
+    def get_nationaliteiten(self):
+        # return [{
+        #     'nationaliteit': n,
+        #     'gerelateerde': self.gerelateerde_nationaliteit(n)
+        # } for n in self.nationaliteiten]
+        if not self.nationaliteiten:
+            return {}
+
+        result = []
+
+        fields = [
+            {'name': 'omschrijving', 'parser': self.to_string}
+        ]
+        for n in self.nationaliteiten:
+            nationaliteit = {}
+            set_fields(n['gerelateerde'], fields, nationaliteit)
+            result.append(nationaliteit)
+
+        return result
 
     def as_dict(self) -> Dict[str, Any]:
         return {
             'persoon': self.get_persoon(),
             'verbintenis': self.get_partner(),
             'kinderen': self.get_kinderen(),
+            'nationaliteiten': self.get_nationaliteiten(),
         }
 
     def as_json(self):
