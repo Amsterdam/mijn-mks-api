@@ -1,5 +1,6 @@
 import datetime
 import json
+import re
 import traceback
 from typing import List, Dict, Any
 
@@ -59,7 +60,13 @@ class StuffReply:
         'partner': ["inp.heeftAlsEchtgenootPartner"],
         'kinderen': ["inp.heeftAlsKinderen"],
         'ouders': ["inp.heeftAlsOuders"],
-        'nationaliteiten': ["inp.heeftAlsNationaliteit"]
+        'nationaliteiten': ["inp.heeftAlsNationaliteit"],
+        'verblijft_in': [
+            "{%s}inp.verblijftIn" % _namespaces["BG"],
+            '{%s}gerelateerde' % _namespaces["BG"],
+            "{%s}adresAanduidingGrp" % _namespaces["BG"]
+        ],
+        'adresAanduidingGrp': [],
 
     }  # type: Dict[str, List[str]]
 
@@ -88,10 +95,19 @@ class StuffReply:
             #     self._base_paths['ouders'] +
             #     self._base_paths['gerelateerde'])
             #
-            # self.gerelateerde_nationaliteit = objectify.ObjectPath(
-            #     self._base_paths['nationaliteiten'] +
-            #     self._base_paths['gerelateerde'])
-            #
+            self.gerelateerde_nationaliteit = objectify.ObjectPath(
+                self._base_paths['nationaliteiten'] +
+                self._base_paths['gerelateerde'])
+
+            try:
+                # this one can fail
+                self.verblijft_in = objectify.ObjectPath(
+                    self._base_paths['base'] +
+                    self._base_paths['verblijft_in'])(self.response_root)
+            except AttributeError:
+                self.verblijft_in = None
+                pass
+
             # self.kind_verblijfsadres = objectify.ObjectPath(
             #     self._base_paths['gerelateerde'] +
             #     ['verblijfsadres'])
@@ -115,9 +131,9 @@ class StuffReply:
             #     self._base_paths['base'] +
             #     self._base_paths['ouders'])(self.response_root)
             #
-            # self.nationaliteiten = objectify.ObjectPath(
-            #     self._base_paths['base'] +
-            #     self._base_paths['nationaliteiten'])(self.response_root)
+            self.nationaliteiten = objectify.ObjectPath(
+                self._base_paths['base'] +
+                self._base_paths['nationaliteiten'])(self.response_root)
             self.parsed_successfully = True
         except AttributeError:
             traceback.print_exc()
@@ -137,6 +153,7 @@ class StuffReply:
             {'name': 'geslachtsnaam', 'parser': self.to_string},
             {'name': 'voornamen', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
         ]
         extra_fields = [
             {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
@@ -151,6 +168,8 @@ class StuffReply:
         extra = self.persoon[f'{stufns}extraElementen']
         set_fields(self.persoon, fields, result)
         set_extra_fields(extra, extra_fields, result)
+
+        result['nationaliteiten'] = self.get_nationaliteiten()
 
         return result
 
@@ -245,17 +264,51 @@ class StuffReply:
     #         'gerelateerde': self.gerelateerde_ouder(o)
     #     } for o in self.ouders]
     #
-    # def get_nationaliteiten(self):
-    #     return [{
-    #         'nationaliteit': n,
-    #         'gerelateerde': self.gerelateerde_nationaliteit(n)
-    #     } for n in self.nationaliteiten]
+    def get_nationaliteiten(self):
+        # return [{
+        #     'nationaliteit': n,
+        #     'gerelateerde': self.gerelateerde_nationaliteit(n)
+        # } for n in self.nationaliteiten]
+        if not self.nationaliteiten:
+            return {}
+
+        result = []
+
+        fields = [
+            {'name': 'omschrijving', 'parser': self.to_string}
+        ]
+        for n in self.nationaliteiten:
+            nationaliteit = {}
+            set_fields(n['gerelateerde'], fields, nationaliteit)
+            result.append(nationaliteit)
+
+        return result
+
+    def get_adres(self):
+        if not self.verblijft_in:
+            return {}
+
+        fields = [
+            {'name': 'wpl.woonplaatsNaam', 'parser': self.to_string, 'save_as': 'woonplaatsNaam'},
+            {'name': 'gor.openbareRuimteNaam', 'parser': self.to_string, 'save_as': 'straatnaam'},
+            {'name': 'aoa.postcode', 'parser': self.as_postcode, 'save_as': 'postcode'},
+            {'name': 'aoa.huisnummer', 'parser': self.to_string, 'save_as': 'huisnummer'},
+            {'name': 'aoa.huisletter', 'parser': self.to_string, 'save_as': 'huisletter'},
+            {'name': 'aoa.huisnummertoevoeging', 'parser': self.to_string, 'save_as': 'huisnummertoevoeging'},
+        ]
+
+        result = {}
+
+        set_fields(self.verblijft_in, fields, result)
+
+        return result
 
     def as_dict(self) -> Dict[str, Any]:
         return {
             'persoon': self.get_persoon(),
             'verbintenis': self.get_partner(),
             'kinderen': self.get_kinderen(),
+            'adres': self.get_adres(),
         }
 
     def as_json(self):
@@ -286,3 +339,14 @@ class StuffReply:
         if not value:
             return None
         return str(value).strip()
+
+    @staticmethod
+    def as_postcode(value):
+        if not value:
+            return None
+        value = StuffReply.to_string(value)
+        match = re.match(r'(?P<num>\d{4})(?P<let>[A-Z]{2})', value)
+        if not match:
+            return None
+
+        return f"{match['num']} {match['let']}"

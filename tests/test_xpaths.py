@@ -39,7 +39,12 @@ class ResponseTests(unittest.TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'opgemaakteNaam': 'A. Kosterijk',
-                'voornamen': 'Abdelouahed'
+                'voornamen': 'Abdelouahed',
+                'voorvoegselGeslachtsnaam': None,
+                'nationaliteiten': [
+                    {'omschrijving': 'Nederlandse'},
+                    {'omschrijving': 'Marokkaanse'}
+                ],
             },
             'verbintenis': {
                 'datumOntbinding': None,
@@ -77,6 +82,14 @@ class ResponseTests(unittest.TestCase):
                     'voorvoegselGeslachtsnaam': None
                 }
             ],
+            'adres': {
+                'huisletter': None,
+                'huisnummer': '1',
+                'huisnummertoevoeging': '1',
+                'postcode': '1011 PN',
+                'straatnaam': 'Amstel',
+                'woonplaatsNaam': 'Amsterdam'
+            },
         }
 
     def test_content(self):
