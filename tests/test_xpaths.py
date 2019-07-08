@@ -40,7 +40,11 @@ class ResponseTests(unittest.TestCase):
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'opgemaakteNaam': 'A. Kosterijk',
                 'voornamen': 'Abdelouahed',
-                'voorvoegselGeslachtsnaam': None
+                'voorvoegselGeslachtsnaam': None,
+                'nationaliteiten': [
+                    {'omschrijving': 'Nederlandse'},
+                    {'omschrijving': 'Marokkaanse'}
+                ],
             },
             'verbintenis': {
                 'datumOntbinding': None,
@@ -77,10 +81,6 @@ class ResponseTests(unittest.TestCase):
                     'voornamen': 'Marwan',
                     'voorvoegselGeslachtsnaam': None
                 }
-            ],
-            'nationaliteiten': [
-                {'omschrijving': 'Nederlandse'},
-                {'omschrijving': 'Marokkaanse'}
             ],
             'adres': {
                 'huisletter': None,

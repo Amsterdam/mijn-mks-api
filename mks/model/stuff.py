@@ -169,6 +169,8 @@ class StuffReply:
         set_fields(self.persoon, fields, result)
         set_extra_fields(extra, extra_fields, result)
 
+        result['nationaliteiten'] = self.get_nationaliteiten()
+
         return result
 
     def get_partner(self):
@@ -306,7 +308,6 @@ class StuffReply:
             'persoon': self.get_persoon(),
             'verbintenis': self.get_partner(),
             'kinderen': self.get_kinderen(),
-            'nationaliteiten': self.get_nationaliteiten(),
             'adres': self.get_adres(),
         }
 
