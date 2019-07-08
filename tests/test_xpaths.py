@@ -77,6 +77,18 @@ class ResponseTests(unittest.TestCase):
                     'voorvoegselGeslachtsnaam': None
                 }
             ],
+            'nationaliteiten': [
+                {'omschrijving': 'Nederlandse'},
+                {'omschrijving': 'Marokkaanse'}
+            ],
+            'adres': {
+                'huisletter': None,
+                'huisnummer': '1',
+                'huisnummertoevoeging': '1',
+                'postcode': '1011 PN',
+                'straatnaam': 'Amstel',
+                'woonplaatsNaam': 'Amsterdam'
+            },
         }
 
     def test_content(self):
