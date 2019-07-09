@@ -1,4 +1,3 @@
-import json
 import os
 # ignoring E402: module level import not at top of file
 os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
