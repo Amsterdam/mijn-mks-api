@@ -304,7 +304,7 @@ class StuffReply:
             tijdvak = self.verblijft_in.find('{%s}tijdvakRelatie' % _namespaces['StUF'])\
                 .find('{%s}beginRelatie' % _namespaces['StUF'])
             if tijdvak:
-                result['beginRelatie'] = self.to_date(tijdvak)
+                result['begindatumVerblijf'] = self.to_date(tijdvak)
 
         return result
 
