@@ -100,9 +100,8 @@ class ResponseTests(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(result, self.get_result())
 
-    def test_json(self):
-        response = self.reply.as_json()
-        data = json.loads(response)
+    def test_data(self):
+        data = self.reply.as_dict()
         self.assertEqual(data['persoon']['bsn'], '123456789', "bsn niet gevonden")
 
 
@@ -111,11 +110,11 @@ class MultiplePartnersTest(unittest.TestCase):
     def get_result(self):
         return {
             'datumOntbinding': None,
-            'datumSluiting': '1974-01-01T00:00:00',
+            'datumSluiting': datetime(1974, 1, 1, 0, 0),
             'landnaamSluiting': None,
             'persoon': {
                 'bsn': '345678901',
-                'geboortedatum': '1940-01-01T00:00:00',
+                'geboortedatum': datetime(1940, 1, 1, 0, 0),
                 'geslachtsaanduiding': None,
                 'geslachtsnaam': 'Dijk',
                 'overlijdensdatum': None,
@@ -136,8 +135,7 @@ class MultiplePartnersTest(unittest.TestCase):
             )
 
     def test_partners(self):
-        response = self.reply.as_json()
-        data = json.loads(response)
+        data = self.reply.as_dict()
 
         # deep equal test
         self.assertEqual(data['verbintenis'], self.get_result())

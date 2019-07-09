@@ -40,7 +40,7 @@ def get_response(burgerservicenummer: int):
     return _get_xml_response(
         mks_brp_url=MKS_ENDPOINT,
         soap_request=_get_soap_request(burgerservicenummer)
-    ).as_json()
+    ).as_dict()
 
 
 def _get_soap_request(bsn: int) -> str:
