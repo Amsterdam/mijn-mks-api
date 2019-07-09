@@ -82,7 +82,7 @@ class ResponseTests(unittest.TestCase):
                 }
             ],
             'adres': {
-                'beginRelatie': datetime(1995, 1, 1, 0, 0),
+                'begindatumVerblijf': datetime(1995, 1, 1, 0, 0),
                 'huisletter': None,
                 'huisnummer': '1',
                 'huisnummertoevoeging': '1',
