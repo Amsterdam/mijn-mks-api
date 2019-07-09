@@ -59,13 +59,12 @@ class StuffReply:
         'kinderen': ["inp.heeftAlsKinderen"],
         'ouders': ["inp.heeftAlsOuders"],
         'nationaliteiten': ["inp.heeftAlsNationaliteit"],
-        'verblijft_in': [
+        'adres': [
             "{%s}inp.verblijftIn" % _namespaces["BG"],
             '{%s}gerelateerde' % _namespaces["BG"],
             "{%s}adresAanduidingGrp" % _namespaces["BG"]
         ],
-        'adresAanduidingGrp': [],
-
+        'verblijftIn': ["{%s}inp.verblijftIn" % _namespaces["BG"]],
     }  # type: Dict[str, List[str]]
 
     def __init__(self, response: ElementTree):
@@ -98,12 +97,15 @@ class StuffReply:
                 self._base_paths['gerelateerde'])
 
             try:
-                # this one can fail
+                # this one is ok to fail
+                self.adres = objectify.ObjectPath(
+                    self._base_paths['base'] +
+                    self._base_paths['adres'])(self.response_root)
                 self.verblijft_in = objectify.ObjectPath(
                     self._base_paths['base'] +
-                    self._base_paths['verblijft_in'])(self.response_root)
+                    self._base_paths['verblijftIn'])(self.response_root)
             except AttributeError:
-                self.verblijft_in = None
+                self.adres = None
                 pass
 
             # self.kind_verblijfsadres = objectify.ObjectPath(
@@ -283,7 +285,7 @@ class StuffReply:
         return result
 
     def get_adres(self):
-        if not self.verblijft_in:
+        if not self.adres:
             return {}
 
         fields = [
@@ -296,8 +298,13 @@ class StuffReply:
         ]
 
         result = {}
+        set_fields(self.adres, fields, result)
 
-        set_fields(self.verblijft_in, fields, result)
+        if self.verblijft_in:
+            tijdvak = self.verblijft_in.find('{%s}tijdvakRelatie' % _namespaces['StUF'])\
+                .find('{%s}beginRelatie' % _namespaces['StUF'])
+            if tijdvak:
+                result['begindatumVerblijf'] = self.to_date(tijdvak)
 
         return result
 

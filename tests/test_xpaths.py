@@ -82,6 +82,7 @@ class ResponseTests(unittest.TestCase):
                 }
             ],
             'adres': {
+                'begindatumVerblijf': datetime(1995, 1, 1, 0, 0),
                 'huisletter': None,
                 'huisnummer': '1',
                 'huisnummertoevoeging': '1',
