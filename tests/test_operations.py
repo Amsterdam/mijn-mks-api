@@ -1,4 +1,3 @@
-import json
 import os
 # ignoring E402: module level import not at top of file
 os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
@@ -33,8 +32,18 @@ class BRPTests(TestCase):
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
     @patch('mks.service.mks_client._get_response', get_xml_response_fixture)
     def test_get_brp(self):
-        data_str = get_brp()
-        data = json.loads(data_str)
+        data = get_brp()
+        # data = json.loads(data_str)
         self.assertEqual(data['persoon']['bsn'], '123456789')
         self.assertEqual(data['verbintenis']['soortVerbintenisOmschrijving'], 'Huwelijk')
         self.assertEqual(len(data['kinderen']), 2)
+
+    @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
+    @patch('mks.service.mks_client._get_response', get_xml_response_fixture)
+    def test_api_call(self):
+        response = self.client.get('/brp/brp')
+
+        json = response.json
+        self.assertEqual(json['persoon']['bsn'], '123456789')
+        self.assertEqual(json['adres']['huisletter'], None)
+        self.assertEqual(json['adres']['postcode'], '1011 PN')
