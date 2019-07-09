@@ -8,7 +8,6 @@ from lxml import objectify
 from lxml.etree import ElementTree
 from lxml.objectify import ObjectifiedElement
 
-
 _namespaces = {
     'StUF': 'http://www.egem.nl/StUF/StUF0301',
     'BG': 'http://www.egem.nl/StUF/sector/bg/0310',
@@ -311,27 +310,19 @@ class StuffReply:
             'adres': self.get_adres(),
         }
 
-    def as_json(self):
-        """ Make sure the dict is converted to json """
-        def serializer(obj):
-            if isinstance(obj, (datetime.datetime, datetime.date)):
-                return obj.isoformat()
-
-        data = self.as_dict()
-        return json.dumps(data, default=serializer)
-
     @staticmethod
     def to_date(value):
         """
         :param value:
         :return:
         """
-        if value is not None:
-            try:
-                parsed_value = datetime.datetime.strptime(str(value), '%Y%m%d')
-                return parsed_value
-            except ValueError:
-                pass
+        if not value:
+            return None
+        try:
+            parsed_value = datetime.datetime.strptime(str(value), '%Y%m%d')
+            return parsed_value
+        except ValueError:
+            pass
         return value
 
     @staticmethod
