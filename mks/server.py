@@ -1,12 +1,22 @@
 import logging
 
 import connexion
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from mks import operation_resolver
 from mks import operations
+from mks.service.config import SENTRY_DSN
 
 logging.basicConfig(level=logging.INFO)
 webapp = connexion.App(__name__, swagger_url='todo')
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[FlaskIntegration()],
+        with_locals=True
+    )
 
 mapping = {
     '/status/health': operations.get_status_health,

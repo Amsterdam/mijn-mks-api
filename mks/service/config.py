@@ -11,6 +11,8 @@ MKS_CLIENT_KEY = os.getenv('MKS_CLIENT_KEY')
 MKS_ENDPOINT = os.getenv('MKS_BRP_ENDPOINT')
 TMA_CERTIFICATE = os.getenv('TMA_CERTIFICATE')
 
+SENTRY_DSN = os.getenv('SENTRY_DSN', None)
+
 assert (TMA_CERTIFICATE is not None)
 assert (BRP_APPLICATIE is not None)
 assert (BRP_GEBRUIKER is not None)
