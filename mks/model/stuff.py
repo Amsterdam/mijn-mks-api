@@ -275,13 +275,24 @@ class StuffReply:
         result = []
 
         fields = [
-            {'name': 'omschrijving', 'parser': self.to_string}
+            {'name': 'omschrijving', 'parser': self.to_string},
+            {'name': 'code', 'parser': self.to_string}
         ]
+
         for n in self.nationaliteiten:
             nationaliteit = {}
             set_fields(n['gerelateerde'], fields, nationaliteit)
             result.append(nationaliteit)
 
+        # For people not living in Amsterdam we dont get the omschrijving.
+        # Quick fix for Nederlandse if code == 1
+        for n in result:
+            if not n['omschrijving']:
+                if n['code'] == "1":
+                    n['omschrijving'] = "Nederlandse"
+
+        # Only add the omschrijving
+        result = [{"omschrijving": n["omschrijving"]} for n in result if n['omschrijving']]
         return result
 
     def get_adres(self):
