@@ -12,6 +12,7 @@ RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response.xml")
 RESPONSE_2_PATH = os.path.join(FIXTURE_PATH, "response2.xml")
 RESPONSE_3_PATH = os.path.join(FIXTURE_PATH, "response3.xml")
 RESPONSE_4_PATH = os.path.join(FIXTURE_PATH, "response4.xml")
+RESPONSE_NIET_AMSTERDAMMER = os.path.join(FIXTURE_PATH, "niet_amsterdammer.xml")
 
 
 class ResponseTests(unittest.TestCase):
@@ -139,6 +140,21 @@ class MultiplePartnersTest(unittest.TestCase):
 
         # deep equal test
         self.assertEqual(data['verbintenis'], self.get_result())
+
+
+class NonAmsterdamTest(unittest.TestCase):
+    def setUp(self) -> None:
+        with open(RESPONSE_NIET_AMSTERDAMMER, 'rb') as responsefile:
+            self.reply = StuffReply(
+                objectify.fromstring(
+                    responsefile.read()
+                )
+            )
+
+    def test_nationaliteit(self):
+        data = self.reply.as_dict()
+        self.assertEqual(data['persoon']['nationaliteiten'][0]['omschrijving'], "Nederlandse")
+        self.assertEqual(len(data['persoon']['nationaliteiten']), 1)
 
 
 class ResponsesTest(unittest.TestCase):
