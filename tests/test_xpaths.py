@@ -36,6 +36,7 @@ class ResponseTests(unittest.TestCase):
                 'geboorteplaatsnaam': 'Mijlaou',
                 'gemeentenaamInschrijving': 'Amsterdam',
                 'geslachtsnaam': 'Kosterijk',
+                'mokum': True,
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'opgemaakteNaam': 'A. Kosterijk',

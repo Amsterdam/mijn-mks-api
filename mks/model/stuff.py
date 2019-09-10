@@ -154,6 +154,7 @@ class StuffReply:
             {'name': 'voornamen', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
             {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
+            {'name': 'inp.gemeenteVanInschrijving', 'parser': self.to_is_amsterdam, 'save_as': 'mokum'},
         ]
         extra_fields = [
             {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
@@ -358,3 +359,13 @@ class StuffReply:
             return None
 
         return f"{match['num']} {match['let']}"
+
+    @staticmethod
+    def to_is_amsterdam(value):
+        if not value:
+            return False
+
+        if value == 363:
+            return True
+        else:
+            return False
