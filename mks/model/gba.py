@@ -8,8 +8,8 @@ GBA_STATIC_DIR = os.path.join(STATIC_DIR, 'gba')
 lookup_landen = {}
 lookup_gemeenten = {}
 lookup_geslacht = {
-    'M': "Man",
-    'V': "Vrouw",
+    'M': 'Man',
+    'V': 'Vrouw',
 }
 
 # Source:
