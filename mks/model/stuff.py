@@ -7,6 +7,8 @@ from lxml import objectify
 from lxml.etree import ElementTree
 from lxml.objectify import ObjectifiedElement
 
+from mks.model.gba import lookup_landen, lookup_gemeenten, lookup_geslacht
+
 _namespaces = {
     'StUF': 'http://www.egem.nl/StUF/StUF0301',
     'BG': 'http://www.egem.nl/StUF/sector/bg/0310',
@@ -155,6 +157,10 @@ class StuffReply:
             {'name': 'geboortedatum', 'parser': self.to_date},
             {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
             {'name': 'inp.gemeenteVanInschrijving', 'parser': self.to_is_amsterdam, 'save_as': 'mokum'},
+            {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
+            {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
+            {'name': 'geslachtsaanduiding', 'parser': self.to_string},
+
         ]
         extra_fields = [
             {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
@@ -169,6 +175,22 @@ class StuffReply:
         extra = self.persoon[f'{stufns}extraElementen']
         set_fields(self.persoon, fields, result)
         set_extra_fields(extra, extra_fields, result)
+
+        if result['geboorteplaats'] and not result['geboorteplaatsnaam']:
+            key = "%04d" % int(result['geboorteplaats'])
+            gemeente_naam = lookup_gemeenten.get(key, None)
+            if gemeente_naam:
+                result['geboorteplaatsnaam'] = gemeente_naam
+
+        if result['geboorteLand'] and not result['geboortelandnaam']:
+            land_naam = lookup_landen.get(result['geboorteLand'], None)
+            if land_naam:
+                result['geboortelandnaam'] = land_naam
+
+        if result['geslachtsaanduiding'] and not result['omschrijvingGeslachtsaanduiding']:
+            geslacht = lookup_geslacht.get(result['geslachtsaanduiding'], None)
+            if geslacht:
+                result['omschrijvingGeslachtsaanduiding'] = geslacht
 
         result['nationaliteiten'] = self.get_nationaliteiten()
 

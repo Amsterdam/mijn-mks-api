@@ -4,6 +4,12 @@ import unittest
 from datetime import datetime
 from lxml import objectify
 
+# ignoring E402: module level import not at top of file
+os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
+os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
+os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
+os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
+
 from mks.model.stuff import StuffReply
 
 
@@ -31,10 +37,13 @@ class ResponseTests(unittest.TestCase):
             'persoon': {
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
                 'bsn': '123456789',
+                'geboorteLand': '5022',
                 'geboortedatum': datetime(1988, 1, 1, 0, 0),
                 'geboortelandnaam': 'Marokko',
                 'geboorteplaatsnaam': 'Mijlaou',
+                'geboorteplaats': 'Mijlaou',
                 'gemeentenaamInschrijving': 'Amsterdam',
+                'geslachtsaanduiding': 'M',
                 'geslachtsnaam': 'Kosterijk',
                 'mokum': True,
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',

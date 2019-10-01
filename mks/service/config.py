@@ -3,6 +3,7 @@ from logging import config
 import os
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(PROJECT_DIR, '..', 'model', 'static')
 
 BRP_APPLICATIE = os.getenv('BRP_APPLICATIE')
 BRP_GEBRUIKER = os.getenv('BRP_GEBRUIKER')
