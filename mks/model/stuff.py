@@ -178,7 +178,6 @@ class StuffReply:
 
         if result['geboorteplaats'] and not result['geboorteplaatsnaam']:
             key = "%04d" % int(result['geboorteplaats'])
-            print(">>", key)
             gemeente_naam = lookup_gemeenten.get(key, None)
             if gemeente_naam:
                 result['geboorteplaatsnaam'] = gemeente_naam

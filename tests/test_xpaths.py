@@ -37,10 +37,13 @@ class ResponseTests(unittest.TestCase):
             'persoon': {
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
                 'bsn': '123456789',
+                'geboorteLand': '5022',
                 'geboortedatum': datetime(1988, 1, 1, 0, 0),
                 'geboortelandnaam': 'Marokko',
                 'geboorteplaatsnaam': 'Mijlaou',
+                'geboorteplaats': 'Mijlaou',
                 'gemeentenaamInschrijving': 'Amsterdam',
+                'geslachtsaanduiding': 'M',
                 'geslachtsnaam': 'Kosterijk',
                 'mokum': True,
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
@@ -162,12 +165,6 @@ class NonAmsterdamTest(unittest.TestCase):
         data = self.reply.as_dict()
         self.assertEqual(data['persoon']['nationaliteiten'][0]['omschrijving'], "Nederlandse")
         self.assertEqual(len(data['persoon']['nationaliteiten']), 1)
-
-    def test_partner(self):
-        data = self.reply.as_dict()
-
-        from pprint import pprint
-        pprint(data)
 
 
 class ResponsesTest(unittest.TestCase):
