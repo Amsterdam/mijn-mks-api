@@ -36,7 +36,7 @@
                     <BG:adellijkeTitelPredikaat xsi:nil="true" StUF:noValue="geenWaarde"/>
                     <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
                     <BG:geboortedatum>19860101</BG:geboortedatum>
-                    <BG:inp.geboorteplaats>0123</BG:inp.geboorteplaats>
+                    <BG:inp.geboorteplaats>0457</BG:inp.geboorteplaats>
                     <BG:inp.geboorteLand>6030</BG:inp.geboorteLand>
                     <BG:overlijdensdatum xsi:nil="true" StUF:noValue="geenWaarde"/>
                     <BG:inp.overlijdenplaats xsi:nil="true" StUF:noValue="geenWaarde"/>
@@ -158,8 +158,78 @@
                         <StUF:extraElement naam="terAttentieVan" xsi:nil="true" StUF:noValue="nietOndersteund"/>
                         <StUF:extraElement naam="uitsluitingKiesrecht" xsi:nil="true" StUF:noValue="geenWaarde"/>
                     </StUF:extraElementen>
-                    <BG:inp.heeftAlsEchtgenootPartner StUF:entiteittype="NPSNPSHUW" xsi:nil="true"
-                                                      StUF:noValue="nietGeautoriseerd"/>
+
+                    <BG:inp.heeftAlsEchtgenootPartner StUF:entiteittype="NPSNPSHUW">
+                        <BG:gerelateerde StUF:entiteittype="NPS">
+                            <BG:inp.bsn xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:inp.a-nummer xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:geslachtsnaam>GeslachtPartner</BG:geslachtsnaam>
+                            <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:voorletters>V.</BG:voorletters>
+                            <BG:voornamen>Voornaam</BG:voornamen>
+                            <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:adellijkeTitelPredikaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:geslachtsaanduiding xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:geboortedatum>19770101</BG:geboortedatum>
+                            <BG:inp.geboorteplaats xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:inp.geboorteLand xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:overlijdensdatum xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.overlijdenplaats xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.overlijdenLand xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:sub.telefoonnummer xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:sub.faxnummer xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:sub.emailadres xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:sub.rekeningnummerBankGiro xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:acd.code xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.burgerlijkeStaat xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.gemeenteVanInschrijving xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.datumInschrijving xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:vbt.aanduidingVerblijfstitel xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:ing.datumVerkrijgingVerblijfstitel xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:ing.datumVerliesVerblijfstitel xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.datumVestigingInNederland xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.immigratieLand xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.datumVertrekUitNederland xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.emigratieLand xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.aanduidingBijzonderNederlanderschap xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:ing.indicatieGezagMinderjarige xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:ing.indicatieCurateleRegister xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.datumOpschortingBijhouding xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.redenOpschortingBijhouding xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <BG:inp.indicatieGeheim xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <StUF:extraElementen>
+                                <StUF:extraElement naam="bic" xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                                <StUF:extraElement naam="handlichting" xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                                <StUF:extraElement naam="iban" xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                                <StUF:extraElement naam="rechtsvorm" xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            </StUF:extraElementen>
+                        </BG:gerelateerde>
+                        <BG:soortVerbintenis xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                        <BG:datumSluiting>19990101</BG:datumSluiting>
+                        <BG:plaatsSluiting xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                        <BG:landSluiting xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                        <BG:datumOntbinding xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:plaatsOntbinding xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                        <BG:landOntbinding xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                        <BG:redenOntbinding xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                        <StUF:extraElementen>
+                            <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true"
+                                               StUF:noValue="nietOndersteund"/>
+                            <StUF:extraElement naam="landnaamOntbinding" xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <StUF:extraElement naam="landnaamSluiting" xsi:nil="true" StUF:noValue="nietOndersteund"/>
+                            <StUF:extraElement naam="plaatsnaamOntbindingOmschrijving" xsi:nil="true"
+                                               StUF:noValue="nietOndersteund"/>
+                            <StUF:extraElement naam="plaatsnaamSluitingOmschrijving" xsi:nil="true"
+                                               StUF:noValue="nietOndersteund"/>
+                            <StUF:extraElement naam="redenOntbindingOmschrijving" xsi:nil="true"
+                                               StUF:noValue="nietOndersteund"/>
+                            <StUF:extraElement naam="soortVerbintenisOmschrijving" xsi:nil="true"
+                                               StUF:noValue="nietOndersteund"/>
+                        </StUF:extraElementen>
+                    </BG:inp.heeftAlsEchtgenootPartner>
+
                     <BG:inp.heeftAlsKinderen StUF:entiteittype="NPSNPSKND" xsi:nil="true" StUF:noValue="geenWaarde"/>
                     <BG:inp.heeftAlsNationaliteit StUF:entiteittype="NPSNAT">
                         <BG:gerelateerde StUF:entiteittype="NAT">

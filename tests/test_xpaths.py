@@ -4,6 +4,12 @@ import unittest
 from datetime import datetime
 from lxml import objectify
 
+# ignoring E402: module level import not at top of file
+os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
+os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
+os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
+os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
+
 from mks.model.stuff import StuffReply
 
 
@@ -156,6 +162,12 @@ class NonAmsterdamTest(unittest.TestCase):
         data = self.reply.as_dict()
         self.assertEqual(data['persoon']['nationaliteiten'][0]['omschrijving'], "Nederlandse")
         self.assertEqual(len(data['persoon']['nationaliteiten']), 1)
+
+    def test_partner(self):
+        data = self.reply.as_dict()
+
+        from pprint import pprint
+        pprint(data)
 
 
 class ResponsesTest(unittest.TestCase):

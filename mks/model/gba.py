@@ -7,6 +7,10 @@ GBA_STATIC_DIR = os.path.join(STATIC_DIR, 'gba')
 
 lookup_landen = {}
 lookup_gemeenten = {}
+lookup_geslacht = {
+    'M': "Man",
+    'V': "Vrouw",
+}
 
 # Source:
 # https://publicaties.rvig.nl/Landelijke_tabellen/Landelijke_tabellen_32_t_m_60_excl_tabel_35/Landelijke_Tabellen_32_t_m_60_in_csv_formaat
