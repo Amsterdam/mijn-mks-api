@@ -1,0 +1,209 @@
+openapi: 3.0.1
+info:
+  title: BRP Informatie service
+  description: Interne service voor het bevragen van BRP informatie. Deze versie bevat
+    uitsluitend ondersteuning voor natuurlijke personen.
+  contact:
+    name: Datapunt Support
+    url: https://data.amsterdam.nl/
+    email: datapunt@amsterdam.nl
+  license:
+    name: TBD
+    url: http://url.van.mogelijke/licentie
+  version: 1.0.0
+servers:
+- url: https://brp.data.amsterdam.nl/brp
+paths:
+  /bsn:
+    get:
+      description: Geef het BSN van de huidige gebruiker terug
+      responses:
+        200:
+          description: BSN
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bsn'
+  /brp:
+    get:
+      description: Informatie over huidige gebruiker uit de basisregistratie personen
+      responses:
+        200:
+          description: Basisregistratiegegevens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/brp'
+components:
+  schemas:
+    bsn:
+      required:
+      - burgerservicenummer
+      type: object
+      properties:
+        burgerservicenummer:
+          type: integer
+
+    persoon:
+      type: object
+      properties:
+        aanduidingNaamgebruikOmschrijving:
+          type: string
+        bsn:
+          type: string
+        opgemaakteNaam:
+          type: string
+        geslachtsnaam:
+          type: string
+        voorvoegselGeslachtsnaam:
+          type: string
+        voornamen:
+          type: string
+
+        geboortelandnaam:
+          type: string
+        geboorteLand:
+          type: integer
+
+        geboorteplaatsnaam:
+          type: string
+        geboorteplaats:
+          type: integer
+
+        geboortedatum:
+          type: string
+          format: 'date-time'
+        gemeentenaamInschrijving:
+          type: string
+
+        omschrijvingGeslachtsaanduiding:
+          type: string
+          enum:
+            - Man
+            - Vrouw
+        geslachtsaanduiding:
+          type: string
+          enum:
+            - M
+            - V
+
+        omschrijvingBurgerlijkeStaat:
+          type: string
+        mokum:
+          type: boolean
+          description: True if person is living in Amsterdam
+        nationaliteiten:
+          type: array
+          items:
+            type: object
+            properties:
+              omschrijving:
+                type: string
+
+
+    adres:
+      type: object
+      properties:
+        begindatumVerblijf:
+          type: string
+          format: date-time
+          nullable: true
+        huisnummer:
+          type: string
+        huisletter:
+          type: string
+        huisnummertoevoeging:
+          type: string
+          nullable: true
+        postcode:
+          type: string
+        straatnaam:
+          type: string
+        woonplaatsNaam:
+          type: string
+
+    verbintenis:
+      type: object
+      properties:
+        datumOntbinding:
+          type: string
+          format: date-time
+          nullable: true
+        datumSluiting:
+          type: string
+          format: date-time
+        landnaamSluiting:
+          type: string
+        plaatsnaamSluitingOmschrijving:
+          type: string
+        soortVerbintenis:
+          type: string
+#          enum:
+#            - H
+#            - ?
+        soortVerbintenisOmschrijving:
+          type: string
+        persoon:
+          type: object
+          properties:
+            bsn:
+              type: string
+            geboortedatum:
+              type: string
+              format: date-time
+            geslachtsaanduiding:
+              type: string
+              nullable: true # in case of non-amsterdammer
+              enum:
+              - Man
+              - Vrouw
+            geslachtsnaam:
+              type: string
+            voornamen:
+              type: string
+            voorvoegselGeslachtsnaam:
+              type: string
+              nullable: true
+
+    kind:
+      type: object
+      properties:
+        geboortedatum:
+          type: string
+          format: date-time
+        geslachtsaanduiding:
+          type: string
+          enum:
+            - M
+            - V
+        geslachtsnaam:
+          type: string
+        voornamen:
+          type: string
+        voorvoegselGeslachtsnaam:
+          type: string
+          nullable: true
+        overlijdensdatum:
+          type: string
+          format: 'date-time'
+          nullable: true
+
+    kinderen:
+      type: array
+      items:
+        $ref: '#/components/schemas/kind'
+
+    brp:
+      required:
+      - geslachtsnaam
+      - voornamen
+      type: object
+      properties:
+        persoon:
+          $ref: '#/components/schemas/persoon'
+        adres:
+          $ref: '#/components/schemas/adres'
+        verbintenis:
+          $ref: '#/components/schemas/verbintenis'
+        kinderen:
+          $ref: '#/components/schemas/kinderen'

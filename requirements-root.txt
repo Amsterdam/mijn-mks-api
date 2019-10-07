@@ -1,6 +1,6 @@
 --extra-index-url https://nexus.secure.amsterdam.nl/repository/pypi-hosted/simple
 
-connexion<2
+connexion==2.3.0
 requests
 lxml
 
