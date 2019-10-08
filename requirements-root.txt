@@ -7,9 +7,10 @@ lxml
 flask
 Flask-Testing
 
-tma_saml>=0.2
+tma_saml>=0.4.1
 
 flake8
 coverage
 
 sentry-sdk[flask]
+

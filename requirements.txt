@@ -36,6 +36,6 @@ sentry-sdk==0.9.5
 signxml==2.6.0
 six==1.12.0
 swagger-spec-validator==2.4.3
-tma-saml==0.4
+tma-saml==0.4.1
 urllib3==1.25.3
 Werkzeug==0.15.4
