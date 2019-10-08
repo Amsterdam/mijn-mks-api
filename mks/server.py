@@ -26,7 +26,7 @@ mapping = {
 
 # using a custom resolver to determine operations
 # instead of the operationId in the yaml file.
-webapp.add_api('brp_swagger.json',
+webapp.add_api('swagger.yaml',
                resolver=operation_resolver.CustomOperationResolver(mapping),
                validate_responses=False)
 
