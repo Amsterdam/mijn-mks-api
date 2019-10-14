@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0.0'
   title: BRP Informatie service
-  description: Interne service voor het bevragen van BRP informatie. Deze versie bevat uitsluitend ondersteuning voor natuurlijke personen.
+  description: Internal service for getting BRP details. This version only supports "natuurlijke personen"
   contact:
     email: datapunt@amsterdam.nl
     name: Datapunt Support
@@ -18,7 +18,7 @@ produces:
 paths:
   /status/health:
     get:
-      description: Controlleer dat de server is gestart
+      description: Endpoint for checking wheter the server has started.
       responses:
         200:
           description: Returns "OK" when server is started
@@ -26,7 +26,7 @@ paths:
             type: string
   /brp/bsn:
     get:
-      description: Geef het BSN van de huidige gebruiker terug
+      description: Return BSN of currently logged in user.
       produces:
       - application/json
       parameters: []
@@ -38,7 +38,7 @@ paths:
           headers: {}
   /brp/brp:
     get:
-      description: Informatie over huidige gebruiker uit de basisregistratie personen
+      description: Information of current user from "basisregistratie personen"
       produces:
       - application/json
       parameters: []
