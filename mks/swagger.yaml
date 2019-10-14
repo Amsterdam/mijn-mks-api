@@ -16,6 +16,14 @@ consumes:
 produces:
 - application/json
 paths:
+  /status/health:
+    get:
+      description: Controlleer dat de server is gestart
+      responses:
+        200:
+          description: Returns "OK" when server is started
+          schema:
+            type: string
   /brp/bsn:
     get:
       description: Geef het BSN van de huidige gebruiker terug
