@@ -47,3 +47,14 @@ class BRPTests(TestCase):
         self.assertEqual(json['persoon']['bsn'], '123456789')
         self.assertEqual(json['adres']['huisletter'], None)
         self.assertEqual(json['adres']['postcode'], '1011 PN')
+
+
+class StatusTest(TestCase):
+    def create_app(self):
+        app = application
+        app.config['TESTING'] = True
+        return app
+
+    def test_status_call(self):
+        response = self.client.get('/status/health')
+        self.assert200(response)
