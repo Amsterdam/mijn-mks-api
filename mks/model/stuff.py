@@ -177,9 +177,13 @@ class StuffReply:
         set_extra_fields(extra, extra_fields, result)
 
         if result['geboorteplaats'] and not result['geboorteplaatsnaam']:
-            key = "%04d" % int(result['geboorteplaats'])
-            gemeente_naam = lookup_gemeenten.get(key, None)
-            if gemeente_naam:
+            try:
+                key = "%04d" % int(result['geboorteplaats'])
+                gemeente_naam = lookup_gemeenten.get(key, None)
+                if gemeente_naam:
+                    result['geboorteplaatsnaam'] = gemeente_naam
+            except ValueError:
+                # int() fails when it already is filled with a name, so use that instead.
                 result['geboorteplaatsnaam'] = gemeente_naam
 
         if result['geboorteLand'] and not result['geboortelandnaam']:
