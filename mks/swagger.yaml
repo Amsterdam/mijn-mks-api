@@ -102,7 +102,7 @@ definitions:
       vertrokkenOnbekendWaarheen:
         type: boolean
       datumVertrekUitNederland:
-        description: This value can be used when `vertrokkenOnbekendWaarheen` is True
+        description: This value can be used if `vertrokkenOnbekendWaarheen` is True
         type: string
         format: 'date-time'
       emigratieLand:
