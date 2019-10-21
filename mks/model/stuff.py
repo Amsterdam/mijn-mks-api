@@ -191,7 +191,7 @@ class StuffReply:
                     result['geboorteplaatsnaam'] = gemeente_naam
             except ValueError:
                 # int() fails when it already is filled with a name, so use that instead.
-                result['geboorteplaatsnaam'] = gemeente_naam
+                result['geboorteplaatsnaam'] = result['geboorteplaats']
 
         if result['geboorteLand'] and not result['geboortelandnaam']:
             land_naam = lookup_landen.get(result['geboorteLand'], None)
