@@ -19,6 +19,7 @@ RESPONSE_2_PATH = os.path.join(FIXTURE_PATH, "response2.xml")
 RESPONSE_3_PATH = os.path.join(FIXTURE_PATH, "response3.xml")
 RESPONSE_4_PATH = os.path.join(FIXTURE_PATH, "response4.xml")
 RESPONSE_NIET_AMSTERDAMMER = os.path.join(FIXTURE_PATH, "niet_amsterdammer.xml")
+RESPONSE_VERTROKKEN_ONBEKEND_WAARHEEN = os.path.join(FIXTURE_PATH, "response-vertrokken-onbekend-waarheen.xml")
 
 
 class ResponseTests(unittest.TestCase):
@@ -37,6 +38,8 @@ class ResponseTests(unittest.TestCase):
             'persoon': {
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
                 'bsn': '123456789',
+                'datumVertrekUitNederland': None,
+                'emigratieLand': None,
                 'geboorteLand': '5022',
                 'geboortedatum': datetime(1988, 1, 1, 0, 0),
                 'geboortelandnaam': 'Marokko',
@@ -49,6 +52,7 @@ class ResponseTests(unittest.TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'opgemaakteNaam': 'A. Kosterijk',
+                'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Abdelouahed',
                 'voorvoegselGeslachtsnaam': None,
                 'nationaliteiten': [
@@ -93,6 +97,7 @@ class ResponseTests(unittest.TestCase):
                 }
             ],
             'adres': {
+                'adresInOnderzoek': False,
                 'begindatumVerblijf': datetime(1995, 1, 1, 0, 0),
                 'huisletter': None,
                 'huisnummer': '1',
@@ -165,6 +170,21 @@ class NonAmsterdamTest(unittest.TestCase):
         data = self.reply.as_dict()
         self.assertEqual(data['persoon']['nationaliteiten'][0]['omschrijving'], "Nederlandse")
         self.assertEqual(len(data['persoon']['nationaliteiten']), 1)
+
+
+class VertrokkenOnbekendWaarheenTest(unittest.TestCase):
+    def setUp(self) -> None:
+        with open(RESPONSE_VERTROKKEN_ONBEKEND_WAARHEEN, 'rb') as responsefile:
+            self.reply = StuffReply(
+                objectify.fromstring(
+                    responsefile.read()
+                )
+            )
+
+    def test_vow(self):
+        data = self.reply.as_dict()
+        self.assertEqual(data['persoon']['vertrokkenOnbekendWaarheen'], True)
+        self.assertEqual(data['persoon']['datumVertrekUitNederland'], datetime(2019, 1, 1, 0, 0))
 
 
 class ResponsesTest(unittest.TestCase):
