@@ -27,12 +27,18 @@ def set_fields(source, fields, target):
                     'name': source field name,
                     'parser': a function to put the value through. For example to parse a date or number,
                     'save_as': the key name the value is stored under in the result dict
-                  }
+                  },
+                  ...
                 ]
         target: a dict where the result will be put on
      """
     for field in fields:
-        value = source[field['name']]
+        try:
+            value = source[field['name']]
+        except AttributeError:
+            # if optional is set, continue with the next field
+            if field.get('optional'):
+                continue
         value = field['parser'](value)
         key = field.get('save_as', field['name'])
         target[key] = value
@@ -160,8 +166,9 @@ class StuffReply:
             {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
             {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
-
-        ]
+            {'name': 'inp.emigratieLand', 'parser': self.to_int, 'save_as': "emigratieLand"},
+            {'name': 'inp.datumVertrekUitNederland', 'parser': self.to_date, 'save_as': "datumVertrekUitNederland"},
+            ]
         extra_fields = [
             {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
             {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': self.to_string},
@@ -195,6 +202,12 @@ class StuffReply:
             geslacht = lookup_geslacht.get(result['geslachtsaanduiding'], None)
             if geslacht:
                 result['omschrijvingGeslachtsaanduiding'] = geslacht
+
+        # vertrokken onbekend waarheen
+        if result['emigratieLand'] == 0:
+            result['vertrokkenOnbekendWaarheen'] = True
+        else:
+            result['vertrokkenOnbekendWaarheen'] = False
 
         result['nationaliteiten'] = self.get_nationaliteiten()
 
@@ -292,10 +305,6 @@ class StuffReply:
     #     } for o in self.ouders]
     #
     def get_nationaliteiten(self):
-        # return [{
-        #     'nationaliteit': n,
-        #     'gerelateerde': self.gerelateerde_nationaliteit(n)
-        # } for n in self.nationaliteiten]
         if not self.nationaliteiten:
             return {}
 
@@ -370,10 +379,26 @@ class StuffReply:
         return value
 
     @staticmethod
+    def to_int(value):
+        # our xml parser, automatically converts numbers. So this converter doesn't do much.
+        if value == 0:
+            return 0
+        if not value:
+            return None
+        return int(value)
+
+    @staticmethod
     def to_string(value):
         if not value:
             return None
         return str(value).strip()
+
+    @staticmethod
+    def to_bool(value):
+        # breakpoint()
+        if not value:
+            return False
+        return True
 
     @staticmethod
     def as_postcode(value):
