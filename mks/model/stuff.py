@@ -355,6 +355,12 @@ class StuffReply:
             if tijdvak:
                 result['begindatumVerblijf'] = self.to_date(tijdvak)
 
+            verblijft_in_fields = [
+                {'name': 'inOnderzoek', 'parser': self.to_bool, 'save_as': 'adresInOnderzoek', 'optional': True},
+            ]
+            set_fields(self.verblijft_in, verblijft_in_fields, result)
+            # print("result", result)
+
         return result
 
     def as_dict(self) -> Dict[str, Any]:
