@@ -36,7 +36,7 @@ def set_fields(source, fields, target):
         try:
             value = source[field['name']]
         except AttributeError:
-            # if optional is set, continue with the next field
+            # if optional is set, continue with the next field, Else error
             if field.get('optional'):
                 continue
         value = field['parser'](value)
@@ -168,7 +168,7 @@ class StuffReply:
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'inp.emigratieLand', 'parser': self.to_int, 'save_as': "emigratieLand"},
             {'name': 'inp.datumVertrekUitNederland', 'parser': self.to_date, 'save_as': "datumVertrekUitNederland"},
-            ]
+        ]
         extra_fields = [
             {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
             {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': self.to_string},
