@@ -38,6 +38,8 @@ class ResponseTests(unittest.TestCase):
             'persoon': {
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
                 'bsn': '123456789',
+                'datumVertrekUitNederland': None,
+                'emigratieLand': None,
                 'geboorteLand': '5022',
                 'geboortedatum': datetime(1988, 1, 1, 0, 0),
                 'geboortelandnaam': 'Marokko',
@@ -50,6 +52,7 @@ class ResponseTests(unittest.TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'opgemaakteNaam': 'A. Kosterijk',
+                'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Abdelouahed',
                 'voorvoegselGeslachtsnaam': None,
                 'nationaliteiten': [
@@ -94,6 +97,7 @@ class ResponseTests(unittest.TestCase):
                 }
             ],
             'adres': {
+                'adresInOnderzoek': False,
                 'begindatumVerblijf': datetime(1995, 1, 1, 0, 0),
                 'huisletter': None,
                 'huisnummer': '1',
@@ -179,8 +183,6 @@ class VertrokkenOnbekendWaarheenTest(unittest.TestCase):
 
     def test_vow(self):
         data = self.reply.as_dict()
-        from pprint import pprint
-        pprint(data)
         self.assertEqual(data['persoon']['vertrokkenOnbekendWaarheen'], True)
         self.assertEqual(data['persoon']['datumVertrekUitNederland'], datetime(2019, 1, 1, 0, 0))
 

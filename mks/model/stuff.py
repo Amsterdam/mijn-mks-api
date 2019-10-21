@@ -39,6 +39,8 @@ def set_fields(source, fields, target):
             # if optional is set, continue with the next field, Else error
             if field.get('optional'):
                 continue
+            else:
+                raise
         value = field['parser'](value)
         key = field.get('save_as', field['name'])
         target[key] = value
