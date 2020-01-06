@@ -172,12 +172,13 @@ class StuffReply:
             {'name': 'inp.datumVertrekUitNederland', 'parser': self.to_date, 'save_as': "datumVertrekUitNederland"},
         ]
         extra_fields = [
-            {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
             {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': self.to_string},
             {'name': 'geboortelandnaam', 'parser': self.to_string},
             {'name': 'geboorteplaatsnaam', 'parser': self.to_string},
             {'name': 'gemeentenaamInschrijving', 'parser': self.to_string},
             {'name': 'omschrijvingBurgerlijkeStaat', 'parser': self.to_string},
+            {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
+            {'name': 'omschrijvingIndicatieGeheim', 'parser': self.to_string},
             {'name': 'opgemaakteNaam', 'parser': self.to_string},
         ]
 

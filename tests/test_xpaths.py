@@ -51,6 +51,7 @@ class ResponseTests(unittest.TestCase):
                 'mokum': True,
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
+                'omschrijvingIndicatieGeheim': 'Geen beperking',
                 'opgemaakteNaam': 'A. Kosterijk',
                 'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Abdelouahed',
