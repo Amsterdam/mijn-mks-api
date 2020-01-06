@@ -250,6 +250,7 @@ class StuffReply:
             {'name': 'soortVerbintenisOmschrijving', 'parser': self.to_string},
             {'name': 'landnaamSluiting', 'parser': self.to_string},
             {'name': 'plaatsnaamSluitingOmschrijving', 'parser': self.to_string},
+            {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
         ]
 
         for p in partners:
@@ -259,6 +260,12 @@ class StuffReply:
 
             extra = p['partner'].find(f'{stufns}extraElementen')
             set_extra_fields(extra, fields_extra, partner)
+
+            if partner['geslachtsaanduiding'] and not partner['omschrijvingGeslachtsaanduiding']:
+                geslacht = lookup_geslacht.get(partner['geslachtsaanduiding'], None)
+                if geslacht:
+                    partner['omschrijvingGeslachtsaanduiding'] = geslacht
+
             result.append(partner)
 
         # if there is no datumSluiting, sort using the minimum datetime
