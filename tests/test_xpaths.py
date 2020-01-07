@@ -26,6 +26,7 @@ class ResponseTests(unittest.TestCase):
 
     # noinspection PyAttributeOutsideInit
     def setUp(self):
+        self.maxDiff = None
         with open(RESPONSE_PATH, 'rb') as responsefile:
             self.reply = StuffReply(
                 objectify.fromstring(
@@ -81,6 +82,7 @@ class ResponseTests(unittest.TestCase):
                 'soortVerbintenis': 'H',
                 'soortVerbintenisOmschrijving': 'Huwelijk',
             },
+            'verbintenisHistorisch': [],
             'kinderen': [
                 {
                     'bsn': None,
@@ -151,7 +153,6 @@ class ResponseTests(unittest.TestCase):
 
         result = reply.as_dict()
 
-        self.maxDiff = None
         self.assertEqual(result, self.get_result())
 
     def test_data(self):
@@ -162,8 +163,6 @@ class ResponseTests(unittest.TestCase):
 class MultiplePartnersTest(unittest.TestCase):
 
     def get_result(self):
-
-        self.maxDiff = None
         return {
             'datumOntbinding': None,
             'datumSluiting': datetime(1974, 1, 1, 0, 0),
@@ -184,7 +183,31 @@ class MultiplePartnersTest(unittest.TestCase):
             'soortVerbintenisOmschrijving': None
         }
 
+    def get_result_history(self):
+        # lots of None's because example test data isn't great
+        return [
+            {'datumOntbinding': datetime(1973, 1, 1, 0, 0),
+             'datumSluiting': None,
+             'landnaamSluiting': None,
+             'persoon': {
+                 'adellijkeTitelPredikaat': None,
+                 'bsn': '234567890',
+                 'geboortedatum': datetime(1921, 1, 1, 0, 0),
+                 'geslachtsaanduiding': None,
+                 'geslachtsnaam': 'Oever',
+                 'omschrijvingGeslachtsaanduiding': None,
+                 'overlijdensdatum': None,
+                 'voornamen': 'Erik',
+                 'voorvoegselGeslachtsnaam': 'van den'
+             },
+             'plaatsnaamSluitingOmschrijving': None,
+             'soortVerbintenis': None,
+             'soortVerbintenisOmschrijving': None
+             }
+        ]
+
     def setUp(self):
+        self.maxDiff = None
         with open(RESPONSE_4_PATH, 'rb') as responsefile:
             self.reply = StuffReply(
                 objectify.fromstring(
@@ -197,6 +220,7 @@ class MultiplePartnersTest(unittest.TestCase):
 
         # deep equal test
         self.assertEqual(data['verbintenis'], self.get_result())
+        self.assertEqual(data['verbintenisHistorisch'], self.get_result_history())
 
 
 class NonAmsterdamTest(unittest.TestCase):

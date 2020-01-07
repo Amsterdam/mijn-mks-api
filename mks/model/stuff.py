@@ -221,10 +221,13 @@ class StuffReply:
 
         return result
 
-    def get_partner(self):
+    def get_partners(self):
         """ Get only the current partner """
         if not self.partners:
-            return {}
+            return {
+                'current': {},
+                'past': []
+            }
 
         stufns = "{" + _namespaces['StUF'] + "}"
 
@@ -278,12 +281,19 @@ class StuffReply:
         # sort to be sure that the most current partner is on top
         result.sort(key=lambda x: x['datumSluiting'] or datetime.datetime.min)
 
-        result = [p for p in result if not p['datumOntbinding']]
+        current_results = [p for p in result if not p['datumOntbinding']]
 
-        if result:
-            return result[0]
+        if current_results:
+            current_result = current_results[0]
         else:
-            return {}
+            current_result = {}
+
+        past_result = [p for p in result if p['datumOntbinding']]
+
+        return {
+            'current': current_result,
+            'past': past_result,
+        }
 
     def get_kinderen(self):
         if not self.kinderen:
@@ -415,9 +425,12 @@ class StuffReply:
         return result
 
     def as_dict(self) -> Dict[str, Any]:
+        verbintenissen = self.get_partners()
+
         return {
             'persoon': self.get_persoon(),
-            'verbintenis': self.get_partner(),
+            'verbintenis': verbintenissen['current'],
+            'verbintenisHistorisch': verbintenissen['past'],
             'kinderen': self.get_kinderen(),
             'ouders': self.get_ouders(),
             'adres': self.get_adres(),
