@@ -203,10 +203,7 @@ class StuffReply:
             if land_naam:
                 result['geboortelandnaam'] = land_naam
 
-        if result['geslachtsaanduiding'] and not result['omschrijvingGeslachtsaanduiding']:
-            geslacht = lookup_geslacht.get(result['geslachtsaanduiding'], None)
-            if geslacht:
-                result['omschrijvingGeslachtsaanduiding'] = geslacht
+        self.set_omschrijving_geslachtsaanduiding(result)
 
         # vertrokken onbekend waarheen
         if result['emigratieLand'] == 0:
@@ -390,16 +387,15 @@ class StuffReply:
 
     def set_omschrijving_geslachtsaanduiding(self, target):
         # if omschrijving is set, do not attempt to overwrite it.
-        if target.get('omschrijvingGeslachtsaanduiding', False) is not False:
+        if target.get('omschrijvingGeslachtsaanduiding'):
             return
 
-        if target.get('geslachtsaanduiding', False) is False:
+        if not target.get('geslachtsaanduiding'):
             target['omschrijvingGeslachtsaanduiding'] = None
             return
 
-        if target['geslachtsaanduiding']:
-            geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
-            target['omschrijvingGeslachtsaanduiding'] = geslacht
+        geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
+        target['omschrijvingGeslachtsaanduiding'] = geslacht
 
     @staticmethod
     def to_date(value):

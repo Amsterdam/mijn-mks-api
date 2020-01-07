@@ -136,6 +136,8 @@ class ResponseTests(unittest.TestCase):
 class MultiplePartnersTest(unittest.TestCase):
 
     def get_result(self):
+
+        self.maxDiff = None
         return {
             'datumOntbinding': None,
             'datumSluiting': datetime(1974, 1, 1, 0, 0),
@@ -144,6 +146,7 @@ class MultiplePartnersTest(unittest.TestCase):
                 'bsn': '345678901',
                 'geboortedatum': datetime(1940, 1, 1, 0, 0),
                 'geslachtsaanduiding': None,
+                'omschrijvingGeslachtsaanduiding': None,
                 'geslachtsnaam': 'Dijk',
                 'adellijkeTitelPredikaat': None,
                 'overlijdensdatum': None,
