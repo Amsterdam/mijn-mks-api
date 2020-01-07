@@ -109,6 +109,8 @@ definitions:
         format: 'date-time'
       emigratieLand:
         type: string
+      omschrijvingIndicatieGeheim:
+        type: string
   adres:
     title: adres
     type: object
@@ -271,12 +273,21 @@ definitions:
         format: date-time
       geslachtsaanduiding:
         $ref: '#/definitions/OmschrijvingGeslachtsaanduiding'
+      omschrijvingGeslachtsaanduiding:
+        $ref: '#/definitions/OmschrijvingGeslachtsaanduiding'
       geslachtsnaam:
         type: string
       voornamen:
         type: string
       voorvoegselGeslachtsnaam:
         type: string
+      geboorteLand:
+        type: integer
+      geboorteplaats:
+        type: integer
+      overlijdensdatum:
+        type: string
+        format: 'date-time'
   SoortVerbintenis:
     title: SoortVerbintenis
     example: H
