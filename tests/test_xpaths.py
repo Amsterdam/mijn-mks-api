@@ -186,24 +186,25 @@ class MultiplePartnersTest(unittest.TestCase):
     def get_result_history(self):
         # lots of None's because example test data isn't great
         return [
-            {'datumOntbinding': datetime(1973, 1, 1, 0, 0),
-             'datumSluiting': None,
-             'landnaamSluiting': None,
-             'persoon': {
-                 'adellijkeTitelPredikaat': None,
-                 'bsn': '234567890',
-                 'geboortedatum': datetime(1921, 1, 1, 0, 0),
-                 'geslachtsaanduiding': None,
-                 'geslachtsnaam': 'Oever',
-                 'omschrijvingGeslachtsaanduiding': None,
-                 'overlijdensdatum': None,
-                 'voornamen': 'Erik',
-                 'voorvoegselGeslachtsnaam': 'van den'
-             },
-             'plaatsnaamSluitingOmschrijving': None,
-             'soortVerbintenis': None,
-             'soortVerbintenisOmschrijving': None
-             }
+            {
+                'datumOntbinding': datetime(1973, 1, 1, 0, 0),
+                'datumSluiting': None,
+                'landnaamSluiting': None,
+                'persoon': {
+                    'adellijkeTitelPredikaat': None,
+                    'bsn': '234567890',
+                    'geboortedatum': datetime(1921, 1, 1, 0, 0),
+                    'geslachtsaanduiding': None,
+                    'geslachtsnaam': 'Oever',
+                    'omschrijvingGeslachtsaanduiding': None,
+                    'overlijdensdatum': None,
+                    'voornamen': 'Erik',
+                    'voorvoegselGeslachtsnaam': 'van den'
+                },
+                'plaatsnaamSluitingOmschrijving': None,
+                'soortVerbintenis': None,
+                'soortVerbintenisOmschrijving': None
+            }
         ]
 
     def setUp(self):
