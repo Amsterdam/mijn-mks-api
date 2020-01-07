@@ -180,6 +180,8 @@ class StuffReply:
             {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
             {'name': 'omschrijvingIndicatieGeheim', 'parser': self.to_string},
             {'name': 'opgemaakteNaam', 'parser': self.to_string},
+            {'name': 'omschrijvingAdellijkeTitel', 'parser': self.to_string},
+
         ]
 
         extra = self.persoon[f'{stufns}extraElementen']
@@ -236,6 +238,12 @@ class StuffReply:
             {'name': 'datumOntbinding', 'parser': self.to_date},
         ]
 
+        fields_extra = [
+            {'name': 'soortVerbintenisOmschrijving', 'parser': self.to_string},
+            {'name': 'landnaamSluiting', 'parser': self.to_string},
+            {'name': 'plaatsnaamSluitingOmschrijving', 'parser': self.to_string},
+        ]
+
         fields_partner = [
             {'name': 'inp.bsn', 'parser': self.to_string, 'save_as': 'bsn'},
             {'name': 'voornamen', 'parser': self.to_string},
@@ -244,13 +252,8 @@ class StuffReply:
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
             {'name': 'overlijdensdatum', 'parser': self.to_date},
-        ]
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
 
-        fields_extra = [
-            {'name': 'soortVerbintenisOmschrijving', 'parser': self.to_string},
-            {'name': 'landnaamSluiting', 'parser': self.to_string},
-            {'name': 'plaatsnaamSluitingOmschrijving', 'parser': self.to_string},
-            {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
         ]
 
         for p in partners:
@@ -261,10 +264,10 @@ class StuffReply:
             extra = p['partner'].find(f'{stufns}extraElementen')
             set_extra_fields(extra, fields_extra, partner)
 
-            if partner['geslachtsaanduiding'] and not partner['omschrijvingGeslachtsaanduiding']:
-                geslacht = lookup_geslacht.get(partner['geslachtsaanduiding'], None)
-                if geslacht:
-                    partner['omschrijvingGeslachtsaanduiding'] = geslacht
+            extra = p['partner'].find(f'{stufns}extraElementen')
+            set_extra_fields(extra, fields_extra, partner)
+
+            self.set_omschrijving_geslachtsaanduiding(partner['persoon'])
 
             result.append(partner)
 
@@ -297,11 +300,17 @@ class StuffReply:
             {'name': 'geslachtsnaam', 'parser': self.to_string},
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'inp.geboorteplaats', 'parser': self.to_date, 'save_as': 'geboorteplaats'},
+            {'name': 'inp.geboorteLand', 'parser': self.to_date, 'save_as': 'geboorteLand'},
             {'name': 'overlijdensdatum', 'parser': self.to_date},
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
         ]
+
         for k in kinderen:
             kind = {}
             set_fields(k['gerelateerde'], fields, kind)
+            self.set_omschrijving_geslachtsaanduiding(kind)
+
             result.append(kind)
 
         result.sort(key=lambda x: x['geboortedatum'])
@@ -378,6 +387,19 @@ class StuffReply:
             'kinderen': self.get_kinderen(),
             'adres': self.get_adres(),
         }
+
+    def set_omschrijving_geslachtsaanduiding(self, target):
+        # if omschrijving is set, do not attempt to overwrite it.
+        if target.get('omschrijvingGeslachtsaanduiding', False) is not False:
+            return
+
+        if target.get('geslachtsaanduiding', False) is False:
+            target['omschrijvingGeslachtsaanduiding'] = None
+            return
+
+        if target['geslachtsaanduiding']:
+            geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
+            target['omschrijvingGeslachtsaanduiding'] = geslacht
 
     @staticmethod
     def to_date(value):

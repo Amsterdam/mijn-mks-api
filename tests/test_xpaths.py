@@ -52,6 +52,7 @@ class ResponseTests(unittest.TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'omschrijvingIndicatieGeheim': 'Geen beperking',
+                'omschrijvingAdellijkeTitel': None,
                 'opgemaakteNaam': 'A. Kosterijk',
                 'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Abdelouahed',
@@ -68,31 +69,41 @@ class ResponseTests(unittest.TestCase):
                 'persoon': {
                     'bsn': '123456780',
                     'geboortedatum': datetime(1985, 1, 1, 0, 0),
+                    'adellijkeTitelPredikaat': None,
                     'geslachtsaanduiding': None,
                     'geslachtsnaam': 'Bakker',
                     'overlijdensdatum': None,
                     'voornamen': 'Souad',
-                    'voorvoegselGeslachtsnaam': None
+                    'voorvoegselGeslachtsnaam': None,
+                    'omschrijvingGeslachtsaanduiding': None,
                 },
                 'plaatsnaamSluitingOmschrijving': 'Asilah',
                 'soortVerbintenis': 'H',
-                'soortVerbintenisOmschrijving': 'Huwelijk'
+                'soortVerbintenisOmschrijving': 'Huwelijk',
             },
             'kinderen': [
                 {
                     'bsn': None,
                     'geboortedatum': datetime(2004, 1, 1, 0, 0),
                     'geslachtsaanduiding': 'M',
+                    'omschrijvingGeslachtsaanduiding': 'Man',
                     'geslachtsnaam': 'Kosterijk',
+                    'geboorteLand': None,
+                    'geboorteplaats': None,
                     'overlijdensdatum': None,
+                    'adellijkeTitelPredikaat': None,
                     'voornamen': 'Yassine',
                     'voorvoegselGeslachtsnaam': None},
                 {
                     'bsn': None,
                     'geboortedatum': datetime(2008, 1, 1, 0, 0),
                     'geslachtsaanduiding': 'M',
+                    'omschrijvingGeslachtsaanduiding': 'Man',
+                    'geboorteLand': None,
+                    'geboorteplaats': None,
                     'geslachtsnaam': 'Kosterijk',
                     'overlijdensdatum': None,
+                    'adellijkeTitelPredikaat': None,
                     'voornamen': 'Marwan',
                     'voorvoegselGeslachtsnaam': None
                 }
@@ -134,6 +145,7 @@ class MultiplePartnersTest(unittest.TestCase):
                 'geboortedatum': datetime(1940, 1, 1, 0, 0),
                 'geslachtsaanduiding': None,
                 'geslachtsnaam': 'Dijk',
+                'adellijkeTitelPredikaat': None,
                 'overlijdensdatum': None,
                 'voornamen': 'Henk',
                 'voorvoegselGeslachtsnaam': None
