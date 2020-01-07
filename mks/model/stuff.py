@@ -98,10 +98,10 @@ class StuffReply:
                 self._base_paths['partner'] +
                 self._base_paths['gerelateerde'])
 
-            # self.gerelateerde_ouder = objectify.ObjectPath(
-            #     self._base_paths['ouders'] +
-            #     self._base_paths['gerelateerde'])
-            #
+            self.gerelateerde_ouder = objectify.ObjectPath(
+                self._base_paths['ouders'] +
+                self._base_paths['gerelateerde'])
+
             self.gerelateerde_nationaliteit = objectify.ObjectPath(
                 self._base_paths['nationaliteiten'] +
                 self._base_paths['gerelateerde'])
@@ -137,13 +137,14 @@ class StuffReply:
                 self._base_paths['base'] +
                 self._base_paths['kinderen'])(self.response_root)
 
-            # self.ouders = objectify.ObjectPath(
-            #     self._base_paths['base'] +
-            #     self._base_paths['ouders'])(self.response_root)
-            #
+            self.ouders = objectify.ObjectPath(
+                self._base_paths['base'] +
+                self._base_paths['ouders'])(self.response_root)
+
             self.nationaliteiten = objectify.ObjectPath(
                 self._base_paths['base'] +
                 self._base_paths['nationaliteiten'])(self.response_root)
+
             self.parsed_successfully = True
         except AttributeError:
             traceback.print_exc()
@@ -314,12 +315,43 @@ class StuffReply:
 
         return result
 
-    # def get_ouders(self):
-    #     return [{
-    #         'ouder': o,
-    #         'gerelateerde': self.gerelateerde_ouder(o)
-    #     } for o in self.ouders]
-    #
+    def get_ouders(self):
+        if not self.ouders:
+            return {}
+
+        result = []
+
+        ouders = [{
+            'ouder': o,
+            'gerelateerde': self.gerelateerde_ouder(o)
+        } for o in self.ouders]
+
+        result = []
+
+        fields = [
+            {'name': 'inp.bsn', 'parser': self.to_string, 'save_as': 'bsn'},
+            {'name': 'voornamen', 'parser': self.to_string},
+            {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
+            {'name': 'geslachtsnaam', 'parser': self.to_string},
+            {'name': 'geslachtsaanduiding', 'parser': self.to_string},
+            {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'inp.geboorteplaats', 'parser': self.to_date, 'save_as': 'geboorteplaats'},
+            {'name': 'inp.geboorteLand', 'parser': self.to_date, 'save_as': 'geboorteLand'},
+            {'name': 'overlijdensdatum', 'parser': self.to_date},
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
+        ]
+
+        for o in ouders:
+            ouder = {}
+            set_fields(o['gerelateerde'], fields, ouder)
+            self.set_omschrijving_geslachtsaanduiding(ouder)
+
+            result.append(ouder)
+
+        result.sort(key=lambda x: x['geboortedatum'])
+
+        return result
+
     def get_nationaliteiten(self):
         if not self.nationaliteiten:
             return {}
@@ -382,6 +414,7 @@ class StuffReply:
             'persoon': self.get_persoon(),
             'verbintenis': self.get_partner(),
             'kinderen': self.get_kinderen(),
+            'ouders': self.get_ouders(),
             'adres': self.get_adres(),
         }
 

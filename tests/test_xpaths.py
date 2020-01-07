@@ -108,6 +108,32 @@ class ResponseTests(unittest.TestCase):
                     'voorvoegselGeslachtsnaam': None
                 }
             ],
+            'ouders': [
+                {
+                    'adellijkeTitelPredikaat': None,
+                    'bsn': None,
+                    'geboorteLand': None,
+                    'geboortedatum': datetime.datetime(1939, 1, 1, 0, 0),
+                    'geboorteplaats': None,
+                    'geslachtsaanduiding': 'M',
+                    'geslachtsnaam': 'Kosterijk',
+                    'omschrijvingGeslachtsaanduiding': 'Man',
+                    'overlijdensdatum': None,
+                    'voornamen': 'El Mokhtar',
+                    'voorvoegselGeslachtsnaam': None},
+                {
+                    'adellijkeTitelPredikaat': None,
+                    'bsn': None,
+                    'geboorteLand': None,
+                    'geboortedatum': datetime.datetime(1944, 1, 1, 0, 0),
+                    'geboorteplaats': None,
+                    'geslachtsaanduiding': 'V',
+                    'geslachtsnaam': 'Visser',
+                    'omschrijvingGeslachtsaanduiding': 'Vrouw',
+                    'overlijdensdatum': None,
+                    'voornamen': 'Rahma',
+                    'voorvoegselGeslachtsnaam': None}
+            ],
             'adres': {
                 'adresInOnderzoek': False,
                 'begindatumVerblijf': datetime(1995, 1, 1, 0, 0),
