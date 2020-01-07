@@ -116,7 +116,6 @@ class StuffReply:
                     self._base_paths['verblijftIn'])(self.response_root)
             except AttributeError:
                 self.adres = None
-                pass
 
             # self.kind_verblijfsadres = objectify.ObjectPath(
             #     self._base_paths['gerelateerde'] +
@@ -133,13 +132,19 @@ class StuffReply:
                 self._base_paths['base'] +
                 self._base_paths['partner'])(self.response_root)
 
-            self.kinderen = objectify.ObjectPath(
-                self._base_paths['base'] +
-                self._base_paths['kinderen'])(self.response_root)
+            try:
+                self.kinderen = objectify.ObjectPath(
+                    self._base_paths['base'] +
+                    self._base_paths['kinderen'])(self.response_root)
+            except AttributeError:
+                self.kinderen = None
 
-            self.ouders = objectify.ObjectPath(
-                self._base_paths['base'] +
-                self._base_paths['ouders'])(self.response_root)
+            try:
+                self.ouders = objectify.ObjectPath(
+                    self._base_paths['base'] +
+                    self._base_paths['ouders'])(self.response_root)
+            except AttributeError:
+                self.ouders = None
 
             self.nationaliteiten = objectify.ObjectPath(
                 self._base_paths['base'] +
