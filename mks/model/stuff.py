@@ -258,7 +258,7 @@ class StuffReply:
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
             {'name': 'overlijdensdatum', 'parser': self.to_date},
-            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_string},
 
         ]
 
@@ -313,10 +313,10 @@ class StuffReply:
             {'name': 'geslachtsnaam', 'parser': self.to_string},
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
-            {'name': 'inp.geboorteplaats', 'parser': self.to_date, 'save_as': 'geboorteplaats'},
-            {'name': 'inp.geboorteLand', 'parser': self.to_date, 'save_as': 'geboorteLand'},
+            {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
+            {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
             {'name': 'overlijdensdatum', 'parser': self.to_date},
-            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_string},
         ]
 
         for k in kinderen:
@@ -350,8 +350,8 @@ class StuffReply:
             {'name': 'geslachtsnaam', 'parser': self.to_string},
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
-            {'name': 'inp.geboorteplaats', 'parser': self.to_date, 'save_as': 'geboorteplaats'},
-            {'name': 'inp.geboorteLand', 'parser': self.to_date, 'save_as': 'geboorteLand'},
+            {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
+            {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
             {'name': 'overlijdensdatum', 'parser': self.to_date},
             {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
         ]
@@ -369,7 +369,7 @@ class StuffReply:
 
     def get_nationaliteiten(self):
         if not self.nationaliteiten:
-            return {}
+            return []
 
         result = []
 

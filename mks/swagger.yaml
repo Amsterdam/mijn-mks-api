@@ -154,7 +154,7 @@ definitions:
     title: kind
     type: object
     properties:
-      adellijkeTitelPerdikaat:
+      adellijkeTitelPredikaat:
         $ref: '#/definitions/AdellijkeTitelPredikaat'
       bsn:
         type: string
@@ -182,7 +182,7 @@ definitions:
     title: ouder
     type: object
     properties:
-      adellijkeTitelPerdikaat:
+      adellijkeTitelPredikaat:
         $ref: '#/definitions/AdellijkeTitelPredikaat'
       bsn:
         type: string
