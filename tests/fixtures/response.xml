@@ -400,7 +400,7 @@
                             <BG:adellijkeTitelPredikaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                             <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
                             <BG:geboortedatum>20040101</BG:geboortedatum>
-                            <BG:inp.geboorteplaats xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:inp.geboorteplaats>363</BG:inp.geboorteplaats>
                             <BG:inp.geboorteLand>6030</BG:inp.geboorteLand>
                             <BG:overlijdensdatum xsi:nil="true" StUF:noValue="geenWaarde"/>
                             <BG:inp.overlijdenplaats xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
