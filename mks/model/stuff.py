@@ -284,7 +284,7 @@ class StuffReply:
 
     def get_kinderen(self):
         if not self.kinderen:
-            return {}
+            return []
 
         result = []
 
@@ -321,7 +321,7 @@ class StuffReply:
 
     def get_ouders(self):
         if not self.ouders:
-            return {}
+            return []
 
         result = []
 
