@@ -98,10 +98,10 @@ class StuffReply:
                 self._base_paths['partner'] +
                 self._base_paths['gerelateerde'])
 
-            # self.gerelateerde_ouder = objectify.ObjectPath(
-            #     self._base_paths['ouders'] +
-            #     self._base_paths['gerelateerde'])
-            #
+            self.gerelateerde_ouder = objectify.ObjectPath(
+                self._base_paths['ouders'] +
+                self._base_paths['gerelateerde'])
+
             self.gerelateerde_nationaliteit = objectify.ObjectPath(
                 self._base_paths['nationaliteiten'] +
                 self._base_paths['gerelateerde'])
@@ -116,7 +116,6 @@ class StuffReply:
                     self._base_paths['verblijftIn'])(self.response_root)
             except AttributeError:
                 self.adres = None
-                pass
 
             # self.kind_verblijfsadres = objectify.ObjectPath(
             #     self._base_paths['gerelateerde'] +
@@ -133,17 +132,24 @@ class StuffReply:
                 self._base_paths['base'] +
                 self._base_paths['partner'])(self.response_root)
 
-            self.kinderen = objectify.ObjectPath(
-                self._base_paths['base'] +
-                self._base_paths['kinderen'])(self.response_root)
+            try:
+                self.kinderen = objectify.ObjectPath(
+                    self._base_paths['base'] +
+                    self._base_paths['kinderen'])(self.response_root)
+            except AttributeError:
+                self.kinderen = None
 
-            # self.ouders = objectify.ObjectPath(
-            #     self._base_paths['base'] +
-            #     self._base_paths['ouders'])(self.response_root)
-            #
+            try:
+                self.ouders = objectify.ObjectPath(
+                    self._base_paths['base'] +
+                    self._base_paths['ouders'])(self.response_root)
+            except AttributeError:
+                self.ouders = None
+
             self.nationaliteiten = objectify.ObjectPath(
                 self._base_paths['base'] +
                 self._base_paths['nationaliteiten'])(self.response_root)
+
             self.parsed_successfully = True
         except AttributeError:
             traceback.print_exc()
@@ -172,13 +178,16 @@ class StuffReply:
             {'name': 'inp.datumVertrekUitNederland', 'parser': self.to_date, 'save_as': "datumVertrekUitNederland"},
         ]
         extra_fields = [
-            {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
             {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': self.to_string},
             {'name': 'geboortelandnaam', 'parser': self.to_string},
             {'name': 'geboorteplaatsnaam', 'parser': self.to_string},
             {'name': 'gemeentenaamInschrijving', 'parser': self.to_string},
             {'name': 'omschrijvingBurgerlijkeStaat', 'parser': self.to_string},
+            {'name': 'omschrijvingGeslachtsaanduiding', 'parser': self.to_string},
+            {'name': 'omschrijvingIndicatieGeheim', 'parser': self.to_string},
             {'name': 'opgemaakteNaam', 'parser': self.to_string},
+            {'name': 'omschrijvingAdellijkeTitel', 'parser': self.to_string},
+
         ]
 
         extra = self.persoon[f'{stufns}extraElementen']
@@ -200,10 +209,7 @@ class StuffReply:
             if land_naam:
                 result['geboortelandnaam'] = land_naam
 
-        if result['geslachtsaanduiding'] and not result['omschrijvingGeslachtsaanduiding']:
-            geslacht = lookup_geslacht.get(result['geslachtsaanduiding'], None)
-            if geslacht:
-                result['omschrijvingGeslachtsaanduiding'] = geslacht
+        self.set_omschrijving_geslachtsaanduiding(result)
 
         # vertrokken onbekend waarheen
         if result['emigratieLand'] == 0:
@@ -215,10 +221,13 @@ class StuffReply:
 
         return result
 
-    def get_partner(self):
+    def get_partners(self):
         """ Get only the current partner """
         if not self.partners:
-            return {}
+            return {
+                'current': {},
+                'past': []
+            }
 
         stufns = "{" + _namespaces['StUF'] + "}"
 
@@ -235,6 +244,12 @@ class StuffReply:
             {'name': 'datumOntbinding', 'parser': self.to_date},
         ]
 
+        fields_extra = [
+            {'name': 'soortVerbintenisOmschrijving', 'parser': self.to_string},
+            {'name': 'landnaamSluiting', 'parser': self.to_string},
+            {'name': 'plaatsnaamSluitingOmschrijving', 'parser': self.to_string},
+        ]
+
         fields_partner = [
             {'name': 'inp.bsn', 'parser': self.to_string, 'save_as': 'bsn'},
             {'name': 'voornamen', 'parser': self.to_string},
@@ -243,12 +258,8 @@ class StuffReply:
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
             {'name': 'overlijdensdatum', 'parser': self.to_date},
-        ]
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_string},
 
-        fields_extra = [
-            {'name': 'soortVerbintenisOmschrijving', 'parser': self.to_string},
-            {'name': 'landnaamSluiting', 'parser': self.to_string},
-            {'name': 'plaatsnaamSluitingOmschrijving', 'parser': self.to_string},
         ]
 
         for p in partners:
@@ -258,18 +269,31 @@ class StuffReply:
 
             extra = p['partner'].find(f'{stufns}extraElementen')
             set_extra_fields(extra, fields_extra, partner)
+
+            extra = p['partner'].find(f'{stufns}extraElementen')
+            set_extra_fields(extra, fields_extra, partner)
+
+            self.set_omschrijving_geslachtsaanduiding(partner['persoon'])
+
             result.append(partner)
 
         # if there is no datumSluiting, sort using the minimum datetime
         # sort to be sure that the most current partner is on top
         result.sort(key=lambda x: x['datumSluiting'] or datetime.datetime.min)
 
-        result = [p for p in result if not p['datumOntbinding']]
+        current_results = [p for p in result if not p['datumOntbinding']]
 
-        if result:
-            return result[0]
+        if current_results:
+            current_result = current_results[0]
         else:
-            return {}
+            current_result = {}
+
+        past_result = [p for p in result if p['datumOntbinding']]
+
+        return {
+            'current': current_result,
+            'past': past_result,
+        }
 
     def get_kinderen(self):
         if not self.kinderen:
@@ -289,26 +313,63 @@ class StuffReply:
             {'name': 'geslachtsnaam', 'parser': self.to_string},
             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
             {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
+            {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
             {'name': 'overlijdensdatum', 'parser': self.to_date},
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_string},
         ]
+
         for k in kinderen:
             kind = {}
             set_fields(k['gerelateerde'], fields, kind)
+            self.set_omschrijving_geslachtsaanduiding(kind)
+
             result.append(kind)
 
         result.sort(key=lambda x: x['geboortedatum'])
 
         return result
 
-    # def get_ouders(self):
-    #     return [{
-    #         'ouder': o,
-    #         'gerelateerde': self.gerelateerde_ouder(o)
-    #     } for o in self.ouders]
-    #
+    def get_ouders(self):
+        if not self.ouders:
+            return {}
+
+        result = []
+
+        ouders = [{
+            'ouder': o,
+            'gerelateerde': self.gerelateerde_ouder(o)
+        } for o in self.ouders]
+
+        result = []
+
+        fields = [
+            {'name': 'inp.bsn', 'parser': self.to_string, 'save_as': 'bsn'},
+            {'name': 'voornamen', 'parser': self.to_string},
+            {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
+            {'name': 'geslachtsnaam', 'parser': self.to_string},
+            {'name': 'geslachtsaanduiding', 'parser': self.to_string},
+            {'name': 'geboortedatum', 'parser': self.to_date},
+            {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
+            {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
+            {'name': 'overlijdensdatum', 'parser': self.to_date},
+            {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
+        ]
+
+        for o in ouders:
+            ouder = {}
+            set_fields(o['gerelateerde'], fields, ouder)
+            self.set_omschrijving_geslachtsaanduiding(ouder)
+
+            result.append(ouder)
+
+        result.sort(key=lambda x: x['geboortedatum'])
+
+        return result
+
     def get_nationaliteiten(self):
         if not self.nationaliteiten:
-            return {}
+            return []
 
         result = []
 
@@ -364,12 +425,28 @@ class StuffReply:
         return result
 
     def as_dict(self) -> Dict[str, Any]:
+        verbintenissen = self.get_partners()
+
         return {
             'persoon': self.get_persoon(),
-            'verbintenis': self.get_partner(),
+            'verbintenis': verbintenissen['current'],
+            'verbintenisHistorisch': verbintenissen['past'],
             'kinderen': self.get_kinderen(),
+            'ouders': self.get_ouders(),
             'adres': self.get_adres(),
         }
+
+    def set_omschrijving_geslachtsaanduiding(self, target):
+        # if omschrijving is set, do not attempt to overwrite it.
+        if target.get('omschrijvingGeslachtsaanduiding'):
+            return
+
+        if not target.get('geslachtsaanduiding'):
+            target['omschrijvingGeslachtsaanduiding'] = None
+            return
+
+        geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
+        target['omschrijvingGeslachtsaanduiding'] = geslacht
 
     @staticmethod
     def to_date(value):

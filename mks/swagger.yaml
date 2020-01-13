@@ -61,6 +61,8 @@ definitions:
     title: persoon
     type: object
     properties:
+      omschrijvingAdellijkeTitel:
+        $ref: '#/definitions/AdellijkeTitelPredikaat'
       aanduidingNaamgebruikOmschrijving:
         type: string
       bsn:
@@ -107,6 +109,8 @@ definitions:
         format: 'date-time'
       emigratieLand:
         type: string
+      omschrijvingIndicatieGeheim:
+        type: string
   adres:
     title: adres
     type: object
@@ -150,20 +154,59 @@ definitions:
     title: kind
     type: object
     properties:
-      geboortedatum:
+      adellijkeTitelPredikaat:
+        $ref: '#/definitions/AdellijkeTitelPredikaat'
+      bsn:
         type: string
-        format: date-time
-      geslachtsaanduiding:
-        $ref: '#/definitions/Geslachtsaanduiding'
       geslachtsnaam:
-        type: string
-      voornamen:
         type: string
       voorvoegselGeslachtsnaam:
         type: string
-      overlijdensdatum:
+      voornamen:
+        type: string
+      geboorteLand:
+        type: integer
+      geboorteplaats:
+        type: integer
+      geboortedatum:
         type: string
         format: date-time
+      omschrijvingGeslachtsaanduiding:
+        $ref: '#/definitions/OmschrijvingGeslachtsaanduiding'
+      geslachtsaanduiding:
+        $ref: '#/definitions/Geslachtsaanduiding'
+      overlijdensdatum:
+        type: string
+        format: 'date-time'
+  ouder:
+    title: ouder
+    type: object
+    properties:
+      adellijkeTitelPredikaat:
+        $ref: '#/definitions/AdellijkeTitelPredikaat'
+      bsn:
+        type: string
+      geslachtsnaam:
+        type: string
+      voorvoegselGeslachtsnaam:
+        type: string
+      voornamen:
+        type: string
+      geboorteLand:
+        type: integer
+      geboorteplaats:
+        type: integer
+      geboortedatum:
+        type: string
+        format: date-time
+      omschrijvingGeslachtsaanduiding:
+        $ref: '#/definitions/OmschrijvingGeslachtsaanduiding'
+      geslachtsaanduiding:
+        $ref: '#/definitions/Geslachtsaanduiding'
+      overlijdensdatum:
+        type: string
+        format: 'date-time'
+
   brp:
     title: brp
     type: object
@@ -174,6 +217,10 @@ definitions:
         $ref: '#/definitions/adres'
       verbintenis:
         $ref: '#/definitions/verbintenis'
+      ouders:
+        type: array
+        items:
+          $ref: '#/definitions/ouder'
       kinderen:
         type: array
         items:
@@ -185,6 +232,23 @@ definitions:
     enum:
     - M
     - V
+  AdellijkeTitelPredikaat:
+    title: AdellijkeTitelPredikaat
+    type: string
+    enum:
+      - Baron
+      - Barones
+      - Graaf
+      - Gravin
+      - Hertog
+      - Hertogin
+      - Jonkheer
+      - Jonkvrouw
+      - Markies
+      - Markiezin
+      - Prins
+      - Prinses
+      - Ridder
   Nationaliteiten:
     title: Nationaliteiten
     type: object
@@ -209,12 +273,21 @@ definitions:
         format: date-time
       geslachtsaanduiding:
         $ref: '#/definitions/OmschrijvingGeslachtsaanduiding'
+      omschrijvingGeslachtsaanduiding:
+        $ref: '#/definitions/OmschrijvingGeslachtsaanduiding'
       geslachtsnaam:
         type: string
       voornamen:
         type: string
       voorvoegselGeslachtsnaam:
         type: string
+      geboorteLand:
+        type: integer
+      geboorteplaats:
+        type: integer
+      overlijdensdatum:
+        type: string
+        format: 'date-time'
   SoortVerbintenis:
     title: SoortVerbintenis
     example: H

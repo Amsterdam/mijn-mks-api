@@ -26,6 +26,7 @@ class ResponseTests(unittest.TestCase):
 
     # noinspection PyAttributeOutsideInit
     def setUp(self):
+        self.maxDiff = None
         with open(RESPONSE_PATH, 'rb') as responsefile:
             self.reply = StuffReply(
                 objectify.fromstring(
@@ -51,6 +52,8 @@ class ResponseTests(unittest.TestCase):
                 'mokum': True,
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
+                'omschrijvingIndicatieGeheim': 'Geen beperking',
+                'omschrijvingAdellijkeTitel': None,
                 'opgemaakteNaam': 'A. Kosterijk',
                 'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Abdelouahed',
@@ -67,34 +70,71 @@ class ResponseTests(unittest.TestCase):
                 'persoon': {
                     'bsn': '123456780',
                     'geboortedatum': datetime(1985, 1, 1, 0, 0),
+                    'adellijkeTitelPredikaat': None,
                     'geslachtsaanduiding': None,
                     'geslachtsnaam': 'Bakker',
                     'overlijdensdatum': None,
                     'voornamen': 'Souad',
-                    'voorvoegselGeslachtsnaam': None
+                    'voorvoegselGeslachtsnaam': None,
+                    'omschrijvingGeslachtsaanduiding': None,
                 },
                 'plaatsnaamSluitingOmschrijving': 'Asilah',
                 'soortVerbintenis': 'H',
-                'soortVerbintenisOmschrijving': 'Huwelijk'
+                'soortVerbintenisOmschrijving': 'Huwelijk',
             },
+            'verbintenisHistorisch': [],
             'kinderen': [
                 {
                     'bsn': None,
                     'geboortedatum': datetime(2004, 1, 1, 0, 0),
                     'geslachtsaanduiding': 'M',
+                    'omschrijvingGeslachtsaanduiding': 'Man',
                     'geslachtsnaam': 'Kosterijk',
+                    'geboorteLand': None,
+                    'geboorteplaats': None,
                     'overlijdensdatum': None,
+                    'adellijkeTitelPredikaat': None,
                     'voornamen': 'Yassine',
                     'voorvoegselGeslachtsnaam': None},
                 {
                     'bsn': None,
                     'geboortedatum': datetime(2008, 1, 1, 0, 0),
                     'geslachtsaanduiding': 'M',
+                    'omschrijvingGeslachtsaanduiding': 'Man',
+                    'geboorteLand': None,
+                    'geboorteplaats': None,
                     'geslachtsnaam': 'Kosterijk',
                     'overlijdensdatum': None,
+                    'adellijkeTitelPredikaat': None,
                     'voornamen': 'Marwan',
                     'voorvoegselGeslachtsnaam': None
                 }
+            ],
+            'ouders': [
+                {
+                    'adellijkeTitelPredikaat': None,
+                    'bsn': None,
+                    'geboorteLand': None,
+                    'geboortedatum': datetime(1939, 1, 1, 0, 0),
+                    'geboorteplaats': None,
+                    'geslachtsaanduiding': 'M',
+                    'geslachtsnaam': 'Kosterijk',
+                    'omschrijvingGeslachtsaanduiding': 'Man',
+                    'overlijdensdatum': None,
+                    'voornamen': 'El Mokhtar',
+                    'voorvoegselGeslachtsnaam': None},
+                {
+                    'adellijkeTitelPredikaat': None,
+                    'bsn': None,
+                    'geboorteLand': None,
+                    'geboortedatum': datetime(1944, 1, 1, 0, 0),
+                    'geboorteplaats': None,
+                    'geslachtsaanduiding': 'V',
+                    'geslachtsnaam': 'Visser',
+                    'omschrijvingGeslachtsaanduiding': 'Vrouw',
+                    'overlijdensdatum': None,
+                    'voornamen': 'Rahma',
+                    'voorvoegselGeslachtsnaam': None}
             ],
             'adres': {
                 'adresInOnderzoek': False,
@@ -113,7 +153,6 @@ class ResponseTests(unittest.TestCase):
 
         result = reply.as_dict()
 
-        self.maxDiff = None
         self.assertEqual(result, self.get_result())
 
     def test_data(self):
@@ -132,7 +171,9 @@ class MultiplePartnersTest(unittest.TestCase):
                 'bsn': '345678901',
                 'geboortedatum': datetime(1940, 1, 1, 0, 0),
                 'geslachtsaanduiding': None,
+                'omschrijvingGeslachtsaanduiding': None,
                 'geslachtsnaam': 'Dijk',
+                'adellijkeTitelPredikaat': None,
                 'overlijdensdatum': None,
                 'voornamen': 'Henk',
                 'voorvoegselGeslachtsnaam': None
@@ -142,7 +183,32 @@ class MultiplePartnersTest(unittest.TestCase):
             'soortVerbintenisOmschrijving': None
         }
 
+    def get_result_history(self):
+        # lots of None's because example test data isn't great
+        return [
+            {
+                'datumOntbinding': datetime(1973, 1, 1, 0, 0),
+                'datumSluiting': None,
+                'landnaamSluiting': None,
+                'persoon': {
+                    'adellijkeTitelPredikaat': None,
+                    'bsn': '234567890',
+                    'geboortedatum': datetime(1921, 1, 1, 0, 0),
+                    'geslachtsaanduiding': None,
+                    'geslachtsnaam': 'Oever',
+                    'omschrijvingGeslachtsaanduiding': None,
+                    'overlijdensdatum': None,
+                    'voornamen': 'Erik',
+                    'voorvoegselGeslachtsnaam': 'van den'
+                },
+                'plaatsnaamSluitingOmschrijving': None,
+                'soortVerbintenis': None,
+                'soortVerbintenisOmschrijving': None
+            }
+        ]
+
     def setUp(self):
+        self.maxDiff = None
         with open(RESPONSE_4_PATH, 'rb') as responsefile:
             self.reply = StuffReply(
                 objectify.fromstring(
@@ -155,6 +221,7 @@ class MultiplePartnersTest(unittest.TestCase):
 
         # deep equal test
         self.assertEqual(data['verbintenis'], self.get_result())
+        self.assertEqual(data['verbintenisHistorisch'], self.get_result_history())
 
 
 class NonAmsterdamTest(unittest.TestCase):
