@@ -194,22 +194,9 @@ class StuffReply:
         set_fields(self.persoon, fields, result)
         set_extra_fields(extra, extra_fields, result)
 
-        if result['geboorteplaats'] and not result['geboorteplaatsnaam']:
-            try:
-                key = "%04d" % int(result['geboorteplaats'])
-                gemeente_naam = lookup_gemeenten.get(key, None)
-                if gemeente_naam:
-                    result['geboorteplaatsnaam'] = gemeente_naam
-            except ValueError:
-                # int() fails when it already is filled with a name, so use that instead.
-                result['geboorteplaatsnaam'] = result['geboorteplaats']
-
-        if result['geboorteLand'] and not result['geboortelandnaam']:
-            land_naam = lookup_landen.get(result['geboorteLand'], None)
-            if land_naam:
-                result['geboortelandnaam'] = land_naam
-
         self.set_omschrijving_geslachtsaanduiding(result)
+        self.set_geboorteLandnaam(result)
+        self.set_geboorteplaatsNaam(result)
 
         # vertrokken onbekend waarheen
         if result['emigratieLand'] == 0:
@@ -323,6 +310,8 @@ class StuffReply:
             kind = {}
             set_fields(k['gerelateerde'], fields, kind)
             self.set_omschrijving_geslachtsaanduiding(kind)
+            self.set_geboorteplaatsNaam(kind)
+            self.set_geboorteLandnaam(kind)
 
             result.append(kind)
 
@@ -420,7 +409,6 @@ class StuffReply:
                 {'name': 'inOnderzoek', 'parser': self.to_bool, 'save_as': 'adresInOnderzoek', 'optional': True},
             ]
             set_fields(self.verblijft_in, verblijft_in_fields, result)
-            # print("result", result)
 
         return result
 
@@ -448,6 +436,32 @@ class StuffReply:
         geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
         target['omschrijvingGeslachtsaanduiding'] = geslacht
 
+    def set_geboorteplaatsNaam(self, target):
+        self._set_value_on(target, 'geboorteplaats', 'geboorteplaatsnaam', lookup_gemeenten)
+
+    def set_geboorteLandnaam(self, target):
+        self._set_value_on(target, 'geboorteLand', 'geboortelandnaam', lookup_landen)
+
+    def _set_value_on(self, target_dict, sourcefield, targetfield, lookup):
+        # if omschrijving is set, do not attempt to overwrite it.
+        if target_dict.get(targetfield):
+            return
+
+        if not target_dict[sourcefield]:
+            target_dict[targetfield] = None
+            return
+
+        try:
+            # int() fails when it is already filled with a name. Use that instead
+            key = "%04d" % int(target_dict[sourcefield])
+        except ValueError:
+            target_dict[targetfield] = target_dict[sourcefield]
+            return
+
+        value = lookup.get(key, None)
+        if value:
+            target_dict[targetfield] = value
+
     @staticmethod
     def to_date(value):
         """
@@ -461,7 +475,7 @@ class StuffReply:
             return parsed_value
         except ValueError:
             pass
-        return value
+        return None
 
     @staticmethod
     def to_int(value):
@@ -480,7 +494,6 @@ class StuffReply:
 
     @staticmethod
     def to_bool(value):
-        # breakpoint()
         if not value:
             return False
         return True
