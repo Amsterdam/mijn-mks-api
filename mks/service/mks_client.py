@@ -26,7 +26,12 @@ def _get_response(mks_brp_url, soap_request):
 def _get_xml_response(mks_brp_url: str, soap_request: str) -> StuffReply:
     response_content = _get_response(mks_brp_url, soap_request)
     if log_response:
-        print(response_content)
+        from io import BytesIO
+        from lxml import etree
+        content_bytesio = BytesIO(response_content)
+        tree = etree.parse(content_bytesio)
+        formatted_xml = etree.tostring(tree, pretty_print=True)
+        print(formatted_xml.decode())
     reply = StuffReply(
         objectify.fromstring(response_content))  # type: StuffReply
 
