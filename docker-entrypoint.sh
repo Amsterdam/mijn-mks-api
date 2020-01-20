@@ -6,4 +6,4 @@ set -e
 cd /app
 
 # run uwsgi
-exec uwsgi
+exec uwsgi --ini /app/focus/uwsgi.ini
