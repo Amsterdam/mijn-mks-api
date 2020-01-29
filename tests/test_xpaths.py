@@ -270,3 +270,19 @@ class ResponsesTest(unittest.TestCase):
 
                 response = reply.as_dict()
                 self.assertTrue(response['persoon']['bsn'], "bsn niet gevonden")
+
+
+class TestInitials(unittest.TestCase):
+    def setUp(self):
+        self.maxDiff = None
+        with open(RESPONSE_2_PATH, 'rb') as responsefile:
+            self.reply = StuffReply(
+                objectify.fromstring(
+                    responsefile.read()
+                )
+            )
+
+    def test_initials(self):
+        data = self.reply.as_dict()
+
+        self.assertEqual(data['persoon']['opgemaakteNaam'], 'R.F.M. Boer')

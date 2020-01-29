@@ -198,6 +198,11 @@ class StuffReply:
         self.set_geboorteLandnaam(result)
         self.set_geboorteplaatsNaam(result)
 
+        # in case we do not have the opgemaakteNaam
+        if result['opgemaakteNaam'] is None:
+            initials = ['%s.' % i[0] for i in result['voornamen'].split(' ')]
+            result['opgemaakteNaam'] = "%s %s" % (''.join(initials), result['geslachtsnaam'])
+
         # vertrokken onbekend waarheen
         if result['emigratieLand'] == 0:
             result['vertrokkenOnbekendWaarheen'] = True
