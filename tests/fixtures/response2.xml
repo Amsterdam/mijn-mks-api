@@ -259,7 +259,8 @@
                                            StUF:noValue="waardeOnbekend"/>
                         <StUF:extraElement naam="onderToezichtstelling" xsi:nil="true"
                                            StUF:noValue="nietGeautoriseerd"/>
-                        <StUF:extraElement naam="opgemaakteNaam">R.F.M. Moes</StUF:extraElement>
+<!--                        <StUF:extraElement naam="opgemaakteNaam">R.F.M. Moes</StUF:extraElement> -->
+                        <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                         <StUF:extraElement naam="rechtsvorm" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                         <StUF:extraElement naam="terAttentieVan" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                         <StUF:extraElement naam="uitsluitingKiesrecht" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
