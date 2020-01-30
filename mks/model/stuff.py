@@ -200,8 +200,22 @@ class StuffReply:
 
         # in case we do not have the opgemaakteNaam
         if result['opgemaakteNaam'] is None:
-            initials = ['%s.' % i[0] for i in result['voornamen'].split(' ')]
-            result['opgemaakteNaam'] = "%s %s" % (''.join(initials), result['geslachtsnaam'])
+            if result['voornamen']:
+                initials_list = ['%s.' % i[0] for i in result['voornamen'].split(' ')]
+                initials = ''.join(initials_list)
+            else:
+                initials = ""
+
+            if result['geslachtsnaam']:
+                geslachtsnaam = result['geslachtsnaam']
+            else:
+                geslachtsnaam = ''
+
+            if initials and geslachtsnaam:
+                result['opgemaakteNaam'] = "%s %s" % (initials, result['geslachtsnaam'])
+            else:
+                # if all fails.. A standard text will have to do
+                result['opgemaakteNaam'] = "Mijn gegevens"
 
         # vertrokken onbekend waarheen
         if result['emigratieLand'] == 0:

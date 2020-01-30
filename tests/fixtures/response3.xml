@@ -27,10 +27,12 @@
                     <BG:inp.bsn>345678901</BG:inp.bsn>
                     <BG:sub.typering xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                     <BG:inp.a-nummer>1111</BG:inp.a-nummer>
-                    <BG:geslachtsnaam>Repelsteeltje</BG:geslachtsnaam>
+                    <!--<BG:geslachtsnaam>Repelsteeltje</BG:geslachtsnaam>-->
+                    <BG:geslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                     <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                     <BG:voorletters>H.</BG:voorletters>
-                    <BG:voornamen>Hendrika Johanna Theodora</BG:voornamen>
+                    <!--<BG:voornamen>Hendrika Johanna Theodora</BG:voornamen>-->
+                    <BG:voornamen xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                     <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                     <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                     <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
@@ -186,7 +188,8 @@
                                            StUF:noValue="waardeOnbekend"/>
                         <StUF:extraElement naam="onderToezichtstelling" xsi:nil="true"
                                            StUF:noValue="nietGeautoriseerd"/>
-                        <StUF:extraElement naam="opgemaakteNaam">H. Repelsteeltje</StUF:extraElement>
+                        <!--<StUF:extraElement naam="opgemaakteNaam">H. Repelsteeltje</StUF:extraElement>-->
+                        <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                         <StUF:extraElement naam="rechtsvorm" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                         <StUF:extraElement naam="terAttentieVan" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
                         <StUF:extraElement naam="uitsluitingKiesrecht" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
