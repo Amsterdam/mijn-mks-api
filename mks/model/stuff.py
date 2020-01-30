@@ -209,7 +209,7 @@ class StuffReply:
             if result['geslachtsnaam']:
                 geslachtsnaam = result['geslachtsnaam']
             else:
-                geslachtsnaam = ''
+                geslachtsnaam = ""
 
             if initials and geslachtsnaam:
                 result['opgemaakteNaam'] = "%s %s" % (initials, result['geslachtsnaam'])
