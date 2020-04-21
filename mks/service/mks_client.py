@@ -58,42 +58,44 @@ def _get_soap_request(bsn: int) -> str:
     referentienummer = \
         f'MijnAmsterdam||{ref}'
 
-    return f'<soapenv:Envelope ' \
-           f'xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
-           f'xmlns:ns="http://www.egem.nl/StUF/sector/bg/0310" ' \
-           f'xmlns:stuf="http://www.egem.nl/StUF/StUF0301">' \
-           f'<soapenv:Header/>' \
-           f'<soapenv:Body>' \
-           f'<ns:npsLv01>' \
-           f'<ns:stuurgegevens>' \
-           f'<stuf:berichtcode>Lv01</stuf:berichtcode>' \
-           f'<stuf:zender>' \
-           f'<stuf:applicatie>{applicatie}</stuf:applicatie>' \
-           f'<stuf:gebruiker>{gebruiker}</stuf:gebruiker>' \
-           f'</stuf:zender>' \
-           f'<stuf:ontvanger>' \
-           f'<stuf:organisatie>Amsterdam</stuf:organisatie>' \
-           f'<stuf:applicatie>CGM</stuf:applicatie>' \
-           f'</stuf:ontvanger>' \
-           f'<stuf:referentienummer>{referentienummer}</stuf:referentienummer>' \
-           f'<stuf:tijdstipBericht>{timestamp}</stuf:tijdstipBericht>' \
-           f'<stuf:entiteittype>NPS</stuf:entiteittype>' \
-           f'</ns:stuurgegevens>' \
-           f'<ns:parameters>' \
-           f'<stuf:sortering>07</stuf:sortering>' \
-           f'<stuf:indicatorVervolgvraag>false</stuf:indicatorVervolgvraag>' \
-           f'<stuf:maximumAantal>1</stuf:maximumAantal>' \
-           f'<stuf:indicatorAfnemerIndicatie>' \
-           f'false' \
-           f'</stuf:indicatorAfnemerIndicatie>' \
-           f'<stuf:indicatorAantal>false</stuf:indicatorAantal>' \
-           f'</ns:parameters>' \
-           f'<ns:gelijk stuf:entiteittype="NPS">' \
-           f'<ns:inp.bsn>{bsn}</ns:inp.bsn>' \
-           f'</ns:gelijk>' \
-           f'<ns:scope>' \
-           f'<ns:object stuf:entiteittype="NPS" stuf:scope="alles"/>' \
-           f'</ns:scope>' \
-           f'</ns:npsLv01>' \
-           f'</soapenv:Body>' \
-           f'</soapenv:Envelope>'
+    return f'''
+<soapenv:Envelope
+           xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+           xmlns:ns="http://www.egem.nl/StUF/sector/bg/0310"
+           xmlns:stuf="http://www.egem.nl/StUF/StUF0301">
+           <soapenv:Header/>
+           <soapenv:Body>
+           <ns:npsLv01>
+           <ns:stuurgegevens>
+           <stuf:berichtcode>Lv01</stuf:berichtcode>
+           <stuf:zender>
+           <stuf:applicatie>{applicatie}</stuf:applicatie>
+           <stuf:gebruiker>{gebruiker}</stuf:gebruiker>
+           </stuf:zender>
+           <stuf:ontvanger>
+           <stuf:organisatie>Amsterdam</stuf:organisatie>
+           <stuf:applicatie>CGM</stuf:applicatie>
+           </stuf:ontvanger>
+           <stuf:referentienummer>{referentienummer}</stuf:referentienummer>
+           <stuf:tijdstipBericht>{timestamp}</stuf:tijdstipBericht>
+           <stuf:entiteittype>NPS</stuf:entiteittype>
+           </ns:stuurgegevens>
+           <ns:parameters>
+           <stuf:sortering>07</stuf:sortering>
+           <stuf:indicatorVervolgvraag>false</stuf:indicatorVervolgvraag>
+           <stuf:maximumAantal>1</stuf:maximumAantal>
+           <stuf:indicatorAfnemerIndicatie>
+           false
+           </stuf:indicatorAfnemerIndicatie>
+           <stuf:indicatorAantal>false</stuf:indicatorAantal>
+           </ns:parameters>
+           <ns:gelijk stuf:entiteittype="NPS">
+           <ns:inp.bsn>{bsn}</ns:inp.bsn>
+           </ns:gelijk>
+           <ns:scope>
+           <ns:object stuf:entiteittype="NPS" stuf:scope="alles"/>
+           </ns:scope>
+           </ns:npsLv01>
+           </soapenv:Body>
+           </soapenv:Envelope>
+'''
