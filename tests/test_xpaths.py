@@ -10,7 +10,7 @@ os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
 os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
 os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
 
-from mks.model.stuff import StuffReply
+from mks.model.stuff_310 import StuffReply
 
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')

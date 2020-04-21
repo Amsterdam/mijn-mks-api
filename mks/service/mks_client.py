@@ -4,7 +4,7 @@ from random import randint
 import requests
 from lxml import objectify
 
-from mks.model.stuff import StuffReply
+from mks.model.stuff_310 import StuffReply
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, MKS_ENDPOINT, BRP_APPLICATIE, BRP_GEBRUIKER
 from mks.service.exceptions import NoResultException
 

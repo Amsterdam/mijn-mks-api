@@ -1,0 +1,217 @@
+<soapenv:Envelope
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:StUF="http://www.egem.nl/StUF/StUF0204">
+    <soapenv:Header/>
+    <soapenv:Body>
+
+        <BG:vraagBericht>
+            <StUF:stuurgegevens>
+                <StUF:berichtsoort>Lv01</StUF:berichtsoort>
+                <StUF:entiteittype>PRS</StUF:entiteittype>
+                <StUF:sectormodel>BG</StUF:sectormodel>
+                <StUF:versieStUF>0204</StUF:versieStUF>
+                <StUF:versieSectormodel>0204</StUF:versieSectormodel>
+                <StUF:zender>
+                    <StUF:organisatie/>
+                    <StUF:applicatie>{{ applicatie }}</StUF:applicatie>
+                    <StUF:gebruiker>{{ gebruiker }}</StUF:gebruiker>
+                </StUF:zender>
+{#                <StUF:ontvanger>#}
+{#                    <StUF:organisatie>Amsterdam</StUF:organisatie>#}
+{#                    <StUF:applicatie>CGS</StUF:applicatie>#}
+{#                </StUF:ontvanger>#}
+                <StUF:referentienummer>{{ referentienummer }}</StUF:referentienummer>
+                <StUF:tijdstipBericht>{{ timestamp }}</StUF:tijdstipBericht>
+                <StUF:vraag>
+                    <StUF:maximumAantal>1</StUF:maximumAantal>
+                </StUF:vraag>
+            </StUF:stuurgegevens>
+            <BG:body>
+                <!-- van tot en met bsn, dus 2x dezelfde om er maar 1 te krijgen. -->
+                <BG:PRS soortEntiteit="F">
+                    <BG:bsn-nummer>{{ bsn }}</BG:bsn-nummer>
+                </BG:PRS>
+                <BG:PRS soortEntiteit="F">
+                    <BG:bsn-nummer>{{ bsn }}</BG:bsn-nummer>
+                </BG:PRS>
+                <BG:PRS soortEntiteit="F">
+                    <BG:bsn-nummer/>
+                    <BG:voornamen/>
+                    <BG:voorletters/>
+                    <BG:voorvoegselGeslachtsnaam/>
+                    <BG:geslachtsnaam/>
+                    <BG:geslachtsaanduiding/>
+                    <BG:aanduidingBijzonderNederlanderschap/>
+                    <BG:aanduidingNaamgebruik/>
+                    <BG:adellijkeTitelPredikaat/>
+                    <BG:codeGemeenteVanInschrijving/>
+                    <BG:datumOverlijden/>
+                    <BG:datumVerkrijgingVerblijfstitel/>
+                    <BG:datumVerliesVerblijfstitel/>
+                    <BG:datumVertrekUitNederland/>
+                    <BG:e-mailAdres/>
+                    <BG:geboortedatum/>
+                    <BG:geboorteplaats/>
+                    <BG:indicatieGeheim/>
+                    <BG:telefoonnummer/>
+                    <BG:verblijfstitel/>
+                    <extraElementen>
+                        <StUF:extraElement naam="aanduidingBijzonderNederlanderschapOmschrijving"/>
+                        <StUF:extraElement naam="aanduidingGegevensInOnderzoek"/>
+                        <StUF:extraElement naam="aanduidingNaamgebruikOmschrijving"/>
+                        <StUF:extraElement naam="geboortelandnaam"/>
+                        <StUF:extraElement naam="geboorteplaatsnaam"/>
+                        <StUF:extraElement naam="gemeentenaamInschrijving"/>
+                        <StUF:extraElement naam="omschrijvingAdellijkeTitel"/>
+                        <StUF:extraElement naam="omschrijvingBurgerlijkeStaat"/>
+                        <StUF:extraElement naam="omschrijvingGeslachtsaanduiding"/>
+                        <StUF:extraElement naam="omschrijvingIndicatieGeheim"/>
+                        <StUF:extraElement naam="omschrijvingVerblijfstitel"/>
+                        <StUF:extraElement naam="opgemaakteNaam"/>
+
+                    </extraElementen>
+
+
+                    <BG:PRSADRCOR soortEntiteit="R">
+                        <BG:ADR soortEntiteit="F">
+                            <BG:adresBuitenland1/>
+                            <BG:adresBuitenland2/>
+                            <BG:adresBuitenland3/>
+                            <BG:landcode/>
+                            <BG:postcode/>
+                            <BG:woonplaatsnaam/>
+                            <BG:postbusnummer/>
+                            <BG:antwoordnummer/>
+                            <BG:straatnaam/>
+                            <BG:huisnummer/>
+                            <BG:huisletter/>
+                            <BG:huisnummertoevoeging/>
+                            <BG:aanduidingBijHuisnummer/>
+                            <BG:gemeentecode/>
+
+                            <BG:extraElementen>
+                                <StUF:extraElement naam="openbareRuimteNaam"/>
+                                <StUF:extraElement naam="woonplaatsNaamBAG"/>
+                            </BG:extraElementen>
+                        </BG:ADR>
+                    </BG:PRSADRCOR>
+                    <BG:PRSADRINS soortEntiteit="R">
+                        <BG:ADR soortEntiteit="F">
+                            <BG:adresBuitenland1/>
+                            <BG:adresBuitenland2/>
+                            <BG:adresBuitenland3/>
+                            <BG:landcode/>
+                            <BG:postcode/>
+                            <BG:woonplaatsnaam/>
+                            <BG:postbusnummer/>
+                            <BG:antwoordnummer/>
+                            <BG:straatnaam/>
+                            <BG:huisnummer/>
+                            <BG:huisletter/>
+                            <BG:huisnummertoevoeging/>
+                            <BG:aanduidingBijHuisnummer/>
+                            <BG:gemeentecode/>
+                            <BG:extraElementen>
+                                <StUF:extraElement naam="openbareRuimteNaam"/>
+                                <StUF:extraElement naam="woonplaatsNaamBAG"/>
+                            </BG:extraElementen>
+                        </BG:ADR>
+                    </BG:PRSADRINS>
+                    <BG:PRSADRVBL soortEntiteit="R">
+                        <BG:ADR soortEntiteit="F">
+                            <BG:adresBuitenland1/>
+                            <BG:adresBuitenland2/>
+                            <BG:adresBuitenland3/>
+                            <BG:landcode/>
+                            <BG:postcode/>
+                            <BG:woonplaatsnaam/>
+                            <BG:postbusnummer/>
+                            <BG:antwoordnummer/>
+                            <BG:straatnaam/>
+                            <BG:huisnummer/>
+                            <BG:huisletter/>
+                            <BG:huisnummertoevoeging/>
+                            <BG:aanduidingBijHuisnummer/>
+                            <BG:gemeentecode/>
+                            <BG:extraElementen>
+                                <StUF:extraElement naam="openbareRuimteNaam"/>
+                                <StUF:extraElement naam="woonplaatsNaamBAG"/>
+                            </BG:extraElementen>
+                        </BG:ADR>
+                    </BG:PRSADRVBL>
+                    <BG:PRSPRSHUW soortEntiteit="R">
+                        <BG:datumSluiting/>
+                        <BG:datumOntbinding/>
+                        <BG:plaatsSluiting/>
+                        <BG:landSluiting/>
+                        <BG:PRS soortEntiteit="F">
+                            <BG:bsn-nummer/>
+                            <BG:voornamen/>
+                            <BG:voorletters/>
+                            <BG:voorvoegselGeslachtsnaam/>
+                            <BG:geslachtsnaam/>
+                            <BG:geslachtsaanduiding/>
+                            <BG:datumOverlijden/>
+                            <BG:aanduidingNaamgebruik/>
+                        </BG:PRS>
+                        <extraElementen>
+                            <StUF:extraElement naam="landnaamOntbinding"/>
+                            <StUF:extraElement naam="landnaamSluiting"/>
+                            <StUF:extraElement naam="plaatsnaamOntbindingOmschrijving"/>
+                            <StUF:extraElement naam="plaatsnaamSluitingOmschrijving"/>
+                            <StUF:extraElement naam="redenOntbindingOmschrijving"/>
+                            <StUF:extraElement naam="soortVerbintenisOmschrijving"/>
+                            <StUF:extraElement naam="aanduidingGegevensInOnderzoek"/>
+                        </extraElementen>
+                    </BG:PRSPRSHUW>
+
+                    <BG:PRSPRSKND soortEntiteit="R">
+
+                        <PRS soortEntiteit="F">
+                            <BG:a-nummer/>
+                            <BG:bsn-nummer/>
+                            <BG:voornamen/>
+                            <BG:voorletters/>
+                            <BG:voorvoegselGeslachtsnaam/>
+                            <BG:geslachtsnaam/>
+                            <BG:geboortedatum/>
+                            <BG:geboorteplaats/>
+                            <BG:codeGeboorteland/>
+                            <BG:geslachtsaanduiding/>
+                        </PRS>
+                        <extraElementen>
+                            <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        </extraElementen>
+                    </BG:PRSPRSKND>
+
+                    <BG:PRSPRSOUD soortEntiteit="R">
+
+                        <PRS soortEntiteit="F">
+                            <BG:bsn-nummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:voornamen xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:voorletters xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:geslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        </PRS>
+
+                    </BG:PRSPRSOUD>
+
+                    <PRSIDB soortEntiteit="R">
+                        <nummerIdentiteitsbewijs/>
+                        <extraElementen>
+                            <StUF:extraElement naam="datumAfgifte"/>
+                            <StUF:extraElement naam="datumEindeGeldigheid"/>
+                        </extraElementen>
+                        <SIB soortEntiteit="T">
+                            <soort/>
+                        </SIB>
+                    </PRSIDB>
+
+                </BG:PRS>
+            </BG:body>
+
+        </BG:vraagBericht>
+    </soapenv:Body>
+</soapenv:Envelope>
