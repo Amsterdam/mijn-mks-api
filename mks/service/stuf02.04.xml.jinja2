@@ -18,10 +18,10 @@
                     <StUF:applicatie>{{ applicatie }}</StUF:applicatie>
                     <StUF:gebruiker>{{ gebruiker }}</StUF:gebruiker>
                 </StUF:zender>
-{#                <StUF:ontvanger>#}
-{#                    <StUF:organisatie>Amsterdam</StUF:organisatie>#}
-{#                    <StUF:applicatie>CGS</StUF:applicatie>#}
-{#                </StUF:ontvanger>#}
+                <StUF:ontvanger>
+                    <StUF:organisatie>Amsterdam</StUF:organisatie>
+                    <StUF:applicatie>CGS</StUF:applicatie>
+                </StUF:ontvanger>
                 <StUF:referentienummer>{{ referentienummer }}</StUF:referentienummer>
                 <StUF:tijdstipBericht>{{ timestamp }}</StUF:tijdstipBericht>
                 <StUF:vraag>
@@ -54,6 +54,8 @@
                     <BG:e-mailAdres/>
                     <BG:geboortedatum/>
                     <BG:geboorteplaats/>
+                    <BG:codeGeboorteland/>
+                    <BG:codeLandEmigratie/>
                     <BG:indicatieGeheim/>
                     <BG:telefoonnummer/>
                     <BG:verblijfstitel/>
@@ -208,6 +210,20 @@
                             <soort/>
                         </SIB>
                     </PRSIDB>
+
+                    <PRSNAT soortEntiteit="R">
+                        <datumVerkrijging/>
+                        <datumVerlies/>
+                        <extraElementen>
+                            <StUF:extraElement naam="aanduidingGegevensInOnderzoek"/>
+                        </extraElementen>
+                        <NAT soortEntiteit="T">
+                            <code/>
+                            <omschrijving/>
+                            <datumVerkrijging/>
+                            <datumVerlies/>
+                        </NAT>
+                    </PRSNAT>
 
                 </BG:PRS>
             </BG:body>
