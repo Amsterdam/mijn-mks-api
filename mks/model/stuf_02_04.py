@@ -28,7 +28,6 @@ def set_extra_fields(source, fields, target):
         _set_value(tag, field, target)
 
 
-
 def set_fields(source, fields, target):
     """ Iterate over the list of fields to be put on target dict from the source
 
@@ -111,7 +110,6 @@ def extract_data(person_tree: Tag):
     return result
 
 
-
 def to_date(value):
     """
     :param value:
@@ -169,5 +167,3 @@ def to_is_amsterdam(value):
         return True
     else:
         return False
-
-
