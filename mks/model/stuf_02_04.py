@@ -260,6 +260,25 @@ def extract_verbintenis_data(persoon_tree: Tag):
     pprint(result)
 
 
+def extract_address(persoon_tree: Tag):
+    result = {}
+
+    fields = [
+        {'name': 'woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
+        {'name': 'postcode', 'parser': as_postcode, 'save_as': 'postcode'},
+        {'name': 'huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
+        {'name': 'huisletter', 'parser': to_string, 'save_as': 'huisletter'},
+        {'name': 'huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
+    ]
+    extra_fields = [
+        {'name': 'openbareRuimteNaam', 'parser': to_string, 'save_as': 'straatnaam'},
+    ]
+
+    address = persoon_tree.find('PRSADRINS').ADR
+    set_fields(address, fields, result)
+    set_extra_fields(address, extra_fields, result)
+
+
 def extract_data(persoon_tree: Tag):
     verbintenissen = extract_verbintenis_data(persoon_tree)
 
