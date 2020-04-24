@@ -5,11 +5,17 @@ from bs4 import Tag
 
 
 def _set_value(tag, field, target):
+    key = field.get('save_as', field['name'])
+
     if tag is None:
         # tag is not in the data
         if field.get('optional') != True:
             raise AttributeError(f"Tag not found in data: {field['name']}")
+        else:
+            target[key] = None
+            return
 
+    print("tag", tag)
     value = tag.string
     if value is None:
         if field.get('optional') != True:
@@ -17,7 +23,6 @@ def _set_value(tag, field, target):
 
     # put value through specified parser function
     value = field['parser'](value)
-    key = field.get('save_as', field['name'])
     print(">> ", key, ":", value)
     target[key] = value
 
@@ -67,7 +72,7 @@ def get_nationaliteiten(nationaliteiten: Tag):
     return result
 
 
-def extract_data(person_tree: Tag):
+def extract_persoon_data(persoon_tree: Tag):
     result = {}
 
     prs_fields = [
@@ -96,8 +101,8 @@ def extract_data(person_tree: Tag):
         {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
     ]
 
-    set_fields(person_tree, prs_fields, result)
-    set_extra_fields(person_tree.extraElementen, prs_extra_fields, result)
+    set_fields(persoon_tree, prs_fields, result)
+    set_extra_fields(persoon_tree.extraElementen, prs_extra_fields, result)
 
     # vertrokken onbekend waarheen
     if result['codeLandEmigratie'] == 0:
@@ -105,9 +110,166 @@ def extract_data(person_tree: Tag):
     else:
         result['vertrokkenOnbekendWaarheen'] = False
 
-    result['nationaliteiten'] = get_nationaliteiten(person_tree.PRS.find_all('NAT'))
+    result['nationaliteiten'] = get_nationaliteiten(persoon_tree.PRS.find_all('NAT'))
 
     return result
+
+
+def extract_kinderen_data(persoon_tree: Tag):
+    result = []
+
+    knd_fields = [
+        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
+        {'name': 'geslachtsnaam', 'parser': to_string},
+        {'name': 'geslachtsaanduiding', 'parser': to_string},
+        {'name': 'geboortedatum', 'parser': to_date},
+        {'name': 'geboorteplaats', 'parser': to_string},
+        {'name': 'codeGeboorteland', 'parser': to_string},
+        {'name': 'datumOverlijden', 'parser': to_date, 'optional': True},
+        {'name': 'adellijkeTitelPredikaat', 'parser': to_string, 'optional': True},
+    ]
+
+    knd_extra_fields = [
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
+        {'name': 'geboortelandnaam', 'parser': to_string},
+        {'name': 'geboorteplaatsnaam', 'parser': to_string},
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
+    ]
+
+    kinderen = persoon_tree.find_all('PRSPRSKND')
+    if kinderen[0].get("xsi:nil") == 'true':
+        return []
+
+    for kind in kinderen:
+        result_kind = {}
+        set_fields(kind.PRS, knd_fields, result_kind)
+        set_extra_fields(kind.PRS, knd_extra_fields, result_kind)
+
+        result.append(result_kind)
+
+    return result
+
+
+def extract_parents_data(persoon_tree: Tag):
+    result = []
+
+    parent_fields = [
+        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
+        {'name': 'geslachtsnaam', 'parser': to_string},
+        {'name': 'geslachtsaanduiding', 'parser': to_string},
+        {'name': 'geboortedatum', 'parser': to_date},
+        {'name': 'geboorteplaats', 'parser': to_string},
+        {'name': 'codeGeboorteland', 'parser': to_string},
+        {'name': 'datumOverlijden', 'parser': to_date, 'optional': True},
+        {'name': 'adellijkeTitelPredikaat', 'parser': to_string, 'optional': True},
+    ]
+
+    parent_extra_fields = [
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
+        {'name': 'geboortelandnaam', 'parser': to_string},
+        {'name': 'geboorteplaatsnaam', 'parser': to_string},
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
+    ]
+
+    parents = persoon_tree.find_all('PRSPRSOUD')
+    if parents[0].get("xsi:nil") == 'true':
+        return []
+
+    for ouder in parents:
+        result_parent = {}
+        set_fields(ouder.PRS, parent_fields, result_parent)
+        set_extra_fields(ouder.PRS, parent_extra_fields, result_parent)
+
+        result.append(result_parent)
+
+    return result
+
+
+def extract_verbintenis_data(persoon_tree: Tag):
+    result = []
+
+    verbintenis_fields = [
+        {'name': 'datumSluiting', 'parser': to_date},
+        {'name': 'datumOntbinding', 'parser': to_date, 'optional': True},
+    ]
+
+    verbintenis_extra_fields = [
+        {'name': 'soortVerbintenisOmschrijving', 'parser': to_string},
+        {'name': 'landnaamSluiting', 'parser': to_string},
+        {'name': 'plaatsnaamSluitingOmschrijving', 'parser': to_string},
+    ]
+
+    partner_fields = [
+        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
+        {'name': 'geslachtsnaam', 'parser': to_string},
+        {'name': 'geslachtsaanduiding', 'parser': to_string},
+        {'name': 'geboortedatum', 'parser': to_date},
+        {'name': 'datumOverlijden', 'parser': to_date, 'optional': True},
+        {'name': 'adellijkeTitelPredikaat', 'parser': to_string, 'optional': True},
+    ]
+
+    partner_extra_fields = [
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
+        {'name': 'geboortelandnaam', 'parser': to_string},
+        {'name': 'geboorteplaatsnaam', 'parser': to_string},
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
+    ]
+
+    verbintenissen = persoon_tree.find_all('PRSPRSHUW')
+
+    for verb in verbintenissen:
+        result_verbintenis = {'persoon': {}}
+
+        set_fields(verb, verbintenis_fields, result_verbintenis)
+        set_extra_fields(verb, verbintenis_extra_fields, result_verbintenis)
+
+        set_fields(verb.PRS, partner_fields, result_verbintenis)
+        set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis)
+
+        result.append(result_verbintenis)
+
+
+    # if there is no datumSluiting, sort using the minimum datetime
+    # sort to be sure that the most current partner is on top
+    result.sort(key=lambda x: x['datumSluiting'] or datetime.datetime.min)
+
+    current_results = [p for p in result if not p['datumOntbinding']]
+
+    if current_results:
+        current_result = current_results[0]
+    else:
+        current_result = {}
+
+    past_result = [p for p in result if p['datumOntbinding']]
+
+    return {
+        'verbintenis': current_result,
+        'verbintenisHistorisch': past_result,
+    }
+
+    from pprint import pprint
+    pprint(result)
+
+
+def extract_data(persoon_tree: Tag):
+    verbintenissen = extract_verbintenis_data(persoon_tree)
+
+    return {
+        "persoon": extract_persoon_data(persoon_tree),
+        "kinderen": extract_kinderen_data(persoon_tree),
+        "ouders": extract_parents_data(persoon_tree),
+        'verbintenis': verbintenissen['verbintenis'],
+        'verbintenisHistorisch': verbintenissen['verbintenisHistorisch'],
+    }
 
 
 def to_date(value):

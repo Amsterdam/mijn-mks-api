@@ -1,4 +1,5 @@
 import os
+from pprint import pprint
 from unittest.case import TestCase
 
 from bs4 import BeautifulSoup
@@ -17,4 +18,4 @@ class Model0204Tests(TestCase):
 
         result = extract_data(tree)
 
-        print("result", result)
+        pprint(result)
