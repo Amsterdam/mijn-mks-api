@@ -12,7 +12,9 @@ def _set_value(tag, field, target):
         if field.get('optional') != True:
             raise AttributeError(f"Tag not found in data: {field['name']}")
         else:
-            target[key] = None
+            # TODO: make me dry
+            value = field['parser'](None)  # make sure it goes through the parser, bool's need this
+            target[key] = value
             return
 
     # print("tag", tag)
@@ -254,27 +256,42 @@ def extract_verbintenis_data(persoon_tree: Tag):
         'verbintenisHistorisch': past_result,
     }
 
-    from pprint import pprint
-    pprint(result)
-
 
 def extract_address(persoon_tree: Tag):
     result = {}
 
     fields = [
-        {'name': 'woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
-        {'name': 'postcode', 'parser': as_postcode, 'save_as': 'postcode'},
-        {'name': 'huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
-        {'name': 'huisletter', 'parser': to_string, 'save_as': 'huisletter'},
-        {'name': 'huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
+        {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
+        {'name': 'postcode', 'parser': as_postcode},
+        {'name': 'huisnummer', 'parser': to_string},
+        {'name': 'huisletter', 'parser': to_string, 'optional': True},
+        {'name': 'huisnummertoevoeging', 'parser': to_string, 'optional': True},
+        {'name': 'straatnaam', 'parser': to_string},
     ]
     extra_fields = [
-        {'name': 'openbareRuimteNaam', 'parser': to_string, 'save_as': 'straatnaam'},
+        {'name': 'authentiekeWoonplaatsnaam', 'parser': to_string, 'optional': True},
+        {'name': 'officieleStraatnaam', 'parser': to_string, 'optional': True},
+    ]
+    address_extra_fields = [
+        {'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'adresInOnderzoek', 'optional': True},
     ]
 
     address = persoon_tree.find('PRSADRINS').ADR
     set_fields(address, fields, result)
     set_extra_fields(address, extra_fields, result)
+
+    if result['authentiekeWoonplaatsnaam']:
+        result['woonplaatsnaam'] = result['authentiekeWoonplaatsnaam']
+    del result['authentiekeWoonplaatsnaam']
+
+    if result['officieleStraatnaam']:
+        result['straatnaam'] = result['officieleStraatnaam']
+    del result['officieleStraatnaam']
+
+    address_extra = persoon_tree.find('PRSADRINS')
+    set_extra_fields(address_extra, address_extra_fields, result)
+
+    return result
 
 
 def extract_data(persoon_tree: Tag):
@@ -286,6 +303,7 @@ def extract_data(persoon_tree: Tag):
         "ouders": extract_parents_data(persoon_tree),
         'verbintenis': verbintenissen['verbintenis'],
         'verbintenisHistorisch': verbintenissen['verbintenisHistorisch'],
+        'adres': extract_address(persoon_tree),
     }
 
 
