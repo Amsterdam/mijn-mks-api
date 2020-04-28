@@ -261,7 +261,7 @@ def extract_address(persoon_tree: Tag):
     result = {}
     fiels_tijdvak = [
         {'name': 'begindatumRelatie', 'parser': to_date, 'save_as': 'begindatumVerblijf'},
-        {'name': 'einddatumRelatie', 'parser': to_date, 'save_as': 'einddatumVerblijf'},
+        {'name': 'einddatumRelatie', 'parser': to_date, 'save_as': 'einddatumVerblijf', 'optional': True},
 
     ]
     extra_fields = [
@@ -294,7 +294,7 @@ def extract_address(persoon_tree: Tag):
     set_extra_fields(address_adr, address_extra_fields, result)
 
     if result['authentiekeWoonplaatsnaam']:
-        result['woonplaatsnaam'] = result['authentiekeWoonplaatsnaam']
+        result['woonplaatsNaam'] = result['authentiekeWoonplaatsnaam']
     del result['authentiekeWoonplaatsnaam']
 
     if result['officieleStraatnaam']:
