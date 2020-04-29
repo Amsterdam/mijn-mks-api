@@ -62,7 +62,15 @@ def get_nationaliteiten(nationaliteiten: Tag):
 
     fields = [
         {'name': 'omschrijving', 'parser': to_string},
+        {'name': 'code', 'parser': to_int},
     ]
+
+    # For people not living in Amsterdam we dont get the omschrijving.
+    # Quick fix for Nederlandse if code == 1
+    for n in result:
+        if not n['omschrijving']:
+            if n['code'] == "1":
+                n['omschrijving'] = "Nederlandse"
 
     nationaliteit = {}
     for nat in nationaliteiten:
