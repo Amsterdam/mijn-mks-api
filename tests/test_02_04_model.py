@@ -1,6 +1,5 @@
 import os
 from datetime import datetime
-from pprint import pprint
 from unittest.case import TestCase
 
 from bs4 import BeautifulSoup
@@ -158,5 +157,3 @@ class Model0204Tests(TestCase):
 
         self.maxDiff = None
         self.assertEqual(result, self.get_result())
-
-        # pprint(result)

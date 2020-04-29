@@ -27,7 +27,7 @@ def _set_value(tag, field, target):
 
     # put value through specified parser function
     value = field['parser'](value)
-    print(">> ", key, ":", value)
+    # print(">> ", key, ":", value)
     target[key] = value
 
 
