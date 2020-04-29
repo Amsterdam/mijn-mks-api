@@ -11,7 +11,7 @@ def _set_value(tag, field, target):
 
     if tag is None:
         # tag is not in the data
-        if field.get('optional') != True:
+        if field.get('optional') is not True:
             raise AttributeError(f"Tag not found in data: {field['name']}")
         else:
             # TODO: make me dry
@@ -22,7 +22,7 @@ def _set_value(tag, field, target):
     # print("tag", tag)
     value = tag.string
     if value is None:
-        if field.get('optional') != True:
+        if field.get('optional') is not True:
             raise AttributeError(f"Tag has no value: {field['name']} {tag}")
 
     # put value through specified parser function
@@ -246,7 +246,6 @@ def extract_verbintenis_data(persoon_tree: Tag):
         set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis)
 
         result.append(result_verbintenis)
-
 
     # if there is no datumSluiting, sort using the minimum datetime
     # sort to be sure that the most current partner is on top

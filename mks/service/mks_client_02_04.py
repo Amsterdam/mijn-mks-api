@@ -1,11 +1,9 @@
 
-import asyncio
 import os
 from datetime import datetime
 from io import BytesIO
 from random import randint
 
-import httpx
 import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template

@@ -29,7 +29,7 @@ class Model0204Tests(TestCase):
                 'huisletter': None,
                 'huisnummer': '1',
                 'huisnummertoevoeging': 'I',
-                'postcode': '1001 PN',
+                'postcode': '1011 PN',
                 'straatnaam': 'Amstel',
                 'woonplaatsNaam': 'Amsterdam'
             },
