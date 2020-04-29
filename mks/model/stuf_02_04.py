@@ -309,14 +309,14 @@ def extract_address(persoon_tree: Tag):
 def extract_identiteitsbewijzen(persoon_tree: Tag):
     result = []
     fields = [
-        {'name': 'nummerIdentiteitsbewijs', 'parser': to_string},
+        {'name': 'nummerIdentiteitsbewijs', 'parser': to_string, 'save_as': 'documentNummer'},
     ]
     extra_fields = [
-        {'name': 'datumAfgifte', 'parser': to_date},
-        {'name': 'datumEindeGeldigheid', 'parser': to_date},
+        {'name': 'datumAfgifte', 'parser': to_date, 'save_as': 'datumUitgifte'},
+        {'name': 'datumEindeGeldigheid', 'parser': to_date, 'save_as': 'datumAfloop'},
     ]
     SIB_fields = [
-        {'name': 'soort', 'parser': to_int},
+        {'name': 'soort', 'parser': to_int, 'save_as': 'documentType'},
     ]
 
     identiteitsbewijzen = persoon_tree.find_all('PRSIDB')
@@ -326,7 +326,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         set_extra_fields(id, extra_fields, result_id)
         set_fields(id.SIB, SIB_fields, result_id)
 
-        result_id['soort'] = lookup_prsidb_soort_code[result_id['soort']]
+        result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
 
         result.append(result_id)
 
