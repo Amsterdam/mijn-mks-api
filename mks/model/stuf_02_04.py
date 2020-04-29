@@ -3,6 +3,8 @@ import re
 
 from bs4 import Tag
 
+from mks.model.gba import lookup_prsidb_soort_code
+
 
 def _set_value(tag, field, target):
     key = field.get('save_as', field['name'])
@@ -301,6 +303,32 @@ def extract_address(persoon_tree: Tag):
         result['straatnaam'] = result['officieleStraatnaam']
     del result['officieleStraatnaam']
 
+    return result
+
+
+def extract_identiteitsbewijzen(persoon_tree: Tag):
+    result = []
+    fields = [
+        {'name': 'nummerIdentiteitsbewijs', 'parser': to_string},
+    ]
+    extra_fields = [
+        {'name': 'datumAfgifte', 'parser': to_date},
+        {'name': 'datumEindeGeldigheid', 'parser': to_date},
+    ]
+    SIB_fields = [
+        {'name': 'soort', 'parser': to_int},
+    ]
+
+    identiteitsbewijzen = persoon_tree.find_all('PRSIDB')
+    for id in identiteitsbewijzen:
+        result_id = {}
+        set_fields(id, fields, result_id)
+        set_extra_fields(id, extra_fields, result_id)
+        set_fields(id.SIB, SIB_fields, result_id)
+
+        result_id['soort'] = lookup_prsidb_soort_code[result_id['soort']]
+
+        result.append(result_id)
 
     return result
 
@@ -315,6 +343,7 @@ def extract_data(persoon_tree: Tag):
         'verbintenis': verbintenissen['verbintenis'],
         'verbintenisHistorisch': verbintenissen['verbintenisHistorisch'],
         'adres': extract_address(persoon_tree),
+        'identiteitsbewijzen': extract_identiteitsbewijzen(persoon_tree),
     }
 
 
