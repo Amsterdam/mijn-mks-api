@@ -3,8 +3,10 @@ import asyncio
 import os
 from datetime import datetime
 from io import BytesIO
+from random import randint
 
 import httpx
+import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import etree
@@ -21,28 +23,28 @@ log_response = False
 
 
 def _get_soap_request(bsn: str) -> str:
+    ref = str(randint(100000, 999999))
+
+    referentienummer = f'MijnAmsterdam||{ref}'
     context = {
         "bsn": bsn,
         "applicatie": BRP_APPLICATIE,
         "gebruiker": BRP_GEBRUIKER,
-        "referentienummer": "test2",
+        "referentienummer": referentienummer,
         "timestamp": datetime.now().strftime('%Y%m%d%H%M%S') + '00'
     }
     return stuf_0204_template.render(context)
 
 
-async def _get_response(mks_brp_url, soap_request):
-    headers = {
+def _get_response(mks_brp_url, soap_request):
+    print("get response!!!!!!!!!!!!!!!!!!!")
+    session = requests.Session()
+    session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
-        'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0310/npsLv01Integraal',
-    }
-    cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
-    async with httpx.AsyncClient(cert=cert, timeout=20) as client:
-        post_response = await client.post(
-            "https://mks01.acc.amsterdam.nl:8443/CGS/StUF/services/BGSynchroon",
-            data=soap_request,
-            headers=headers)
-        return post_response
+    })
+    session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
+    post_response = session.post(mks_brp_url, data=soap_request)
+    return post_response.content
 
 
 def extract(xml_data):
@@ -53,21 +55,13 @@ def extract(xml_data):
 
 
 def get_0204(bsn: str):
-    # print("start 204")
     soap_request = _get_soap_request(bsn)
-    response = await _get_response(MKS_ENDPOINT, soap_request)
+    response = _get_response(MKS_ENDPOINT, soap_request)
 
-    # print("end 204")
     if log_response:
-        content_bytesio = BytesIO(response.content)
+        content_bytesio = BytesIO(response)
         tree = etree.parse(content_bytesio)
         formatted_xml = etree.tostring(tree, pretty_print=True)
         print(formatted_xml.decode())
-    # return post_response.content
 
-    return extract(response.content)
-
-
-# async def a():
-#     await asyncio.gather(get_0204("307741837"))
-# await a()
+    return extract(response)

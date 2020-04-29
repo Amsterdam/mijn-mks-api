@@ -158,8 +158,8 @@ class Model0204Tests(TestCase):
         self.maxDiff = None
         self.assertEqual(result, self.get_result())
 
-    #TODO: vertrokken onbekend waarheen
+    # TODO: vertrokken onbekend waarheen
 
-    #TODO: opgemaakte naam test
+    # TODO: opgemaakte naam test
 
-    #TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
+    # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam

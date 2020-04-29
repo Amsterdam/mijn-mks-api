@@ -5,7 +5,7 @@ import connexion
 from flask import request
 from tma_saml import SamlVerificationException
 
-from mks.service import mks_client_03_10
+from mks.service import mks_client_03_10, mks_client_02_04
 from mks.service.exceptions import NoResultException, InvalidBSNException
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import get_bsn_from_request
@@ -28,7 +28,7 @@ def log_and_generate_response(exception, response_type='json'):
         return onbekende_fout().to_dict(), 500
 
 
-def get_bsn_from_saml_token() -> int:
+def get_bsn_from_saml_token() -> str:
     """
     Check if the BSN retrieved from the token is actually valid and parse it
     to int format for further use
@@ -43,7 +43,8 @@ def get_bsn_from_saml_token() -> int:
 def get_brp():
     try:
         log_request(request)
-        response = mks_client_03_10.get_response(get_bsn_from_saml_token())
+        # response = mks_client_03_10.get_response(get_bsn_from_saml_token())
+        response = mks_client_02_04.get_0204(get_bsn_from_saml_token())
         return response
     except Exception as e:
         return log_and_generate_response(e)
