@@ -12,15 +12,15 @@ lookup_geslacht = {
     'V': 'Vrouw',
 }
 lookup_prsidb_soort_code = {
-    1: "Paspoort",
-    2: "Europese identiteitskaart",
-    3: "Toeristenkaart",
-    4: "Gemeentelijke identiteitskaart",
-    5: "Verblijfsdocument van de Vreemdelingendienst",
-    6: "Vluchtelingenpaspoort",
-    7: "Vreemdelingenpaspoort",
-    8: "Paspoort met aantekening vergunning tot verblijf",
-    9: "(electronisch) W-document",
+    1: "paspoort",
+    2: "europese identiteitskaart",
+    3: "toeristenkaart",
+    4: "gemeentelijke identiteitskaart",
+    5: "verblijfsdocument van de vreemdelingendienst",
+    6: "vluchtelingenpaspoort",
+    7: "vreemdelingenpaspoort",
+    8: "paspoort met aantekening vergunning tot verblijf",
+    9: "(electronisch) w-document",
 }  # https://www.gemmaonline.nl/images/gemmaonline/c/cb/GFO_Basisgegevens.pdf
 
 
