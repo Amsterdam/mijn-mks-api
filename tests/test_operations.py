@@ -30,18 +30,14 @@ class BRPTests(TestCase):
         return app
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
-    # @patch('mks.service.mks_client_03_10._get_response', get_xml_response_fixture)
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
     def test_get_brp(self):
         data = get_brp()
-        # data = json.loads(data_str)
-        print(">>", data)
         self.assertEqual(data['persoon']['bsn'], '1')
         self.assertEqual(data['verbintenis']['soortVerbintenisOmschrijving'], 'Huwelijk')
         self.assertEqual(len(data['kinderen']), 1)
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
-    # @patch('mks.service.mks_client_03_10._get_response', get_xml_response_fixture)
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
     def test_api_call(self):
         response = self.client.get('/brp/brp')
