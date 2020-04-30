@@ -334,7 +334,7 @@ class StuffReply:
 
             result.append(kind)
 
-        result.sort(key=lambda x: x['geboortedatum'])
+        result.sort(key=lambda x: x['geboortedatum'] or datetime.datetime.min)
 
         return result
 
@@ -371,7 +371,7 @@ class StuffReply:
 
             result.append(ouder)
 
-        result.sort(key=lambda x: x['geboortedatum'])
+        result.sort(key=lambda x: x['geboortedatum'] or datetime.datetime.min)
 
         return result
 
