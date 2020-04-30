@@ -159,6 +159,8 @@ def extract_kinderen_data(persoon_tree: Tag):
 
         result.append(result_kind)
 
+    result.sort(key=lambda x: x['geboortedatum'] or datetime.min)
+
     return result
 
 
@@ -196,6 +198,8 @@ def extract_parents_data(persoon_tree: Tag):
         set_extra_fields(ouder.PRS, parent_extra_fields, result_parent)
 
         result.append(result_parent)
+
+    result.sort(key=lambda x: x['geboortedatum'] or datetime.min)
 
     return result
 

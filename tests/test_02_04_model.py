@@ -63,6 +63,23 @@ class Model0204Tests(TestCase):
             'ouders': [
                 {
                     'adellijkeTitelPredikaat': None,
+                    'bsn': '4567890123',
+                    'geboorteLand': '7035',
+                    'geboortedatum': datetime(1951, 1, 1, 0, 0),
+                    'geboortelandnaam': 'Japan',
+                    'geboorteplaats': 'Tokio',
+                    'geboorteplaatsnaam': 'Osaka',
+                    'geslachtsaanduiding': 'M',
+                    'geslachtsnaam': 'Jansen',
+                    'omschrijvingAdellijkeTitel': None,
+                    'omschrijvingGeslachtsaanduiding': 'Man',
+                    'opgemaakteNaam': None,
+                    'overlijdensdatum': None,
+                    'voornamen': 'Thomas',
+                    'voorvoegselGeslachtsnaam': None
+                },
+                {
+                    'adellijkeTitelPredikaat': None,
                     'bsn': '345678901',
                     'geboorteLand': '5012',
                     'geboortedatum': datetime(1961, 1, 1, 0, 0),
@@ -78,23 +95,6 @@ class Model0204Tests(TestCase):
                     'voornamen': 'Iep',
                     'voorvoegselGeslachtsnaam': None
                 },
-                {
-                    'adellijkeTitelPredikaat': None,
-                    'bsn': '4567890123',
-                    'geboorteLand': '7035',
-                    'geboortedatum': datetime(1951, 1, 1, 0, 0),
-                    'geboortelandnaam': 'Japan',
-                    'geboorteplaats': 'Tokio',
-                    'geboorteplaatsnaam': 'Osaka',
-                    'geslachtsaanduiding': 'M',
-                    'geslachtsnaam': 'Jansen',
-                    'omschrijvingAdellijkeTitel': None,
-                    'omschrijvingGeslachtsaanduiding': 'Man',
-                    'opgemaakteNaam': None,
-                    'overlijdensdatum': None,
-                    'voornamen': 'Thomas',
-                    'voorvoegselGeslachtsnaam': None
-                }
             ],
             'persoon': {
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
