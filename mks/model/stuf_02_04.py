@@ -114,7 +114,7 @@ def extract_persoon_data(persoon_tree: Tag):
     set_extra_fields(persoon_tree.extraElementen, prs_extra_fields, result)
 
     # vertrokken onbekend waarheen
-    if result['codeLandEmigratie'] == 0:
+    if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
         result['vertrokkenOnbekendWaarheen'] = True
     else:
         result['vertrokkenOnbekendWaarheen'] = False
@@ -214,7 +214,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     ]
 
     verbintenis_extra_fields = [
-        {'name': 'soortVerbintenisOmschrijving', 'parser': to_string},
+        {'name': 'soortVerbintenisOmschrijving', 'parser': to_string, 'optional': True},
         {'name': 'landnaamSluiting', 'parser': to_string},
         {'name': 'plaatsnaamSluitingOmschrijving', 'parser': to_string},
     ]
