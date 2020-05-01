@@ -253,7 +253,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
     # if there is no datumSluiting, sort using the minimum datetime
     # sort to be sure that the most current partner is on top
-    result.sort(key=lambda x: x['datumSluiting'] or datetime.datetime.min)
+    result.sort(key=lambda x: x['datumSluiting'] or datetime.min)
 
     current_results = [p for p in result if not p['datumOntbinding']]
 
