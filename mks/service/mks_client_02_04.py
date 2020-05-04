@@ -35,7 +35,6 @@ def _get_soap_request(bsn: str) -> str:
 
 
 def _get_response(mks_brp_url, soap_request):
-    print("get response!!!!!!!!!!!!!!!!!!!")
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
