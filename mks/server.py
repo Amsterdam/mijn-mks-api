@@ -9,7 +9,7 @@ from mks import operations
 from mks.service.config import SENTRY_DSN
 
 logging.basicConfig(level=logging.INFO)
-webapp = connexion.App(__name__, swagger_url='todo')
+webapp = connexion.App(__name__, options={"swagger_ui": False})
 
 if SENTRY_DSN:
     sentry_sdk.init(
