@@ -113,6 +113,8 @@ def extract_persoon_data(persoon_tree: Tag):
     set_fields(persoon_tree, prs_fields, result)
     set_extra_fields(persoon_tree.extraElementen, prs_extra_fields, result)
 
+    opgemaakte_naam(result)
+
     # vertrokken onbekend waarheen
     if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
         result['vertrokkenOnbekendWaarheen'] = True
@@ -246,8 +248,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
         set_fields(verb, verbintenis_fields, result_verbintenis)
         set_extra_fields(verb, verbintenis_extra_fields, result_verbintenis)
 
-        set_fields(verb.PRS, partner_fields, result_verbintenis)
-        set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis)
+        set_fields(verb.PRS, partner_fields, result_verbintenis['persoon'])
+        set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis['persoon'])
 
         result.append(result_verbintenis)
 
@@ -356,6 +358,29 @@ def extract_data(persoon_tree: Tag):
         'adres': extract_address(persoon_tree),
         'identiteitsbewijzen': extract_identiteitsbewijzen(persoon_tree),
     }
+
+
+def opgemaakte_naam(persoon):
+    # in case we do not have the opgemaakteNaam
+    if persoon['opgemaakteNaam'] is None:
+        if persoon['voornamen']:
+            initials_list = ['%s.' % i[0] for i in persoon['voornamen'].split(' ')]
+            initials = ''.join(initials_list)
+        else:
+            initials = ""
+
+        if persoon['geslachtsnaam']:
+            geslachtsnaam = persoon['geslachtsnaam']
+            if persoon['voorvoegselGeslachtsnaam']:
+                geslachtsnaam = f'{persoon["voorvoegselGeslachtsnaam"]} {geslachtsnaam}'
+        else:
+            geslachtsnaam = ""
+
+        if initials and geslachtsnaam:
+            persoon['opgemaakteNaam'] = "%s %s" % (initials, geslachtsnaam)
+        else:
+            # if all fails.. A standard text will have to do
+            persoon['opgemaakteNaam'] = "Mijn gegevens"
 
 
 def to_date(value):

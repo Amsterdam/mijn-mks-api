@@ -119,32 +119,33 @@ class Model0204Tests(TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'omschrijvingIndicatieGeheim': 'Geen beperking',
-                'opgemaakteNaam': None,
+                'opgemaakteNaam': "J. den Boer",
                 'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Johannes',
                 'voorvoegselGeslachtsnaam': 'den'
             },
             'verbintenis': {
-                'adellijkeTitelPredikaat': None,
-                'bsn': '234567890',
                 'datumOntbinding': None,
                 'datumSluiting': datetime(2000, 1, 1, 0, 0),
-                'geboortedatum': datetime(1970, 1, 1, 0, 0),
-                'geboortelandnaam': 'Nederland',
-                'geboorteplaatsnaam': 'Neer',
-                'geslachtsaanduiding': 'V',
-                'geslachtsnaam': 'Bakker',
                 'landnaamSluiting': 'Nederland',
-                'omschrijvingAdellijkeTitel': 'Jonkvrouw',
-                'omschrijvingGeslachtsaanduiding': 'Vrouw',
-                'opgemaakteNaam': None,
-                'overlijdensdatum': None,
-                'persoon': {},
+                'persoon': {
+                    'adellijkeTitelPredikaat': None,
+                    'bsn': '234567890',
+                    'geboortedatum': datetime(1970, 1, 1, 0, 0),
+                    'geboortelandnaam': 'Nederland',
+                    'geboorteplaatsnaam': 'Neer',
+                    'geslachtsaanduiding': 'V',
+                    'geslachtsnaam': 'Bakker',
+                    'omschrijvingAdellijkeTitel': 'Jonkvrouw',
+                    'omschrijvingGeslachtsaanduiding': 'Vrouw',
+                    'opgemaakteNaam': None,
+                    'overlijdensdatum': None,
+                    'voornamen': 'Wilhelmina',
+                    'voorvoegselGeslachtsnaam': 'van'
+                },
                 'plaatsnaamSluitingOmschrijving': 'Amsterdam',
                 'soortVerbintenis': None,
                 'soortVerbintenisOmschrijving': 'Huwelijk',
-                'voornamen': 'Wilhelmina',
-                'voorvoegselGeslachtsnaam': 'van'
             },
             'verbintenisHistorisch': []
         }
@@ -157,9 +158,5 @@ class Model0204Tests(TestCase):
 
         self.maxDiff = None
         self.assertEqual(result, self.get_result())
-
-    # TODO: vertrokken onbekend waarheen
-
-    # TODO: opgemaakte naam test
 
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
