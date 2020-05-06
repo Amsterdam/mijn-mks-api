@@ -107,7 +107,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
         {'name': 'omschrijvingIndicatieGeheim', 'parser': to_string},
         {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},   # TODO Niet optional: niet geauthoriserd
-        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
     ]
 
     set_fields(persoon_tree, prs_fields, result)
@@ -121,7 +121,7 @@ def extract_persoon_data(persoon_tree: Tag):
     else:
         result['vertrokkenOnbekendWaarheen'] = False
 
-    result['nationaliteiten'] = get_nationaliteiten(persoon_tree.PRS.find_all('NAT'))
+    result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('NAT'))
 
     return result
 
@@ -242,6 +242,12 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
     verbintenissen = persoon_tree.find_all('PRSPRSHUW')
 
+    if verbintenissen[0].get("xsi:nil") == 'true':
+        return {
+            'verbintenis': {},
+            'verbintenisHistorisch': {},
+        }
+
     for verb in verbintenissen:
         result_verbintenis = {'persoon': {}}
 
@@ -284,7 +290,7 @@ def extract_address(persoon_tree: Tag):
     ]
 
     address_fields = [
-        {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
+        {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam', 'optional': True},
         {'name': 'postcode', 'parser': as_postcode},
         {'name': 'huisnummer', 'parser': to_string},
         {'name': 'huisletter', 'parser': to_string, 'optional': True},
