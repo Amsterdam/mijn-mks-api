@@ -339,6 +339,10 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
     ]
 
     identiteitsbewijzen = persoon_tree.find_all('PRSIDB')
+
+    if identiteitsbewijzen[0].get("xsi:nil") == 'true':
+        return []
+
     for id in identiteitsbewijzen:
         result_id = {}
         set_fields(id, fields, result_id)
