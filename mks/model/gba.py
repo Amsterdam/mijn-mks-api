@@ -11,6 +11,18 @@ lookup_geslacht = {
     'M': 'Man',
     'V': 'Vrouw',
 }
+lookup_prsidb_soort_code = {
+    1: "paspoort",
+    2: "europese identiteitskaart",
+    3: "toeristenkaart",
+    4: "gemeentelijke identiteitskaart",
+    5: "verblijfsdocument van de vreemdelingendienst",
+    6: "vluchtelingenpaspoort",
+    7: "vreemdelingenpaspoort",
+    8: "paspoort met aantekening vergunning tot verblijf",
+    9: "(electronisch) w-document",
+}  # https://www.gemmaonline.nl/images/gemmaonline/c/cb/GFO_Basisgegevens.pdf
+
 
 # Source:
 # https://publicaties.rvig.nl/Landelijke_tabellen/Landelijke_tabellen_32_t_m_60_excl_tabel_35/Landelijke_Tabellen_32_t_m_60_in_csv_formaat
