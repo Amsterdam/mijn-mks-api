@@ -90,6 +90,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'voornamen', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_date},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
+        {'name': 'codeGemeenteVanInschrijving', 'parser': to_int,},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_is_amsterdam, 'save_as': 'mokum'},
         {'name': 'geboorteplaats', 'parser': to_string},
         {'name': 'codeGeboorteland', 'parser': to_string},
