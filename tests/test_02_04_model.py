@@ -100,6 +100,7 @@ class Model0204Tests(TestCase):
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
                 'bsn': '1',
                 'codeGeboorteland': '6030',
+                'codeGemeenteVanInschrijving': 363,
                 'codeLandEmigratie': None,
                 'datumVertrekUitNederland': None,
                 'geboortedatum': datetime(1968, 1, 1, 0, 0),
