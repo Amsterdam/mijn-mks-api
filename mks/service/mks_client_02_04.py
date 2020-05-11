@@ -1,5 +1,6 @@
-
+import logging
 import os
+import time
 from datetime import datetime
 from io import BytesIO
 from random import randint
@@ -41,7 +42,13 @@ def _get_response(mks_brp_url, soap_request):
         'Content-Type': 'text/xml;charset=UTF-8',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
-    post_response = session.post(mks_brp_url, data=soap_request, timeout=REQUEST_TIMEOUT)
+    request_start = time.time()
+    try:
+        post_response = session.post(mks_brp_url, data=soap_request, timeout=REQUEST_TIMEOUT)
+    finally:
+        request_end = time.time()
+        logging.info(f"request took: '{request_end - request_start}' seconds")
+
     return post_response.content
 
 
