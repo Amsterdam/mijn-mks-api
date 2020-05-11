@@ -10,7 +10,8 @@ from jinja2 import Template
 from lxml import etree
 
 from mks.model.stuf_02_04 import extract_data
-from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, MKS_ENDPOINT
+from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
+    MKS_ENDPOINT, REQUEST_TIMEOUT
 
 STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "stuf02.04.xml.jinja2")
 with open(STUF0204TEMPLATE_PATH) as fp:
@@ -40,7 +41,7 @@ def _get_response(mks_brp_url, soap_request):
         'Content-Type': 'text/xml;charset=UTF-8',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
-    post_response = session.post(mks_brp_url, data=soap_request)
+    post_response = session.post(mks_brp_url, data=soap_request, timeout=REQUEST_TIMEOUT)
     return post_response.content
 
 

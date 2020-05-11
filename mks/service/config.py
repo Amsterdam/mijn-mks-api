@@ -5,6 +5,8 @@ import os
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(PROJECT_DIR, '..', 'model', 'static')
 
+REQUEST_TIMEOUT = 12
+
 BRP_APPLICATIE = os.getenv('BRP_APPLICATIE')
 BRP_GEBRUIKER = os.getenv('BRP_GEBRUIKER')
 MKS_CLIENT_CERT = os.getenv('MKS_CLIENT_CERT')
