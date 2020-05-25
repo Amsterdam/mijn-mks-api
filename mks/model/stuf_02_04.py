@@ -21,8 +21,7 @@ def _set_value(tag, field, target):
 
     # print("tag", tag)
     value = tag.string
-    if value is None:
-        return None
+    # if value is None:
     #     if field.get('optional') is not True:
     #         raise AttributeError(f"Tag has no value: {field['name']} {tag}")
 
