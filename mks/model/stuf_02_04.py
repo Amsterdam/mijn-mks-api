@@ -336,7 +336,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         {'name': 'datumEindeGeldigheid', 'parser': to_date, 'save_as': 'datumAfloop'},
     ]
     SIB_fields = [
-        {'name': 'soort', 'parser': to_string, 'save_as': 'documentType'},
+        {'name': 'soort', 'parser': to_int, 'save_as': 'documentType'},
     ]
 
     identiteitsbewijzen = persoon_tree.find_all('PRSIDB')
@@ -350,11 +350,11 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         set_extra_fields(id, extra_fields, result_id)
         set_fields(id.SIB, SIB_fields, result_id)
 
-        logging.info(f"type {result_id['documentType']}")
-
-        result_id['documentType'] = int(result_id['documentType'])
-        logging.info(f"type 2 {result_id['documentType']}")
-        result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
+        try:
+            result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
+        except Exception as e:
+            logging.info(f"unknown document type {result_id['documentType']} {type(e)} {e}")
+            result_id['documentType'] = None  # unknown doc type
 
         result.append(result_id)
 
