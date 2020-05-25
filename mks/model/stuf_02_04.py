@@ -22,8 +22,9 @@ def _set_value(tag, field, target):
     # print("tag", tag)
     value = tag.string
     if value is None:
-        if field.get('optional') is not True:
-            raise AttributeError(f"Tag has no value: {field['name']} {tag}")
+        return None
+    #     if field.get('optional') is not True:
+    #         raise AttributeError(f"Tag has no value: {field['name']} {tag}")
 
     # put value through specified parser function
     value = field['parser'](value)
