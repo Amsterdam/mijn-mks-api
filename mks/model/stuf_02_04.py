@@ -87,7 +87,7 @@ def extract_persoon_data(persoon_tree: Tag):
     prs_fields = [
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
         {'name': 'geslachtsnaam', 'parser': to_string},
-        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voornamen', 'parser': to_string, 'optional': True},
         {'name': 'geboortedatum', 'parser': to_date},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_int},
@@ -132,7 +132,7 @@ def extract_kinderen_data(persoon_tree: Tag):
 
     knd_fields = [
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
-        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voornamen', 'parser': to_string, 'optional': True},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
@@ -172,7 +172,7 @@ def extract_parents_data(persoon_tree: Tag):
 
     parent_fields = [
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn', 'optional': True},
-        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voornamen', 'parser': to_string, 'optional': True},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
@@ -224,7 +224,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
     partner_fields = [
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
-        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voornamen', 'parser': to_string, 'optional': True},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
