@@ -40,7 +40,7 @@ def _get_response(mks_brp_url, soap_request):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
-        'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0310/npsLv01Integraal',
+        'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0204/beantwoordSynchroneVraagIntegraal',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
     request_start = time.time()
