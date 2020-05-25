@@ -105,7 +105,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
         {'name': 'gemeentenaamInschrijving', 'parser': to_string},
         {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
-        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string, 'optional': True},
         {'name': 'omschrijvingIndicatieGeheim', 'parser': to_string},
         {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},   # TODO Niet optional: niet geauthoriserd
         {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
@@ -187,7 +187,7 @@ def extract_parents_data(persoon_tree: Tag):
         {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
         {'name': 'geboortelandnaam', 'parser': to_string},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
-        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string, 'optional': True},
         {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
     ]
 
@@ -237,7 +237,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
         {'name': 'geboortelandnaam', 'parser': to_string},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
-        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string, 'optional': True},
         {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
     ]
 
