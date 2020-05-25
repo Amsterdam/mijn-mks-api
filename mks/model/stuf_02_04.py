@@ -171,7 +171,7 @@ def extract_parents_data(persoon_tree: Tag):
     result = []
 
     parent_fields = [
-        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn', 'optional': True},
         {'name': 'voornamen', 'parser': to_string},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
         {'name': 'geslachtsnaam', 'parser': to_string},
