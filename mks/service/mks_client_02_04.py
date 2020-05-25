@@ -54,10 +54,13 @@ def _get_response(mks_brp_url, soap_request):
 
 
 def extract(xml_data):
-    tree = BeautifulSoup(xml_data, features='lxml-xml')
-    person = tree.Body.PRS
-    data = extract_data(person)
-    return data
+    try:
+        tree = BeautifulSoup(xml_data, features='lxml-xml')
+        person = tree.Body.PRS
+        data = extract_data(person)
+        return data
+    except Exception as e:
+        logging.error(f"Error: {type(e)} {e}")
 
 
 def get_0204(bsn: str):

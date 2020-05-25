@@ -65,11 +65,10 @@ def get_nationaliteiten(nationaliteiten: Tag):
         {'name': 'code', 'parser': to_int},
     ]
 
-    nationaliteit = {}
     for nat in nationaliteiten:
+        nationaliteit = {}
         set_fields(nat, fields, nationaliteit)
-
-    result.append(nationaliteit)
+        result.append(nationaliteit)
 
     # For people not living in Amsterdam we dont get the omschrijving.
     # Quick fix for Nederlandse if code == 1
