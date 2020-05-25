@@ -353,6 +353,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         logging.info(f"type {result_id['documentType']}")
 
         result_id['documentType'] = int(result_id['documentType'])
+        logging.info(f"type 2 {result_id['documentType']}")
         result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
 
         result.append(result_id)
