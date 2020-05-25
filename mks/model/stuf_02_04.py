@@ -354,7 +354,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
             result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
         except Exception as e:
             logging.info(f"unknown document type {result_id['documentType']} {type(e)} {e}")
-            result_id['documentType'] = None  # unknown doc type
+            result_id['documentType'] = "Onbekend (10)"  # unknown doc type
 
         result.append(result_id)
 
