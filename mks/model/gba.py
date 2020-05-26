@@ -21,6 +21,7 @@ lookup_prsidb_soort_code = {
     7: "vreemdelingenpaspoort",
     8: "paspoort met aantekening vergunning tot verblijf",
     9: "(electronisch) w-document",
+    10: "nederlandse identiteitskaart",
 }  # https://www.gemmaonline.nl/images/gemmaonline/c/cb/GFO_Basisgegevens.pdf
 
 
