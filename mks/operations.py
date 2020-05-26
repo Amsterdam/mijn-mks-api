@@ -4,6 +4,7 @@ import logging
 import connexion
 from flask import request
 from tma_saml import SamlVerificationException
+from urllib3.exceptions import ConnectTimeoutError
 
 from mks.service import mks_client_02_04
 from mks.service.exceptions import NoResultException, InvalidBSNException
@@ -24,6 +25,9 @@ def log_and_generate_response(exception, response_type='json'):
         return 'No results', 400
     elif e_type == InvalidBSNException:
         return 'Ongeldig BSN', 400
+    elif e_type == ConnectTimeoutError:
+        logging.error("MKS Timeout")
+        return 'Source connection timeout', 500
     else:
         return onbekende_fout().to_dict(), 500
 
