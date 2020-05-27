@@ -4,7 +4,7 @@ import re
 
 from bs4 import Tag
 
-from mks.model.gba import lookup_prsidb_soort_code
+from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht
 
 
 def _set_value(tag, field, target):
@@ -124,6 +124,8 @@ def extract_persoon_data(persoon_tree: Tag):
 
     result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('NAT'))
 
+    set_omschrijving_geslachtsaanduiding(result)
+
     return result
 
 
@@ -159,6 +161,8 @@ def extract_kinderen_data(persoon_tree: Tag):
         result_kind = {}
         set_fields(kind.PRS, knd_fields, result_kind)
         set_extra_fields(kind.PRS, knd_extra_fields, result_kind)
+
+        set_omschrijving_geslachtsaanduiding(result_kind)
 
         result.append(result_kind)
 
@@ -199,6 +203,8 @@ def extract_parents_data(persoon_tree: Tag):
         result_parent = {}
         set_fields(ouder.PRS, parent_fields, result_parent)
         set_extra_fields(ouder.PRS, parent_extra_fields, result_parent)
+
+        set_omschrijving_geslachtsaanduiding(result_parent)
 
         result.append(result_parent)
 
@@ -257,6 +263,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         set_fields(verb.PRS, partner_fields, result_verbintenis['persoon'])
         set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis['persoon'])
+
+        set_omschrijving_geslachtsaanduiding(result_verbintenis['persoon'])
 
         result.append(result_verbintenis)
 
@@ -396,6 +404,19 @@ def opgemaakte_naam(persoon):
         else:
             # if all fails.. A standard text will have to do
             persoon['opgemaakteNaam'] = "Mijn gegevens"
+
+
+def set_omschrijving_geslachtsaanduiding(target):
+    # if omschrijving is set, do not attempt to overwrite it.
+    if target.get('omschrijvingGeslachtsaanduiding'):
+        return
+
+    if not target.get('geslachtsaanduiding'):
+        target['omschrijvingGeslachtsaanduiding'] = None
+        return
+
+    geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
+    target['omschrijvingGeslachtsaanduiding'] = geslacht
 
 
 def to_date(value):
