@@ -75,7 +75,7 @@ def get_nationaliteiten(nationaliteiten: Tag):
     # Quick fix for Nederlandse if code == 1
     for n in result:
         if not n['omschrijving']:
-            if n['code'] == "1":
+            if n['code'] == 1:
                 n['omschrijving'] = "Nederlandse"
 
     return result
