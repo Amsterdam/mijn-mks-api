@@ -7,7 +7,7 @@ from tma_saml import SamlVerificationException
 from urllib3.exceptions import ConnectTimeoutError
 
 from mks.service import mks_client_02_04
-from mks.service.exceptions import NoResultException, InvalidBSNException
+from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import get_bsn_from_request
 
@@ -28,6 +28,8 @@ def log_and_generate_response(exception, response_type='json'):
     elif e_type == ConnectTimeoutError:
         logging.error("MKS Timeout")
         return 'Source connection timeout', 500
+    elif e_type == ExtractionError:
+        return 'Extraction error', 500
     else:
         return onbekende_fout().to_dict(), 500
 
