@@ -38,7 +38,8 @@ class Model0204Tests(TestCase):
                     'datumAfloop': datetime(2019, 1, 1, 0, 0),
                     'datumUitgifte': datetime(2014, 1, 1, 0, 0),
                     'documentNummer': 'PP01XYZ34',
-                    'documentType': 'paspoort'
+                    'documentType': 'paspoort',
+                    'id': 'c70f3a393d5e773974c047a0372c053982df07f257eaaa6802a426f209a64400'
                 }
             ],
             'kinderen': [

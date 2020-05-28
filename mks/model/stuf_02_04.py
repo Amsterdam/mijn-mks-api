@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 import re
+from hashlib import sha256
 
 from bs4 import Tag
 
@@ -363,6 +364,10 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         except Exception as e:
             logging.info(f"unknown document type {result_id['documentType']} {type(e)} {e}")
             result_id['documentType'] = f"onbekend type ({result_id['documentType']})"  # unknown doc type
+
+        hash = sha256()
+        hash.update(result_id['documentNummer'].encode())
+        result_id['id'] = hash.hexdigest()
 
         result.append(result_id)
 
