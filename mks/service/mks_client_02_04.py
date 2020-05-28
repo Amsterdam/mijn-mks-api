@@ -13,6 +13,7 @@ from lxml import etree
 from mks.model.stuf_02_04 import extract_data
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
+from mks.service.exceptions import ExtractionError
 
 STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "stuf02.04.xml.jinja2")
 with open(STUF0204TEMPLATE_PATH) as fp:
@@ -61,6 +62,7 @@ def extract(xml_data):
         return data
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
+        raise ExtractionError()
 
 
 def get_0204(bsn: str):

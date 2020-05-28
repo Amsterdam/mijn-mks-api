@@ -16,10 +16,8 @@ class ServiceException(Exception):
         return {'error_code': self.code, 'error_message': self.message}
 
 
-class ServiceExceptionTemplate(object):
-    def __init__(self, code, template):
-        self.code = code
-        self.template = template
+class ExtractionError(Exception):
+    pass
 
 
 class NoResultException(Exception):
