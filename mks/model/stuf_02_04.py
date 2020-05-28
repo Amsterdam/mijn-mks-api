@@ -102,7 +102,7 @@ def extract_persoon_data(persoon_tree: Tag):
 
     prs_extra_fields = [
         {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
-        {'name': 'geboortelandnaam', 'parser': to_string},
+        {'name': 'geboortelandnaam', 'parser': to_string, 'save_as': 'geboorteLand'},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
         {'name': 'gemeentenaamInschrijving', 'parser': to_string},
         {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
