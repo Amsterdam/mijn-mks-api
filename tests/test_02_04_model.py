@@ -100,12 +100,12 @@ class Model0204Tests(TestCase):
             'persoon': {
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
                 'bsn': '1',
-                'codeGeboorteland': '6030',
                 'codeGemeenteVanInschrijving': 363,
                 'codeLandEmigratie': None,
                 'datumVertrekUitNederland': None,
                 'geboortedatum': datetime(1968, 1, 1, 0, 0),
                 'geboortelandnaam': 'Nederland',
+                'geboorteLand': '6030',
                 'geboorteplaats': '947',
                 'geboorteplaatsnaam': 'Neer',
                 'gemeentenaamInschrijving': 'Amsterdam',

@@ -94,7 +94,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_int},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_is_amsterdam, 'save_as': 'mokum'},
         {'name': 'geboorteplaats', 'parser': to_string},
-        {'name': 'codeGeboorteland', 'parser': to_string},
+        {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'codeLandEmigratie', 'parser': to_int, 'optional': True},
         {'name': 'datumVertrekUitNederland', 'parser': to_date, 'optional': True},
@@ -102,7 +102,7 @@ def extract_persoon_data(persoon_tree: Tag):
 
     prs_extra_fields = [
         {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
-        {'name': 'geboortelandnaam', 'parser': to_string, 'save_as': 'geboorteLand'},
+        {'name': 'geboortelandnaam', 'parser': to_string},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
         {'name': 'gemeentenaamInschrijving', 'parser': to_string},
         {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
@@ -442,25 +442,20 @@ def _set_value_on(target_dict, sourcefield, targetfield, lookup):
     # if omschrijving is set, do not attempt to overwrite it.
     print(sourcefield, targetfield)
     if target_dict.get(targetfield):
-        print(1, target_dict.get(targetfield))
         return
 
     if not target_dict[sourcefield]:
-        print(2)
         target_dict[targetfield] = None
         return
 
     try:
         # int() fails when it is already filled with a name. Use that instead
         key = "%04d" % int(target_dict[sourcefield])
-        print(3)
     except ValueError:
-        print(4)
         target_dict[targetfield] = target_dict[sourcefield]
         return
 
     value = lookup.get(key, None)
-    print(5, value)
     if value:
         target_dict[targetfield] = value
 
