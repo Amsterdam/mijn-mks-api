@@ -5,7 +5,7 @@ from hashlib import sha256
 
 from bs4 import Tag
 
-from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht
+from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 
 
 def _set_value(tag, field, target):
@@ -126,6 +126,8 @@ def extract_persoon_data(persoon_tree: Tag):
     result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('NAT'))
 
     set_omschrijving_geslachtsaanduiding(result)
+    set_geboorteLandnaam(result)
+    set_geboorteplaatsNaam(result)
 
     return result
 
@@ -164,6 +166,8 @@ def extract_kinderen_data(persoon_tree: Tag):
         set_extra_fields(kind.PRS, knd_extra_fields, result_kind)
 
         set_omschrijving_geslachtsaanduiding(result_kind)
+        set_geboorteLandnaam(result_kind)
+        set_geboorteplaatsNaam(result_kind)
 
         result.append(result_kind)
 
@@ -206,6 +210,8 @@ def extract_parents_data(persoon_tree: Tag):
         set_extra_fields(ouder.PRS, parent_extra_fields, result_parent)
 
         set_omschrijving_geslachtsaanduiding(result_parent)
+        set_geboorteLandnaam(result_parent)
+        set_geboorteplaatsNaam(result_parent)
 
         result.append(result_parent)
 
@@ -422,6 +428,41 @@ def set_omschrijving_geslachtsaanduiding(target):
 
     geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
     target['omschrijvingGeslachtsaanduiding'] = geslacht
+
+
+def set_geboorteplaatsNaam(target):
+    _set_value_on(target, 'geboorteplaats', 'geboorteplaatsnaam', lookup_gemeenten)
+
+
+def set_geboorteLandnaam(target):
+    _set_value_on(target, 'geboorteLand', 'geboortelandnaam', lookup_landen)
+
+
+def _set_value_on(target_dict, sourcefield, targetfield, lookup):
+    # if omschrijving is set, do not attempt to overwrite it.
+    print(sourcefield, targetfield)
+    if target_dict.get(targetfield):
+        print(1, target_dict.get(targetfield))
+        return
+
+    if not target_dict[sourcefield]:
+        print(2)
+        target_dict[targetfield] = None
+        return
+
+    try:
+        # int() fails when it is already filled with a name. Use that instead
+        key = "%04d" % int(target_dict[sourcefield])
+        print(3)
+    except ValueError:
+        print(4)
+        target_dict[targetfield] = target_dict[sourcefield]
+        return
+
+    value = lookup.get(key, None)
+    print(5, value)
+    if value:
+        target_dict[targetfield] = value
 
 
 def to_date(value):
