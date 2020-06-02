@@ -20,7 +20,7 @@ class Model0204Tests(TestCase):
     def get_result(self):
         return {
             'adres': {
-                'adresInOnderzoek': False,
+                'inOnderzoek': False,
                 'begindatumVerblijf': datetime(2009, 1, 1, 0, 0),
                 'centroidXCoordinaat': None,
                 'centroidYCoordinaat': None,
