@@ -12,20 +12,9 @@ def _set_value(tag, field, target):
     key = field.get('save_as', field['name'])
 
     if tag is None:
-        # tag is not in the data
-        if field.get('optional') is not True:
-            raise AttributeError(f"Tag not found in data: {field['name']}")
-        else:
-            # TODO: make me dry
-            value = field['parser'](None)  # make sure it goes through the parser, bool's need this
-            target[key] = value
-            return
-
-    # print("tag", tag)
-    value = tag.string
-    # if value is None:
-    #     if field.get('optional') is not True:
-    #         raise AttributeError(f"Tag has no value: {field['name']} {tag}")
+        value = None
+    else:
+        value = tag.string
 
     # put value through specified parser function
     value = field['parser'](value)
@@ -88,28 +77,28 @@ def extract_persoon_data(persoon_tree: Tag):
     prs_fields = [
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
         {'name': 'geslachtsnaam', 'parser': to_string},
-        {'name': 'voornamen', 'parser': to_string, 'optional': True},
+        {'name': 'voornamen', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_date},
-        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_int},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_is_amsterdam, 'save_as': 'mokum'},
         {'name': 'geboorteplaats', 'parser': to_string},
         {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
-        {'name': 'codeLandEmigratie', 'parser': to_int, 'optional': True},
-        {'name': 'datumVertrekUitNederland', 'parser': to_date, 'optional': True},
+        {'name': 'codeLandEmigratie', 'parser': to_int},
+        {'name': 'datumVertrekUitNederland', 'parser': to_date},
     ]
 
     prs_extra_fields = [
-        {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
+        {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': to_string},
         {'name': 'geboortelandnaam', 'parser': to_string},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
         {'name': 'gemeentenaamInschrijving', 'parser': to_string},
-        {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
-        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string, 'optional': True},
+        {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string},
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
         {'name': 'omschrijvingIndicatieGeheim', 'parser': to_string},
-        {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},   # TODO Niet optional: niet geauthoriserd
-        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
+        {'name': 'opgemaakteNaam', 'parser': to_string},
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
     ]
 
     set_fields(persoon_tree, prs_fields, result)
@@ -137,23 +126,23 @@ def extract_kinderen_data(persoon_tree: Tag):
 
     knd_fields = [
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
-        {'name': 'voornamen', 'parser': to_string, 'optional': True},
-        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_date},
         {'name': 'geboorteplaats', 'parser': to_string},
         {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
-        {'name': 'datumOverlijden', 'parser': to_date, 'optional': True, 'save_as': 'overlijdensdatum'},  # Save as name to match 3.10
+        {'name': 'datumOverlijden', 'parser': to_date, 'save_as': 'overlijdensdatum'},  # Save as name to match 3.10
         {'name': 'adellijkeTitelPredikaat', 'parser': to_string, 'optional': True},
     ]
 
     knd_extra_fields = [
-        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
         {'name': 'geboortelandnaam', 'parser': to_string},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
         {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
-        {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
+        {'name': 'opgemaakteNaam', 'parser': to_string},
     ]
 
     kinderen = persoon_tree.find_all('PRSPRSKND')
@@ -180,24 +169,24 @@ def extract_parents_data(persoon_tree: Tag):
     result = []
 
     parent_fields = [
-        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn', 'optional': True},
-        {'name': 'voornamen', 'parser': to_string, 'optional': True},
-        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
+        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_date},
         {'name': 'geboorteplaats', 'parser': to_string},
         {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},  # save as to match 3.10
-        {'name': 'datumOverlijden', 'parser': to_date, 'optional': True, 'save_as': 'overlijdensdatum'},  # save as to match 3.10'
-        {'name': 'adellijkeTitelPredikaat', 'parser': to_string, 'optional': True},
+        {'name': 'datumOverlijden', 'parser': to_date, 'save_as': 'overlijdensdatum'},  # save as to match 3.10'
+        {'name': 'adellijkeTitelPredikaat', 'parser': to_string},
     ]
 
     parent_extra_fields = [
-        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
         {'name': 'geboortelandnaam', 'parser': to_string},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
-        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string, 'optional': True},
-        {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'opgemaakteNaam', 'parser': to_string},
     ]
 
     parents = persoon_tree.find_all('PRSPRSOUD')
@@ -225,33 +214,33 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
     verbintenis_fields = [
         {'name': 'datumSluiting', 'parser': to_date},
-        {'name': 'datumOntbinding', 'parser': to_date, 'optional': True},
-        {'name': 'soortVerbintenis', 'parser': to_string, 'optional': True},
+        {'name': 'datumOntbinding', 'parser': to_date},
+        {'name': 'soortVerbintenis', 'parser': to_string},
     ]
 
     verbintenis_extra_fields = [
-        {'name': 'soortVerbintenisOmschrijving', 'parser': to_string, 'optional': True},
+        {'name': 'soortVerbintenisOmschrijving', 'parser': to_string},
         {'name': 'landnaamSluiting', 'parser': to_string},
         {'name': 'plaatsnaamSluitingOmschrijving', 'parser': to_string},
     ]
 
     partner_fields = [
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
-        {'name': 'voornamen', 'parser': to_string, 'optional': True},
-        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string, 'optional': True},
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_date},
-        {'name': 'datumOverlijden', 'parser': to_date, 'optional': True, 'save_as': 'overlijdensdatum'},  # to match 3.10 field name
-        {'name': 'adellijkeTitelPredikaat', 'parser': to_string, 'optional': True},
+        {'name': 'datumOverlijden', 'parser': to_date, 'save_as': 'overlijdensdatum'},  # to match 3.10 field name
+        {'name': 'adellijkeTitelPredikaat', 'parser': to_string},
     ]
 
     partner_extra_fields = [
-        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string, 'optional': True},
+        {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
         {'name': 'geboortelandnaam', 'parser': to_string},
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
-        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string, 'optional': True},
-        {'name': 'opgemaakteNaam', 'parser': to_string, 'optional': True},  # TODO Niet optional: niet geauthoriserd
+        {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
+        {'name': 'opgemaakteNaam', 'parser': to_string},
     ]
 
     verbintenissen = persoon_tree.find_all('PRSPRSHUW')
@@ -298,28 +287,28 @@ def extract_address(persoon_tree: Tag):
     result = {}
     fiels_tijdvak = [
         {'name': 'begindatumRelatie', 'parser': to_date, 'save_as': 'begindatumVerblijf'},
-        {'name': 'einddatumRelatie', 'parser': to_date, 'save_as': 'einddatumVerblijf', 'optional': True},
+        {'name': 'einddatumRelatie', 'parser': to_date, 'save_as': 'einddatumVerblijf'},
 
     ]
     extra_fields = [
-        {'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'adresInOnderzoek', 'optional': True},
+        {'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'adresInOnderzoek'},
     ]
 
     address_fields = [
-        {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam', 'optional': True},
+        {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
         {'name': 'postcode', 'parser': as_postcode},
         {'name': 'huisnummer', 'parser': to_string},
-        {'name': 'huisletter', 'parser': to_string, 'optional': True},
-        {'name': 'huisnummertoevoeging', 'parser': to_string, 'optional': True},
+        {'name': 'huisletter', 'parser': to_string},
+        {'name': 'huisnummertoevoeging', 'parser': to_string},
         {'name': 'straatnaam', 'parser': to_string},
 
-        {'name': 'centroidXCoordinaat', 'parser': to_string, 'optional': True},
-        {'name': 'centroidYCoordinaat', 'parser': to_string, 'optional': True},
-        {'name': 'centroidZCoordinaat', 'parser': to_string, 'optional': True},
+        {'name': 'centroidXCoordinaat', 'parser': to_string},
+        {'name': 'centroidYCoordinaat', 'parser': to_string},
+        {'name': 'centroidZCoordinaat', 'parser': to_string},
     ]
     address_extra_fields = [
-        {'name': 'authentiekeWoonplaatsnaam', 'parser': to_string, 'optional': True},
-        {'name': 'officieleStraatnaam', 'parser': to_string, 'optional': True},
+        {'name': 'authentiekeWoonplaatsnaam', 'parser': to_string},
+        {'name': 'officieleStraatnaam', 'parser': to_string},
     ]
 
     address = persoon_tree.find('PRSADRINS')
