@@ -291,7 +291,7 @@ def extract_address(persoon_tree: Tag):
 
     ]
     extra_fields = [
-        {'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'adresInOnderzoek'},
+        {'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'inOnderzoek'},
     ]
 
     address_fields = [
