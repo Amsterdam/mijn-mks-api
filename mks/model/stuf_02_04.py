@@ -447,7 +447,6 @@ def set_geboorteLandnaam(target):
 
 def _set_value_on(target_dict, sourcefield, targetfield, lookup):
     # if omschrijving is set, do not attempt to overwrite it.
-    print(sourcefield, targetfield)
     if target_dict.get(targetfield):
         return
 
