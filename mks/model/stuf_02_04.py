@@ -372,14 +372,32 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
 def extract_data(persoon_tree: Tag):
     verbintenissen = extract_verbintenis_data(persoon_tree)
 
+    persoon = extract_persoon_data(persoon_tree)
+
+    isAmsterdammer = persoon['mokum']
+    adres = extract_address(persoon_tree)
+
+    if isAmsterdammer:
+        kinderen = extract_kinderen_data(persoon_tree)
+        ouders = extract_parents_data(persoon_tree)
+        verbintenis = verbintenissen['verbintenis']
+        verbintenis_historisch = verbintenissen['verbintenisHistorisch']
+        identiteitsbewijzen = extract_identiteitsbewijzen(persoon_tree)
+    else:
+        kinderen = []
+        ouders = []
+        verbintenis = {}
+        verbintenis_historisch = []
+        identiteitsbewijzen = []
+
     return {
-        "persoon": extract_persoon_data(persoon_tree),
-        "kinderen": extract_kinderen_data(persoon_tree),
-        "ouders": extract_parents_data(persoon_tree),
-        'verbintenis': verbintenissen['verbintenis'],
-        'verbintenisHistorisch': verbintenissen['verbintenisHistorisch'],
-        'adres': extract_address(persoon_tree),
-        'identiteitsbewijzen': extract_identiteitsbewijzen(persoon_tree),
+        "persoon": persoon,
+        "kinderen": kinderen,
+        "ouders": ouders,
+        'verbintenis': verbintenis,
+        'verbintenisHistorisch': verbintenis_historisch,
+        'adres': adres,
+        'identiteitsbewijzen': identiteitsbewijzen,
     }
 
 
@@ -429,7 +447,6 @@ def set_geboorteLandnaam(target):
 
 def _set_value_on(target_dict, sourcefield, targetfield, lookup):
     # if omschrijving is set, do not attempt to overwrite it.
-    print(sourcefield, targetfield)
     if target_dict.get(targetfield):
         return
 
