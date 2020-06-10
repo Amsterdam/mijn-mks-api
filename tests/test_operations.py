@@ -35,6 +35,7 @@ class BRPTests(TestCase):
         data = get_brp()
         self.assertEqual(data['persoon']['bsn'], '1')
         self.assertEqual(data['verbintenis']['soortVerbintenisOmschrijving'], 'Huwelijk')
+        self.assertEqual(data['crossRefNummer'], 'test2')
         self.assertEqual(len(data['kinderen']), 1)
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
@@ -46,6 +47,7 @@ class BRPTests(TestCase):
         self.assertEqual(json['persoon']['bsn'], '1')
         self.assertEqual(json['adres']['huisletter'], None)
         self.assertEqual(json['adres']['postcode'], '1011 PN')
+        self.assertEqual(json['crossRefNummer'], 'test2')
 
 
 class StatusTest(TestCase):

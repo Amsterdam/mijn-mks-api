@@ -59,6 +59,7 @@ def extract(xml_data):
         tree = BeautifulSoup(xml_data, features='lxml-xml')
         person = tree.Body.PRS
         data = extract_data(person)
+        data['crossRefNummer'] = tree.find('crossRefNummer').text
         return data
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
