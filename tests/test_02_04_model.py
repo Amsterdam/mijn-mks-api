@@ -148,6 +148,7 @@ class Model0204Tests(TestCase):
                 'plaatsnaamSluitingOmschrijving': 'Amsterdam',
                 'soortVerbintenis': None,
                 'soortVerbintenisOmschrijving': 'Huwelijk',
+                'redenOntbindingOmschrijving': None,
             },
             'verbintenisHistorisch': []
         }
