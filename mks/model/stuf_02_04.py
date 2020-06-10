@@ -313,7 +313,7 @@ def extract_address(persoon_tree: Tag):
     ]
 
     address = persoon_tree.find('PRSADRINS')
-    if address[0].get("xsi:nil") == 'true':
+    if address.get("xsi:nil") == 'true':
         return {}
 
     set_fields(address.tijdvakRelatie, fiels_tijdvak, result)
