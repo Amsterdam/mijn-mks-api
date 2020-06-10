@@ -134,7 +134,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         {'name': 'geboorteplaats', 'parser': to_string},
         {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
         {'name': 'datumOverlijden', 'parser': to_date, 'save_as': 'overlijdensdatum'},  # Save as name to match 3.10
-        {'name': 'adellijkeTitelPredikaat', 'parser': to_string, 'optional': True},
+        {'name': 'adellijkeTitelPredikaat', 'parser': to_string},
     ]
 
     knd_extra_fields = [
