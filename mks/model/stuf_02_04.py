@@ -333,10 +333,6 @@ def extract_address(persoon_tree: Tag):
 
 
 def extract_identiteitsbewijzen(persoon_tree: Tag):
-    # wanneer er meerdere NIET VERLOPEN kaarten van 1 type zijn, pak je ze allemaal
-    # wanneer er meerdere VERLOPEN kaarten van 1 type zijn, pak je alleen de nieuwste
-    # wanneer er meerdere VERLOPEN en NIET VERLOPEN kaarten zijn van 1 type pak je alleen de NIET VERLOPEN documenten
-
     result = []
     result_per_type = defaultdict(list)
     fields = [
