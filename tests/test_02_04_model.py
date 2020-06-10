@@ -140,7 +140,6 @@ class Model0204Tests(TestCase):
                     'geslachtsnaam': 'Bakker',
                     'omschrijvingAdellijkeTitel': 'Jonkvrouw',
                     'omschrijvingGeslachtsaanduiding': 'Vrouw',
-                    'redenOntbindingOmschrijving': None,
                     'opgemaakteNaam': None,
                     'overlijdensdatum': None,
                     'voornamen': 'Wilhelmina',
@@ -149,6 +148,7 @@ class Model0204Tests(TestCase):
                 'plaatsnaamSluitingOmschrijving': 'Amsterdam',
                 'soortVerbintenis': None,
                 'soortVerbintenisOmschrijving': 'Huwelijk',
+                'redenOntbindingOmschrijving': None,
             },
             'verbintenisHistorisch': []
         }
