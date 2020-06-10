@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from datetime import datetime
 import re
 from hashlib import sha256
@@ -337,6 +338,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
     # wanneer er meerdere VERLOPEN en NIET VERLOPEN kaarten zijn van 1 type pak je alleen de NIET VERLOPEN documenten
 
     result = []
+    result_per_type = defaultdict(list)
     fields = [
         {'name': 'nummerIdentiteitsbewijs', 'parser': to_string, 'save_as': 'documentNummer'},
     ]
@@ -369,10 +371,21 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         hash.update(result_id['documentNummer'].encode())
         result_id['id'] = hash.hexdigest()
 
-        result.append(result_id)
+        result_per_type[result_id['documentType']].append(result_id)
 
-    # no expired documents
-    # result = [id for id in result if id['datumAfloop'] > datetime.now()]
+    now = datetime.now()
+
+    # pick current documents per type, if there isn't a valid one per type, pick the last one
+    for type in result_per_type:
+        docs = result_per_type[type]
+        docs.sort(key=lambda x: x['datumAfloop'] or datetime.min)
+        # select current ones
+        new_list = [i for i in docs if i['datumAfloop'] > now]
+        # no current docs, pick last one
+        if not new_list:
+            new_list = [docs[-1]]
+
+        result.extend(new_list)
 
     return result
 

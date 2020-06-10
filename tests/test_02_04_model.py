@@ -35,11 +35,25 @@ class Model0204Tests(TestCase):
             },
             'identiteitsbewijzen': [
                 {
+                    'datumAfloop': datetime(2014, 1, 1, 0, 0),
+                    'datumUitgifte': datetime(2009, 1, 1, 0, 0),
+                    'documentNummer': 'IT01XYZ34',
+                    'documentType': 'nederlandse identiteitskaart',
+                    'id': '3f5c281593d265ea6afd7c6371d91310beccf9489f5d4ecdfddfbcee9c70ad6e'
+                },
+                {
                     'datumAfloop': datetime(2025, 1, 1, 0, 0),
                     'datumUitgifte': datetime(2014, 1, 1, 0, 0),
                     'documentNummer': 'PP01XYZ35',
                     'documentType': 'paspoort',
                     'id': '25ee19ff7a9ecb909e2bf5ca044f1f05d2998c98888893c2075240c25a2ff0f7'
+                },
+                {
+                    'datumAfloop': datetime(2025, 1, 1, 0, 0),
+                    'datumUitgifte': datetime(2014, 1, 1, 0, 0),
+                    'documentNummer': 'PP12XYZ456',
+                    'documentType': 'paspoort',
+                    'id': '52882470c67c063666cedc1e01779db71d186c2cffd818af2dd5d8ec021677f0'
                 }
             ],
             'kinderen': [
