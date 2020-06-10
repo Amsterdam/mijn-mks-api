@@ -140,6 +140,7 @@ class Model0204Tests(TestCase):
                     'geslachtsnaam': 'Bakker',
                     'omschrijvingAdellijkeTitel': 'Jonkvrouw',
                     'omschrijvingGeslachtsaanduiding': 'Vrouw',
+                    'redenOntbindingOmschrijving': None,
                     'opgemaakteNaam': None,
                     'overlijdensdatum': None,
                     'voornamen': 'Wilhelmina',

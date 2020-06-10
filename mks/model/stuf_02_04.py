@@ -241,6 +241,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'geboorteplaatsnaam', 'parser': to_string},
         {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
         {'name': 'opgemaakteNaam', 'parser': to_string},
+        {'name': 'redenOntbindingOmschrijving', 'parser': to_string},
     ]
 
     verbintenissen = persoon_tree.find_all('PRSPRSHUW')
