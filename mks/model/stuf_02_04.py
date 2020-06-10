@@ -331,6 +331,10 @@ def extract_address(persoon_tree: Tag):
 
 
 def extract_identiteitsbewijzen(persoon_tree: Tag):
+    # wanneer er meerdere NIET VERLOPEN kaarten van 1 type zijn, pak je ze allemaal
+    # wanneer er meerdere VERLOPEN kaarten van 1 type zijn, pak je alleen de nieuwste
+    # wanneer er meerdere VERLOPEN en NIET VERLOPEN kaarten zijn van 1 type pak je alleen de NIET VERLOPEN documenten
+
     result = []
     fields = [
         {'name': 'nummerIdentiteitsbewijs', 'parser': to_string, 'save_as': 'documentNummer'},
@@ -365,6 +369,9 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         result_id['id'] = hash.hexdigest()
 
         result.append(result_id)
+
+    # no expired documents
+    # result = [id for id in result if id['datumAfloop'] > datetime.now()]
 
     return result
 

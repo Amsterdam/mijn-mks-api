@@ -35,11 +35,11 @@ class Model0204Tests(TestCase):
             },
             'identiteitsbewijzen': [
                 {
-                    'datumAfloop': datetime(2019, 1, 1, 0, 0),
+                    'datumAfloop': datetime(2025, 1, 1, 0, 0),
                     'datumUitgifte': datetime(2014, 1, 1, 0, 0),
-                    'documentNummer': 'PP01XYZ34',
+                    'documentNummer': 'PP01XYZ35',
                     'documentType': 'paspoort',
-                    'id': 'c70f3a393d5e773974c047a0372c053982df07f257eaaa6802a426f209a64400'
+                    'id': '25ee19ff7a9ecb909e2bf5ca044f1f05d2998c98888893c2075240c25a2ff0f7'
                 }
             ],
             'kinderen': [
