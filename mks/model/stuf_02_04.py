@@ -224,7 +224,6 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'soortVerbintenisOmschrijving', 'parser': to_string},
         {'name': 'landnaamSluiting', 'parser': to_string},
         {'name': 'plaatsnaamSluitingOmschrijving', 'parser': to_string},
-        {'name': 'redenOntbinding', 'parser': to_int},
     ]
 
     partner_fields = [
