@@ -97,6 +97,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string},
         {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
         {'name': 'omschrijvingIndicatieGeheim', 'parser': to_string},
+        {'name': 'indicatieGeheim', 'parser': to_bool},
         {'name': 'opgemaakteNaam', 'parser': to_string},
         {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
     ]
@@ -223,7 +224,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'soortVerbintenisOmschrijving', 'parser': to_string},
         {'name': 'landnaamSluiting', 'parser': to_string},
         {'name': 'plaatsnaamSluitingOmschrijving', 'parser': to_string},
-        {'name': 'redenOntbindingOmschrijving', 'parser': to_string},
+        {'name': 'redenOntbinding', 'parser': to_int},
     ]
 
     partner_fields = [
@@ -250,7 +251,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     if verbintenissen[0].get("xsi:nil") == 'true':
         return {
             'verbintenis': {},
-            'verbintenisHistorisch': {},
+            'verbintenisHistorisch': [],
         }
 
     for verb in verbintenissen:
@@ -278,6 +279,9 @@ def extract_verbintenis_data(persoon_tree: Tag):
         current_result = {}
 
     past_result = [p for p in result if p['datumOntbinding']]
+
+    for result in past_result:
+        set_redenOntbindingOmschrijvingCustom(result)
 
     return {
         'verbintenis': current_result,
@@ -440,6 +444,17 @@ def set_omschrijving_geslachtsaanduiding(target):
 
     geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
     target['omschrijvingGeslachtsaanduiding'] = geslacht
+
+
+def set_redenOntbindingOmschrijvingCustom(target):
+    reden = target['redenOntbinding']
+
+    if reden == 1:
+        target['redenOntbindingOmschrijving'] = 'Overlijden'
+    elif reden == 2:
+        target['redenOntbindingOmschrijving'] = 'Echtscheiding'
+    else:
+        target['redenOntbindingOmschrijving'] = None
 
 
 def set_geboorteplaatsNaam(target):

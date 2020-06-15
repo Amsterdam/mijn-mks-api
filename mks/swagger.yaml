@@ -111,6 +111,8 @@ definitions:
         type: string
       omschrijvingIndicatieGeheim:
         type: string
+      indicatieGeheim:
+        type: boolean
   adres:
     title: adres
     type: object
@@ -147,6 +149,8 @@ definitions:
       soortVerbintenis:
         $ref: '#/definitions/SoortVerbintenis'
       soortVerbintenisOmschrijving:
+        type: string
+      redenOntbindingOmschrijving:
         type: string
       persoon:
         $ref: '#/definitions/partnerpersoon'
