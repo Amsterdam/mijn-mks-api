@@ -121,6 +121,7 @@ class Model0204Tests(TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'omschrijvingIndicatieGeheim': 'Geen beperking',
+                'indicatieGeheim': False,
                 'opgemaakteNaam': "J. den Boer",
                 'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Johannes',

@@ -217,7 +217,6 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'datumSluiting', 'parser': to_date},
         {'name': 'datumOntbinding', 'parser': to_date},
         {'name': 'soortVerbintenis', 'parser': to_string},
-        {'name': 'redenOntbinding', 'parser': to_string},
     ]
 
     verbintenis_extra_fields = [
@@ -264,6 +263,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis['persoon'])
 
+        set_reden_ontbinding_omschrijving_custom(result_verbintenis, verb.find('redenOntbinding'))
+
         result.append(result_verbintenis)
 
     # if there is no datumSluiting, sort using the minimum datetime
@@ -278,9 +279,6 @@ def extract_verbintenis_data(persoon_tree: Tag):
         current_result = {}
 
     past_result = [p for p in result if p['datumOntbinding']]
-
-    for result in past_result:
-        set_redenOntbindingOmschrijvingCustom(result)
 
     return {
         'verbintenis': current_result,
@@ -445,15 +443,15 @@ def set_omschrijving_geslachtsaanduiding(target):
     target['omschrijvingGeslachtsaanduiding'] = geslacht
 
 
-def set_redenOntbindingOmschrijvingCustom(target):
-    reden = target['redenOntbinding']
+def set_reden_ontbinding_omschrijving_custom(verbintenis, reden):
+    reden_custom = None
 
     if reden == '1':
-        target['redenOntbindingOmschrijving'] = 'Overlijden'
+        reden_custom = 'Overlijden'
     elif reden == '2':
-        target['redenOntbindingOmschrijving'] = 'Echtscheiding'
-    else:
-        target['redenOntbindingOmschrijving'] = None
+        reden_custom = 'Echtscheiding'
+
+    verbintenis['redenOntbindingOmschrijving'] = reden_custom
 
 
 def set_geboorteplaatsNaam(target):
