@@ -446,9 +446,10 @@ def set_omschrijving_geslachtsaanduiding(target):
 def set_reden_ontbinding_omschrijving_custom(verbintenis, reden):
     reden_custom = None
 
-    if reden == '1':
+    # see also: https://publicaties.rvig.nl/dsresource?objectid=17001&type=org
+    if reden == 'O':
         reden_custom = 'Overlijden'
-    elif reden == '2':
+    elif reden == 'S':
         reden_custom = 'Echtscheiding'
 
     verbintenis['redenOntbindingOmschrijving'] = reden_custom
