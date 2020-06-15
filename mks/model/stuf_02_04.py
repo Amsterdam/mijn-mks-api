@@ -365,7 +365,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         try:
             result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
         except Exception as e:
-            logging.info(f"unknown document type {result_id['documentType']} {doc_type(e)} {e}")
+            logging.info(f"unknown document type {result_id['documentType']} {type(e)} {e}")
             result_id['documentType'] = f"onbekend type ({result_id['documentType']})"  # unknown doc type
 
         hash = sha256()
