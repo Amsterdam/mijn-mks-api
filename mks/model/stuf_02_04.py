@@ -263,7 +263,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis['persoon'])
 
-        set_reden_ontbinding_omschrijving_custom(result_verbintenis, verb.find('redenOntbinding'))
+        set_reden_ontbinding_omschrijving_custom(result_verbintenis, verb.find('redenOntbinding').string)
 
         result.append(result_verbintenis)
 
