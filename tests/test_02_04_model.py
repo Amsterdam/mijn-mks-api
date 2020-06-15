@@ -163,7 +163,6 @@ class Model0204Tests(TestCase):
         self.maxDiff = None
         self.assertEqual(result, self.get_result())
 
-
     def test_reden_ontbinding(self):
         with open(RESPONSE_PATH) as fp:
             tree = BeautifulSoup(fp.read(), features='lxml-xml')
@@ -178,5 +177,5 @@ class Model0204Tests(TestCase):
 
         self.assertEqual(result['verbintenis']['redenOntbindingOmschrijving'], None)
 
-
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
+    
