@@ -121,6 +121,7 @@ class Model0204Tests(TestCase):
                 'omschrijvingBurgerlijkeStaat': 'Gehuwd',
                 'omschrijvingGeslachtsaanduiding': 'Man',
                 'omschrijvingIndicatieGeheim': 'Geen beperking',
+                'indicatieGeheim': False,
                 'opgemaakteNaam': "J. den Boer",
                 'vertrokkenOnbekendWaarheen': False,
                 'voornamen': 'Johannes',
@@ -148,7 +149,7 @@ class Model0204Tests(TestCase):
                 'plaatsnaamSluitingOmschrijving': 'Amsterdam',
                 'soortVerbintenis': None,
                 'soortVerbintenisOmschrijving': 'Huwelijk',
-                'redenOntbindingOmschrijving': None,
+                'redenOntbindingOmschrijving': 'Overlijden',
             },
             'verbintenisHistorisch': []
         }
@@ -161,5 +162,19 @@ class Model0204Tests(TestCase):
 
         self.maxDiff = None
         self.assertEqual(result, self.get_result())
+
+    def test_reden_ontbinding(self):
+        with open(RESPONSE_PATH) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        tree.find('redenOntbinding').string = 'S'
+        result = extract_data(tree)
+
+        self.assertEqual(result['verbintenis']['redenOntbindingOmschrijving'], 'Echtscheiding')
+
+        tree.find('redenOntbinding').string = 'X'
+        result = extract_data(tree)
+
+        self.assertEqual(result['verbintenis']['redenOntbindingOmschrijving'], None)
 
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam

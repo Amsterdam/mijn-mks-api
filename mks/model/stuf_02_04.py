@@ -97,6 +97,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string},
         {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
         {'name': 'omschrijvingIndicatieGeheim', 'parser': to_string},
+        {'name': 'indicatieGeheim', 'parser': to_bool},
         {'name': 'opgemaakteNaam', 'parser': to_string},
         {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
     ]
@@ -222,7 +223,6 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'soortVerbintenisOmschrijving', 'parser': to_string},
         {'name': 'landnaamSluiting', 'parser': to_string},
         {'name': 'plaatsnaamSluitingOmschrijving', 'parser': to_string},
-        {'name': 'redenOntbindingOmschrijving', 'parser': to_string},
     ]
 
     partner_fields = [
@@ -249,7 +249,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     if verbintenissen[0].get("xsi:nil") == 'true':
         return {
             'verbintenis': {},
-            'verbintenisHistorisch': {},
+            'verbintenisHistorisch': [],
         }
 
     for verb in verbintenissen:
@@ -262,6 +262,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
         set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis['persoon'])
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis['persoon'])
+
+        set_reden_ontbinding_omschrijving_custom(result_verbintenis, verb.find('redenOntbinding').string)
 
         result.append(result_verbintenis)
 
@@ -439,6 +441,18 @@ def set_omschrijving_geslachtsaanduiding(target):
 
     geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
     target['omschrijvingGeslachtsaanduiding'] = geslacht
+
+
+def set_reden_ontbinding_omschrijving_custom(verbintenis, reden):
+    reden_custom = None
+
+    # see also: https://publicaties.rvig.nl/dsresource?objectid=17001&type=org
+    if reden == 'O':
+        reden_custom = 'Overlijden'
+    elif reden == 'S':
+        reden_custom = 'Echtscheiding'
+
+    verbintenis['redenOntbindingOmschrijving'] = reden_custom
 
 
 def set_geboorteplaatsNaam(target):
