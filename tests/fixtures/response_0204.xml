@@ -97,19 +97,61 @@
           </BG:PRSADRINS>
 
           <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-            <BG:nummerIdentiteitsbewijs>PP01XYZ34</BG:nummerIdentiteitsbewijs>
+            <BG:nummerIdentiteitsbewijs>IT01XYZ34</BG:nummerIdentiteitsbewijs>
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            </BG:tijdvakRelatie>
+            <BG:extraElementen>
+              <StUF:extraElement naam="datumAfgifte">20090101</StUF:extraElement>
+              <StUF:extraElement naam="datumEindeGeldigheid">20140101</StUF:extraElement>
+            </BG:extraElementen>
+            <BG:SIB soortEntiteit="T">
+              <BG:soort>10</BG:soort>
+            </BG:SIB>
+          </BG:PRSIDB>
+          <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:nummerIdentiteitsbewijs>PP01XYZ35</BG:nummerIdentiteitsbewijs>
             <BG:tijdvakRelatie>
               <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
               <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
             </BG:tijdvakRelatie>
             <BG:extraElementen>
               <StUF:extraElement naam="datumAfgifte">20140101</StUF:extraElement>
-              <StUF:extraElement naam="datumEindeGeldigheid">20190101</StUF:extraElement>
+              <StUF:extraElement naam="datumEindeGeldigheid">20250101</StUF:extraElement>
             </BG:extraElementen>
             <BG:SIB soortEntiteit="T">
               <BG:soort>1</BG:soort>
             </BG:SIB>
           </BG:PRSIDB>
+          <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:nummerIdentiteitsbewijs>PP01XYZ34</BG:nummerIdentiteitsbewijs>
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            </BG:tijdvakRelatie>
+            <BG:extraElementen>
+              <StUF:extraElement naam="datumAfgifte">20090101</StUF:extraElement>
+              <StUF:extraElement naam="datumEindeGeldigheid">20140101</StUF:extraElement>
+            </BG:extraElementen>
+            <BG:SIB soortEntiteit="T">
+              <BG:soort>1</BG:soort>
+            </BG:SIB>
+          </BG:PRSIDB>
+            <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+                <BG:nummerIdentiteitsbewijs>PP12XYZ456</BG:nummerIdentiteitsbewijs>
+                <BG:tijdvakRelatie>
+                    <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                </BG:tijdvakRelatie>
+                <BG:extraElementen>
+                    <StUF:extraElement naam="datumAfgifte">20140101</StUF:extraElement>
+                    <StUF:extraElement naam="datumEindeGeldigheid">20250101</StUF:extraElement>
+                </BG:extraElementen>
+                <BG:SIB soortEntiteit="T">
+                    <BG:soort>1</BG:soort>
+                </BG:SIB>
+            </BG:PRSIDB>
 
           <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
             <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend"/>
