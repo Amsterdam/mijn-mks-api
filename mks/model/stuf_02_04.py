@@ -365,7 +365,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         try:
             result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
         except Exception as e:
-            logging.info(f"unknown document type {result_id['documentType']} {type(e)} {e}")
+            logging.info(f"unknown document type {result_id['documentType']} {doc_type(e)} {e}")
             result_id['documentType'] = f"onbekend type ({result_id['documentType']})"  # unknown doc type
 
         hash = sha256()
@@ -377,8 +377,8 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
     now = datetime.now()
 
     # pick current documents per type, if there isn't a valid one per type, pick the last one
-    for type in result_per_type:
-        docs = result_per_type[type]
+    for doc_type in result_per_type:
+        docs = result_per_type[doc_type]
         docs.sort(key=lambda x: x['datumAfloop'] or datetime.min)
         # select current ones
         new_list = [i for i in docs if i['datumAfloop'] > now]
