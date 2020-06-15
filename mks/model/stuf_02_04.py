@@ -448,9 +448,9 @@ def set_omschrijving_geslachtsaanduiding(target):
 def set_redenOntbindingOmschrijvingCustom(target):
     reden = target['redenOntbinding']
 
-    if reden == 1:
+    if reden == '1':
         target['redenOntbindingOmschrijving'] = 'Overlijden'
-    elif reden == 2:
+    elif reden == '2':
         target['redenOntbindingOmschrijving'] = 'Echtscheiding'
     else:
         target['redenOntbindingOmschrijving'] = None
