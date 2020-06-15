@@ -216,6 +216,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'datumSluiting', 'parser': to_date},
         {'name': 'datumOntbinding', 'parser': to_date},
         {'name': 'soortVerbintenis', 'parser': to_string},
+        {'name': 'redenOntbinding', 'parser': to_string},
     ]
 
     verbintenis_extra_fields = [

@@ -133,6 +133,7 @@
             <BG:plaatsSluiting>363</BG:plaatsSluiting>
             <BG:landSluiting>6030</BG:landSluiting>
             <BG:datumOntbinding xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:redenOntbinding>O</BG:redenOntbinding>
             <BG:tijdvakRelatie>
               <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
               <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
