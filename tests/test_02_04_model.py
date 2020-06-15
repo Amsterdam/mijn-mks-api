@@ -178,4 +178,3 @@ class Model0204Tests(TestCase):
         self.assertEqual(result['verbintenis']['redenOntbindingOmschrijving'], None)
 
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
-    
