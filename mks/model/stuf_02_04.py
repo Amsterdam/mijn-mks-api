@@ -88,6 +88,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'codeLandEmigratie', 'parser': to_int},
         {'name': 'datumVertrekUitNederland', 'parser': to_date},
+        {'name': 'indicatieGeheim', 'parser': to_bool},
     ]
 
     prs_extra_fields = [
@@ -98,7 +99,6 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'omschrijvingBurgerlijkeStaat', 'parser': to_string},
         {'name': 'omschrijvingGeslachtsaanduiding', 'parser': to_string},
         {'name': 'omschrijvingIndicatieGeheim', 'parser': to_string},
-        {'name': 'indicatieGeheim', 'parser': to_bool},
         {'name': 'opgemaakteNaam', 'parser': to_string},
         {'name': 'omschrijvingAdellijkeTitel', 'parser': to_string},
     ]
@@ -531,8 +531,14 @@ def to_string(value):
 
 
 def to_bool(value):
+    print("bool", [value])
     if not value:
         return False
+    elif value == "0":
+        return False
+    elif value == "1":
+        return True
+
     return True
 
 
