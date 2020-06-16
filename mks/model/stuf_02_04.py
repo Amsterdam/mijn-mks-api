@@ -109,10 +109,10 @@ def extract_persoon_data(persoon_tree: Tag):
     opgemaakte_naam(result)
 
     # vertrokken onbekend waarheen
-    if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
-        result['vertrokkenOnbekendWaarheen'] = True
-    else:
-        result['vertrokkenOnbekendWaarheen'] = False
+    result['vertrokkenOnbekendWaarheen'] = False
+    if result['mokum']:
+        if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
+            result['vertrokkenOnbekendWaarheen'] = True
 
     result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('NAT'))
 
@@ -287,16 +287,16 @@ def extract_verbintenis_data(persoon_tree: Tag):
     }
 
 
-def extract_address(persoon_tree: Tag):
+def extract_address(persoon_tree: Tag, is_amsterdammer):
     result = {}
     fiels_tijdvak = [
         {'name': 'begindatumRelatie', 'parser': to_date, 'save_as': 'begindatumVerblijf'},
         {'name': 'einddatumRelatie', 'parser': to_date, 'save_as': 'einddatumVerblijf'},
 
     ]
-    extra_fields = [
-        {'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'inOnderzoek'},
-    ]
+    extra_fields = []
+    if is_amsterdammer:
+        extra_fields.append({'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'inOnderzoek'})
 
     address_fields = [
         {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
@@ -397,7 +397,7 @@ def extract_data(persoon_tree: Tag):
     persoon = extract_persoon_data(persoon_tree)
 
     isAmsterdammer = persoon['mokum']
-    adres = extract_address(persoon_tree)
+    adres = extract_address(persoon_tree, is_amsterdammer=persoon['mokum'])
 
     if isAmsterdammer:
         kinderen = extract_kinderen_data(persoon_tree)
