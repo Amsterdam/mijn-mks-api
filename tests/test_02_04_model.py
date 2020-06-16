@@ -177,6 +177,17 @@ class Model0204Tests(TestCase):
         self.maxDiff = None
         self.assertEqual(result, self.get_result())
 
+    def test_prs_indicatiegeheim(self):
+        with open(RESPONSE_PATH) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        # test_response tests 0 value
+
+        # test 1
+        tree.find('indicatieGeheim').string = '1'
+        result = extract_data(tree)
+        self.assertEqual(result['persoon']['indicatieGeheim'], True)
+
     def test_reden_ontbinding(self):
         with open(RESPONSE_PATH) as fp:
             tree = BeautifulSoup(fp.read(), features='lxml-xml')
