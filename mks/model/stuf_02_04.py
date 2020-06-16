@@ -531,7 +531,6 @@ def to_string(value):
 
 
 def to_bool(value):
-    print("bool", [value])
     if not value:
         return False
     elif value == "0":
