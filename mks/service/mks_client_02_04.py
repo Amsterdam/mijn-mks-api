@@ -15,9 +15,9 @@ from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, 
     MKS_ENDPOINT, REQUEST_TIMEOUT
 from mks.service.exceptions import ExtractionError
 
-STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "stuf02.04.xml.jinja2")
-with open(STUF0204TEMPLATE_PATH) as fp:
-    stuf_0204_template = Template(fp.read())
+PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2")
+with open(PRS_STUF0204TEMPLATE_PATH) as fp:
+    prs_stuf_0204_template = Template(fp.read())
 
 
 log_response = False
@@ -34,7 +34,7 @@ def _get_soap_request(bsn: str) -> str:
         "referentienummer": referentienummer,
         "timestamp": datetime.now().strftime('%Y%m%d%H%M%S') + '00'
     }
-    return stuf_0204_template.render(context)
+    return prs_stuf_0204_template.render(context)
 
 
 def _get_response(mks_brp_url, soap_request):
