@@ -110,9 +110,9 @@ def extract_persoon_data(persoon_tree: Tag):
 
     # vertrokken onbekend waarheen
     result['vertrokkenOnbekendWaarheen'] = False
-    if result['mokum']:
-        if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
-            result['vertrokkenOnbekendWaarheen'] = True
+    # if result['mokum']:
+    #     if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
+    #         result['vertrokkenOnbekendWaarheen'] = True
 
     result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('NAT'))
 
