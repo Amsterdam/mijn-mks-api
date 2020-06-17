@@ -10,14 +10,11 @@ from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import etree
 
-from mks.model.stuf_02_04 import extract_data
+from mks.model.adr_stuf_02_04 import extract_data
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
 from mks.service.exceptions import ExtractionError
 
-PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2")
-with open(PRS_STUF0204TEMPLATE_PATH) as fp:
-    prs_stuf_0204_template = Template(fp.read())
 
 ADR_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "ADR_stuf02.04.xml.jinja2")
 with open(ADR_STUF0204TEMPLATE_PATH) as fp:
@@ -26,25 +23,24 @@ with open(ADR_STUF0204TEMPLATE_PATH) as fp:
 log_response = False
 
 
-def _get_soap_request(bsn: str) -> str:
+def _get_soap_request(adres_sleutel: str) -> str:
     ref = str(randint(100000, 999999))
 
     referentienummer = f'MijnAmsterdam||{ref}'
     context = {
-        "bsn": bsn,
+        "adres_sleutel": adres_sleutel,
         "applicatie": BRP_APPLICATIE,
         "gebruiker": BRP_GEBRUIKER,
         "referentienummer": referentienummer,
         "timestamp": datetime.now().strftime('%Y%m%d%H%M%S') + '00'
     }
-    return prs_stuf_0204_template.render(context)
+    return adr_stuf_0204_template.render(context)
 
 
 def _get_response(mks_brp_url, soap_request):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
-        'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0204/beantwoordSynchroneVraagIntegraal',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
     request_start = time.time()
@@ -69,8 +65,8 @@ def extract(xml_data):
         raise ExtractionError()
 
 
-def get_0204(bsn: str):
-    soap_request = _get_soap_request(bsn)
+def get_0204(adresSleutel: str):
+    soap_request = _get_soap_request(adresSleutel)
     response = _get_response(MKS_ENDPOINT, soap_request)
 
     if log_response:
