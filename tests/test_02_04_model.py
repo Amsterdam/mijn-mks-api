@@ -20,6 +20,7 @@ class Model0204Tests(TestCase):
     def get_result(self):
         return {
             'adres': {
+                '_adresSleutel': '3',
                 'inOnderzoek': False,
                 'begindatumVerblijf': datetime(2009, 1, 1, 0, 0),
                 'centroidXCoordinaat': None,

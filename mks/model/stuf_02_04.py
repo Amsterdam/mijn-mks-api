@@ -1,7 +1,6 @@
 import logging
 from collections import defaultdict
 from datetime import datetime
-import re
 from hashlib import sha256
 
 from bs4 import Tag
@@ -296,7 +295,7 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         result['straatnaam'] = result['officieleStraatnaam']
     del result['officieleStraatnaam']
 
-    print(address.attrs['sleutelVerzendend'])
+    result['_adresSleutel'] = address.attrs['StUF:sleutelVerzendend']
 
     return result
 

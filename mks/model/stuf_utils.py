@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import re
+import re
 
 
 def _set_value(tag, field, target):
