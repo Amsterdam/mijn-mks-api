@@ -1,6 +1,9 @@
+import json
 from logging import config
 
 import os
+
+from jwcrypto import jwk
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(PROJECT_DIR, '..', 'model', 'static')
@@ -22,6 +25,11 @@ assert (BRP_GEBRUIKER is not None)
 assert (MKS_ENDPOINT is not None)
 
 DEBUG = os.getenv("DEBUG", 'False') == 'True'
+
+
+def get_jwt_key():
+    # key = jwk.JWK.generate(kty='oct', size=256)
+    return jwk.JWK.from_json(os.getenv("MKS_JWT_KEY"))
 
 
 def debug_logging():

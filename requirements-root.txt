@@ -9,6 +9,7 @@ flask
 Flask-Testing
 
 tma_saml>=0.4.1
+jwcrypto
 
 flake8
 coverage

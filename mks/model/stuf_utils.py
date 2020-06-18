@@ -1,5 +1,34 @@
+import base64
+import json
 from datetime import datetime
 import re
+
+from jwcrypto import jwe
+from jwcrypto.common import json_encode
+
+from mks.service.config import get_jwt_key
+
+
+def encrypt(value: str):
+    key = get_jwt_key()
+
+    jwetoken = jwe.JWE(value.encode('utf-8'),
+                       json_encode({"alg": "A256KW", "enc": "A256CBC-HS512"}))
+    jwetoken.add_recipient(key)
+    enc = json.dumps(jwetoken.serialize()).encode()
+    enc = base64.b64encode(enc)
+    return enc
+
+
+def decrypt(encrypted_value: str):
+    key = get_jwt_key()
+    encrypted_value = base64.b64decode(encrypted_value)
+    payload = json.loads(encrypted_value)
+
+    jwetoken = jwe.JWE()
+    jwetoken.deserialize(payload)
+    jwetoken.decrypt(key)
+    return jwetoken.payload.decode()
 
 
 def _set_value(tag, field, target):

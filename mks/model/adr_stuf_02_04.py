@@ -1,12 +1,8 @@
-import logging
-from collections import defaultdict
-from datetime import datetime
-import re
-from hashlib import sha256
 
 from bs4 import Tag
 
-from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
+from mks.model.gba import lookup_gemeenten, lookup_landen
+from mks.model.stuf_utils import to_string, to_int, set_fields
 
 
 def get_nationaliteiten(nationaliteiten: Tag):
@@ -32,9 +28,9 @@ def get_nationaliteiten(nationaliteiten: Tag):
     return result
 
 
-def extract_data(persoon_tree: Tag):
+def extract_data(adr_tree: Tag):
     return {
-        'identiteitsbewijzen': identiteitsbewijzen,
+        'identiteitsbewijzen': None,
     }
 
 

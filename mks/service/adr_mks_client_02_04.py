@@ -65,7 +65,7 @@ def extract(xml_data):
         raise ExtractionError()
 
 
-def get_0204(adresSleutel: str):
+def get(adresSleutel: str):
     soap_request = _get_soap_request(adresSleutel)
     response = _get_response(MKS_ENDPOINT, soap_request)
 

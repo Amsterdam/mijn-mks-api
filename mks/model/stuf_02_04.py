@@ -7,7 +7,7 @@ from bs4 import Tag
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_date, to_bool, to_is_amsterdam, to_int, set_fields, \
-    set_extra_fields, as_postcode
+    set_extra_fields, as_postcode, encrypt
 
 
 def get_nationaliteiten(nationaliteiten: Tag):
@@ -295,7 +295,8 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         result['straatnaam'] = result['officieleStraatnaam']
     del result['officieleStraatnaam']
 
-    result['_adresSleutel'] = address.attrs['StUF:sleutelVerzendend']
+    # get adressleutel to be able to get data about address resident count
+    result['_adresSleutel'] = encrypt(address.attrs['StUF:sleutelVerzendend'])
 
     return result
 
@@ -440,5 +441,6 @@ def set_geboorteplaatsNaam(target):
 
 def set_geboorteLandnaam(target):
     _set_value_on(target, 'geboorteLand', 'geboortelandnaam', lookup_landen)
+
 
 
