@@ -9,7 +9,7 @@ from jwcrypto.common import json_encode
 from mks.service.config import get_jwt_key
 
 
-def encrypt(value: str):
+def encrypt(value: str) -> str:
     key = get_jwt_key()
 
     jwetoken = jwe.JWE(value.encode('utf-8'),
@@ -17,7 +17,7 @@ def encrypt(value: str):
     jwetoken.add_recipient(key)
     enc = json.dumps(jwetoken.serialize()).encode()
     enc = base64.b64encode(enc)
-    return enc
+    return enc.decode()
 
 
 def decrypt(encrypted_value: str):
