@@ -295,8 +295,8 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
 
     ]
     extra_fields = []
-    if is_amsterdammer:
-        extra_fields.append({'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'inOnderzoek'})
+    # if is_amsterdammer:
+    #     extra_fields.append({'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'inOnderzoek'})
 
     address_fields = [
         {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
