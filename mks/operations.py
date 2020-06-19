@@ -32,7 +32,7 @@ def log_and_generate_response(exception, response_type='json'):
     elif e_type == ExtractionError:
         return 'Extraction error', 500
     elif e_type == UnicodeDecodeError:
-        return 'Invalid encrypted value'
+        return 'Invalid encrypted value', 400
     else:
         return onbekende_fout().to_dict(), 500
 
