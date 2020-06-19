@@ -147,6 +147,9 @@ definitions:
         type: string
       woonplaatsNaam:
         type: string
+      _adresSleutel:
+        description: encrypted key to be used to get further information about adres
+        type: string
   verbintenis:
     title: verbintenis
     type: object
