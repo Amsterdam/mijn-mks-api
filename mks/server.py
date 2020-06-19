@@ -22,7 +22,7 @@ mapping = {
     '/status/health': operations.get_status_health,
     '/brp/bsn': operations.get_bsn,
     '/brp/brp': operations.get_brp,
-    '/brp/aantal_inwoners': operations.get_resident_count,
+    '/brp/aantal_bewoners': operations.get_resident_count,
 }
 
 # using a custom resolver to determine operations

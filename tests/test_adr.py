@@ -65,12 +65,12 @@ class ResidentsTest(FlaskTestCase):
     def test_adr_call(self):
         post_body = encrypt('1234')
 
-        response = self.client.post('/brp/aantal_inwoners', data=post_body)
+        response = self.client.post('/brp/aantal_bewoners', data=post_body)
         self.assertEqual(response.json, {'crossRefNummer': 'MijnAmsterdam', 'residentCount': 3})
 
     @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
     def test_adr_call_empty(self):
-        response = self.client.post('/brp/aantal_inwoners')
+        response = self.client.post('/brp/aantal_bewoners')
         self.assert400(response)
         self.assertEqual(response.json, "adressleutel required")
 
@@ -78,6 +78,6 @@ class ResidentsTest(FlaskTestCase):
     def test_adr_call_not_encrypted(self):
         post_body = '1234'
 
-        response = self.client.post('/brp/aantal_inwoners', data=post_body)
+        response = self.client.post('/brp/aantal_bewoners', data=post_body)
         self.assert400(response)
         self.assertEqual(response.json, "Invalid encrypted value")
