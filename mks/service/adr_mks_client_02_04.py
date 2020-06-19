@@ -56,8 +56,8 @@ def _get_response(mks_brp_url, soap_request):
 def extract(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features='lxml-xml')
-        person = tree.Body.PRS
-        data = extract_data(person)
+        adr = tree.Body.ADR
+        data = extract_data(adr)
         data['crossRefNummer'] = tree.find('crossRefNummer').text
         return data
     except Exception as e:

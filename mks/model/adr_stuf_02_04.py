@@ -1,8 +1,8 @@
+from datetime import datetime
 
 from bs4 import Tag
 
-from mks.model.gba import lookup_gemeenten, lookup_landen
-from mks.model.stuf_utils import to_string, to_int, set_fields
+from mks.model.stuf_utils import to_string, to_int, set_fields, to_date
 
 
 def get_nationaliteiten(nationaliteiten: Tag):
@@ -29,8 +29,20 @@ def get_nationaliteiten(nationaliteiten: Tag):
 
 
 def extract_data(adr_tree: Tag):
+    resident_count = 0
+
+    residents_data = adr_tree.find_all("ADRPRSVBL", recursive=False)
+
+    now = datetime.now()
+    for res in residents_data:
+        tijdvak = res.find('tijdvakRelatie', recursive=False)
+        endDate = to_date(tijdvak.find('einddatumRelatie', recursive=False))
+
+        if endDate and endDate > now:
+            continue
+
+        resident_count += 1
+
     return {
-        'identiteitsbewijzen': None,
+        'residentCount': resident_count,
     }
-
-
