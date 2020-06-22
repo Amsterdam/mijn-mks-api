@@ -363,17 +363,21 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         set_extra_fields(id, extra_fields, result_id)
         set_fields(id.SIB, SIB_fields, result_id)
 
+        type_number = result_id['documentType']
+        if type_number == 2:
+            type_number = 10  # manual fix for EU ID.
+
         try:
-            result_id['documentType'] = lookup_prsidb_soort_code[result_id['documentType']]
+            result_id['documentType'] = lookup_prsidb_soort_code[type_number]
         except Exception as e:
-            logging.info(f"unknown document type {result_id['documentType']} {type(e)} {e}")
-            result_id['documentType'] = f"onbekend type ({result_id['documentType']})"  # unknown doc type
+            logging.info(f"unknown document type {type_number} {type(e)} {e}")
+            result_id['documentType'] = f"onbekend type ({type_number})"  # unknown doc type
 
         hash = sha256()
         hash.update(result_id['documentNummer'].encode())
         result_id['id'] = hash.hexdigest()
 
-        result_per_type[result_id['documentType']].append(result_id)
+        result_per_type[type_number].append(result_id)
 
     now = datetime.now()
 
