@@ -48,7 +48,7 @@ paths:
           schema:
             $ref: '#/definitions/brp'
           headers: {}
-  /brp/aantal_inwoners:
+  /brp/aantal_bewoners:
     post:
       description: Number of residents living on address
       produces:
