@@ -168,14 +168,14 @@
 #             {'name': 'inp.bsn', 'parser': self.to_string, 'save_as': 'bsn'},
 #             {'name': 'geslachtsnaam', 'parser': self.to_string},
 #             {'name': 'voornamen', 'parser': self.to_string},
-#             {'name': 'geboortedatum', 'parser': self.to_date},
+#             {'name': 'geboortedatum', 'parser': self.to_datetime},
 #             {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
 #             {'name': 'inp.gemeenteVanInschrijving', 'parser': self.to_is_amsterdam, 'save_as': 'mokum'},
 #             {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
 #             {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
 #             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
 #             {'name': 'inp.emigratieLand', 'parser': self.to_int, 'save_as': "emigratieLand"},
-#             {'name': 'inp.datumVertrekUitNederland', 'parser': self.to_date, 'save_as': "datumVertrekUitNederland"},
+#             {'name': 'inp.datumVertrekUitNederland', 'parser': self.to_datetime, 'save_as': "datumVertrekUitNederland"},
 #         ]
 #         extra_fields = [
 #             {'name': 'aanduidingNaamgebruikOmschrijving', 'parser': self.to_string},
@@ -246,8 +246,8 @@
 #
 #         fields = [
 #             {'name': 'soortVerbintenis', 'parser': self.to_string},
-#             {'name': 'datumSluiting', 'parser': self.to_date},
-#             {'name': 'datumOntbinding', 'parser': self.to_date},
+#             {'name': 'datumSluiting', 'parser': self.to_datetime},
+#             {'name': 'datumOntbinding', 'parser': self.to_datetime},
 #         ]
 #
 #         fields_extra = [
@@ -262,8 +262,8 @@
 #             {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
 #             {'name': 'geslachtsnaam', 'parser': self.to_string},
 #             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
-#             {'name': 'geboortedatum', 'parser': self.to_date},
-#             {'name': 'overlijdensdatum', 'parser': self.to_date},
+#             {'name': 'geboortedatum', 'parser': self.to_datetime},
+#             {'name': 'overlijdensdatum', 'parser': self.to_datetime},
 #             {'name': 'adellijkeTitelPredikaat', 'parser': self.to_string},
 #
 #         ]
@@ -318,10 +318,10 @@
 #             {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
 #             {'name': 'geslachtsnaam', 'parser': self.to_string},
 #             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
-#             {'name': 'geboortedatum', 'parser': self.to_date},
+#             {'name': 'geboortedatum', 'parser': self.to_datetime},
 #             {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
 #             {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
-#             {'name': 'overlijdensdatum', 'parser': self.to_date},
+#             {'name': 'overlijdensdatum', 'parser': self.to_datetime},
 #             {'name': 'adellijkeTitelPredikaat', 'parser': self.to_string},
 #         ]
 #
@@ -357,11 +357,11 @@
 #             {'name': 'voorvoegselGeslachtsnaam', 'parser': self.to_string},
 #             {'name': 'geslachtsnaam', 'parser': self.to_string},
 #             {'name': 'geslachtsaanduiding', 'parser': self.to_string},
-#             {'name': 'geboortedatum', 'parser': self.to_date},
+#             {'name': 'geboortedatum', 'parser': self.to_datetime},
 #             {'name': 'inp.geboorteplaats', 'parser': self.to_string, 'save_as': 'geboorteplaats'},
 #             {'name': 'inp.geboorteLand', 'parser': self.to_string, 'save_as': 'geboorteLand'},
-#             {'name': 'overlijdensdatum', 'parser': self.to_date},
-#             {'name': 'adellijkeTitelPredikaat', 'parser': self.to_date},
+#             {'name': 'overlijdensdatum', 'parser': self.to_datetime},
+#             {'name': 'adellijkeTitelPredikaat', 'parser': self.to_datetime},
 #         ]
 #
 #         for o in ouders:
@@ -422,7 +422,7 @@
 #             tijdvak = self.verblijft_in.find('{%s}tijdvakRelatie' % _namespaces['StUF'])\
 #                 .find('{%s}beginRelatie' % _namespaces['StUF'])
 #             if tijdvak:
-#                 result['begindatumVerblijf'] = self.to_date(tijdvak)
+#                 result['begindatumVerblijf'] = self.to_datetime(tijdvak)
 #
 #             verblijft_in_fields = [
 #                 {'name': 'inOnderzoek', 'parser': self.to_bool, 'save_as': 'adresInOnderzoek', 'optional': True},
@@ -482,7 +482,7 @@
 #             target_dict[targetfield] = value
 #
 #     @staticmethod
-#     def to_date(value):
+#     def to_datetime(value):
 #         """
 #         :param value:
 #         :return:

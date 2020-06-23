@@ -36,15 +36,6 @@ class AdrTest(TestCase):
 
         self.assertEqual(key, jwk_string)
 
-    def test_encrypt_decrypt(self):
-        original_value = "1234567890"
-
-        encrypted = encrypt(original_value)
-        self.assertNotEqual(encrypted, original_value)
-
-        decrypted = decrypt(encrypted)
-        self.assertEqual(decrypted, original_value)
-
     def test_extraction(self):
         xml_data = get_xml_response_fixture()
 

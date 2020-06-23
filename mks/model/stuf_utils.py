@@ -92,7 +92,7 @@ def _set_value_on(target_dict, sourcefield, targetfield, lookup):
         target_dict[targetfield] = value
 
 
-def to_date(value):
+def to_datetime(value):
     """
     :param value:
     :return:
@@ -125,23 +125,23 @@ def to_string(value):
 def to_bool(value):
     if not value:
         return False
-    elif value == "0":
+    elif value.lower() in ["0", "n"]:
         return False
-    elif value == "1":
+    elif value.lower() in ["1", "j"]:
         return True
 
-    return True
+    return False
 
 
 def as_postcode(value):
     if not value:
         return None
     value = to_string(value)
-    match = re.match(r'(?P<num>\d{4})(?P<let>[A-Z]{2})', value)
+    match = re.match(r'(?P<num>\d{4})(?P<let>[A-Za-z]{2})', value)
     if not match:
         return None
 
-    return f"{match['num']} {match['let']}"
+    return f"{match['num']} {match['let'].upper()}"
 
 
 def to_is_amsterdam(value):
