@@ -42,7 +42,7 @@ def global_limiter():
 limiter = Limiter(
     application,
     key_func=global_limiter,
-    default_limits=["2 per minute"]
+    default_limits=["1 per minute"]
 )
 
 if __name__ == "__main__":
