@@ -2,6 +2,7 @@ import logging
 
 import connexion
 import sentry_sdk
+from flask_limiter import Limiter
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 from mks import operation_resolver
@@ -32,6 +33,17 @@ webapp.add_api('swagger.yaml',
 
 # set the WSGI application callable to allow using uWSGI:
 application = webapp.app
+
+
+def global_limiter():
+    return "global_limiter"
+
+
+limiter = Limiter(
+    application,
+    key_func=global_limiter,
+    default_limits=["30 per minute"]
+)
 
 if __name__ == "__main__":
     webapp.run(port=9853)
