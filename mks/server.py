@@ -1,4 +1,5 @@
 import logging
+from math import ceil
 
 import connexion
 import sentry_sdk
@@ -39,10 +40,14 @@ def global_limiter():
     return "global_limiter"
 
 
+# Flask limiter works per server, per process. this needs to match whats defined in uwsgi.ini
+max_reqs_per_min = ceil((30 / 2) / 2)
+
+
 limiter = Limiter(
     application,
     key_func=global_limiter,
-    default_limits=["1 per minute"]
+    default_limits=[f"{max_reqs_per_min} per minute"]
 )
 
 if __name__ == "__main__":
