@@ -1,5 +1,4 @@
 import logging
-from builtins import print
 from math import ceil
 
 import connexion
