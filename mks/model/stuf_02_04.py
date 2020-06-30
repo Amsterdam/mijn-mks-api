@@ -22,6 +22,9 @@ def get_nationaliteiten(nationaliteiten: Tag):
         nationaliteit = {}
         set_fields(nat, fields, nationaliteit)
         result.append(nationaliteit)
+        if nationaliteit['code'] == 1:
+            # if someone is Dutch, only return Dutch
+            return [{'code': 1, 'omschrijving': 'Nederlandse'}]
 
     # For people not living in Amsterdam we dont get the omschrijving.
     # Quick fix for Nederlandse if code == 1

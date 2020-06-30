@@ -6,6 +6,7 @@ lxml
 beautifulsoup4
 
 flask
+flask_limiter
 Flask-Testing
 
 tma_saml>=0.4.1
