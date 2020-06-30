@@ -22,7 +22,7 @@ class Model0204Tests(TestCase):
         return {
             'adres': {
                 # '_adresSleutel':  # changes each time!
-                'inOnderzoek': False,
+                'inOnderzoek': True,
                 'begindatumVerblijf': datetime(2009, 1, 1, 0, 0),
                 'centroidXCoordinaat': None,
                 'centroidYCoordinaat': None,

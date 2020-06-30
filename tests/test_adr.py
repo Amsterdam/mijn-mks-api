@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from flask_testing.utils import TestCase as FlaskTestCase
 
-from mks.model.stuf_utils import encrypt, decrypt
+from mks.model.stuf_utils import encrypt
 from mks.server import application
 from mks.service.adr_mks_client_02_04 import extract
 from mks.service.config import get_jwt_key
