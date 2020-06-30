@@ -1,52 +1,13 @@
 import logging
 from collections import defaultdict
 from datetime import datetime
-import re
 from hashlib import sha256
 
 from bs4 import Tag
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
-
-
-def _set_value(tag, field, target):
-    key = field.get('save_as', field['name'])
-
-    if tag is None:
-        value = None
-    else:
-        value = tag.string
-
-    # put value through specified parser function
-    value = field['parser'](value)
-    # print(">> ", key, ":", value)
-    target[key] = value
-
-
-def set_extra_fields(source, fields, target):
-    for field in fields:
-        tag = source.find(attrs={"naam": field['name']})
-        _set_value(tag, field, target)
-
-
-def set_fields(source, fields, target):
-    """ Iterate over the list of fields to be put on target dict from the source
-
-        source: Beautifulsoup tree
-        fields: A list of fields which data to include. Format:
-                [
-                  {
-                    'name': source field name,
-                    'parser': a function to put the value through. For example to parse a date or number,
-                    'save_as': the key name the value is stored under in the result dict
-                  },
-                  ...
-                ]
-        target: a dict where the result will be put on
-     """
-    for field in fields:
-        tag = source.find(field['name'])
-        _set_value(tag, field, target)
+from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
+    set_extra_fields, as_postcode, encrypt
 
 
 def get_nationaliteiten(nationaliteiten: Tag):
@@ -82,7 +43,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'voornamen', 'parser': to_string},
-        {'name': 'geboortedatum', 'parser': to_date},
+        {'name': 'geboortedatum', 'parser': to_datetime},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_int},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_is_amsterdam, 'save_as': 'mokum'},
@@ -90,7 +51,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'codeLandEmigratie', 'parser': to_int},
-        {'name': 'datumVertrekUitNederland', 'parser': to_date},
+        {'name': 'datumVertrekUitNederland', 'parser': to_datetime},
         {'name': 'indicatieGeheim', 'parser': to_bool},
     ]
 
@@ -135,10 +96,10 @@ def extract_kinderen_data(persoon_tree: Tag):
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
-        {'name': 'geboortedatum', 'parser': to_date},
+        {'name': 'geboortedatum', 'parser': to_datetime},
         {'name': 'geboorteplaats', 'parser': to_string},
         {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
-        {'name': 'datumOverlijden', 'parser': to_date, 'save_as': 'overlijdensdatum'},  # Save as name to match 3.10
+        {'name': 'datumOverlijden', 'parser': to_datetime, 'save_as': 'overlijdensdatum'},  # Save as name to match 3.10
         {'name': 'adellijkeTitelPredikaat', 'parser': to_string},
     ]
 
@@ -179,10 +140,10 @@ def extract_parents_data(persoon_tree: Tag):
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
-        {'name': 'geboortedatum', 'parser': to_date},
+        {'name': 'geboortedatum', 'parser': to_datetime},
         {'name': 'geboorteplaats', 'parser': to_string},
         {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},  # save as to match 3.10
-        {'name': 'datumOverlijden', 'parser': to_date, 'save_as': 'overlijdensdatum'},  # save as to match 3.10'
+        {'name': 'datumOverlijden', 'parser': to_datetime, 'save_as': 'overlijdensdatum'},  # save as to match 3.10'
         {'name': 'adellijkeTitelPredikaat', 'parser': to_string},
     ]
 
@@ -218,8 +179,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
     result = []
 
     verbintenis_fields = [
-        {'name': 'datumSluiting', 'parser': to_date},
-        {'name': 'datumOntbinding', 'parser': to_date},
+        {'name': 'datumSluiting', 'parser': to_datetime},
+        {'name': 'datumOntbinding', 'parser': to_datetime},
         {'name': 'soortVerbintenis', 'parser': to_string},
     ]
 
@@ -235,8 +196,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
-        {'name': 'geboortedatum', 'parser': to_date},
-        {'name': 'datumOverlijden', 'parser': to_date, 'save_as': 'overlijdensdatum'},  # to match 3.10 field name
+        {'name': 'geboortedatum', 'parser': to_datetime},
+        {'name': 'datumOverlijden', 'parser': to_datetime, 'save_as': 'overlijdensdatum'},  # to match 3.10 field name
         {'name': 'adellijkeTitelPredikaat', 'parser': to_string},
     ]
 
@@ -293,14 +254,13 @@ def extract_verbintenis_data(persoon_tree: Tag):
 def extract_address(persoon_tree: Tag, is_amsterdammer):
     result = {}
     fiels_tijdvak = [
-        {'name': 'begindatumRelatie', 'parser': to_date, 'save_as': 'begindatumVerblijf'},
-        {'name': 'einddatumRelatie', 'parser': to_date, 'save_as': 'einddatumVerblijf'},
+        {'name': 'begindatumRelatie', 'parser': to_datetime, 'save_as': 'begindatumVerblijf'},
+        {'name': 'einddatumRelatie', 'parser': to_datetime, 'save_as': 'einddatumVerblijf'},
 
     ]
     extra_fields = []
-    # if is_amsterdammer:
-    #     extra_fields.append({'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'inOnderzoek'})
-    result['inOnderzoek'] = False  # TODO: temporary default value
+    if is_amsterdammer:
+        extra_fields.append({'name': 'aanduidingGegevensInOnderzoek', 'parser': to_bool, 'save_as': 'inOnderzoek'})
 
     address_fields = [
         {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
@@ -338,6 +298,9 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         result['straatnaam'] = result['officieleStraatnaam']
     del result['officieleStraatnaam']
 
+    # get adressleutel to be able to get data about address resident count
+    result['_adresSleutel'] = encrypt(address.attrs['StUF:sleutelVerzendend'])
+
     return result
 
 
@@ -348,8 +311,8 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         {'name': 'nummerIdentiteitsbewijs', 'parser': to_string, 'save_as': 'documentNummer'},
     ]
     extra_fields = [
-        {'name': 'datumAfgifte', 'parser': to_date, 'save_as': 'datumUitgifte'},
-        {'name': 'datumEindeGeldigheid', 'parser': to_date, 'save_as': 'datumAfloop'},
+        {'name': 'datumAfgifte', 'parser': to_datetime, 'save_as': 'datumUitgifte'},
+        {'name': 'datumEindeGeldigheid', 'parser': to_datetime, 'save_as': 'datumAfloop'},
     ]
     SIB_fields = [
         {'name': 'soort', 'parser': to_int, 'save_as': 'documentType'},
@@ -485,88 +448,3 @@ def set_geboorteplaatsNaam(target):
 
 def set_geboorteLandnaam(target):
     _set_value_on(target, 'geboorteLand', 'geboortelandnaam', lookup_landen)
-
-
-def _set_value_on(target_dict, sourcefield, targetfield, lookup):
-    # if omschrijving is set, do not attempt to overwrite it.
-    if target_dict.get(targetfield):
-        return
-
-    if not target_dict[sourcefield]:
-        target_dict[targetfield] = None
-        return
-
-    try:
-        # int() fails when it is already filled with a name. Use that instead
-        key = "%04d" % int(target_dict[sourcefield])
-    except ValueError:
-        target_dict[targetfield] = target_dict[sourcefield]
-        return
-
-    value = lookup.get(key, None)
-    if value:
-        target_dict[targetfield] = value
-
-
-def to_date(value):
-    """
-    :param value:
-    :return:
-    """
-    if not value:
-        return None
-    try:
-        parsed_value = datetime.strptime(str(value), '%Y%m%d')
-        return parsed_value
-    except ValueError:
-        pass
-    return None
-
-
-def to_int(value):
-    # our xml parser, automatically converts numbers. So this converter doesn't do much.
-    if value == 0:
-        return 0
-    if not value:
-        return None
-    return int(value)
-
-
-def to_string(value):
-    if not value:
-        return None
-    return str(value).strip()
-
-
-def to_bool(value):
-    if not value:
-        return False
-    elif value == "0":
-        return False
-    elif value == "1":
-        return True
-
-    return True
-
-
-def as_postcode(value):
-    if not value:
-        return None
-    value = to_string(value)
-    match = re.match(r'(?P<num>\d{4})(?P<let>[A-Z]{2})', value)
-    if not match:
-        return None
-
-    return f"{match['num']} {match['let']}"
-
-
-def to_is_amsterdam(value):
-    if not value:
-        return False
-
-    value = to_int(value)
-
-    if value == 363:
-        return True
-    else:
-        return False

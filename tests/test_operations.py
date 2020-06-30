@@ -1,5 +1,6 @@
 import os
 # ignoring E402: module level import not at top of file
+
 os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
 os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
 os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402

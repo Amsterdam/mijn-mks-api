@@ -48,6 +48,21 @@ paths:
           schema:
             $ref: '#/definitions/brp'
           headers: {}
+  /brp/aantal_bewoners:
+    post:
+      description: Number of residents living on address
+      produces:
+        - application/json
+      responses:
+        200:
+          description: response
+          schema:
+            type: object
+            properties:
+              residentCount:
+                type:
+                  integer
+
 definitions:
   bsn:
     title: bsn
@@ -131,6 +146,9 @@ definitions:
       straatnaam:
         type: string
       woonplaatsNaam:
+        type: string
+      _adresSleutel:
+        description: encrypted key to be used to get further information about adres
         type: string
   verbintenis:
     title: verbintenis

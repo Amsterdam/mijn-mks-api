@@ -9,6 +9,7 @@ os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
 os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
 os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
 os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
+os.environ['MKS_JWT_KEY'] = '{"k":"RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg","kty":"oct"}'  # noqa: E402
 
 from mks.model.stuf_02_04 import extract_data
 
@@ -20,7 +21,8 @@ class Model0204Tests(TestCase):
     def get_result(self):
         return {
             'adres': {
-                'inOnderzoek': False,
+                # '_adresSleutel':  # changes each time!
+                'inOnderzoek': True,
                 'begindatumVerblijf': datetime(2009, 1, 1, 0, 0),
                 'centroidXCoordinaat': None,
                 'centroidYCoordinaat': None,
@@ -175,6 +177,8 @@ class Model0204Tests(TestCase):
         result = extract_data(tree)
 
         self.maxDiff = None
+        self.assertEqual(type(result['adres']['_adresSleutel']), str)
+        del result['adres']['_adresSleutel']  # changes each time
         self.assertEqual(result, self.get_result())
 
     def test_prs_indicatiegeheim(self):

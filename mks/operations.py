@@ -6,7 +6,8 @@ from flask import request
 from tma_saml import SamlVerificationException
 from urllib3.exceptions import ConnectTimeoutError
 
-from mks.service import mks_client_02_04
+from mks.model.stuf_utils import decrypt
+from mks.service import mks_client_02_04, adr_mks_client_02_04
 from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import get_bsn_from_request
@@ -31,6 +32,8 @@ def log_and_generate_response(exception, response_type='json'):
         return 'Source connection timeout', 500
     elif e_type == ExtractionError:
         return 'Extraction error', 500
+    elif e_type == UnicodeDecodeError:
+        return 'Invalid encrypted value', 400
     else:
         return onbekende_fout().to_dict(), 500
 
@@ -41,8 +44,6 @@ def get_bsn_from_saml_token() -> str:
     to int format for further use
     :return: The bsn in int form or an error in case it's not 11proef safe.
     """
-    # return 307741837
-    # return 230012346
     return get_bsn_from_request(connexion.request)
 
 
@@ -70,6 +71,18 @@ def get_bsn():
         return {
             "burgerservicenummer": get_bsn_from_saml_token()
         }
+    except Exception as e:
+        return log_and_generate_response(e)
+
+
+def get_resident_count():
+    try:
+        if request.data:
+            adres_sleutel = decrypt(request.data)
+            response = adr_mks_client_02_04.get(adres_sleutel)
+            return response
+        else:
+            return "adressleutel required", 400
     except Exception as e:
         return log_and_generate_response(e)
 

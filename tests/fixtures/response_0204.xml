@@ -73,6 +73,9 @@
               <StUF:begindatumRelatie>20090101</StUF:begindatumRelatie>
               <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
             </BG:tijdvakRelatie>
+            <BG:extraElementen>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
+            </BG:extraElementen>
             <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="4" StUF:sleutelGegevensbeheer="4">
               <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="geenWaarde"/>
               <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="geenWaarde"/>
