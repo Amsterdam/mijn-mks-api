@@ -99,9 +99,3 @@ if (BRANCH == "master") {
         }
     }
 }
-
-post {
-    always {
-        sh "docker-compose -p mks -f mks/jenkins/test/docker-compose.yml down --remove-orphans"
-    }
-}
