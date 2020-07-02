@@ -27,8 +27,11 @@ DEBUG = os.getenv("DEBUG", 'False') == 'True'
 
 
 def get_jwt_key():
-    # key = jwk.JWK.generate(kty='oct', size=256)
-    return jwk.JWK.from_json(os.getenv("MKS_JWT_KEY"))
+    # from jwcrypto import jwk
+    # key = jwk.JWK.generate(kty='oct', size=256).export()
+    # in the environment is the value of "k"
+    key = os.getenv("MKS_JWT_KEY")
+    return jwk.JWK.from_json('{"k":"%s","kty":"oct"}' % (key, ))
 
 
 def debug_logging():

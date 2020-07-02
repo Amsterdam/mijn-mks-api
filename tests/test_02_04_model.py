@@ -9,7 +9,7 @@ os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
 os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
 os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
 os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
-os.environ['MKS_JWT_KEY'] = '{"k":"RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg","kty":"oct"}'  # noqa: E402
+os.environ['MKS_JWT_KEY'] = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"  # noqa: E402
 
 from mks.model.stuf_02_04 import extract_data
 

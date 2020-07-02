@@ -1,11 +1,16 @@
+import os
 from datetime import datetime
 from unittest import TestCase
+from unittest.mock import patch
 
 from bs4 import BeautifulSoup
 
 from mks.model.stuf_utils import to_bool, encrypt, decrypt, to_datetime, to_int, to_string, as_postcode
 
+jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
+
+@patch.dict(os.environ, {'MKS_JWT_KEY': jwk_string})
 class UtilsTest(TestCase):
 
     def _get_value(self, xml, tag_name):

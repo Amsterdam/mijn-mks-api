@@ -9,7 +9,7 @@ from mks.server import application
 from mks.service.adr_mks_client_02_04 import extract
 from mks.service.config import get_jwt_key
 
-jwk_string = '{"k":"RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg","kty":"oct"}'
+jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
@@ -34,7 +34,7 @@ class AdrTest(TestCase):
 
         key = get_jwt_key().export()
 
-        self.assertEqual(key, jwk_string)
+        self.assertIn(jwk_string, key)
 
     def test_extraction(self):
         xml_data = get_xml_response_fixture()
