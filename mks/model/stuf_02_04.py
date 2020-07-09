@@ -14,6 +14,10 @@ def get_nationaliteiten(nationaliteiten: Tag):
     result = []
 
     fields = [
+        {'name': 'datumVerlies', 'parser': to_datetime},
+    ]
+
+    nat_fields = [
         {'name': 'omschrijving', 'parser': to_string},
         {'name': 'code', 'parser': to_int},
     ]
@@ -21,10 +25,8 @@ def get_nationaliteiten(nationaliteiten: Tag):
     for nat in nationaliteiten:
         nationaliteit = {}
         set_fields(nat, fields, nationaliteit)
+        set_fields(nat.find("NAT"), nat_fields, nationaliteit)
         result.append(nationaliteit)
-        if nationaliteit['code'] == 1:
-            # if someone is Dutch, only return Dutch
-            return [{'code': 1, 'omschrijving': 'Nederlandse'}]
 
     # For people not living in Amsterdam we dont get the omschrijving.
     # Quick fix for Nederlandse if code == 1
@@ -32,6 +34,17 @@ def get_nationaliteiten(nationaliteiten: Tag):
         if not n['omschrijving']:
             if n['code'] == 1:
                 n['omschrijving'] = "Nederlandse"
+
+    result = [n for n in result if not n['datumVerlies']]
+
+    # cleanup
+    for n in result:
+        del n['datumVerlies']
+
+    # if someone is Dutch, only return Dutch
+    for nat in result:
+        if nat['code'] == 1:
+            return [{'code': 1, 'omschrijving': 'Nederlandse'}]
 
     return result
 
@@ -78,7 +91,7 @@ def extract_persoon_data(persoon_tree: Tag):
     #     if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
     #         result['vertrokkenOnbekendWaarheen'] = True
 
-    result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('NAT'))
+    result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('PRSNAT'))
 
     set_omschrijving_geslachtsaanduiding(result)
     set_geboorteLandnaam(result)
