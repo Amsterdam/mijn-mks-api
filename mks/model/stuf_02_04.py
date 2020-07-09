@@ -312,7 +312,8 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
     del result['officieleStraatnaam']
 
     # get adressleutel to be able to get data about address resident count
-    result['_adresSleutel'] = encrypt(address.attrs['StUF:sleutelVerzendend'])
+    if address.attrs.get('StUF:sleutelVerzendend'):
+        result['_adresSleutel'] = encrypt(address.attrs['StUF:sleutelVerzendend'])
 
     return result
 
