@@ -7,7 +7,7 @@ from tma_saml import SamlVerificationException
 from urllib3.exceptions import ConnectTimeoutError
 
 from mks.model.stuf_utils import decrypt
-from mks.service import mks_client_02_04, adr_mks_client_02_04
+from mks.service import mks_client_02_04, adr_mks_client_02_04, mks_client_bsn_hr
 from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import get_bsn_from_request
@@ -71,6 +71,14 @@ def get_bsn():
         return {
             "burgerservicenummer": get_bsn_from_saml_token()
         }
+    except Exception as e:
+        return log_and_generate_response(e)
+
+
+def get_hr_for_bsn():
+    try:
+        log_request(request)
+        return mks_client_bsn_hr.get(get_bsn_from_saml_token())
     except Exception as e:
         return log_and_generate_response(e)
 

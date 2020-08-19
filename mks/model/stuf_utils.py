@@ -1,6 +1,6 @@
 import base64
 import json
-from datetime import datetime
+from datetime import datetime, date
 import re
 
 from jwcrypto import jwe
@@ -102,6 +102,21 @@ def to_datetime(value):
     try:
         parsed_value = datetime.strptime(str(value), '%Y%m%d')
         return parsed_value
+    except ValueError:
+        pass
+    return None
+
+
+def to_date(value):
+    """
+    :param value:
+    :return:
+    """
+    if not value:
+        return None
+    try:
+        parsed_value = datetime.strptime(str(value), '%Y%m%d')
+        return parsed_value.date()
     except ValueError:
         pass
     return None
