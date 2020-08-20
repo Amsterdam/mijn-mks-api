@@ -67,7 +67,7 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
 
 
 
-def extract_data(is_eigenaar_van: ResultSet):
+def extract_data_is_eigenaar_van(is_eigenaar_van: ResultSet):
 
     result = []
 
@@ -81,5 +81,4 @@ def extract_data(is_eigenaar_van: ResultSet):
 
         result.append(res_eigendom)
 
-    from pprint import pprint
-    pprint(result)
+    return result
