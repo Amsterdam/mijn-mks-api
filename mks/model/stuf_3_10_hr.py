@@ -34,6 +34,43 @@ def extract_activiteiten(activities: ResultSet):
     return res_activities
 
 
+def extract_owner_nnp(owner: Tag):
+    """ Extracts data from <nietNatuurlijkPersoon> """
+    result = {}
+
+    print(owner)
+
+    fields = [
+        {'name': 'statutaireNaam', 'parser': to_string},
+        {'name': 'inn.rechtsvorm', 'parser': to_string, 'save_as': 'rechtsvorm'},
+        {'name': 'inn.statutaireZetel', 'parser': to_string, 'save_as': 'statutaireZetel'},
+        {'name': 'datumAanvang', 'parser': to_date},
+        {'name': 'datumEinde', 'parser': to_date},
+        {'name': 'inn.datumVoortzetting', 'parser': to_date, 'save_as': 'datumVoortzetting'},
+        {'name': 'sub.telefoonnummer', 'parser': to_string, 'save_as': 'telefoonnummer'},
+        {'name': 'sub.faxnummer', 'parser': to_string, 'save_as': 'faxnummer'},
+        {'name': 'sub.emailadres', 'parser': to_string, 'save_as': 'emailadres'},
+        {'name': 'sub.url', 'parser': to_string, 'save_as': 'url'},
+    ]
+
+    set_fields(owner, fields, result)
+    return result
+
+
+def extract_owners(owners: ResultSet):
+    """ Extracts data from <heeftAlsEigenaar> """
+    result = []
+
+    for owner in owners:
+        nnps = owner.find_all('nietNatuurlijkPersoon')
+        for i in nnps:
+            nnp_result = extract_owner_nnp(i)
+            result.append(nnp_result)
+
+
+    return result
+
+
 def extract_oefent_activiteiten_uit_in(activities: ResultSet):
     result = []
 

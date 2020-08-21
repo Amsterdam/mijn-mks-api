@@ -13,10 +13,10 @@ def get_xml_response_fixture(*args):
         return response_file.read()
 
 
-class BsnHrTest(TestCase):
+class KvkHrTest(TestCase):
     @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_fixture)
     def test_get(self):
-        result = mks_client_bsn_hr.get('123456789')
+        result = mks_client_bsn_hr.get_from_kvk('123456789')
 
         from pprint import pprint
         pprint(result)

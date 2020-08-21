@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import etree
 
-from mks.model.stuf_3_10_hr import extract_data_is_eigenaar_van
+from mks.model.stuf_3_10_hr import extract_data_is_eigenaar_van, extract_oefent_activiteiten_uit_in, extract_owners
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
 from mks.service.exceptions import ExtractionError
@@ -22,7 +22,7 @@ with open(BSN_HR_TEMPLATE_PATH) as fp:
 log_response = False
 
 
-def _get_soap_request(bsn: str = None, kvk_nummer: str = None):
+def _get_soap_request(bsn: str = None, kvk_number: str = None):
     ref = str(randint(100000, 999999))
 
     referentienummer = f'MijnAmsterdam||{ref}'
@@ -34,8 +34,8 @@ def _get_soap_request(bsn: str = None, kvk_nummer: str = None):
     }
     if bsn:
         context['bsn'] = bsn
-    if kvk_nummer:
-        context['kvk_nummer'] = kvk_nummer
+    if kvk_number:
+        context['kvk_nummer'] = kvk_number
 
     return bsn_hr_template.render(context)
 
@@ -58,7 +58,7 @@ def _get_response(mks_url, soap_request):
 
 
 def get_from_bsn(bsn: str):
-    soap_request = _get_soap_request(bsn)
+    soap_request = _get_soap_request(bsn=bsn)
     response = _get_response(MKS_ENDPOINT, soap_request)
 
     if log_response:
@@ -67,24 +67,10 @@ def get_from_bsn(bsn: str):
         formatted_xml = etree.tostring(tree, pretty_print=True)
         print(formatted_xml.decode())
 
-    return extract(response)
+    return extract_for_bsn(response)
 
 
-def get_from_kvk(kvk_nummer: str):
-    soap_request = _get_soap_request(kvk_nummer)
-    response = _get_response(MKS_ENDPOINT, soap_request)
-
-    if log_response:
-        content_bytesio = BytesIO(response)
-        tree = etree.parse(content_bytesio)
-        formatted_xml = etree.tostring(tree, pretty_print=True)
-        print(formatted_xml.decode())
-
-    return extract(response)
-
-
-
-def extract(xml_data):
+def extract_for_bsn(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features='lxml-xml')
         hr_data = tree.Body.find_all('rps.isEigenaarVan')
@@ -93,3 +79,31 @@ def extract(xml_data):
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
         raise ExtractionError()
+
+
+def get_from_kvk(kvk_number: str):
+    soap_request = _get_soap_request(kvk_number=kvk_number)
+    response = _get_response(MKS_ENDPOINT, soap_request)
+
+    if log_response:
+        content_bytesio = BytesIO(response)
+        tree = etree.parse(content_bytesio)
+        formatted_xml = etree.tostring(tree, pretty_print=True)
+        print(formatted_xml.decode())
+
+    return extract_for_kvk(response)
+
+
+def extract_for_kvk(xml_data):
+    try:
+        tree = BeautifulSoup(xml_data, features='lxml-xml')
+        activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
+        eigenaren = tree.Body.find_all('heeftAlsEigenaar')
+        return {
+            'activiteiten': extract_oefent_activiteiten_uit_in(activiteiten),
+            'eigenaren': extract_owners(eigenaren)
+        }
+    except Exception as e:
+        logging.error(f"Error: {type(e)} {e}")
+        raise ExtractionError()
+
