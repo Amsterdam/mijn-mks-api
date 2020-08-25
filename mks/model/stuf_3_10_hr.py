@@ -38,8 +38,6 @@ def extract_owner_nnp(owner: Tag):
     """ Extracts data from <nietNatuurlijkPersoon> """
     result = {}
 
-    print(owner)
-
     fields = [
         {'name': 'statutaireNaam', 'parser': to_string},
         {'name': 'inn.rechtsvorm', 'parser': to_string, 'save_as': 'rechtsvorm'},
@@ -66,7 +64,6 @@ def extract_owners(owners: ResultSet):
         for i in nnps:
             nnp_result = extract_owner_nnp(i)
             result.append(nnp_result)
-
 
     return result
 

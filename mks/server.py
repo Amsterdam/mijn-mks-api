@@ -24,6 +24,7 @@ if SENTRY_DSN:
 mapping = {
     '/status/health': operations.get_status_health,
     '/brp/bsn': operations.get_bsn,
+    '/brp/kvk': operations.get_kvk_number,
     '/brp/brp': operations.get_brp,
     '/brp/aantal_bewoners': operations.get_resident_count,
 }

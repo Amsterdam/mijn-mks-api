@@ -24,6 +24,18 @@ paths:
           description: Returns "OK" when server is started
           schema:
             type: string
+  /brp/kvk:
+    get:
+      description: Return KVK number of currently logged in user.
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: KVK number
+          schema:
+            $ref: '#/definitions/kvk'
+          headers: {}
   /brp/bsn:
     get:
       description: Return BSN of currently logged in user.
@@ -71,7 +83,15 @@ definitions:
       burgerservicenummer:
         type: integer
     required:
-    - burgerservicenummer
+      - burgerservicenummer
+  kvk:
+    title: bsn
+    type: object
+    properties:
+      kvknummer:
+        type: integer
+    required:
+    - kvknummer
   persoon:
     title: persoon
     type: object

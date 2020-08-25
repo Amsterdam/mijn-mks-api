@@ -5,7 +5,7 @@ from unittest.mock import patch
 from mks.service import mks_client_bsn_hr
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
-RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_kvk_response.xml")
+RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_kvk_mac_response.xml")
 
 
 def get_xml_response_fixture(*args):
