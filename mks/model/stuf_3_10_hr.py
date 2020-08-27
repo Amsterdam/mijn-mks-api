@@ -1,6 +1,6 @@
 from bs4 import Tag, ResultSet
 
-from mks.model.stuf_utils import to_string, to_date, set_fields, to_bool
+from mks.model.stuf_utils import to_string, to_date, set_fields, to_bool, as_postcode
 
 
 def extract_basic_info(eigendom: Tag):
@@ -55,6 +55,39 @@ def extract_owner_nnp(owner: Tag):
     return result
 
 
+def extract_owner_persoon(owner: Tag):
+    """ Extracts data from <natuurlijkPersoon> """
+    result = {}
+
+    fields = [
+        {'name': 'geslachtsnaam', 'parser': to_string},
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'geboortedatum', 'parser': to_date},
+    ]
+
+    set_fields(owner, fields, result)
+
+    address = extract_owner_address(owner.find('verblijfsadres'))
+    result['adres'] = address
+
+    return result
+
+
+def extract_owner_address(address: Tag):
+    result = {}
+    fields = [
+        {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
+        {'name': 'gor.openbareRuimteNaam', 'parser': to_string, 'save_as': 'openbareRuimteNaam'},
+        {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
+        {'name': 'aoa.huisletter', 'parser': to_string, 'save_as': 'huisletter'},
+        {'name': 'aoa.huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
+        {'name': 'aoa.postcode', 'parser': as_postcode, 'save_as': 'postcode'},
+    ]
+
+    set_fields(address, fields, result)
+    return result
+
+
 def extract_owners(owners: ResultSet):
     """ Extracts data from <heeftAlsEigenaar> """
     result = []
@@ -64,6 +97,12 @@ def extract_owners(owners: ResultSet):
         for i in nnps:
             nnp_result = extract_owner_nnp(i)
             result.append(nnp_result)
+
+    for owner in owners:
+        np = owner.find_all('natuurlijkPersoon')
+        for i in np:
+            np_result = extract_owner_persoon(i)
+            result.append(np_result)
 
     return result
 

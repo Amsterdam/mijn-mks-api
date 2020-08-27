@@ -100,8 +100,8 @@ def extract_for_kvk(xml_data):
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren = tree.Body.find_all('heeftAlsEigenaar')
         return {
-            'activiteiten': extract_oefent_activiteiten_uit_in(activiteiten),
-            'eigenaren': extract_owners(eigenaren)
+            'activities': extract_oefent_activiteiten_uit_in(activiteiten),
+            'owners': extract_owners(eigenaren)
         }
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
