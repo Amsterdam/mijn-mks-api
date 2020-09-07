@@ -52,13 +52,25 @@ paths:
     get:
       description: Information of current user from "basisregistratie personen"
       produces:
-      - application/json
+        - application/json
       parameters: []
       responses:
         200:
           description: Basisregistratiegegevens
           schema:
             $ref: '#/definitions/brp'
+          headers: {}
+  /brp/hr:
+    get:
+      description: Information of current user from "Handelsregister"
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: Handelsregister
+          schema:
+            $ref: '#/definitions/hr'
           headers: {}
   /brp/aantal_bewoners:
     post:
@@ -337,4 +349,8 @@ definitions:
     enum:
     - H
     - P
+  hr:
+    title: Handelsregister
+    type: object
+
 tags: []

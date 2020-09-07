@@ -52,6 +52,13 @@
             <ns:scope>
                 <ns:object stuf:entiteittype="MAC" stuf:scope="alles"/>
             </ns:scope>
+        {% elif nnpid %}
+            <ns:gelijk stuf:entiteittype="NNP">
+                <ns:inn.nnpId>{{ nnpid }}</ns:inn.nnpId>
+            </ns:gelijk>
+            <ns:scope>
+                <ns:object stuf:entiteittype="NNP" stuf:scope="alles"/>
+            </ns:scope>
         {% endif %}
 
         {% if kvk_nummer %}

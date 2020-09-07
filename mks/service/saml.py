@@ -3,7 +3,7 @@
 This module interprets and verifies SAML tokens
 """
 import os
-from tma_saml import get_digi_d_bsn, get_e_herkenning_attribs, HR_KVK_NUMBER_KEY
+from tma_saml import get_digi_d_bsn, get_e_herkenning_attribs, HR_KVK_NUMBER_KEY, get_user_type
 
 
 def get_bsn_from_request(request):
@@ -29,6 +29,11 @@ def get_kvk_number_from_request(request):
     attribs = get_e_herkenning_attribs(request, tma_certificate)
     kvk_number = attribs[HR_KVK_NUMBER_KEY]
     return kvk_number
+
+
+def get_type(request):
+    type = get_user_type(request, get_tma_certificate())
+    return type
 
 
 def get_tma_certificate():

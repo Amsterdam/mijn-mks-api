@@ -17,57 +17,40 @@ def get_xml_response_fixture(*args):
 class KvkHrTest(TestCase):
     def _expected_result(self) -> dict:
         return {
-            'activities': [
-                {
-                    'activities': [
-                        {
-                            'code': '000000000069209',
-                            'indicatieHoofdactiviteit': True,
-                            'omschrijving': 'Overige administratiekantoren'
-                        },
-                        {
-                            'code': '000000000070221',
-                            'indicatieHoofdactiviteit': False,
-                            'omschrijving': 'Organisatie-adviesbureaus'
-                        },
-                        {
-                            'code': '000000000007810',
-                            'indicatieHoofdactiviteit': False,
-                            'omschrijving': 'Arbeidsbemiddeling'
-                        }
-                    ],
-                    'datumAanvang': date(1992, 1, 1),
-                    'datumEinde': date(2020, 1, 1),
-                    'emailadres': None,
-                    'faxnummer': None,
-                    'handelsnamen': [
-                        'Naam 1',
-                        'Naam 2',
-                        'Naam 3',
-                        'Naam 4'
-                    ],
-                    'rekeningnummerBankGiro': None,
-                    'telefoonnummer': None,
-                    'typeringVestiging': 'Hoofdvestiging',
-                    'vestigingsNummer': '000000000001'
-                }
-            ],
-            'owners': [
-                {
-                    'adres': {
-                        'huisletter': None,
-                        'huisnummer': '1',
-                        'huisnummertoevoeging': None,
-                        'openbareRuimteNaam': 'Amstel',
-                        'postcode': '1012 NP',
-                        'woonplaatsNaam': 'Amsterdam'
-                    },
-                    'geboortedatum': date(1970, 1, 1),
-                    'geslachtsnaam': 'Achternaam',
-                    'voornamen': 'Voornaam'
-                }
-            ]
-        }
+            'aandeelhouders': [],
+            'bestuurders': [],
+            'mokum': True,
+            'onderneming': {'datumAanvang': date(1992, 1, 1),
+                            'datumEinde': date(2020, 1, 1),
+                            'kvkNummer': '012345678'},
+            'rechtspersonen': [{'adres': {'huisletter': None,
+                                          'huisnummer': '1',
+                                          'huisnummertoevoeging': None,
+                                          'openbareRuimteNaam': 'Amstel',
+                                          'postcode': '1012 NP',
+                                          'woonplaatsNaam': 'Amsterdam'},
+                                'geboortedatum': date(1970, 1, 1),
+                                'geslachtsnaam': 'Achternaam',
+                                'type': 'np',
+                                'voornamen': 'Voornaam'}],
+            'vestigingen': [{'activiteiten': [{'code': '000000000069209',
+                                               'indicatieHoofdactiviteit': True,
+                                               'omschrijving': 'Overige administratiekantoren'},
+                                              {'code': '000000000070221',
+                                               'indicatieHoofdactiviteit': False,
+                                               'omschrijving': 'Organisatie-adviesbureaus'},
+                                              {'code': '000000000007810',
+                                               'indicatieHoofdactiviteit': False,
+                                               'omschrijving': 'Arbeidsbemiddeling'}],
+                             'datumAanvang': date(1992, 1, 1),
+                             'datumEinde': date(2020, 1, 1),
+                             'emailadres': None,
+                             'faxnummer': None,
+                             'handelsnamen': ['Naam 1', 'Naam 2', 'Naam 3', 'Naam 4'],
+                             'rekeningnummerBankGiro': None,
+                             'telefoonnummer': None,
+                             'typeringVestiging': 'Hoofdvestiging',
+                             'vestigingsNummer': '000000000001'}]}
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_fixture)
     def test_get(self):

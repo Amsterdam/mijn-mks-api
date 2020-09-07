@@ -3,14 +3,14 @@ import logging
 # helpers #
 import connexion
 from flask import request
-from tma_saml import SamlVerificationException
+from tma_saml import SamlVerificationException, UserType
 from urllib3.exceptions import ConnectTimeoutError
 
 from mks.model.stuf_utils import decrypt
 from mks.service import mks_client_02_04, adr_mks_client_02_04, mks_client_bsn_hr
 from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
 from mks.service.exceptions import ServiceException, onbekende_fout
-from mks.service.saml import get_bsn_from_request, get_kvk_number_from_request
+from mks.service.saml import get_bsn_from_request, get_kvk_number_from_request, get_type
 
 
 def log_and_generate_response(exception, response_type='json'):
@@ -75,6 +75,21 @@ def get_bsn():
         return log_and_generate_response(e)
 
 
+def get_hr():
+    usertype = get_type(request)
+    data = None
+    if usertype == UserType.BEDRIJF:
+        data = get_hr_for_kvk()
+
+    if usertype == UserType.BURGER:
+        data = get_hr_for_bsn()
+
+    return {
+        'content': data,
+        'status': 'OK'
+    }
+
+
 def get_kvk_number():
     try:
         log_request(request)
@@ -88,7 +103,15 @@ def get_kvk_number():
 def get_hr_for_bsn():
     try:
         log_request(request)
-        return mks_client_bsn_hr.get(get_bsn_from_saml_token())
+        return mks_client_bsn_hr.get_from_bsn(get_bsn_from_saml_token())
+    except Exception as e:
+        return log_and_generate_response(e)
+
+
+def get_hr_for_kvk():
+    try:
+        log_request(request)
+        return mks_client_bsn_hr.get_from_kvk(get_kvk_number_from_request(request))
     except Exception as e:
         return log_and_generate_response(e)
 

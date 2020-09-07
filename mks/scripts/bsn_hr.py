@@ -10,5 +10,5 @@ mks_client.log_response = True
 # Change me to get the datas
 bsn = "123456789"
 
-data = mks_client.get(bsn)
+data = mks_client.get_from_bsn(bsn)
 print(json.dumps(data, indent=2, default=str))

@@ -56,7 +56,7 @@ def extract_owner_nnp(owner: Tag):
 
 
 def extract_owner_persoon(owner: Tag):
-    """ Extracts data from <natuurlijkPersoon> """
+    """ Extracts data from <natuurlijkPersoon> or <object StUF:entiteittype="NPS"> """
     result = {}
 
     fields = [
@@ -67,7 +67,7 @@ def extract_owner_persoon(owner: Tag):
 
     set_fields(owner, fields, result)
 
-    address = extract_owner_address(owner.find('verblijfsadres'))
+    address = extract_owner_address(owner.find('verblijfsadres'))  # TODO: make this work for zzp. different xml tag (inp.verblijftIn or verblijfsadres?)
     result['adres'] = address
 
     return result
@@ -96,12 +96,14 @@ def extract_owners(owners: ResultSet):
         nnps = owner.find_all('nietNatuurlijkPersoon')
         for i in nnps:
             nnp_result = extract_owner_nnp(i)
+            nnp_result['type'] = 'nnp'
             result.append(nnp_result)
 
     for owner in owners:
         np = owner.find_all('natuurlijkPersoon')
         for i in np:
             np_result = extract_owner_persoon(i)
+            np_result['type'] = 'np'
             result.append(np_result)
 
     return result
@@ -130,14 +132,11 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
         result_activity['handelsnamen'] = namen
 
         activiteiten_omschrijvingen = extract_activiteiten(act.find_all('activiteit'))
-        result_activity['activities'] = activiteiten_omschrijvingen
+        result_activity['activiteiten'] = activiteiten_omschrijvingen
 
         result.append(result_activity)
 
     return result
-
-
-
 
 
 def extract_data_is_eigenaar_van(is_eigenaar_van: ResultSet):
@@ -150,7 +149,7 @@ def extract_data_is_eigenaar_van(is_eigenaar_van: ResultSet):
         res_eigendom.update(basic_info)
 
         activities = extract_oefent_activiteiten_uit_in(eigendom.find_all('oefentActiviteitUitIn'))
-        res_eigendom['activities'] = activities
+        res_eigendom['activiteiten'] = activities
 
         result.append(res_eigendom)
 

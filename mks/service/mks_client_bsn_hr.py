@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import etree
 
-from mks.model.stuf_3_10_hr import extract_data_is_eigenaar_van, extract_oefent_activiteiten_uit_in, extract_owners
+from mks.model.stuf_3_10_hr import extract_data_is_eigenaar_van, extract_oefent_activiteiten_uit_in, extract_owners, \
+    extract_basic_info, extract_owner_persoon
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
 from mks.service.exceptions import ExtractionError
@@ -73,9 +74,27 @@ def get_from_bsn(bsn: str):
 def extract_for_bsn(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features='lxml-xml')
-        hr_data = tree.Body.find_all('rps.isEigenaarVan')
-        data = extract_data_is_eigenaar_van(hr_data)
+
+        is_amsterdammer = True  # TODO: fill me
+
+        onderneming = tree.Body.find('rps.isEigenaarVan')
+        activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
+        eigenaren = tree.Body.find('object')
+
+        data = {
+            'mokum': is_amsterdammer,
+            'onderneming': extract_basic_info(onderneming),
+            'rechtspersonen': [extract_owner_persoon(eigenaren)],
+            'vestigingen': extract_oefent_activiteiten_uit_in(activiteiten),
+            'aandeelhouders': [],
+            'bestuurders': [],
+        }
+
         return data
+
+        # hr_data = tree.Body.find_all('rps.isEigenaarVan')
+        # data = extract_data_is_eigenaar_van(hr_data)
+        # return data
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
         raise ExtractionError()
@@ -94,16 +113,42 @@ def get_from_kvk(kvk_number: str):
     return extract_for_kvk(response)
 
 
-def extract_for_kvk(xml_data):
+def extract_for_kvk(xml_str):
     try:
-        tree = BeautifulSoup(xml_data, features='lxml-xml')
+        tree = BeautifulSoup(xml_str, features='lxml-xml')
+
+        is_amsterdammer = True  # TODO: fill me
+
+        onderneming = tree.Body.find('object')
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren = tree.Body.find_all('heeftAlsEigenaar')
-        return {
-            'activities': extract_oefent_activiteiten_uit_in(activiteiten),
-            'owners': extract_owners(eigenaren)
+
+        data = {
+            'mokum': is_amsterdammer,
+            'onderneming': extract_basic_info(onderneming),
+            'rechtspersonen': extract_owners(eigenaren),
+            'vestigingen': extract_oefent_activiteiten_uit_in(activiteiten),
+            'aandeelhouders': [],
+            'bestuurders': [],
         }
+
+        return data
+
+
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
         raise ExtractionError()
 
+# def extract_for_kvk(xml_data):
+#     try:
+#         tree = BeautifulSoup(xml_data, features='lxml-xml')
+#         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
+#         eigenaren = tree.Body.find_all('heeftAlsEigenaar')
+#         return {
+#             'activiteiten': extract_oefent_activiteiten_uit_in(activiteiten),
+#             'eigenaren': extract_owners(eigenaren)
+#         }
+#     except Exception as e:
+#         logging.error(f"Error: {type(e)} {e}")
+#         raise ExtractionError()
+#

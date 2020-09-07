@@ -18,31 +18,49 @@ class KvkHrTest(TestCase):
 
     def _expected_result(self):
         return {
-            'activities': [
+            'aandeelhouders': [],
+            'bestuurders': [],
+            'mokum': True,
+            'onderneming': {
+                'datumAanvang': None,
+                'datumEinde': None,
+                'kvkNummer': '1234567'
+            },
+            'rechtspersonen': [
                 {
-                    'activities': [
+                    'datumAanvang': date(2009, 1, 1),
+                    'datumEinde': None,
+                    'datumVoortzetting': None,
+                    'emailadres': None,
+                    'faxnummer': None,
+                    'rechtsvorm': 'VennootschapOnderFirma',
+                    'statutaireNaam': 'Naam v.o.f.',
+                    'statutaireZetel': None,
+                    'telefoonnummer': None,
+                    'type': 'nnp',
+                    'url': None
+                }
+            ],
+            'vestigingen': [
+                {
+                    'activiteiten': [
                         {
                             'code': '000000000056102',
                             'indicatieHoofdactiviteit': True,
-                            'omschrijving': 'Fastfoodrestaurants, '
-                                            "cafetaria's, ijssalons, "
-                                            'eetkramen e.d.'
+                            'omschrijving': "Fastfoodrestaurants, cafetaria's, ijssalons, eetkramen e.d."
                         }
                     ],
                     'datumAanvang': date(2000, 2, 1),
                     'datumEinde': None,
                     'emailadres': 'email@example.com',
                     'faxnummer': None,
-                    'handelsnamen': [
-                        'Handelsnaam'
-                    ],
+                    'handelsnamen': ['Handelsnaam'],
                     'rekeningnummerBankGiro': None,
                     'telefoonnummer': '+310200000000',
                     'typeringVestiging': 'Hoofdvestiging',
-                    'vestigingsNummer': '000000000001'
-                },
+                    'vestigingsNummer': '000000000001'},
                 {
-                    'activities': [
+                    'activiteiten': [
                         {
                             'code': '000000000056102',
                             'indicatieHoofdactiviteit': True,
@@ -55,49 +73,29 @@ class KvkHrTest(TestCase):
                     'datumEinde': None,
                     'emailadres': 'mail@example.com',
                     'faxnummer': None,
-                    'handelsnamen': [
-                        'Handelsnaam 2e locatie'
-                    ],
+                    'handelsnamen': ['Handelsnaam 2e locatie'],
                     'rekeningnummerBankGiro': None,
                     'telefoonnummer': '+310000000000',
                     'typeringVestiging': 'Nevenvestiging',
                     'vestigingsNummer': '000000000002'
                 },
                 {
-                    'activities': [
+                    'activiteiten': [
                         {
                             'code': '000000000056102',
                             'indicatieHoofdactiviteit': True,
-                            'omschrijving': 'Fastfoodrestaurants, '
-                                            "cafetaria's, ijssalons, "
-                                            'eetkramen e.d.'
+                            'omschrijving': "Fastfoodrestaurants, cafetaria's, ijssalons, eetkramen e.d."
                         }
                     ],
                     'datumAanvang': date(2002, 1, 1),
                     'datumEinde': None,
                     'emailadres': 'mail@example.com',
                     'faxnummer': None,
-                    'handelsnamen': [
-                        'Handelsnaam v.o.f.'
-                    ],
+                    'handelsnamen': ['Handelsnaam v.o.f.'],
                     'rekeningnummerBankGiro': None,
                     'telefoonnummer': '+310200000000',
                     'typeringVestiging': 'Nevenvestiging',
                     'vestigingsNummer': '000000000003'
-                }
-            ],
-            'owners': [
-                {
-                    'datumAanvang': date(2009, 1, 1),
-                    'datumEinde': None,
-                    'datumVoortzetting': None,
-                    'emailadres': None,
-                    'faxnummer': None,
-                    'rechtsvorm': 'VennootschapOnderFirma',
-                    'statutaireNaam': 'Naam v.o.f.',
-                    'statutaireZetel': None,
-                    'telefoonnummer': None,
-                    'url': None
                 }
             ]
         }
