@@ -67,7 +67,7 @@ def extract(xml_data):
 
 def get(adresSleutel: str):
     soap_request = _get_soap_request(adresSleutel)
-    response = _get_response(MKS_ENDPOINT, soap_request)
+    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request)
 
     if log_response:
         content_bytesio = BytesIO(response)

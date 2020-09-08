@@ -1,11 +1,11 @@
 import os
-from datetime import datetime
+from datetime import datetime, date
 from unittest import TestCase
 from unittest.mock import patch
 
 from bs4 import BeautifulSoup
 
-from mks.model.stuf_utils import to_bool, encrypt, decrypt, to_datetime, to_int, to_string, as_postcode
+from mks.model.stuf_utils import to_bool, encrypt, decrypt, to_datetime, to_int, to_string, as_postcode, to_date
 
 jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
@@ -42,6 +42,13 @@ class UtilsTest(TestCase):
 
         value = self._get_value('<a></a>', 'a')
         self.assertEqual(to_datetime(value), None)
+
+    def test_to_date(self):
+        value = self._get_value('<a>20120301</a>', 'a')
+        self.assertEqual(to_date(value), date(2012, 3, 1))
+
+        value = self._get_value('<a></a>', 'a')
+        self.assertEqual(to_date(value), None)
 
     def test_to_int(self):
         value = self._get_value('<a>1</a>', 'a')

@@ -18,11 +18,6 @@ TMA_CERTIFICATE = os.getenv('TMA_CERTIFICATE')
 
 SENTRY_DSN = os.getenv('SENTRY_DSN', None)
 
-assert (TMA_CERTIFICATE is not None)
-assert (BRP_APPLICATIE is not None)
-assert (BRP_GEBRUIKER is not None)
-assert (MKS_ENDPOINT is not None)
-
 DEBUG = os.getenv("DEBUG", 'False') == 'True'
 
 

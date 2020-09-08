@@ -107,6 +107,21 @@ def to_datetime(value):
     return None
 
 
+def to_date(value):
+    """
+    :param value:
+    :return:
+    """
+    if not value:
+        return None
+    try:
+        parsed_value = datetime.strptime(str(value), '%Y%m%d')
+        return parsed_value.date()
+    except ValueError:
+        pass
+    return None
+
+
 def to_int(value):
     # our xml parser, automatically converts numbers. So this converter doesn't do much.
     if value == 0:

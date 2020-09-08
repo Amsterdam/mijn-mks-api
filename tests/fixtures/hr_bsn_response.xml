@@ -1,0 +1,232 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <BG:npsLa01 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <BG:stuurgegevens>
+            <StUF:berichtcode>La01</StUF:berichtcode>
+            <StUF:zender>
+               <StUF:organisatie>Amsterdam</StUF:organisatie>
+               <StUF:applicatie>CGM</StUF:applicatie>
+            </StUF:zender>
+            <StUF:ontvanger>
+               <StUF:applicatie>applicatie</StUF:applicatie>
+               <StUF:gebruiker>gebruiker</StUF:gebruiker>
+            </StUF:ontvanger>
+            <StUF:referentienummer>ref1</StUF:referentienummer>
+            <StUF:tijdstipBericht>2020052913004397</StUF:tijdstipBericht>
+            <StUF:crossRefnummer>1000001</StUF:crossRefnummer>
+            <StUF:entiteittype>NPS</StUF:entiteittype>
+         </BG:stuurgegevens>
+         <BG:parameters>
+            <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>
+         </BG:parameters>
+         <BG:antwoord>
+            <BG:object StUF:entiteittype="NPS" StUF:sleutelVerzendend="0" StUF:sleutelGegevensbeheer="0">
+               <BG:inp.bsn>999999999</BG:inp.bsn>
+               <BG:sub.typering xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+               <BG:inp.a-nummer>9999999999</BG:inp.a-nummer>
+               <BG:geslachtsnaam>Achternaam</BG:geslachtsnaam>
+               <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:voorletters>V.L.</BG:voorletters>
+               <BG:voornamen>Voornaam</BG:voornamen>
+               <BG:aanduidingNaamgebruik>E</BG:aanduidingNaamgebruik>
+               <BG:geslachtsnaamPartner>Partnernaam</BG:geslachtsnaamPartner>
+               <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:aanhefAanschrijving xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:voornamenAanschrijving xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:geslachtsnaamAanschrijving>Achternaam</BG:geslachtsnaamAanschrijving>
+               <BG:adellijkeTitelPredikaat xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+               <BG:geboortedatum>19700101</BG:geboortedatum>
+               <BG:inp.geboorteplaats>0080</BG:inp.geboorteplaats>
+               <BG:inp.geboorteLand>6030</BG:inp.geboorteLand>
+               <BG:overlijdensdatum xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.overlijdenplaats xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.overlijdenLand xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.verblijftIn StUF:entiteittype="NPSTGO" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="1">
+                  <BG:gerelateerde StUF:entiteittype="TGO" StUF:sleutelVerzendend="2" StUF:sleutelGegevensbeheer="2">
+                  </BG:gerelateerde>
+                  <BG:inOnderzoek StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                </BG:inp.verblijftIn>
+               <BG:verblijfsadres>
+                </BG:verblijfsadres>
+                <BG:sub.correspondentieAdres>
+                </BG:sub.correspondentieAdres>
+               <BG:sub.telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:sub.faxnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:sub.emailadres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:sub.url xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:sub.rekeningnummerBankGiro xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:acd.code xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:acd.code xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:acd.code xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inp.burgerlijkeStaat>3</BG:inp.burgerlijkeStaat>
+               <BG:inp.gemeenteVanInschrijving>363</BG:inp.gemeenteVanInschrijving>
+               <BG:inp.datumInschrijving>20070101</BG:inp.datumInschrijving>
+               <BG:vbt.aanduidingVerblijfstitel xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:ing.datumVerkrijgingVerblijfstitel xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:ing.datumVerliesVerblijfstitel xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inp.datumVestigingInNederland xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inp.immigratieLand xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inp.datumVertrekUitNederland xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.emigratieLand xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.signaleringReisdocument xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inp.aanduidingBijzonderNederlanderschap xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inp.buitenlandsReisdocument xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:ing.aanduidingEuropeesKiesrecht xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:ing.aanduidingUitgeslotenKiesrecht xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:ing.indicatieGezagMinderjarige xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:ing.indicatieCurateleRegister xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inp.datumOpschortingBijhouding xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.redenOpschortingBijhouding xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.indicatieGeheim>0</BG:inp.indicatieGeheim>
+               <BG:ing.indicatieBlokkering xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inOnderzoek groepsnaam="Persoonsgegevens" StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inOnderzoek groepsnaam="Overlijden" StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:inOnderzoek elementnaam="aanduidingVerblijfstitel" StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:aanduidingStrijdigheidNietigheid StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:brondocument StUF:metagegeven="true">
+                  <BG:identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                  <BG:datum xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                  <BG:omschrijving xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                  <BG:gemeente xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                  <BG:aktegemeente xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               </BG:brondocument>
+               <StUF:tijdvakGeldigheid>
+                  <StUF:beginGeldigheid>99999999</StUF:beginGeldigheid>
+                  <StUF:eindGeldigheid xsi:nil="true" StUF:noValue="geenWaarde"/>
+               </StUF:tijdvakGeldigheid>
+               <StUF:tijdstipRegistratie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <StUF:extraElementen>
+                <StUF:extraElement naam="rechtsvorm">Eenmanszaak</StUF:extraElement>
+                </StUF:extraElementen>
+               <BG:inp.heeftAlsEchtgenootPartner StUF:entiteittype="NPSNPSHUW" StUF:sleutelVerzendend="3" StUF:sleutelGegevensbeheer="3">
+               </BG:inp.heeftAlsEchtgenootPartner>
+               <BG:inp.heeftAlsKinderen StUF:entiteittype="NPSNPSKND" xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:inp.heeftAlsOuders StUF:entiteittype="NPSNPSOUD" StUF:sleutelVerzendend="4" StUF:sleutelGegevensbeheer="4">
+               </BG:inp.heeftAlsOuders>
+               <BG:inp.heeftAlsOuders StUF:entiteittype="NPSNPSOUD" StUF:sleutelVerzendend="5" StUF:sleutelGegevensbeheer="5">
+               </BG:inp.heeftAlsOuders>
+               <BG:inp.heeftAlsNationaliteit StUF:entiteittype="NPSNAT" StUF:sleutelVerzendend="6" StUF:sleutelGegevensbeheer="6">
+               </BG:inp.heeftAlsNationaliteit>
+               <BG:ing.isHouderVan StUF:entiteittype="NPSRSDHDR" xsi:nil="true" StUF:noValue="geenWaarde"/>
+               <BG:ing.isBijgeschrevenOp StUF:entiteittype="NPSRSDBIJ" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               <BG:rps.isEigenaarVan StUF:entiteittype="NPSMAC" StUF:sleutelVerzendend="7">
+                  <BG:gerelateerde StUF:entiteittype="MAC" StUF:sleutelVerzendend="8" StUF:sleutelGegevensbeheer="8">
+                     <BG:kvkNummer>12345678</BG:kvkNummer>
+                     <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                     <BG:datumAanvang>19920101</BG:datumAanvang>
+                     <BG:datumVoortzetting xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                     <BG:datumEinde>20200101</BG:datumEinde>
+                     <StUF:tijdvakGeldigheid>
+                        <StUF:beginGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <StUF:eindGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                     </StUF:tijdvakGeldigheid>
+                     <StUF:tijdstipRegistratie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                     <StUF:extraElementen>
+                        <StUF:extraElement naam="coordinateX" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <StUF:extraElement naam="coordinateY" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <StUF:extraElement naam="nonMailing">Nee</StUF:extraElement>
+                     </StUF:extraElementen>
+                     <BG:oefentActiviteitUitIn StUF:entiteittype="MACVES" StUF:sleutelVerzendend="9">
+                        <BG:gerelateerde StUF:entiteittype="VES" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+                           <BG:vestigingsNummer>000000000001</BG:vestigingsNummer>
+                           <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                           <BG:handelsnaam>Ding 1</BG:handelsnaam>
+                           <BG:volgorde>0</BG:volgorde>
+                           <BG:handelsnaam>Ding 2</BG:handelsnaam>
+                           <BG:volgorde>1</BG:volgorde>
+                           <BG:handelsnaam>Ding 3</BG:handelsnaam>
+                           <BG:volgorde>2</BG:volgorde>
+                           <BG:handelsnaam>Ding 4</BG:handelsnaam>
+                           <BG:volgorde>3</BG:volgorde>
+                           <BG:datumAanvang>19920101</BG:datumAanvang>
+                           <BG:datumEinde>20200101</BG:datumEinde>
+                           <BG:activiteit>
+                              <BG:code>000000000069209</BG:code>
+                              <BG:omschrijving>Overige administratiekantoren</BG:omschrijving>
+                              <BG:indicatieHoofdactiviteit>J</BG:indicatieHoofdactiviteit>
+                           </BG:activiteit>
+                           <BG:activiteit>
+                              <BG:code>000000000070221</BG:code>
+                              <BG:omschrijving>Organisatie-adviesbureaus</BG:omschrijving>
+                              <BG:indicatieHoofdactiviteit>N</BG:indicatieHoofdactiviteit>
+                           </BG:activiteit>
+                           <BG:activiteit>
+                              <BG:code>000000000007810</BG:code>
+                              <BG:omschrijving>Arbeidsbemiddeling</BG:omschrijving>
+                              <BG:indicatieHoofdactiviteit>N</BG:indicatieHoofdactiviteit>
+                           </BG:activiteit>
+                           <BG:typeringVestiging>Hoofdvestiging</BG:typeringVestiging>
+                           <BG:verblijfsadres>
+                              <BG:aoa.identificatie>0000000000000001</BG:aoa.identificatie>
+                              <BG:wpl.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <BG:wpl.woonplaatsNaam>Amsterdam</BG:wpl.woonplaatsNaam>
+                              <BG:aoa.woonplaatsWaarinGelegen>
+                                 <BG:wpl.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                                 <BG:wpl.woonplaatsNaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              </BG:aoa.woonplaatsWaarinGelegen>
+                              <BG:gor.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <BG:opr.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <BG:gor.openbareRuimteNaam>Amstel</BG:gor.openbareRuimteNaam>
+                              <BG:gor.straatnaam>Amstel</BG:gor.straatnaam>
+                              <BG:aoa.postcode>1011PN</BG:aoa.postcode>
+                              <BG:aoa.huisnummer>1</BG:aoa.huisnummer>
+                              <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+                              <BG:aoa.huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>
+                              <BG:begindatumVerblijf>20200101</BG:begindatumVerblijf>
+                           </BG:verblijfsadres>
+                           <BG:sub.correspondentieAdres>
+                              <BG:typering>Aanschrijvingsadres</BG:typering>
+                              <BG:wpl.woonplaatsNaam>Amsterdam</BG:wpl.woonplaatsNaam>
+                              <BG:aoa.woonplaatsWaarinGelegen>
+                                 <BG:wpl.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                                 <BG:wpl.woonplaatsNaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              </BG:aoa.woonplaatsWaarinGelegen>
+                              <BG:postcode>1011PN</BG:postcode>
+                              <BG:aoa.identificatie>0000000000000002</BG:aoa.identificatie>
+                              <BG:wpl.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <BG:opr.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <BG:gor.openbareRuimteNaam>Amstel</BG:gor.openbareRuimteNaam>
+                              <BG:gor.straatnaam>Amstel</BG:gor.straatnaam>
+                              <BG:aoa.huisnummer>1</BG:aoa.huisnummer>
+                              <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+                              <BG:aoa.huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>
+                           </BG:sub.correspondentieAdres>
+                           <BG:sub.telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           <BG:sub.faxnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           <BG:sub.emailadres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           <BG:sub.url xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           <BG:sub.rekeningnummerBankGiro xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           <StUF:tijdvakGeldigheid>
+                              <StUF:beginGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <StUF:eindGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           </StUF:tijdvakGeldigheid>
+                           <StUF:tijdstipRegistratie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           <StUF:extraElementen>
+                              <StUF:extraElement naam="bic" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <StUF:extraElement naam="coordinateX">121828</StUF:extraElement>
+                              <StUF:extraElement naam="coordinateY">486751</StUF:extraElement>
+                              <StUF:extraElement naam="iban" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                              <StUF:extraElement naam="ookGenoemd" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           </StUF:extraElementen>
+                        </BG:gerelateerde>
+                        <StUF:tijdvakGeldigheid>
+                           <StUF:beginGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                           <StUF:eindGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        </StUF:tijdvakGeldigheid>
+                        <StUF:tijdstipRegistratie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                     </BG:oefentActiviteitUitIn>
+                  </BG:gerelateerde>
+                  <BG:inOnderzoek StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                  <StUF:tijdvakGeldigheid>
+                     <StUF:beginGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                     <StUF:eindGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                  </StUF:tijdvakGeldigheid>
+                  <StUF:tijdstipRegistratie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+               </BG:rps.isEigenaarVan>
+            </BG:object>
+         </BG:antwoord>
+      </BG:npsLa01>
+   </soapenv:Body>
+</soapenv:Envelope>

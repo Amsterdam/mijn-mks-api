@@ -1,0 +1,76 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ns="http://www.egem.nl/StUF/sector/bg/0310" xmlns:stuf="http://www.egem.nl/StUF/StUF0301"
+                  xmlns:xlin="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml">
+    <soapenv:Header/>
+    <soapenv:Body>
+
+        {% if bsn %}
+            <ns:npsLv01>
+        {% elif kvk_nummer %}
+            <ns:macLv01>
+        {% elif nnpid %}
+            <ns:nnpLv01>
+        {% endif %}
+
+        <ns:stuurgegevens>
+            <stuf:berichtcode>Lv01</stuf:berichtcode>
+            <stuf:zender>
+                <stuf:applicatie>{{ applicatie }}</stuf:applicatie>
+                <stuf:gebruiker>{{ gebruiker }}</stuf:gebruiker>
+            </stuf:zender>
+            <stuf:ontvanger>
+                <stuf:organisatie>Amsterdam</stuf:organisatie>
+                <stuf:applicatie>CGM</stuf:applicatie>
+            </stuf:ontvanger>
+            <stuf:referentienummer>{{ referentienummer }}</stuf:referentienummer>
+            <stuf:tijdstipBericht>{{ timestamp }}</stuf:tijdstipBericht>
+
+            {% if bsn %}
+                <stuf:entiteittype>NPS</stuf:entiteittype>
+            {% elif kvk_nummer %}
+                <stuf:entiteittype>MAC</stuf:entiteittype>
+            {% elif nnpid %}
+                <stuf:entiteittype>NNP</stuf:entiteittype>
+            {% endif %}
+
+        </ns:stuurgegevens>
+        <ns:parameters>
+            <stuf:sortering>01</stuf:sortering>
+            <stuf:indicatorVervolgvraag>false</stuf:indicatorVervolgvraag>
+            <stuf:maximumAantal>1</stuf:maximumAantal>
+            <stuf:indicatorAfnemerIndicatie>false</stuf:indicatorAfnemerIndicatie>
+            <stuf:indicatorAantal>false</stuf:indicatorAantal>
+        </ns:parameters>
+
+        {% if bsn %}
+            <ns:gelijk stuf:entiteittype="NPS">
+                <ns:inp.bsn>{{ bsn }}</ns:inp.bsn>
+            </ns:gelijk>
+            <ns:scope>
+                <ns:object stuf:entiteittype="NPS" stuf:scope="alles"/>
+            </ns:scope>
+        {% elif kvk_nummer %}
+            <ns:gelijk stuf:entiteittype="MAC">
+                <ns:kvkNummer>{{ kvk_nummer }}</ns:kvkNummer>
+            </ns:gelijk>
+            <ns:scope>
+                <ns:object stuf:entiteittype="MAC" stuf:scope="alles"/>
+            </ns:scope>
+        {% elif nnpid %}
+            <ns:gelijk stuf:entiteittype="NNP">
+                <ns:inn.nnpId>{{ nnpid }}</ns:inn.nnpId>
+            </ns:gelijk>
+            <ns:scope>
+                <ns:object stuf:entiteittype="NNP" stuf:scope="alles"/>
+            </ns:scope>
+        {% endif %}
+
+        {% if nnpid %}
+            </ns:nnpLv01>
+        {% elif kvk_nummer %}
+            </ns:macLv01>
+        {% elif bsn %}
+            </ns:npsLv01>
+        {% endif %}
+    </soapenv:Body>
+</soapenv:Envelope>
