@@ -60,7 +60,7 @@ def _get_response(mks_url, soap_request):
 
 def get_from_bsn(bsn: str):
     soap_request = _get_soap_request(bsn=bsn)
-    response = _get_response(MKS_ENDPOINT, soap_request)
+    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag', soap_request)
 
     if log_response:
         content_bytesio = BytesIO(response)
@@ -102,7 +102,7 @@ def extract_for_bsn(xml_data):
 
 def get_from_kvk(kvk_number: str):
     soap_request = _get_soap_request(kvk_number=kvk_number)
-    response = _get_response(MKS_ENDPOINT, soap_request)
+    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag', soap_request)
 
     if log_response:
         content_bytesio = BytesIO(response)

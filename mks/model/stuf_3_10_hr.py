@@ -67,7 +67,9 @@ def extract_owner_persoon(owner: Tag):
 
     set_fields(owner, fields, result)
 
-    address = extract_owner_address(owner.find('verblijfsadres'))  # TODO: make this work for zzp. different xml tag (inp.verblijftIn or verblijfsadres?)
+    # TODO: make this work for zzp. different xml tag (inp.verblijftIn or verblijfsadres?)
+    #       But there is no response for this?
+    address = extract_owner_address(owner.find('verblijfsadres'))
     result['adres'] = address
 
     return result
