@@ -14,9 +14,11 @@ def get_xml_response_fixture(*args):
     with open(RESPONSE_PATH, 'rb') as response_file:
         return response_file.read()
 
+
 def get_xml_response_empty_fixture(*args):
     with open(RESPONSE_EMPTY_PATH, 'rb') as response_file:
         return response_file.read()
+
 
 class KvkHrTest(TestCase):
     def _expected_result(self) -> dict:
