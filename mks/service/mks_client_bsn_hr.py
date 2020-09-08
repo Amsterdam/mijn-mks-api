@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import etree
 
-from mks.model.stuf_3_10_hr import extract_data_is_eigenaar_van, extract_oefent_activiteiten_uit_in, extract_owners, \
+from mks.model.stuf_3_10_hr import extract_oefent_activiteiten_uit_in, extract_owners, \
     extract_basic_info, extract_owner_persoon
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
@@ -134,21 +134,6 @@ def extract_for_kvk(xml_str):
 
         return data
 
-
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
         raise ExtractionError()
-
-# def extract_for_kvk(xml_data):
-#     try:
-#         tree = BeautifulSoup(xml_data, features='lxml-xml')
-#         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
-#         eigenaren = tree.Body.find_all('heeftAlsEigenaar')
-#         return {
-#             'activiteiten': extract_oefent_activiteiten_uit_in(activiteiten),
-#             'eigenaren': extract_owners(eigenaren)
-#         }
-#     except Exception as e:
-#         logging.error(f"Error: {type(e)} {e}")
-#         raise ExtractionError()
-#

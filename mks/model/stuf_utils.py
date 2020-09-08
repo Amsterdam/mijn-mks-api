@@ -1,6 +1,6 @@
 import base64
 import json
-from datetime import datetime, date
+from datetime import datetime
 import re
 
 from jwcrypto import jwe
