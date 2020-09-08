@@ -81,6 +81,9 @@ def extract_for_bsn(xml_data):
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren = tree.Body.find('object')
 
+        if not eigenaren:
+            return {}
+
         data = {
             'mokum': is_amsterdammer,
             'onderneming': extract_basic_info(onderneming),
@@ -122,6 +125,9 @@ def extract_for_kvk(xml_str):
         onderneming = tree.Body.find('object')
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren = tree.Body.find_all('heeftAlsEigenaar')
+
+        if not onderneming:
+            return {}
 
         data = {
             'mokum': is_amsterdammer,

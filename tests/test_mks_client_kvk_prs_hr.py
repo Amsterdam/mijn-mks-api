@@ -7,12 +7,16 @@ from mks.service import mks_client_bsn_hr
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_kvk_prs_response.xml")
+RESPONSE_EMPTY_PATH = os.path.join(FIXTURE_PATH, "hr_empty_response.xml")
 
 
 def get_xml_response_fixture(*args):
     with open(RESPONSE_PATH, 'rb') as response_file:
         return response_file.read()
 
+def get_xml_response_empty_fixture(*args):
+    with open(RESPONSE_EMPTY_PATH, 'rb') as response_file:
+        return response_file.read()
 
 class KvkHrTest(TestCase):
     def _expected_result(self) -> dict:
@@ -57,3 +61,9 @@ class KvkHrTest(TestCase):
         result = mks_client_bsn_hr.get_from_kvk('123456789')
 
         self.assertEqual(result, self._expected_result())
+
+    @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_empty_fixture)
+    def test_get_empty(self):
+        result = mks_client_bsn_hr.get_from_kvk('123456789')
+
+        self.assertEqual(result, {})
