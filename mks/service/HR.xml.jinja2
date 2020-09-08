@@ -8,6 +8,8 @@
             <ns:npsLv01>
         {% elif kvk_nummer %}
             <ns:macLv01>
+        {% elif nnpid %}
+            <ns:nnpLv01>
         {% endif %}
 
         <ns:stuurgegevens>
@@ -63,7 +65,9 @@
             </ns:scope>
         {% endif %}
 
-        {% if kvk_nummer %}
+        {% if nnpid %}
+            </ns:nnpLv01>
+        {% elif kvk_nummer %}
             </ns:macLv01>
         {% elif bsn %}
             </ns:npsLv01>
