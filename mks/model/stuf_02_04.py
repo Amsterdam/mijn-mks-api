@@ -44,11 +44,6 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
     for n in result:
         del n['datumVerlies']
 
-    # if someone is Dutch, only return Dutch
-    for nat in result:
-        if nat['code'] == 1:
-            return [{'code': 1, 'omschrijving': 'Nederlandse'}]
-
     return result
 
 
