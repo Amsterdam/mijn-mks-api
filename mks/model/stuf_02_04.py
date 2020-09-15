@@ -3,14 +3,14 @@ from collections import defaultdict
 from datetime import datetime
 from hashlib import sha256
 
-from bs4 import Tag
+from bs4 import Tag, ResultSet
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
     set_extra_fields, as_postcode, encrypt
 
 
-def get_nationaliteiten(nationaliteiten: Tag):
+def get_nationaliteiten(nationaliteiten: ResultSet):
     result = []
 
     fields = [
@@ -21,6 +21,9 @@ def get_nationaliteiten(nationaliteiten: Tag):
         {'name': 'omschrijving', 'parser': to_string},
         {'name': 'code', 'parser': to_int},
     ]
+
+    if nationaliteiten[0].get("xsi:nil") == 'true':
+        return []
 
     for nat in nationaliteiten:
         nationaliteit = {}
