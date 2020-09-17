@@ -56,6 +56,21 @@ def extract_owner_nnp(owner: Tag):
     return result
 
 
+def extract_address(address: Tag):
+    result = {}
+
+    fields = {
+        {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
+        {'name': 'gor.straatnaam', 'parser': to_string, 'save_as': 'straatnaam'},
+        {'name': 'aoa.postcode', 'parser': to_string, 'save_as': 'postcode'},
+        {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
+        {'name': 'aoa.huisletter', 'parser': to_string, 'save_as': 'huisletter'},
+        {'name': 'aoa.huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
+    }
+    set_fields(address, fields, result)
+    return result
+
+
 def extract_owner_persoon(owner: Tag):
     """ Extracts data from <natuurlijkPersoon> or <object StUF:entiteittype="NPS"> """
     result = {}
@@ -71,24 +86,9 @@ def extract_owner_persoon(owner: Tag):
 
     # TODO: make this work for zzp. different xml tag (inp.verblijftIn or verblijfsadres?)
     #       But there is no response for this?
-    address = extract_owner_address(owner.find('verblijfsadres'))
+    address = extract_address(owner.find('verblijfsadres'))
     result['adres'] = address
 
-    return result
-
-
-def extract_owner_address(address: Tag):
-    result = {}
-    fields = [
-        {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
-        {'name': 'gor.openbareRuimteNaam', 'parser': to_string, 'save_as': 'openbareRuimteNaam'},
-        {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
-        {'name': 'aoa.huisletter', 'parser': to_string, 'save_as': 'huisletter'},
-        {'name': 'aoa.huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
-        {'name': 'aoa.postcode', 'parser': as_postcode, 'save_as': 'postcode'},
-    ]
-
-    set_fields(address, fields, result)
     return result
 
 
@@ -128,8 +128,6 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
         {'name': 'sub.url', 'parser': to_string, 'save_as': 'url'},
     ]
 
-    # TODO: postadres en bezoekadres
-
     for act in activities:
         result_activity = {}
         set_fields(act, fields, result_activity)
@@ -140,6 +138,9 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
 
         activiteiten_omschrijvingen = extract_activiteiten(act.find_all('activiteit'))
         result_activity['activiteiten'] = activiteiten_omschrijvingen
+
+        result_activity['bezoekadres'] = extract_address(act.find('sub.verblijfsadres'))
+        result_activity['postadres'] = extract_address(act.find('sub.correspondentieAdres'))
 
         result.append(result_activity)
 

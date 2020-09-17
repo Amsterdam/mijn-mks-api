@@ -171,7 +171,8 @@ def extract_for_kvk(xml_str):
             'datumEinde': object_data['datumEinde'],
             'handelsnamen': handelsnamen,
             'rechtsvorm': rechtsvorm,
-            'ondernemingsactiviteiten': list(ondernemingsactiviteiten),
+            'overigeActiviteiten': list(ondernemingsactiviteiten),
+            'hoofdactiviteit': hoofdactiviteit
         }
 
         rechtspersonen = []
