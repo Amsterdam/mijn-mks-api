@@ -24,7 +24,9 @@ class KvkHrTest(TestCase):
             'onderneming': {
                 'datumAanvang': None,
                 'datumEinde': None,
-                'kvkNummer': '1234567'
+                'kvkNummer': '1234567',
+                'handelsnamen': '',
+                'rechtsvorm': '',
             },
             'rechtspersonen': [
                 {
@@ -55,7 +57,6 @@ class KvkHrTest(TestCase):
                     'emailadres': 'email@example.com',
                     'faxnummer': None,
                     'handelsnamen': ['Handelsnaam'],
-                    'rekeningnummerBankGiro': None,
                     'telefoonnummer': '+310200000000',
                     'typeringVestiging': 'Hoofdvestiging',
                     'vestigingsNummer': '000000000001'},
@@ -64,9 +65,7 @@ class KvkHrTest(TestCase):
                         {
                             'code': '000000000056102',
                             'indicatieHoofdactiviteit': True,
-                            'omschrijving': 'Fastfoodrestaurants, '
-                                            "cafetaria's, ijssalons, "
-                                            'eetkramen e.d.'
+                            'omschrijving': "Fastfoodrestaurants, cafetaria's, ijssalons, eetkramen e.d."
                         }
                     ],
                     'datumAanvang': date(2015, 1, 1),
@@ -74,7 +73,6 @@ class KvkHrTest(TestCase):
                     'emailadres': 'mail@example.com',
                     'faxnummer': None,
                     'handelsnamen': ['Handelsnaam 2e locatie'],
-                    'rekeningnummerBankGiro': None,
                     'telefoonnummer': '+310000000000',
                     'typeringVestiging': 'Nevenvestiging',
                     'vestigingsNummer': '000000000002'
@@ -92,7 +90,6 @@ class KvkHrTest(TestCase):
                     'emailadres': 'mail@example.com',
                     'faxnummer': None,
                     'handelsnamen': ['Handelsnaam v.o.f.'],
-                    'rekeningnummerBankGiro': None,
                     'telefoonnummer': '+310200000000',
                     'typeringVestiging': 'Nevenvestiging',
                     'vestigingsNummer': '000000000003'

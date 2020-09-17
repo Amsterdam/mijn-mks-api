@@ -93,11 +93,12 @@ def extract_for_bsn(xml_data):
             'bestuurders': [],
         }
 
+        #TODO: voeg toe: Handelsnaam Overige handelsnamen Rechtsvorm Ondernemingsactiviteit Activiteiten
+        #TODO: kvk nummer bij rechtpersoon
+
+
         return data
 
-        # hr_data = tree.Body.find_all('rps.isEigenaarVan')
-        # data = extract_data_is_eigenaar_van(hr_data)
-        # return data
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
         raise ExtractionError()
@@ -122,18 +123,73 @@ def extract_for_kvk(xml_str):
 
         is_amsterdammer = True  # TODO: fill me
 
-        onderneming = tree.Body.find('object')
-        activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
-        eigenaren = tree.Body.find_all('heeftAlsEigenaar')
+        object_data = tree.Body.find('object')
+        activiteiten_data = tree.Body.find_all('oefentActiviteitUitIn')
+        eigenaren_data = tree.Body.find_all('heeftAlsEigenaar')
 
-        if not onderneming:
+        if not object_data:
             return {}
+
+        object_data = extract_basic_info(object_data)
+        eigenaren_data = extract_owners(eigenaren_data)
+        activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten_data)
+
+        handelsnamen = set()
+        ondernemingsactiviteiten = set()
+        vestigingen = []
+        hoofdactiviteit = None
+
+        for i in activiteiten_data:
+            handelsnamen.update(i['handelsnamen'])
+            for j in i['activiteiten']:
+                if j['indicatieHoofdactiviteit']:
+                    hoofdactiviteit = j['omschrijving']
+                else:
+                    ondernemingsactiviteiten.add(j['omschrijving'])
+
+            vestiging = {
+                'vestigingsNummer': i['vestigingsNummer'],
+                'handelsnamen': i['handelsnamen'],
+                'typeringVestiging': i['typeringVestiging'],
+                'datumAanvang': i['datumAanvang'],
+                'datumEinde': i['datumEinde'],
+                'telefoonnummer': i['telefoonnummer'],
+                'faxnummer': i['faxnummer'],
+                'emailadres': i['emailadres'],
+                'websites': i['url'],
+                'activiteiten': [j['omschrijving'] for j in i['activiteiten']],
+                'bezoekadres': {},
+                'postadres': {},
+            }
+            vestigingen.append(vestiging)
+        handelsnamen = list(handelsnamen)
+
+        rechtsvorm = eigenaren_data[0]['rechtsvorm']
+
+        onderneming = {
+            'datumAanvang': object_data['datumAanvang'],
+            'datumEinde': object_data['datumEinde'],
+            'handelsnamen': handelsnamen,
+            'rechtsvorm': rechtsvorm,
+            'ondernemingsactiviteiten': list(ondernemingsactiviteiten),
+        }
+
+        rechtspersonen = []
+        for i in eigenaren_data:
+            persoon = {
+                'kvkNummer': object_data['kvkNummer'],
+                'rsin': i.get('nnpId', None),
+                'bsn': i.get('bsn', None),
+                'statutaireNaam': i.get('statutaireNaam', None),
+                'statutaireZetel': i.get('statutaireZetel', None),
+            }
+            rechtspersonen.append(persoon)
 
         data = {
             'mokum': is_amsterdammer,
-            'onderneming': extract_basic_info(onderneming),
-            'rechtspersonen': extract_owners(eigenaren),
-            'vestigingen': extract_oefent_activiteiten_uit_in(activiteiten),
+            'onderneming': onderneming,
+            'rechtspersonen': rechtspersonen,
+            'vestigingen': vestigingen,
             'aandeelhouders': [],
             'bestuurders': [],
         }

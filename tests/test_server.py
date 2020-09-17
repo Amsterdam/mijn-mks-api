@@ -80,7 +80,6 @@ class HrBsnTest(FlaskServerTMATestCase):
                                          'Ding 2',
                                          'Ding 3',
                                          'Ding 4'],
-                        'rekeningnummerBankGiro': None,
                         'telefoonnummer': None,
                         'typeringVestiging': 'Hoofdvestiging',
                         'vestigingsNummer': '000000000001'
@@ -146,7 +145,6 @@ class HrKvkTest(FlaskServerTMATestCase):
                             'Ding 3',
                             'Ding 4'
                         ],
-                        'rekeningnummerBankGiro': None,
                         'telefoonnummer': None,
                         'typeringVestiging': 'Hoofdvestiging',
                         'vestigingsNummer': '000000000001'

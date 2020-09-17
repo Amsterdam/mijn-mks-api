@@ -39,6 +39,7 @@ def extract_owner_nnp(owner: Tag):
     result = {}
 
     fields = [
+        {'name': 'inn.nnpId', 'parser': to_string, 'save_as': 'nnpId'},
         {'name': 'statutaireNaam', 'parser': to_string},
         {'name': 'inn.rechtsvorm', 'parser': to_string, 'save_as': 'rechtsvorm'},
         {'name': 'inn.statutaireZetel', 'parser': to_string, 'save_as': 'statutaireZetel'},
@@ -60,6 +61,7 @@ def extract_owner_persoon(owner: Tag):
     result = {}
 
     fields = [
+        {'name': 'inp.bsn', 'parser': to_string, 'save_as': 'bsn'},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'voornamen', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_date},
@@ -107,6 +109,7 @@ def extract_owners(owners: ResultSet):
             np_result = extract_owner_persoon(i)
             np_result['type'] = 'np'
             result.append(np_result)
+    #TODO geen adres, match spreadsheet
 
     return result
 
@@ -122,8 +125,10 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
         {'name': 'sub.telefoonnummer', 'parser': to_string, 'save_as': 'telefoonnummer'},
         {'name': 'sub.faxnummer', 'parser': to_string, 'save_as': 'faxnummer'},
         {'name': 'sub.emailadres', 'parser': to_string, 'save_as': 'emailadres'},
-        {'name': 'sub.rekeningnummerBankGiro', 'parser': to_string, 'save_as': 'rekeningnummerBankGiro'},
+        {'name': 'sub.url', 'parser': to_string, 'save_as': 'url'},
     ]
+
+    # TODO: postadres en bezoekadres
 
     for act in activities:
         result_activity = {}
