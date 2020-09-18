@@ -59,14 +59,14 @@ def extract_owner_nnp(owner: Tag):
 def extract_address(address: Tag):
     result = {}
 
-    fields = {
+    fields = [
         {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
         {'name': 'gor.straatnaam', 'parser': to_string, 'save_as': 'straatnaam'},
         {'name': 'aoa.postcode', 'parser': to_string, 'save_as': 'postcode'},
         {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
         {'name': 'aoa.huisletter', 'parser': to_string, 'save_as': 'huisletter'},
         {'name': 'aoa.huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
-    }
+    ]
     set_fields(address, fields, result)
     return result
 
@@ -139,7 +139,7 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
         activiteiten_omschrijvingen = extract_activiteiten(act.find_all('activiteit'))
         result_activity['activiteiten'] = activiteiten_omschrijvingen
 
-        result_activity['bezoekadres'] = extract_address(act.find('sub.verblijfsadres'))
+        result_activity['bezoekadres'] = extract_address(act.find('verblijfsadres'))
         result_activity['postadres'] = extract_address(act.find('sub.correspondentieAdres'))
 
         result.append(result_activity)

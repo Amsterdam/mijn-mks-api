@@ -162,7 +162,7 @@ def extract_for_kvk(xml_str):
                 'postadres': {},
             }
             vestigingen.append(vestiging)
-        handelsnamen = list(handelsnamen)
+        handelsnamen = sorted(list(handelsnamen))
 
         rechtsvorm = eigenaren_data[0]['rechtsvorm']
 
@@ -171,7 +171,7 @@ def extract_for_kvk(xml_str):
             'datumEinde': object_data['datumEinde'],
             'handelsnamen': handelsnamen,
             'rechtsvorm': rechtsvorm,
-            'overigeActiviteiten': list(ondernemingsactiviteiten),
+            'overigeActiviteiten': sorted(list(ondernemingsactiviteiten)),
             'hoofdactiviteit': hoofdactiviteit
         }
 
@@ -199,4 +199,5 @@ def extract_for_kvk(xml_str):
 
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
+        raise
         raise ExtractionError()
