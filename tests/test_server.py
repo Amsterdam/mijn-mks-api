@@ -43,12 +43,14 @@ class HrBsnTest(FlaskServerTMATestCase):
                             'huisletter': None,
                             'huisnummer': None,
                             'huisnummertoevoeging': None,
-                            'openbareRuimteNaam': None,
+                            'straatnaam': None,
                             'postcode': None,
                             'woonplaatsNaam': None
                         },
+                        'bsn': None,
                         'geboortedatum': '1970-01-01',
                         'geslachtsnaam': 'Achternaam',
+                        'rechtsvorm': 'Eenmanszaak',
                         'voornamen': 'Voornaam'
                     }
                 ],
@@ -72,6 +74,12 @@ class HrBsnTest(FlaskServerTMATestCase):
                                 'omschrijving': 'Arbeidsbemiddeling'
                             }
                         ],
+                        'bezoekadres': {'huisletter': None,
+                                        'huisnummer': '1',
+                                        'huisnummertoevoeging': None,
+                                        'postcode': '1011PN',
+                                        'straatnaam': 'Amstel',
+                                        'woonplaatsNaam': 'Amsterdam'},
                         'datumAanvang': '1992-01-01',
                         'datumEinde': '2020-01-01',
                         'emailadres': None,
@@ -80,8 +88,15 @@ class HrBsnTest(FlaskServerTMATestCase):
                                          'Ding 2',
                                          'Ding 3',
                                          'Ding 4'],
+                        'postadres': {'huisletter': None,
+                                      'huisnummer': '1',
+                                      'huisnummertoevoeging': None,
+                                      'postcode': None,
+                                      'straatnaam': 'Amstel',
+                                      'woonplaatsNaam': 'Amsterdam'},
                         'telefoonnummer': None,
                         'typeringVestiging': 'Hoofdvestiging',
+                        'url': None,
                         'vestigingsNummer': '000000000001'
                     }
                 ]

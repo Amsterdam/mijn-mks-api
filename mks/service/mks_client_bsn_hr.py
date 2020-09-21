@@ -158,8 +158,8 @@ def extract_for_kvk(xml_str):
                 'emailadres': i['emailadres'],
                 'websites': i['url'],
                 'activiteiten': [j['omschrijving'] for j in i['activiteiten']],
-                'bezoekadres': {},
-                'postadres': {},
+                'bezoekadres': i['bezoekadres'],
+                'postadres': i['postadres'],
             }
             vestigingen.append(vestiging)
         handelsnamen = sorted(list(handelsnamen))

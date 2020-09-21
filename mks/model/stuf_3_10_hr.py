@@ -1,6 +1,6 @@
 from bs4 import Tag, ResultSet
 
-from mks.model.stuf_utils import to_string, to_date, set_fields, to_bool, as_postcode
+from mks.model.stuf_utils import to_string, to_date, set_fields, to_bool, as_postcode, set_extra_fields
 
 
 def extract_basic_info(eigendom: Tag):
@@ -82,7 +82,15 @@ def extract_owner_persoon(owner: Tag):
         {'name': 'geboortedatum', 'parser': to_date},
     ]
 
+    extra_fields = [
+        {'name': 'rechtsvorm', 'parser': to_string},
+        {'name': 'inp.bsn', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'inp.bsn', 'parser': to_string, 'save_as': 'bsn'},
+
+    ]
+
     set_fields(owner, fields, result)
+    set_extra_fields(owner, extra_fields, result)
 
     # TODO: make this work for zzp. different xml tag (inp.verblijftIn or verblijfsadres?)
     #       But there is no response for this?

@@ -32,13 +32,15 @@ class BsnHrTest(TestCase):
                         'huisletter': None,
                         'huisnummer': None,
                         'huisnummertoevoeging': None,
-                        'openbareRuimteNaam': None,
+                        'straatnaam': None,
                         'postcode': None,
                         'woonplaatsNaam': None
                     },
+                    'bsn': None,
                     'geboortedatum': date(1970, 1, 1),
                     'geslachtsnaam': 'Achternaam',
-                    'voornamen': 'Voornaam'
+                    'voornamen': 'Voornaam',
+                    'rechtsvorm': 'Eenmanszaak',
                 }
             ],
             'vestigingen': [
@@ -61,13 +63,30 @@ class BsnHrTest(TestCase):
                             'omschrijving': 'Arbeidsbemiddeling'
                         }
                     ],
+                    'bezoekadres': {
+                        'huisletter': None,
+                        'huisnummer': '1',
+                        'huisnummertoevoeging': None,
+                        'postcode': '1011PN',
+                        'straatnaam': 'Amstel',
+                        'woonplaatsNaam': 'Amsterdam'
+                    },
                     'datumAanvang': date(1992, 1, 1),
                     'datumEinde': date(2020, 1, 1),
                     'emailadres': None,
                     'faxnummer': None,
                     'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
+                    'postadres': {
+                        'huisletter': None,
+                        'huisnummer': '1',
+                        'huisnummertoevoeging': None,
+                        'postcode': None,
+                        'straatnaam': 'Amstel',
+                        'woonplaatsNaam': 'Amsterdam'
+                    },
                     'telefoonnummer': None,
                     'typeringVestiging': 'Hoofdvestiging',
+                    'url': None,
                     'vestigingsNummer': '000000000001'
                 }
             ]
