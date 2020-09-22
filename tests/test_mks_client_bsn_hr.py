@@ -65,7 +65,7 @@ class BsnHrTest(TestCase):
                     'telefoonnummer': None,
                     'typeringVestiging': 'Hoofdvestiging',
                     'vestigingsNummer': '000000000001',
-                    'websites': None
+                    'websites': []
                 }
             ]
         }

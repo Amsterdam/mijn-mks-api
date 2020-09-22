@@ -78,7 +78,7 @@ class HrBsnTest(FlaskServerTMATestCase):
                         'telefoonnummer': None,
                         'typeringVestiging': 'Hoofdvestiging',
                         'vestigingsNummer': '000000000001',
-                        'websites': None
+                        'websites': []
                     }
                 ]
             },
@@ -152,7 +152,7 @@ class HrKvkTest(FlaskServerTMATestCase):
                         'telefoonnummer': None,
                         'typeringVestiging': 'Hoofdvestiging',
                         'vestigingsNummer': '000000000001',
-                        'websites': None
+                        'websites': []
                     }
                 ]
             },

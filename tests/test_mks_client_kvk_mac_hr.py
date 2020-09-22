@@ -72,7 +72,7 @@ class KvkHrTest(TestCase):
                     'telefoonnummer': '+310200000000',
                     'typeringVestiging': 'Hoofdvestiging',
                     'vestigingsNummer': '000000000001',
-                    'websites': 'www.example.com'
+                    'websites': ['www.example.com']
                 },
                 {
                     'activiteiten': ["Fastfoodrestaurants, cafetaria's, ijssalons, eetkramen e.d."],
@@ -96,7 +96,7 @@ class KvkHrTest(TestCase):
                     'telefoonnummer': '+310000000000',
                     'typeringVestiging': 'Nevenvestiging',
                     'vestigingsNummer': '000000000002',
-                    'websites': 'www.example.com'
+                    'websites': ['www.example.com']
                 },
                 {
                     'activiteiten': ["Fastfoodrestaurants, cafetaria's, ijssalons, eetkramen e.d."],
@@ -120,7 +120,7 @@ class KvkHrTest(TestCase):
                     'telefoonnummer': '+310200000000',
                     'typeringVestiging': 'Nevenvestiging',
                     'vestigingsNummer': '000000000003',
-                    'websites': 'www.example.com'
+                    'websites': ['www.example.com']
                 }
             ]
         }
