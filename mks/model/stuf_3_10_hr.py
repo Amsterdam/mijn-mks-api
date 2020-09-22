@@ -129,9 +129,7 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
         {'name': 'sub.telefoonnummer', 'parser': to_string, 'save_as': 'telefoonnummer'},
         {'name': 'sub.faxnummer', 'parser': to_string, 'save_as': 'faxnummer'},
         {'name': 'sub.emailadres', 'parser': to_string, 'save_as': 'emailadres'},
-        # {'name': 'sub.url', 'parser': to_string, 'save_as': 'url'},
     ]
-
 
     for act in activities:
         result_activity = {}
