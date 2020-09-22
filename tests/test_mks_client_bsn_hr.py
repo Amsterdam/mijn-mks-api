@@ -24,50 +24,28 @@ class BsnHrTest(TestCase):
             'onderneming': {
                 'datumAanvang': date(1992, 1, 1),
                 'datumEinde': date(2020, 1, 1),
-                'kvkNummer': '12345678'
+                'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
+                'hoofdactiviteit': 'Overige administratiekantoren',
+                'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
+                'rechtsvorm': 'Eenmanszaak'
             },
             'rechtspersonen': [
                 {
-                    'adres': {
-                        'huisletter': None,
-                        'huisnummer': None,
-                        'huisnummertoevoeging': None,
-                        'straatnaam': None,
-                        'postcode': None,
-                        'woonplaatsNaam': None
-                    },
-                    'bsn': None,
-                    'geboortedatum': date(1970, 1, 1),
-                    'geslachtsnaam': 'Achternaam',
-                    'voornamen': 'Voornaam',
-                    'rechtsvorm': 'Eenmanszaak',
+                    'bsn': '999999999',
+                    'kvkNummer': '12345678',
+                    'rsin': None,
+                    'statutaireNaam': None,
+                    'statutaireZetel': None
                 }
             ],
             'vestigingen': [
                 {
-                    'activiteiten': [
-                        {
-                            'code': '000000000069209',
-                            'indicatieHoofdactiviteit': True,
-                            'omschrijving': 'Overige '
-                                            'administratiekantoren'
-                        },
-                        {
-                            'code': '000000000070221',
-                            'indicatieHoofdactiviteit': False,
-                            'omschrijving': 'Organisatie-adviesbureaus'
-                        },
-                        {
-                            'code': '000000000007810',
-                            'indicatieHoofdactiviteit': False,
-                            'omschrijving': 'Arbeidsbemiddeling'
-                        }
-                    ],
+                    'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus', 'Arbeidsbemiddeling'],
                     'bezoekadres': {
                         'huisletter': None,
                         'huisnummer': '1',
                         'huisnummertoevoeging': None,
-                        'postcode': '1011PN',
+                        'postcode': '1011 PN',
                         'straatnaam': 'Amstel',
                         'woonplaatsNaam': 'Amsterdam'
                     },
@@ -86,8 +64,8 @@ class BsnHrTest(TestCase):
                     },
                     'telefoonnummer': None,
                     'typeringVestiging': 'Hoofdvestiging',
-                    'url': None,
-                    'vestigingsNummer': '000000000001'
+                    'vestigingsNummer': '000000000001',
+                    'websites': None
                 }
             ]
         }

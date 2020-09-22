@@ -17,7 +17,7 @@ def get_bsn_xml_response_fixture(*args):
 
 
 def get_kvk_xml_response_fixture(*args):
-    with open(BSN_RESPONSE_PATH, 'rb') as response_file:
+    with open(KVK_RESPONSE_PATH, 'rb') as response_file:
         return response_file.read()
 
 
@@ -36,73 +36,53 @@ class HrBsnTest(FlaskServerTMATestCase):
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
                     'datumEinde': '2020-01-01',
-                    'kvkNummer': '12345678'},
+                    'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
+                    'hoofdactiviteit': 'Overige administratiekantoren',
+                    'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
+                    'rechtsvorm': 'Eenmanszaak'
+                },
                 'rechtspersonen': [
                     {
-                        'adres': {
-                            'huisletter': None,
-                            'huisnummer': None,
-                            'huisnummertoevoeging': None,
-                            'straatnaam': None,
-                            'postcode': None,
-                            'woonplaatsNaam': None
-                        },
-                        'bsn': None,
-                        'geboortedatum': '1970-01-01',
-                        'geslachtsnaam': 'Achternaam',
-                        'rechtsvorm': 'Eenmanszaak',
-                        'voornamen': 'Voornaam'
+                        'bsn': '999999999',
+                        'kvkNummer': '12345678',
+                        'rsin': None,
+                        'statutaireNaam': None,
+                        'statutaireZetel': None
                     }
                 ],
                 'vestigingen': [
                     {
-                        'activiteiten': [
-                            {
-                                'code': '000000000069209',
-                                'indicatieHoofdactiviteit': True,
-                                'omschrijving': 'Overige '
-                                                'administratiekantoren'
-                            },
-                            {
-                                'code': '000000000070221',
-                                'indicatieHoofdactiviteit': False,
-                                'omschrijving': 'Organisatie-adviesbureaus'
-                            },
-                            {
-                                'code': '000000000007810',
-                                'indicatieHoofdactiviteit': False,
-                                'omschrijving': 'Arbeidsbemiddeling'
-                            }
-                        ],
-                        'bezoekadres': {'huisletter': None,
-                                        'huisnummer': '1',
-                                        'huisnummertoevoeging': None,
-                                        'postcode': '1011PN',
-                                        'straatnaam': 'Amstel',
-                                        'woonplaatsNaam': 'Amsterdam'},
+                        'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus',
+                                         'Arbeidsbemiddeling'],
+                        'bezoekadres': {
+                            'huisletter': None,
+                            'huisnummer': '1',
+                            'huisnummertoevoeging': None,
+                            'postcode': '1011 PN',
+                            'straatnaam': 'Amstel',
+                            'woonplaatsNaam': 'Amsterdam'
+                        },
                         'datumAanvang': '1992-01-01',
                         'datumEinde': '2020-01-01',
                         'emailadres': None,
                         'faxnummer': None,
-                        'handelsnamen': ['Ding 1',
-                                         'Ding 2',
-                                         'Ding 3',
-                                         'Ding 4'],
-                        'postadres': {'huisletter': None,
-                                      'huisnummer': '1',
-                                      'huisnummertoevoeging': None,
-                                      'postcode': None,
-                                      'straatnaam': 'Amstel',
-                                      'woonplaatsNaam': 'Amsterdam'},
+                        'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
+                        'postadres': {
+                            'huisletter': None,
+                            'huisnummer': '1',
+                            'huisnummertoevoeging': None,
+                            'postcode': None,
+                            'straatnaam': 'Amstel',
+                            'woonplaatsNaam': 'Amsterdam'
+                        },
                         'telefoonnummer': None,
                         'typeringVestiging': 'Hoofdvestiging',
-                        'url': None,
-                        'vestigingsNummer': '000000000001'
+                        'vestigingsNummer': '000000000001',
+                        'websites': None
                     }
                 ]
             },
-            'status': 'OK'
-        }
+            'status': 'OK'}
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)
     def test_bsn(self):
@@ -127,46 +107,57 @@ class HrKvkTest(FlaskServerTMATestCase):
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
                     'datumEinde': '2020-01-01',
-                    'kvkNummer': '12345678'
+                    'handelsnamen': ['Naam 1',
+                                     'Naam 2',
+                                     'Naam 3',
+                                     'Naam 4'],
+                    'hoofdactiviteit': 'Overige administratiekantoren',
+                    'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
+                    'rechtsvorm': 'Eenmanszaak'
                 },
-                'rechtspersonen': [],
+                'rechtspersonen': [
+                    {
+                        'bsn': '999999999',
+                        'kvkNummer': '012345678',
+                        'rsin': None,
+                        'statutaireNaam': None,
+                        'statutaireZetel': None
+                    }
+                ],
                 'vestigingen': [
                     {
-                        'activiteiten': [
-                            {
-                                'code': '000000000069209',
-                                'indicatieHoofdactiviteit': True,
-                                'omschrijving': 'Overige '
-                                                'administratiekantoren'
-                            },
-                            {
-                                'code': '000000000070221',
-                                'indicatieHoofdactiviteit': False,
-                                'omschrijving': 'Organisatie-adviesbureaus'
-                            },
-                            {
-                                'code': '000000000007810',
-                                'indicatieHoofdactiviteit': False,
-                                'omschrijving': 'Arbeidsbemiddeling'
-                            }
-                        ],
+                        'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus',
+                                         'Arbeidsbemiddeling'],
+                        'bezoekadres': {
+                            'huisletter': None,
+                            'huisnummer': '1',
+                            'huisnummertoevoeging': None,
+                            'postcode': '1012 PN',
+                            'straatnaam': 'Amstel',
+                            'woonplaatsNaam': 'Amsterdam'
+                        },
                         'datumAanvang': '1992-01-01',
                         'datumEinde': '2020-01-01',
                         'emailadres': None,
                         'faxnummer': None,
-                        'handelsnamen': [
-                            'Ding 1',
-                            'Ding 2',
-                            'Ding 3',
-                            'Ding 4'
-                        ],
+                        'handelsnamen': ['Naam 1', 'Naam 2', 'Naam 3', 'Naam 4'],
+                        'postadres': {
+                            'huisletter': None,
+                            'huisnummer': '1',
+                            'huisnummertoevoeging': None,
+                            'postcode': None,
+                            'straatnaam': 'Amstel',
+                            'woonplaatsNaam': 'Amsterdam'
+                        },
                         'telefoonnummer': None,
                         'typeringVestiging': 'Hoofdvestiging',
-                        'vestigingsNummer': '000000000001'
+                        'vestigingsNummer': '000000000001',
+                        'websites': None
                     }
                 ]
             },
-            'status': 'OK'}
+            'status': 'OK'
+        }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_kvk_xml_response_fixture)
     def test_kvk(self):

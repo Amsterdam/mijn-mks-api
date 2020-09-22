@@ -50,11 +50,11 @@ class KvkHrTest(TestCase):
                     ],
                     'bezoekadres': {
                         'huisletter': 'A',
-                                    'huisnummer': '1',
-                                    'huisnummertoevoeging': None,
-                                    'postcode': '1012PN',
-                                    'straatnaam': 'Amstel',
-                                    'woonplaatsNaam': 'Amsterdam'
+                        'huisnummer': '1',
+                        'huisnummertoevoeging': None,
+                        'postcode': '1012 PN',
+                        'straatnaam': 'Amstel',
+                        'woonplaatsNaam': 'Amsterdam'
                     },
                     'datumAanvang': date(2000, 2, 1),
                     'datumEinde': None,
@@ -63,11 +63,11 @@ class KvkHrTest(TestCase):
                     'handelsnamen': ['Handelsnaam'],
                     'postadres': {
                         'huisletter': None,
-                                  'huisnummer': '2',
-                                  'huisnummertoevoeging': None,
-                                  'postcode': None,
-                                  'straatnaam': 'Amstel',
-                                  'woonplaatsNaam': 'Amsterdam'
+                        'huisnummer': '2',
+                        'huisnummertoevoeging': None,
+                        'postcode': None,
+                        'straatnaam': 'Amstel',
+                        'woonplaatsNaam': 'Amsterdam'
                     },
                     'telefoonnummer': '+310200000000',
                     'typeringVestiging': 'Hoofdvestiging',
@@ -79,7 +79,7 @@ class KvkHrTest(TestCase):
                     'bezoekadres': {'huisletter': None,
                                     'huisnummer': '2',
                                     'huisnummertoevoeging': None,
-                                    'postcode': '1012PN',
+                                    'postcode': '1012 PN',
                                     'straatnaam': 'Amstel',
                                     'woonplaatsNaam': 'Amsterdam'},
                     'datumAanvang': date(2015, 1, 1),
@@ -103,7 +103,7 @@ class KvkHrTest(TestCase):
                     'bezoekadres': {'huisletter': None,
                                     'huisnummer': '1',
                                     'huisnummertoevoeging': None,
-                                    'postcode': '1011PN',
+                                    'postcode': '1011 PN',
                                     'straatnaam': 'Amstel',
                                     'woonplaatsNaam': 'Amsterdam'},
                     'datumAanvang': date(2002, 1, 1),

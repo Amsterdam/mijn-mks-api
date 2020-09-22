@@ -75,27 +75,84 @@ def extract_for_bsn(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features='lxml-xml')
 
-        is_amsterdammer = True  # TODO: fill me
-
-        onderneming = tree.Body.find('rps.isEigenaarVan')
+        object_data = tree.Body.find('rps.isEigenaarVan')
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren = tree.Body.find('object')
 
         if not eigenaren:
-            return {}
+            return {}  # return 204 ?
+
+        object_data = extract_basic_info(object_data)
+        eigenaren_data = [extract_owner_persoon(eigenaren)]
+        activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten)
+
+        handelsnamen = set()
+        ondernemingsactiviteiten = set()
+        vestigingen = []
+        hoofdactiviteit = None
+
+        for i in activiteiten_data:
+            handelsnamen.update(i['handelsnamen'])
+            for j in i['activiteiten']:
+                if j['indicatieHoofdactiviteit']:
+                    hoofdactiviteit = j['omschrijving']
+                else:
+                    ondernemingsactiviteiten.add(j['omschrijving'])
+
+            vestiging = {
+                'vestigingsNummer': i['vestigingsNummer'],
+                'handelsnamen': i['handelsnamen'],
+                'typeringVestiging': i['typeringVestiging'],
+                'datumAanvang': i['datumAanvang'],
+                'datumEinde': i['datumEinde'],
+                'telefoonnummer': i['telefoonnummer'],
+                'faxnummer': i['faxnummer'],
+                'emailadres': i['emailadres'],
+                'websites': i['url'],
+                'activiteiten': [j['omschrijving'] for j in i['activiteiten']],
+                'bezoekadres': i['bezoekadres'],
+                'postadres': i['postadres'],
+            }
+            vestigingen.append(vestiging)
+
+        handelsnamen = sorted(list(handelsnamen))
+
+        rechtsvorm = eigenaren_data[0]['rechtsvorm']
+
+        onderneming = {
+            'datumAanvang': object_data['datumAanvang'],
+            'datumEinde': object_data['datumEinde'],
+            'handelsnamen': handelsnamen,
+            'rechtsvorm': rechtsvorm,
+            'overigeActiviteiten': sorted(list(ondernemingsactiviteiten)),
+            'hoofdactiviteit': hoofdactiviteit
+        }
+
+        rechtspersonen = []
+        for i in eigenaren_data:
+            persoon = {
+                'kvkNummer': object_data['kvkNummer'],
+                'rsin': i.get('nnpId', None),
+                'bsn': eigenaren_data[0].get('bsn', None),
+                'statutaireNaam': i.get('statutaireNaam', None),
+                'statutaireZetel': i.get('statutaireZetel', None),
+            }
+            rechtspersonen.append(persoon)
+
+        is_amsterdammer = False
+        for i in vestigingen:
+            if i['typeringVestiging']:
+                if i['bezoekadres']['woonplaatsNaam'] == "Amsterdam" or i['postadres']['woonplaatsNaam'] == "Amsterdam":
+                    is_amsterdammer = True
 
         data = {
             'mokum': is_amsterdammer,
-            'onderneming': extract_basic_info(onderneming),
-            'rechtspersonen': [extract_owner_persoon(eigenaren)],
-            'vestigingen': extract_oefent_activiteiten_uit_in(activiteiten),
+            'onderneming': onderneming,
+            'rechtspersonen': rechtspersonen,
+            'vestigingen': vestigingen,
             'aandeelhouders': [],
             'bestuurders': [],
         }
-
-        #TODO: voeg toe: Handelsnaam Overige handelsnamen Rechtsvorm Ondernemingsactiviteit Activiteiten
-        #TODO: kvk nummer bij rechtpersoon
-
 
         return data
 
@@ -120,8 +177,6 @@ def get_from_kvk(kvk_number: str):
 def extract_for_kvk(xml_str):
     try:
         tree = BeautifulSoup(xml_str, features='lxml-xml')
-
-        is_amsterdammer = True  # TODO: fill me
 
         object_data = tree.Body.find('object')
         activiteiten_data = tree.Body.find_all('oefentActiviteitUitIn')
@@ -185,6 +240,12 @@ def extract_for_kvk(xml_str):
                 'statutaireZetel': i.get('statutaireZetel', None),
             }
             rechtspersonen.append(persoon)
+
+        is_amsterdammer = False
+        for i in vestigingen:
+            if i['typeringVestiging']:
+                if (i['bezoekadres']['woonplaatsNaam'] == "Amsterdam" or i['postadres']['woonplaatsNaam'] == "Amsterdam"):
+                    is_amsterdammer = True
 
         data = {
             'mokum': is_amsterdammer,

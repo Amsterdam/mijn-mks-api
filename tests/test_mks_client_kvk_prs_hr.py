@@ -36,7 +36,7 @@ class KvkHrTest(TestCase):
             },
             'rechtspersonen': [
                 {
-                    'bsn': None,
+                    'bsn': '999999999',
                     'kvkNummer': '012345678',
                     'rsin': None,
                     'statutaireNaam': None,
@@ -46,23 +46,27 @@ class KvkHrTest(TestCase):
             'vestigingen': [
                 {
                     'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus', 'Arbeidsbemiddeling'],
-                    'bezoekadres': {'huisletter': None,
-                                  'huisnummer': '1',
-                                  'huisnummertoevoeging': None,
-                                  'postcode': '1012PN',
-                                  'straatnaam': 'Amstel',
-                                  'woonplaatsNaam': 'Amsterdam'},
+                    'bezoekadres': {
+                        'huisletter': None,
+                        'huisnummer': '1',
+                        'huisnummertoevoeging': None,
+                        'postcode': '1012 PN',
+                        'straatnaam': 'Amstel',
+                        'woonplaatsNaam': 'Amsterdam'
+                    },
                     'datumAanvang': date(1992, 1, 1),
                     'datumEinde': date(2020, 1, 1),
                     'emailadres': None,
                     'faxnummer': None,
                     'handelsnamen': ['Naam 1', 'Naam 2', 'Naam 3', 'Naam 4'],
-                    'postadres': {'huisletter': None,
-                                'huisnummer': '1',
-                                'huisnummertoevoeging': None,
-                                'postcode': None,
-                                'straatnaam': 'Amstel',
-                                'woonplaatsNaam': 'Amsterdam'},
+                    'postadres': {
+                        'huisletter': None,
+                        'huisnummer': '1',
+                        'huisnummertoevoeging': None,
+                        'postcode': None,
+                        'straatnaam': 'Amstel',
+                        'woonplaatsNaam': 'Amsterdam'
+                    },
                     'telefoonnummer': None,
                     'typeringVestiging': 'Hoofdvestiging',
                     'vestigingsNummer': '000000000001',

@@ -62,7 +62,7 @@ def extract_address(address: Tag):
     fields = [
         {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
         {'name': 'gor.straatnaam', 'parser': to_string, 'save_as': 'straatnaam'},
-        {'name': 'aoa.postcode', 'parser': to_string, 'save_as': 'postcode'},
+        {'name': 'aoa.postcode', 'parser': as_postcode, 'save_as': 'postcode'},
         {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
         {'name': 'aoa.huisletter', 'parser': to_string, 'save_as': 'huisletter'},
         {'name': 'aoa.huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
@@ -84,9 +84,6 @@ def extract_owner_persoon(owner: Tag):
 
     extra_fields = [
         {'name': 'rechtsvorm', 'parser': to_string},
-        {'name': 'inp.bsn', 'parser': to_string, 'save_as': 'bsn'},
-        {'name': 'inp.bsn', 'parser': to_string, 'save_as': 'bsn'},
-
     ]
 
     set_fields(owner, fields, result)
@@ -117,7 +114,6 @@ def extract_owners(owners: ResultSet):
             np_result = extract_owner_persoon(i)
             np_result['type'] = 'np'
             result.append(np_result)
-    #TODO geen adres, match spreadsheet
 
     return result
 

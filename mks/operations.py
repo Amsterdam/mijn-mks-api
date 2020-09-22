@@ -105,6 +105,7 @@ def get_hr_for_bsn():
         log_request(request)
         return mks_client_bsn_hr.get_from_bsn(get_bsn_from_saml_token())
     except Exception as e:
+        raise
         return log_and_generate_response(e)
 
 
