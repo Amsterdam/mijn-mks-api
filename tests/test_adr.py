@@ -67,6 +67,12 @@ class ResidentsTest(FlaskTestCase):
         self.assertEqual(response.json, "adressleutel required")
 
     @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
+    def test_adr_call_wrong_key(self):
+        response = self.client.post('/brp/aantal_bewoners', json={'wrongKey':''})
+        self.assert400(response)
+        self.assertEqual(response.json, "adressleutel required")
+
+    @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
     def test_adr_call_not_encrypted(self):
         post_body = {'addressKey': '1234'}
 

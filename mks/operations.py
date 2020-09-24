@@ -120,7 +120,7 @@ def get_hr_for_kvk():
 def get_resident_count():
     try:
         request_json = request.get_json()
-        if request_json:
+        if request_json and 'addressKey' in request_json:
             address_key = request_json['addressKey']
             if address_key:
                 address_key_decrypted = decrypt(address_key)
