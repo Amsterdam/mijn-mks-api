@@ -105,7 +105,6 @@ def get_hr_for_bsn():
         log_request(request)
         return mks_client_bsn_hr.get_from_bsn(get_bsn_from_saml_token())
     except Exception as e:
-        raise
         return log_and_generate_response(e)
 
 
@@ -119,8 +118,9 @@ def get_hr_for_kvk():
 
 def get_resident_count():
     try:
-        if request.get_data():
-            adres_sleutel = decrypt(request.get_data())
+        data = request.get_data()
+        if data:
+            adres_sleutel = decrypt(data)
             response = adr_mks_client_02_04.get(adres_sleutel)
             return response
         else:
