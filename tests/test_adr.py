@@ -1,4 +1,5 @@
 import os
+import json
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -54,21 +55,27 @@ class ResidentsTest(FlaskTestCase):
 
     @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
     def test_adr_call(self):
-        post_body = encrypt('1234')
+        post_body = {'addressKey': encrypt('1234')}
 
-        response = self.client.post('/brp/aantal_bewoners', data=post_body)
+        response = self.client.post('/brp/aantal_bewoners', json=post_body)
         self.assertEqual(response.json, {'crossRefNummer': 'MijnAmsterdam', 'residentCount': 3})
 
     @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
     def test_adr_call_empty(self):
-        response = self.client.post('/brp/aantal_bewoners')
+        response = self.client.post('/brp/aantal_bewoners', json=None)
+        self.assert400(response)
+        self.assertEqual(response.json, "adressleutel required")
+
+    @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
+    def test_adr_call_wrong_key(self):
+        response = self.client.post('/brp/aantal_bewoners', json={'wrongKey':''})
         self.assert400(response)
         self.assertEqual(response.json, "adressleutel required")
 
     @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
     def test_adr_call_not_encrypted(self):
-        post_body = '1234'
+        post_body = {'addressKey': '1234'}
 
-        response = self.client.post('/brp/aantal_bewoners', data=post_body)
+        response = self.client.post('/brp/aantal_bewoners', json=post_body)
         self.assert400(response)
         self.assertEqual(response.json, "Invalid encrypted value")
