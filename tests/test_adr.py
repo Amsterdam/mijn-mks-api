@@ -1,5 +1,4 @@
 import os
-import json
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -68,7 +67,7 @@ class ResidentsTest(FlaskTestCase):
 
     @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
     def test_adr_call_wrong_key(self):
-        response = self.client.post('/brp/aantal_bewoners', json={'wrongKey':''})
+        response = self.client.post('/brp/aantal_bewoners', json={'wrongKey': ''})
         self.assert400(response)
         self.assertEqual(response.json, "adressleutel required")
 
