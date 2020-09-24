@@ -119,8 +119,8 @@ def get_hr_for_kvk():
 
 def get_resident_count():
     try:
-        if request.data:
-            adres_sleutel = decrypt(request.data)
+        if request.get_data():
+            adres_sleutel = decrypt(request.get_data())
             response = adr_mks_client_02_04.get(adres_sleutel)
             return response
         else:
