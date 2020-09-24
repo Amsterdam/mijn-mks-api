@@ -119,8 +119,8 @@ def get_hr_for_kvk():
 def get_resident_count():
     try:
         request_json = request.get_json()
-        if request_json and 'addressKey' in request_json:
-            address_key = request_json['addressKey']
+        if request_json:
+            address_key = request_json.get('addressKey')
             if address_key:
                 address_key_decrypted = decrypt(address_key)
                 response = adr_mks_client_02_04.get(address_key_decrypted)
