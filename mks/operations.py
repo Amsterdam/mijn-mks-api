@@ -119,12 +119,15 @@ def get_hr_for_kvk():
 
 def get_resident_count():
     try:
-        if request.get_data():
-            adres_sleutel = decrypt(request.get_data())
-            response = adr_mks_client_02_04.get(adres_sleutel)
-            return response
-        else:
-            return "adressleutel required", 400
+        request_json = request.get_json()
+        if request_json:
+            address_key = request_json['addressKey']
+            if address_key:
+                address_key_decrypted = decrypt(address_key)
+                response = adr_mks_client_02_04.get(address_key_decrypted)
+                return response
+
+        return "adressleutel required", 400
     except Exception as e:
         return log_and_generate_response(e)
 
