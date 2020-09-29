@@ -25,3 +25,7 @@ COPY mks /app/mks
 COPY docker-entrypoint.sh /app/
 USER datapunt
 CMD ["/app/docker-entrypoint.sh"]
+
+COPY *.crt /usr/local/share/ca-certificates/extras/
+RUN chmod -R 644 /usr/local/share/ca-certificates/extras/ \
+ && update-ca-certificates
