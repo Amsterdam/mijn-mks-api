@@ -21,6 +21,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY .flake8 /app/
 COPY ./tests /app/tests
 
+COPY *.crt /usr/local/share/ca-certificates/extras/
+RUN chmod -R 644 /usr/local/share/ca-certificates/extras/ \
+ && update-ca-certificates
+
 COPY mks /app/mks
 COPY docker-entrypoint.sh /app/
 USER datapunt
