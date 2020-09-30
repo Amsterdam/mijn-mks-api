@@ -2,6 +2,7 @@ FROM amsterdam/python:3.8-buster
 MAINTAINER datapunt@amsterdam.nl
 
 ENV PYTHONUNBUFFERED 1
+ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
 EXPOSE 8000
 
