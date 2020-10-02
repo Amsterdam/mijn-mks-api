@@ -57,6 +57,8 @@ def extract(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features='lxml-xml')
         adr = tree.Body.ADR
+        if not adr:
+            return []
         data = extract_data(adr)
         data['crossRefNummer'] = tree.find('crossRefNummer').text
         return data

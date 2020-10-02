@@ -127,6 +127,8 @@ def get_resident_count():
             if address_key:
                 address_key_decrypted = decrypt(address_key)
                 response = adr_mks_client_02_04.get(address_key_decrypted)
+                if not response:
+                    return {}, 204
                 return response
 
         return "adressleutel required", 400
