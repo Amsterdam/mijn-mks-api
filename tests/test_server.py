@@ -172,7 +172,6 @@ class HrKvkTest(FlaskServerTMATestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, self._get_expected())
 
-
     @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_empty_fixture)
     def test_empty(self):
         headers = self.add_e_herkenning_headers('999999990')
