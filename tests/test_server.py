@@ -9,6 +9,7 @@ from mks.server import application
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")
 KVK_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_kvk_prs_response.xml")
+RESPONSE_EMPTY_PATH = os.path.join(FIXTURE_PATH, "hr_empty_response.xml")
 
 
 def get_bsn_xml_response_fixture(*args):
@@ -18,6 +19,11 @@ def get_bsn_xml_response_fixture(*args):
 
 def get_kvk_xml_response_fixture(*args):
     with open(KVK_RESPONSE_PATH, 'rb') as response_file:
+        return response_file.read()
+
+
+def get_xml_response_empty_fixture(*args):
+    with open(RESPONSE_EMPTY_PATH, 'rb') as response_file:
         return response_file.read()
 
 
@@ -165,3 +171,10 @@ class HrKvkTest(FlaskServerTMATestCase):
         response = self.client.get('/brp/hr', headers=headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, self._get_expected())
+
+
+    @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_empty_fixture)
+    def test_empty(self):
+        headers = self.add_e_herkenning_headers('999999990')
+        response = self.client.get('/brp/hr', headers=headers)
+        self.assertEqual(response.status_code, 204)

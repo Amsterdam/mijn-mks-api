@@ -84,6 +84,9 @@ def get_hr():
     if usertype == UserType.BURGER:
         data = get_hr_for_bsn()
 
+    if not data:
+        return {}, 204
+
     return {
         'content': data,
         'status': 'OK'
