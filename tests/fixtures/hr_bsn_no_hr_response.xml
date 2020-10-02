@@ -1,0 +1,31 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <BG:npsLa01 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <BG:stuurgegevens>
+                <StUF:berichtcode>La01</StUF:berichtcode>
+                <StUF:zender>
+                    <StUF:organisatie>Amsterdam</StUF:organisatie>
+                    <StUF:applicatie>applicatie</StUF:applicatie>
+                </StUF:zender>
+                <StUF:ontvanger>
+                    <StUF:applicatie>applicatie</StUF:applicatie>
+                    <StUF:gebruiker>gebruiker</StUF:gebruiker>
+                </StUF:ontvanger>
+                <StUF:referentienummer>MK10E8</StUF:referentienummer>
+                <StUF:tijdstipBericht>2020100210555793</StUF:tijdstipBericht>
+                <StUF:crossRefnummer>MijnAmsterdam||677058</StUF:crossRefnummer>
+                <StUF:entiteittype>NPS</StUF:entiteittype>
+            </BG:stuurgegevens>
+            <BG:parameters>
+                <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>
+            </BG:parameters>
+            <BG:antwoord>
+                <BG:object StUF:entiteittype="NPS" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="1">
+                    <!-- removed lots of personal 3.10 data we do not use for this test... -->
+                    <BG:rps.isEigenaarVan StUF:entiteittype="NPSMAC" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                </BG:object>
+            </BG:antwoord>
+        </BG:npsLa01>
+    </soapenv:Body>
+</soapenv:Envelope>
