@@ -96,4 +96,3 @@ class ResidentsTest(FlaskTestCase):
     def test_empty_adr(self):
         response = self.client.post('/brp/aantal_bewoners', json={'addressKey': encrypt('1234')})
         self.assertEqual(response.status_code, 204)
-
