@@ -67,11 +67,12 @@ def extract(xml_data):
         raise ExtractionError()
 
 
-def get(adresSleutel: str):
-    soap_request = _get_soap_request(adresSleutel)
+def get(adres_sleutel: str):
+    soap_request = _get_soap_request(adres_sleutel)
     response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request)
 
     if log_response:
+        print("adres sleutel", adres_sleutel)
         content_bytesio = BytesIO(response)
         tree = etree.parse(content_bytesio)
         formatted_xml = etree.tostring(tree, pretty_print=True)
