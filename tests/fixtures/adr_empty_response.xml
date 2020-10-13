@@ -26,31 +26,3 @@
     </BG:synchroonAntwoordBericht>
   </soapenv:Body>
 </soapenv:Envelope>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-  <soapenv:Header/>
-  <soapenv:Body>
-    <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204" xmlns:StUF="http://www.egem.nl/StUF/StUF0204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <StUF:stuurgegevens xmlns="http://www.egem.nl/StUF/StUF0204">
-        <StUF:berichtsoort>La01</StUF:berichtsoort>
-        <StUF:entiteittype>ADR</StUF:entiteittype>
-        <StUF:sectormodel>BG</StUF:sectormodel>
-        <StUF:versieStUF>0204</StUF:versieStUF>
-        <StUF:versieSectormodel>0204</StUF:versieSectormodel>
-        <StUF:zender>
-          <StUF:organisatie>Amsterdam</StUF:organisatie>
-          <StUF:applicatie>CGM</StUF:applicatie>
-        </StUF:zender>
-        <StUF:ontvanger>
-          <StUF:applicatie>MADAM1</StUF:applicatie>
-          <StUF:gebruiker>ma-sys-user</StUF:gebruiker>
-        </StUF:ontvanger>
-        <StUF:referentienummer>MK1128</StUF:referentienummer>
-        <StUF:tijdstipBericht>2020100213355227</StUF:tijdstipBericht>
-        <StUF:antwoord>
-          <StUF:crossRefNummer>MijnAmsterdam||267401</StUF:crossRefNummer>
-        </StUF:antwoord>
-      </StUF:stuurgegevens>
-      <BG:body xmlns="http://www.egem.nl/StUF/sector/bg/0204"/>
-    </BG:synchroonAntwoordBericht>
-  </soapenv:Body>
-</soapenv:Envelope>
