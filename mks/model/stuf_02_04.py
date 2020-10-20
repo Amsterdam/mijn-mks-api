@@ -280,10 +280,6 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         {'name': 'huisletter', 'parser': to_string},
         {'name': 'huisnummertoevoeging', 'parser': to_string},
         {'name': 'straatnaam', 'parser': to_string},
-
-        {'name': 'centroidXCoordinaat', 'parser': to_string},
-        {'name': 'centroidYCoordinaat', 'parser': to_string},
-        {'name': 'centroidZCoordinaat', 'parser': to_string},
     ]
     address_extra_fields = [
         {'name': 'authentiekeWoonplaatsnaam', 'parser': to_string},

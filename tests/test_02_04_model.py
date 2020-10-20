@@ -24,9 +24,6 @@ class Model0204Tests(TestCase):
                 # '_adresSleutel':  # changes each time!
                 'inOnderzoek': True,
                 'begindatumVerblijf': datetime(2012, 1, 1, 0, 0),
-                'centroidXCoordinaat': None,
-                'centroidYCoordinaat': None,
-                'centroidZCoordinaat': None,
                 'einddatumVerblijf': None,
                 'huisletter': None,
                 'huisnummer': '1',
@@ -38,9 +35,6 @@ class Model0204Tests(TestCase):
             'adresHistorisch': [
                 {
                     'begindatumVerblijf': datetime(2005, 1, 1, 0, 0),
-                    'centroidXCoordinaat': None,
-                    'centroidYCoordinaat': None,
-                    'centroidZCoordinaat': None,
                     'einddatumVerblijf': datetime(2012, 1, 1, 0, 0),
                     'huisletter': None,
                     'huisnummer': '2',
@@ -52,9 +46,6 @@ class Model0204Tests(TestCase):
                 },
                 {
                     'begindatumVerblijf': datetime(1990, 1, 1, 0, 0),
-                    'centroidXCoordinaat': None,
-                    'centroidYCoordinaat': None,
-                    'centroidZCoordinaat': None,
                     'einddatumVerblijf': datetime(2005, 1, 1, 0, 0),
                     'huisletter': None,
                     'huisnummer': '3',
