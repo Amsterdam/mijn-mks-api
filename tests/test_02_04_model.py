@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from unittest.case import TestCase
+from unittest import TestCase
 
 from bs4 import BeautifulSoup
 
@@ -23,7 +23,7 @@ class Model0204Tests(TestCase):
             'adres': {
                 # '_adresSleutel':  # changes each time!
                 'inOnderzoek': True,
-                'begindatumVerblijf': datetime(2009, 1, 1, 0, 0),
+                'begindatumVerblijf': datetime(2012, 1, 1, 0, 0),
                 'centroidXCoordinaat': None,
                 'centroidYCoordinaat': None,
                 'centroidZCoordinaat': None,
@@ -35,6 +35,36 @@ class Model0204Tests(TestCase):
                 'straatnaam': 'Amstel',
                 'woonplaatsNaam': 'Amsterdam'
             },
+            'adresHistorisch': [
+                {
+                    'begindatumVerblijf': datetime(2005, 1, 1, 0, 0),
+                    'centroidXCoordinaat': None,
+                    'centroidYCoordinaat': None,
+                    'centroidZCoordinaat': None,
+                    'einddatumVerblijf': datetime(2012, 1, 1, 0, 0),
+                    'huisletter': None,
+                    'huisnummer': '2',
+                    'huisnummertoevoeging': 'H',
+                    'inOnderzoek': False,
+                    'postcode': '1011 PN',
+                    'straatnaam': 'Amstel',
+                    'woonplaatsNaam': 'Amsterdam'
+                },
+                {
+                    'begindatumVerblijf': datetime(1990, 1, 1, 0, 0),
+                    'centroidXCoordinaat': None,
+                    'centroidYCoordinaat': None,
+                    'centroidZCoordinaat': None,
+                    'einddatumVerblijf': datetime(2005, 1, 1, 0, 0),
+                    'huisletter': None,
+                    'huisnummer': '3',
+                    'huisnummertoevoeging': '3',
+                    'inOnderzoek': False,
+                    'postcode': '1011 PB',
+                    'straatnaam': 'Amstel',
+                    'woonplaatsNaam': 'Amsterdam'
+                }
+            ],
             'identiteitsbewijzen': [
                 {
                     'datumAfloop': datetime(2014, 1, 1, 0, 0),

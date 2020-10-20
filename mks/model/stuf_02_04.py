@@ -263,8 +263,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
 
 def extract_address(persoon_tree: Tag, is_amsterdammer):
-    result = {}
-    fiels_tijdvak = [
+    result = []
+    fields_tijdvak = [
         {'name': 'begindatumRelatie', 'parser': to_datetime, 'save_as': 'begindatumVerblijf'},
         {'name': 'einddatumRelatie', 'parser': to_datetime, 'save_as': 'einddatumVerblijf'},
 
@@ -290,30 +290,45 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         {'name': 'officieleStraatnaam', 'parser': to_string},
     ]
 
-    address = persoon_tree.find('PRSADRINS')
-    if address.get("xsi:nil") == 'true':
-        return {}
+    addresses = persoon_tree.find_all('PRSADRINS')
+    if not addresses:
+        return None, None
 
-    set_fields(address.tijdvakRelatie, fiels_tijdvak, result)
-    set_extra_fields(address, extra_fields, result)
+    for address in addresses:
+        address_result = {}
 
-    address_adr = address.ADR
-    set_fields(address_adr, address_fields, result)
-    set_extra_fields(address_adr, address_extra_fields, result)
+        set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
+        set_extra_fields(address, extra_fields, address_result)
 
-    if result['authentiekeWoonplaatsnaam']:
-        result['woonplaatsNaam'] = result['authentiekeWoonplaatsnaam']
-    del result['authentiekeWoonplaatsnaam']
+        address_adr = address.ADR
+        set_fields(address_adr, address_fields, address_result)
+        set_extra_fields(address_adr, address_extra_fields, address_result)
 
-    if result['officieleStraatnaam']:
-        result['straatnaam'] = result['officieleStraatnaam']
-    del result['officieleStraatnaam']
+        if address_result['authentiekeWoonplaatsnaam']:
+            address_result['woonplaatsNaam'] = address_result['authentiekeWoonplaatsnaam']
+        del address_result['authentiekeWoonplaatsnaam']
 
-    # get adressleutel to be able to get data about address resident count
-    if address_adr.attrs.get('StUF:sleutelVerzendend'):
-        result['_adresSleutel'] = encrypt(address_adr.attrs['StUF:sleutelVerzendend'])
+        if address_result['officieleStraatnaam']:
+            address_result['straatnaam'] = address_result['officieleStraatnaam']
+        del address_result['officieleStraatnaam']
 
-    return result
+        # get adressleutel to be able to get data about address resident count
+        if address_adr.attrs.get('StUF:sleutelVerzendend'):
+            address_result['_adresSleutel'] = encrypt(address_adr.attrs['StUF:sleutelVerzendend'])
+
+        result.append(address_result)
+
+    current = None
+    past = []
+    for address in result:
+        end = address['einddatumVerblijf']
+        if end is None or end > datetime.now():
+            current = address
+        else:
+            del address['_adresSleutel']
+            past.append(address)
+
+    return current, past
 
 
 def extract_identiteitsbewijzen(persoon_tree: Tag):
@@ -380,7 +395,7 @@ def extract_data(persoon_tree: Tag):
     persoon = extract_persoon_data(persoon_tree)
 
     isAmsterdammer = persoon['mokum']
-    adres = extract_address(persoon_tree, is_amsterdammer=persoon['mokum'])
+    address_current, address_history = extract_address(persoon_tree, is_amsterdammer=persoon['mokum'])
 
     if isAmsterdammer:
         kinderen = extract_kinderen_data(persoon_tree)
@@ -401,7 +416,8 @@ def extract_data(persoon_tree: Tag):
         "ouders": ouders,
         'verbintenis': verbintenis,
         'verbintenisHistorisch': verbintenis_historisch,
-        'adres': adres,
+        'adres': address_current,
+        'adresHistorisch': address_history,
         'identiteitsbewijzen': identiteitsbewijzen,
     }
 

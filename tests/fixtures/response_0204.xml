@@ -68,13 +68,14 @@
             <StUF:extraElement naam="omschrijvingVerblijfstitel" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
             <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
           </BG:extraElementen>
+
           <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="3" StUF:sleutelGegevensbeheer="3">
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie>20090101</StUF:begindatumRelatie>
+              <StUF:begindatumRelatie>20120101</StUF:begindatumRelatie>
               <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
             </BG:tijdvakRelatie>
             <BG:extraElementen>
-                <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
+              <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
             </BG:extraElementen>
             <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="4" StUF:sleutelGegevensbeheer="4">
               <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="geenWaarde"/>
@@ -93,6 +94,68 @@
                 <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
                 <StUF:extraElement naam="officieleStraatnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                 <StUF:extraElement naam="openbareRuimteNaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
+                <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
+              </BG:extraElementen>
+            </BG:ADR>
+          </BG:PRSADRINS>
+
+          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="100" StUF:sleutelGegevensbeheer="100">
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie>20050101</StUF:begindatumRelatie>
+              <StUF:einddatumRelatie>20120101</StUF:einddatumRelatie>
+            </BG:tijdvakRelatie>
+            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="907" StUF:sleutelGegevensbeheer="907">
+              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:landcode>6030</BG:landcode>
+              <BG:postcode>1011PN</BG:postcode>
+              <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
+              <BG:straatnaam>Amstel</BG:straatnaam>
+              <BG:huisnummer>2</BG:huisnummer>
+              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:huisnummertoevoeging>H</BG:huisnummertoevoeging>
+              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:gemeentecode>363</BG:gemeentecode>
+              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:extraElementen>
+                <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
+                <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
+                <StUF:extraElement naam="openbareRuimteNaam">Amstel</StUF:extraElement>
+                <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
+                <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
+              </BG:extraElementen>
+            </BG:ADR>
+          </BG:PRSADRINS>
+
+          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="100" StUF:sleutelGegevensbeheer="100">
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie>19900101</StUF:begindatumRelatie>
+              <StUF:einddatumRelatie>20050101</StUF:einddatumRelatie>
+            </BG:tijdvakRelatie>
+            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072" StUF:sleutelGegevensbeheer="9072">
+              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:landcode>6030</BG:landcode>
+              <BG:postcode>1011PB</BG:postcode>
+              <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
+              <BG:straatnaam>Amstel</BG:straatnaam>
+              <BG:huisnummer>3</BG:huisnummer>
+              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:huisnummertoevoeging>3</BG:huisnummertoevoeging>
+              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:gemeentecode>363</BG:gemeentecode>
+              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:extraElementen>
+                <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
+                <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
+                <StUF:extraElement naam="openbareRuimteNaam">Amstel</StUF:extraElement>
                 <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
                 <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
               </BG:extraElementen>
