@@ -4,6 +4,7 @@ from datetime import datetime
 from hashlib import sha256
 
 from bs4 import Tag, ResultSet
+from dateutil.relativedelta import relativedelta
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
@@ -353,6 +354,10 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         set_fields(id, fields, result_id)
         set_extra_fields(id, extra_fields, result_id)
         set_fields(id.SIB, SIB_fields, result_id)
+
+        if result_id['datumAfloop'] + relativedelta(months=+3) < datetime.now():
+            # skip
+            continue
 
         type_number = result_id['documentType']
         if type_number == 2:
