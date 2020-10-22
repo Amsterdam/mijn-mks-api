@@ -58,13 +58,6 @@ class Model0204Tests(TestCase):
             ],
             'identiteitsbewijzen': [
                 {
-                    'datumAfloop': datetime(2014, 1, 1, 0, 0),
-                    'datumUitgifte': datetime(2009, 1, 1, 0, 0),
-                    'documentNummer': 'IT01XYZ34',
-                    'documentType': 'nederlandse identiteitskaart',
-                    'id': '3f5c281593d265ea6afd7c6371d91310beccf9489f5d4ecdfddfbcee9c70ad6e'
-                },
-                {
                     'datumAfloop': datetime(2025, 1, 1, 0, 0),
                     'datumUitgifte': datetime(2014, 1, 1, 0, 0),
                     'documentNummer': 'PP01XYZ35',
