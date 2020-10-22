@@ -148,6 +148,15 @@ def to_bool(value):
     return False
 
 
+def geheim_indicatie_to_bool(value):
+    if not value:
+        return False
+    if value in ['1', '2', '3', '4', '5', '6', '7']:
+        return True
+
+    return False
+
+
 def as_postcode(value):
     if not value:
         return None

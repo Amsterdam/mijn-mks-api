@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
-    set_extra_fields, as_postcode, encrypt
+    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool
 
 
 def get_nationaliteiten(nationaliteiten: ResultSet):
@@ -64,7 +64,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'codeLandEmigratie', 'parser': to_int},
         {'name': 'datumVertrekUitNederland', 'parser': to_datetime},
-        {'name': 'indicatieGeheim', 'parser': to_bool},
+        {'name': 'indicatieGeheim', 'parser': geheim_indicatie_to_bool},
     ]
 
     prs_extra_fields = [
