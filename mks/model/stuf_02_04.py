@@ -322,7 +322,8 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         if end is None or end > datetime.now():
             current = address
         else:
-            del address['_adresSleutel']
+            if address.get('_adresSleutel'):
+                del address['_adresSleutel']
             past.append(address)
 
     past.sort(key=lambda x: x['einddatumVerblijf'] or datetime.min, reverse=True)
