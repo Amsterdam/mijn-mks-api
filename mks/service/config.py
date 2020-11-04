@@ -29,6 +29,10 @@ def get_jwt_key():
     return jwk.JWK.from_json('{"k":"%s","kty":"oct"}' % (key, ))
 
 
+def get_raw_key():
+    return os.getenv("RAW_ACCESS_KEY")
+
+
 def debug_logging():
     config.dictConfig({
         'version': 1,

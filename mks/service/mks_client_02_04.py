@@ -70,6 +70,12 @@ def extract(xml_data):
 
 
 def get_0204(bsn: str):
+    response = get_0204_raw(bsn)
+
+    return extract(response)
+
+
+def get_0204_raw(bsn: str):
     soap_request = _get_soap_request(bsn)
     response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request)
 
@@ -79,4 +85,4 @@ def get_0204(bsn: str):
         formatted_xml = etree.tostring(tree, pretty_print=True)
         print(formatted_xml.decode())
 
-    return extract(response)
+    return response

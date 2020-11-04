@@ -28,6 +28,7 @@ mapping = {
     '/brp/brp': operations.get_brp,
     '/brp/hr': operations.get_hr,
     '/brp/aantal_bewoners': operations.get_resident_count,
+    '/brp/brp/raw': operations.get_brp_raw,
 }
 
 # using a custom resolver to determine operations
