@@ -8,6 +8,7 @@ from urllib3.exceptions import ConnectTimeoutError
 
 from mks.model.stuf_utils import decrypt
 from mks.service import mks_client_02_04, adr_mks_client_02_04, mks_client_bsn_hr
+from mks.service.config import get_raw_key
 from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
 from mks.service.exceptions import ServiceException, onbekende_fout
 from mks.service.saml import get_bsn_from_request, get_kvk_number_from_request, get_type
@@ -55,6 +56,16 @@ def get_brp():
         return response
     except Exception as e:
         return log_and_generate_response(e)
+
+
+def get_brp_raw():
+    cookie_value = request.cookies.get('access_token')
+    if cookie_value is not None and cookie_value == get_raw_key():
+        log_request(request)
+        response = mks_client_02_04.get_0204_raw(get_bsn_from_saml_token())
+        return response
+
+    return "no access without access token", 401
 
 
 def get_status_health():

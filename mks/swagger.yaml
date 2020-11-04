@@ -48,6 +48,16 @@ paths:
           schema:
             $ref: '#/definitions/bsn'
           headers: {}
+  /brp/brp/raw:
+    get:
+      description: Information of current user from "basisregistratie personen"
+      produces:
+        - application/xml
+      parameters: []
+      responses:
+        200:
+          description: Basisregistratiegegevens
+          headers: {}
   /brp/brp:
     get:
       description: Information of current user from "basisregistratie personen"
