@@ -59,13 +59,13 @@ def get_brp():
 
 
 def get_brp_raw():
-    cookie_value = request.cookies.get('access_token', None)
+    cookie_value = request.cookies.get('access_token')
     if cookie_value is not None and cookie_value == get_raw_key():
         log_request(request)
         response = mks_client_02_04.get_0204_raw(get_bsn_from_saml_token())
         return response
-    else:
-        return "no access without access token", 401
+
+    return "no access without access token", 401
 
 
 def get_status_health():

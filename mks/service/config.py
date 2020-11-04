@@ -30,7 +30,10 @@ def get_jwt_key():
 
 
 def get_raw_key():
-    return os.getenv("RAW_ACCESS_KEY")
+    raw_access_key = os.getenv("RAW_ACCESS_KEY")
+    assert raw_access_key is not None
+    assert raw_access_key != ''
+    return raw_access_key
 
 
 def debug_logging():
