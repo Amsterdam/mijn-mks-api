@@ -281,6 +281,7 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         {'name': 'huisletter', 'parser': to_string},
         {'name': 'huisnummertoevoeging', 'parser': to_string},
         {'name': 'straatnaam', 'parser': to_string},
+        {'name': 'gemeentecode', 'parser': to_string}
     ]
     address_extra_fields = [
         {'name': 'authentiekeWoonplaatsnaam', 'parser': to_string},
@@ -304,6 +305,9 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         if address_result['authentiekeWoonplaatsnaam']:
             address_result['woonplaatsNaam'] = address_result['authentiekeWoonplaatsnaam']
         del address_result['authentiekeWoonplaatsnaam']
+
+        _set_value_on(address_result, 'gemeentecode', 'woonplaatsNaam', lookup_gemeenten)
+        del address_result['gemeentecode']
 
         if address_result['officieleStraatnaam']:
             address_result['straatnaam'] = address_result['officieleStraatnaam']

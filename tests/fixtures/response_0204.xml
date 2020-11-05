@@ -111,7 +111,8 @@
               <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
               <BG:landcode>6030</BG:landcode>
               <BG:postcode>1011PN</BG:postcode>
-              <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
+              <!--<BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>-->
+              <BG:woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
               <BG:straatnaam>Amstel</BG:straatnaam>
               <BG:huisnummer>2</BG:huisnummer>
               <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
@@ -122,7 +123,8 @@
               <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
               <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
               <BG:extraElementen>
-                <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
+                <!--<StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>-->
+                <StUF:extraElement naam="authentiekeWoonplaatsnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                 <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
                 <StUF:extraElement naam="openbareRuimteNaam">Amstel</StUF:extraElement>
                 <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
