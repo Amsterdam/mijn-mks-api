@@ -64,7 +64,7 @@ class BsnHrTest(TestCase):
                         'huisletter': None,
                         'huisnummer': '1',
                         'huisnummertoevoeging': None,
-                        'postcode': None,
+                        'postcode': '1011 PN',
                         'straatnaam': 'Amstel',
                         'woonplaatsNaam': 'Amsterdam'
                     },

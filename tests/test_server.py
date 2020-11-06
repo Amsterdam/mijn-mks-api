@@ -77,7 +77,7 @@ class HrBsnTest(FlaskServerTMATestCase):
                             'huisletter': None,
                             'huisnummer': '1',
                             'huisnummertoevoeging': None,
-                            'postcode': None,
+                            'postcode': '1011 PN',
                             'straatnaam': 'Amstel',
                             'woonplaatsNaam': 'Amsterdam'
                         },
@@ -151,7 +151,7 @@ class HrKvkTest(FlaskServerTMATestCase):
                             'huisletter': None,
                             'huisnummer': '1',
                             'huisnummertoevoeging': None,
-                            'postcode': None,
+                            'postcode': '1012 PN',
                             'straatnaam': 'Amstel',
                             'woonplaatsNaam': 'Amsterdam'
                         },

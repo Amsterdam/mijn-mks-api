@@ -63,11 +63,20 @@ def extract_address(address: Tag):
         {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
         {'name': 'gor.straatnaam', 'parser': to_string, 'save_as': 'straatnaam'},
         {'name': 'aoa.postcode', 'parser': as_postcode, 'save_as': 'postcode'},
+        {'name': 'postcode', 'parser': as_postcode, 'save_as': '_postcode'},
         {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
         {'name': 'aoa.huisletter', 'parser': to_string, 'save_as': 'huisletter'},
         {'name': 'aoa.huisnummertoevoeging', 'parser': to_string, 'save_as': 'huisnummertoevoeging'},
     ]
+
     set_fields(address, fields, result)
+
+    if not result['postcode']:
+        if result['_postcode']:
+            result['postcode'] = result['_postcode']
+
+    del result['_postcode']
+
     return result
 
 
@@ -145,11 +154,23 @@ def extract_oefent_activiteiten_uit_in(activities: ResultSet):
         result_activity['bezoekadres'] = extract_address(act.find('verblijfsadres'))
         result_activity['postadres'] = extract_address(act.find('sub.correspondentieAdres'))
 
+        if _has_nones(result_activity['bezoekadres']):
+            result_activity['bezoekadres'] = None
+
+        if _has_nones(result_activity['postadres']):
+            result_activity['postadres'] = None
+
         result_activity['url'] = [to_string(url.text) for url in act.find_all('sub.url') if url.text != '']
 
         result.append(result_activity)
 
     return result
+
+
+def _has_nones(object):
+    for i in ['woonplaatsNaam', 'straatnaam', 'postcode']:
+        if object[i] is None:
+            return True
 
 
 def extract_data_is_eigenaar_van(is_eigenaar_van: ResultSet):
