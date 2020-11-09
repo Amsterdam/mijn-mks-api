@@ -118,6 +118,8 @@ def extract_for_bsn(xml_data):
         handelsnamen = sorted(list(handelsnamen))
 
         rechtsvorm = eigenaren_data[0]['rechtsvorm']
+        if not rechtsvorm:
+            rechtsvorm = "Eenmanszaak"
 
         onderneming = {
             'datumAanvang': object_data['datumAanvang'],
