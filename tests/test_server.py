@@ -202,4 +202,3 @@ class HrKvkTest(FlaskServerTMATestCase):
         response = self.client.get('/brp/hr/raw')
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.data, b'no access without access token')
-
