@@ -59,16 +59,13 @@ def _get_response(mks_url, soap_request):
 
 
 def get_from_bsn(bsn: str):
-    soap_request = _get_soap_request(bsn=bsn)
-    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag', soap_request)
-
-    if log_response:
-        content_bytesio = BytesIO(response)
-        tree = etree.parse(content_bytesio)
-        formatted_xml = etree.tostring(tree, pretty_print=True)
-        print(formatted_xml.decode())
-
+    response = _get_from_mks(bsn=bsn)
     return extract_for_bsn(response)
+
+
+def get_from_kvk(kvk_number: str):
+    response = _get_from_mks(kvk_number=kvk_number)
+    return extract_for_kvk(response)
 
 
 def extract_for_bsn(xml_data):
@@ -163,8 +160,10 @@ def extract_for_bsn(xml_data):
         raise ExtractionError()
 
 
-def get_from_kvk(kvk_number: str):
-    soap_request = _get_soap_request(kvk_number=kvk_number)
+def _get_from_mks(**kwargs):
+    # kwargs are: kvk_number or bsn
+    soap_request = _get_soap_request(**kwargs)
+
     response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag', soap_request)
 
     if log_response:
@@ -173,7 +172,7 @@ def get_from_kvk(kvk_number: str):
         formatted_xml = etree.tostring(tree, pretty_print=True)
         print(formatted_xml.decode())
 
-    return extract_for_kvk(response)
+    return response
 
 
 def extract_for_kvk(xml_str):

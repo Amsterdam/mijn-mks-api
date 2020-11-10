@@ -11,6 +11,7 @@ from mks.service import mks_client_02_04, adr_mks_client_02_04, mks_client_bsn_h
 from mks.service.config import get_raw_key
 from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
 from mks.service.exceptions import ServiceException, onbekende_fout
+from mks.service.mks_client_bsn_hr import _get_from_mks
 from mks.service.saml import get_bsn_from_request, get_kvk_number_from_request, get_type
 
 
@@ -102,6 +103,21 @@ def get_hr():
         'content': data,
         'status': 'OK'
     }
+
+
+def get_hr_raw():
+    cookie_value = request.cookies.get('access_token')
+    if cookie_value is None or cookie_value != get_raw_key():
+        return "no access without access token", 401
+
+    usertype = get_type(request)
+    if usertype == UserType.BEDRIJF:
+        kvk = get_kvk_number_from_request(request)
+        return _get_from_mks(kvk_number=kvk)
+
+    if usertype == UserType.BURGER:
+        bsn = get_bsn_from_saml_token()
+        return _get_from_mks(bsn=bsn)
 
 
 def get_kvk_number():

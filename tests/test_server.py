@@ -97,6 +97,15 @@ class HrBsnTest(FlaskServerTMATestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, self._get_expected())
 
+    @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)
+    @patch('mks.operations.get_raw_key', lambda: 'a')
+    def test_bsn_raw(self):
+        headers = self.add_digi_d_headers('999999990')
+        self.client.set_cookie("", "access_token", 'a')
+        response = self.client.get('/brp/hr/raw', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, get_bsn_xml_response_fixture())
+
 
 @patch("mks.service.saml.get_tma_certificate", lambda: server_crt)
 class HrKvkTest(FlaskServerTMATestCase):
@@ -177,3 +186,20 @@ class HrKvkTest(FlaskServerTMATestCase):
         headers = self.add_e_herkenning_headers('999999990')
         response = self.client.get('/brp/hr', headers=headers)
         self.assertEqual(response.status_code, 204)
+
+    @patch('mks.service.mks_client_bsn_hr._get_response', get_kvk_xml_response_fixture)
+    @patch('mks.operations.get_raw_key', lambda: 'a')
+    def test_bsn_raw(self):
+        headers = self.add_e_herkenning_headers('999999990')
+        self.client.set_cookie("", "access_token", 'a')
+        response = self.client.get('/brp/hr/raw', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, get_kvk_xml_response_fixture())
+
+    @patch('mks.operations.get_raw_key', lambda: 'a')
+    def test_bsn_wrong_token(self):
+        self.client.set_cookie("", "access_token", 'xx')
+        response = self.client.get('/brp/hr/raw')
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.data, b'no access without access token')
+

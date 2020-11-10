@@ -82,6 +82,16 @@ paths:
           schema:
             $ref: '#/definitions/hr'
           headers: {}
+  /brp/hr/raw:
+    get:
+      description: Information of current user from "Handelsregister"
+      produces:
+        - application/xml
+      parameters: []
+      responses:
+        200:
+          description: Handelsregister
+          headers: {}
   /brp/aantal_bewoners:
     post:
       description: Number of residents living on address
