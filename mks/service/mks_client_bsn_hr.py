@@ -115,8 +115,8 @@ def extract_for_bsn(xml_data):
         handelsnamen = sorted(list(handelsnamen))
 
         rechtsvorm = eigenaren_data[0]['rechtsvorm']
-        if not rechtsvorm:
-            rechtsvorm = "Eenmanszaak"
+        # if not rechtsvorm:
+        #     rechtsvorm = "Eenmanszaak"
 
         onderneming = {
             'datumAanvang': object_data['datumAanvang'],
@@ -261,5 +261,4 @@ def extract_for_kvk(xml_str):
 
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
-        raise
         raise ExtractionError()
