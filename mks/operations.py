@@ -17,7 +17,7 @@ from mks.service.saml import get_bsn_from_request, get_kvk_number_from_request, 
 
 def log_and_generate_response(exception, response_type='json'):
     logging.error(f"exception type {type(exception)}")
-    logging.error(exception)
+    logging.exception(exception)
     e_type = type(exception)
     if e_type == ServiceException and response_type == 'json':
         return exception.to_dict(), 500
