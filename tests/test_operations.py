@@ -34,7 +34,7 @@ class BRPTests(TestCase):
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
     def test_get_brp(self):
         data = get_brp()
-        self.assertEqual(data['persoon']['bsn'], '1')
+        self.assertEqual(data['persoon']['bsn'], '000000001')
         self.assertEqual(data['verbintenis']['soortVerbintenisOmschrijving'], 'Huwelijk')
         self.assertEqual(data['crossRefNummer'], 'test2')
         self.assertEqual(len(data['kinderen']), 1)
@@ -45,7 +45,7 @@ class BRPTests(TestCase):
         response = self.client.get('/brp/brp')
 
         json = response.json
-        self.assertEqual(json['persoon']['bsn'], '1')
+        self.assertEqual(json['persoon']['bsn'], '000000001')
         self.assertEqual(json['adres']['huisletter'], None)
         self.assertEqual(json['adres']['postcode'], '1011 PN')
         self.assertEqual(json['crossRefNummer'], 'test2')

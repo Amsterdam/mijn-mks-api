@@ -129,7 +129,7 @@ class Model0204Tests(TestCase):
             ],
             'persoon': {
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
-                'bsn': '1',
+                'bsn': '000000001',
                 'codeGemeenteVanInschrijving': 363,
                 'codeLandEmigratie': None,
                 'datumVertrekUitNederland': None,

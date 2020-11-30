@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
-    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool
+    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn
 
 
 def get_nationaliteiten(nationaliteiten: ResultSet):
@@ -52,7 +52,7 @@ def extract_persoon_data(persoon_tree: Tag):
     result = {}
 
     prs_fields = [
-        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'bsn-nummer', 'parser': as_bsn, 'save_as': 'bsn'},
         {'name': 'geslachtsnaam', 'parser': to_string},
         {'name': 'voornamen', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_datetime},
@@ -103,7 +103,7 @@ def extract_kinderen_data(persoon_tree: Tag):
     result = []
 
     knd_fields = [
-        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'bsn-nummer', 'parser': as_bsn, 'save_as': 'bsn'},
         {'name': 'voornamen', 'parser': to_string},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
@@ -147,7 +147,7 @@ def extract_parents_data(persoon_tree: Tag):
     result = []
 
     parent_fields = [
-        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'bsn-nummer', 'parser': as_bsn, 'save_as': 'bsn'},
         {'name': 'voornamen', 'parser': to_string},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},
@@ -203,7 +203,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     ]
 
     partner_fields = [
-        {'name': 'bsn-nummer', 'parser': to_string, 'save_as': 'bsn'},
+        {'name': 'bsn-nummer', 'parser': as_bsn, 'save_as': 'bsn'},
         {'name': 'voornamen', 'parser': to_string},
         {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
         {'name': 'geslachtsnaam', 'parser': to_string},

@@ -168,6 +168,12 @@ def as_postcode(value):
     return f"{match['num']} {match['let'].upper()}"
 
 
+def as_bsn(value: str) -> str:
+    if not value:
+        return None
+    return value.zfill(9)
+
+
 def to_is_amsterdam(value):
     if not value:
         return False
