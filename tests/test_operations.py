@@ -1,5 +1,6 @@
 import os
 # ignoring E402: module level import not at top of file
+from tma_saml import UserType
 
 os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
 os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
@@ -31,6 +32,7 @@ class BRPTests(TestCase):
         return app
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
+    @patch('mks.operations.get_type', lambda x: UserType.BURGER)
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
     def test_get_brp(self):
         data = get_brp()
@@ -40,6 +42,7 @@ class BRPTests(TestCase):
         self.assertEqual(len(data['kinderen']), 1)
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
+    @patch('mks.operations.get_type', lambda x: UserType.BURGER)
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
     def test_api_call(self):
         response = self.client.get('/brp/brp')

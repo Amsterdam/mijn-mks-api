@@ -52,6 +52,9 @@ def get_bsn_from_saml_token() -> str:
 # operations #
 def get_brp():
     try:
+        usertype = get_type(request)
+        if usertype != UserType.BURGER:
+            return {"status": "error", "message": "Only requests via BSN is supported"}, 400
         log_request(request)
         response = mks_client_02_04.get_0204(get_bsn_from_saml_token())
         return response
