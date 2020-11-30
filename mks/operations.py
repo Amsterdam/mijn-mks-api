@@ -44,7 +44,7 @@ def get_bsn_from_saml_token() -> str:
     """
     Check if the BSN retrieved from the token is actually valid and parse it
     to int format for further use
-    :return: The bsn in int form or an error in case it's not 11proef safe.
+    :return: The bsn in str form or an error in case it's not 11proef safe.
     """
     return get_bsn_from_request(connexion.request)
 

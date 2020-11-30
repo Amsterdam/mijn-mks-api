@@ -76,7 +76,7 @@ def extract_for_bsn(xml_data):
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren = tree.Body.find('object')
 
-        if object_data.get("xsi:nil") == 'true':
+        if object_data is None or object_data.get("xsi:nil") == 'true':
             return {}
 
         object_data = extract_basic_info(object_data)
