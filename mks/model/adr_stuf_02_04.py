@@ -11,6 +11,10 @@ def extract_data(adr_tree: Tag):
     residents_data = adr_tree.find_all("ADRPRSVBL", recursive=False)
 
     now = datetime.now()
+
+    if residents_data is None or residents_data.get("xsi:nil") == 'true':
+        pass
+
     for res in residents_data:
         tijdvak = res.find('tijdvakRelatie', recursive=False)
         endDate = to_datetime(tijdvak.find('einddatumRelatie', recursive=False))

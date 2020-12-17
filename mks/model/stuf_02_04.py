@@ -360,13 +360,15 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         set_extra_fields(id, extra_fields, result_id)
         set_fields(id.SIB, SIB_fields, result_id)
 
-        if result_id['datumAfloop'] + relativedelta(months=+3) < datetime.now():
-            # skip
-            continue
-
         type_number = result_id['documentType']
         if type_number == 2:
             type_number = 10  # manual fix for EU ID.
+
+        if type_number == 10:
+            # do not show nederlandse identiteitskaart older than 3 months. passpoort etc stays
+            if result_id['datumAfloop'] + relativedelta(months=+3) < datetime.now():
+                # skip
+                continue
 
         try:
             result_id['documentType'] = lookup_prsidb_soort_code[type_number]
