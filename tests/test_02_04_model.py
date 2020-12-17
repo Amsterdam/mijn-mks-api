@@ -5,13 +5,13 @@ from unittest import TestCase
 from bs4 import BeautifulSoup
 
 # ignoring E402: module level import not at top of file
-os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
-os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
-os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
-os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
-os.environ['MKS_JWT_KEY'] = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"  # noqa: E402
+os.environ['TMA_CERTIFICATE'] = 'cert content'
+os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'
+os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'
+os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'
+os.environ['MKS_JWT_KEY'] = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
-from mks.model.stuf_02_04 import extract_data, get_nationaliteiten
+from mks.model.stuf_02_04 import extract_data, get_nationaliteiten  # noqa: E402
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")

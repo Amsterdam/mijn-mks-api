@@ -12,8 +12,9 @@ def extract_data(adr_tree: Tag):
 
     now = datetime.now()
 
-    if residents_data is None or residents_data.get("xsi:nil") == 'true':
-        pass
+    # TODO: fix me
+    # if residents_data is None or residents_data.get("xsi:nil") == 'true':
+    #     pass
 
     for res in residents_data:
         tijdvak = res.find('tijdvakRelatie', recursive=False)

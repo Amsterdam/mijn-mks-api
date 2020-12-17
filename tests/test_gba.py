@@ -1,13 +1,13 @@
 from unittest import TestCase
 import os
 
-# ignoring E402: module level import not at top of file
-os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
-os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
-os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
-os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
+os.environ['TMA_CERTIFICATE'] = 'cert content'
+os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'
+os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'
+os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'
 
-from mks.model.gba import lookup_landen, lookup_gemeenten, lookup_prsidb_soort_code
+# ignoring E402: module level import not at top of file
+from mks.model.gba import lookup_landen, lookup_gemeenten, lookup_prsidb_soort_code  # noqa: E402
 
 
 class TestGba(TestCase):

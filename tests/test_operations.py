@@ -1,18 +1,18 @@
 import os
-# ignoring E402: module level import not at top of file
 from tma_saml import UserType
-
-os.environ['TMA_CERTIFICATE'] = 'cert content'  # noqa: E402
-os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'  # noqa: E402
-os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'  # noqa: E402
-os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'  # noqa: E402
-
-
 from unittest.mock import patch
 
 from flask_testing.utils import TestCase
-from mks.operations import get_brp
-from mks.server import application
+
+os.environ['TMA_CERTIFICATE'] = 'cert content'
+os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'
+os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'
+os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'
+
+
+# ignoring E402: module level import not at top of file
+from mks.operations import get_brp  # noqa: E402
+from mks.server import application  # noqa: E402
 
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
