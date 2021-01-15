@@ -19,7 +19,6 @@ VOW_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekend
 EMIGRATION_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_emigration.xml")
 
 
-
 class Model0204Tests(TestCase):
     def get_result(self):
         return {
