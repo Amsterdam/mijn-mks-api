@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
-    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn
+    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn, landcode_to_name
 
 
 def get_nationaliteiten(nationaliteiten: ResultSet):
@@ -23,6 +23,8 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
         {'name': 'code', 'parser': to_int},
     ]
 
+    if not nationaliteiten:
+        return []
     if nationaliteiten[0].get("xsi:nil") == 'true':
         return []
 
@@ -87,8 +89,8 @@ def extract_persoon_data(persoon_tree: Tag):
     # vertrokken onbekend waarheen
     result['vertrokkenOnbekendWaarheen'] = False
     # if result['mokum']:
-    #     if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
-    #         result['vertrokkenOnbekendWaarheen'] = True
+    if result['codeLandEmigratie'] == 0 and result['codeGemeenteVanInschrijving'] == 1999:
+        result['vertrokkenOnbekendWaarheen'] = True
 
     result['nationaliteiten'] = get_nationaliteiten(persoon_tree.find_all('PRSNAT'))
 
@@ -276,12 +278,17 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
 
     address_fields = [
         {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
+        {'name': 'landcode', 'parser': to_string},
+        {'name': 'landcode', 'parser': landcode_to_name, 'save_as': 'landnaam'},
         {'name': 'postcode', 'parser': as_postcode},
         {'name': 'huisnummer', 'parser': to_string},
         {'name': 'huisletter', 'parser': to_string},
         {'name': 'huisnummertoevoeging', 'parser': to_string},
         {'name': 'straatnaam', 'parser': to_string},
-        {'name': 'gemeentecode', 'parser': to_string}
+        {'name': 'gemeentecode', 'parser': to_string},
+        {'name': 'adresBuitenland1', 'parser': to_string},
+        {'name': 'adresBuitenland2', 'parser': to_string},
+        {'name': 'adresBuitenland3', 'parser': to_string},
     ]
     address_extra_fields = [
         {'name': 'authentiekeWoonplaatsnaam', 'parser': to_string},
@@ -406,6 +413,9 @@ def extract_data(persoon_tree: Tag):
 
     isAmsterdammer = persoon['mokum']
     address_current, address_history = extract_address(persoon_tree, is_amsterdammer=persoon['mokum'])
+
+    if address_current['landcode'] == '0000':
+        persoon['vertrokkenOnbekendWaarheen'] = True
 
     if isAmsterdammer:
         kinderen = extract_kinderen_data(persoon_tree)

@@ -1,0 +1,106 @@
+<BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xmlns:StUF="http://www.egem.nl/StUF/StUF0204">
+    <StUF:stuurgegevens xmlns="http://www.egem.nl/StUF/StUF0204">
+        <berichtsoort>La01</berichtsoort>
+        <entiteittype>PRS</entiteittype>
+        <sectormodel>BG</sectormodel>
+        <versieStUF>0204</versieStUF>
+        <versieSectormodel>0204</versieSectormodel>
+        <zender xmlns="">
+            <organisatie>Amsterdam</organisatie>
+            <applicatie>CGM</applicatie>
+        </zender>
+        <ontvanger xmlns="">
+            <organisatie/>
+            <applicatie>MADAM1</applicatie>
+            <gebruiker>ma-sys-user</gebruiker>
+        </ontvanger>
+        <referentienummer>S16051707161</referentienummer>
+        <tijdstipBericht>2020120118081269</tijdstipBericht>
+        <antwoord>
+            <crossRefNummer>HK-0204-RNI-VOW</crossRefNummer>
+        </antwoord>
+    </StUF:stuurgegevens>
+    <BG:body xmlns="http://www.egem.nl/StUF/sector/bg/0204">
+        <PRS soortEntiteit="F">
+            <a-nummer StUF:noValue="nietGeautoriseerd" xsi:nil="true"/>
+            <bsn-nummer>999993586</bsn-nummer>
+            <voornamen>Angélique</voornamen>
+            <voorletters>A</voorletters>
+            <voorvoegselGeslachtsnaam>la</voorvoegselGeslachtsnaam>
+            <geslachtsnaam>Vache</geslachtsnaam>
+            <geboortedatum>19870410</geboortedatum>
+            <codeGeboorteland>5002</codeGeboorteland>
+            <geslachtsaanduiding>V</geslachtsaanduiding>
+            <datumOverlijden StUF:noValue="geenWaarde" xsi:nil="true"/>
+            <indicatieGeheim>0</indicatieGeheim>
+            <codeGemeenteVanInschrijving>0518</codeGemeenteVanInschrijving>
+            <burgerlijkeStaat>1</burgerlijkeStaat>
+            <tijdvakGeldigheid>
+                <StUF:begindatumTijdvakGeldigheid StUF:noValue="nietGeautoriseerd" xsi:nil="true"/>
+                <StUF:einddatumTijdvakGeldigheid StUF:noValue="geenWaarde" xsi:nil="true"/>
+            </tijdvakGeldigheid>
+            <extraElementen>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoekOverlijden">N</StUF:extraElement>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoekVerblijfstitel">N</StUF:extraElement>
+            </extraElementen>
+            <PRSADRCOR soortEntiteit="R" xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <PRSADRINS soortEntiteit="R">
+                <tijdvakRelatie>
+                    <StUF:begindatumRelatie>20080402</StUF:begindatumRelatie>
+                    <StUF:einddatumRelatie StUF:noValue="geenWaarde" xsi:nil="true"/>
+                </tijdvakRelatie>
+                <extraElementen>
+                    <StUF:extraElement naam="aanduidingGegevensInOnderzoek">N</StUF:extraElement>
+                </extraElementen>
+                <ADR soortEntiteit="F">
+                    <adresBuitenland1 StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <adresBuitenland2 StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <adresBuitenland3 StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <landcode>0000</landcode>
+                    <postcode StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <postbusnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
+                    <antwoordnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
+                    <straatnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <huisnummer StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <huisnummertoevoeging StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <aanduidingBijHuisnummer StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <locatieomschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <ingangsdatum StUF:noValue="geenWaarde" xsi:nil="true"/>
+                </ADR>
+            </PRSADRINS>
+            <PRSADRVBL soortEntiteit="R">
+                <tijdvakRelatie>
+                    <StUF:begindatumRelatie>20080402</StUF:begindatumRelatie>
+                    <StUF:einddatumRelatie StUF:noValue="geenWaarde" xsi:nil="true"/>
+                </tijdvakRelatie>
+                <extraElementen>
+                    <StUF:extraElement naam="aanduidingGegevensInOnderzoek">N</StUF:extraElement>
+                </extraElementen>
+                <ADR soortEntiteit="F">
+                    <adresBuitenland1 StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <adresBuitenland2 StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <adresBuitenland3 StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <landcode>0000</landcode>
+                    <postcode StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <postbusnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
+                    <antwoordnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
+                    <straatnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <huisnummer StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <huisnummertoevoeging StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <aanduidingBijHuisnummer StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <locatieomschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <ingangsdatum StUF:noValue="geenWaarde" xsi:nil="true"/>
+                </ADR>
+            </PRSADRVBL>
+            <PRSIDB soortEntiteit="R" xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <PRSPRSHUW soortEntiteit="R" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+        </PRS>
+    </BG:body>
+</BG:synchroonAntwoordBericht>

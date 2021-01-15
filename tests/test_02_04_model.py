@@ -15,12 +15,18 @@ from mks.model.stuf_02_04 import extract_data, get_nationaliteiten  # noqa: E402
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
+VOW_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen.xml")
+EMIGRATION_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_emigration.xml")
+
 
 
 class Model0204Tests(TestCase):
     def get_result(self):
         return {
             'adres': {
+                'adresBuitenland1': None,
+                'adresBuitenland2': None,
+                'adresBuitenland3': None,
                 # '_adresSleutel':  # changes each time!
                 'inOnderzoek': True,
                 'begindatumVerblijf': datetime(2012, 1, 1, 0, 0),
@@ -29,11 +35,16 @@ class Model0204Tests(TestCase):
                 'huisnummer': '1',
                 'huisnummertoevoeging': 'I',
                 'postcode': '1011 PN',
+                'landnaam': 'Nederland',
                 'straatnaam': 'Amstel',
-                'woonplaatsNaam': 'Amsterdam'
+                'woonplaatsNaam': 'Amsterdam',
+                'landcode': '6030'
             },
             'adresHistorisch': [
                 {
+                    'adresBuitenland1': None,
+                    'adresBuitenland2': None,
+                    'adresBuitenland3': None,
                     'begindatumVerblijf': datetime(2005, 1, 1, 0, 0),
                     'einddatumVerblijf': datetime(2012, 1, 1, 0, 0),
                     'huisletter': None,
@@ -42,9 +53,14 @@ class Model0204Tests(TestCase):
                     'inOnderzoek': False,
                     'postcode': '1011 PN',
                     'straatnaam': 'Amstel',
-                    'woonplaatsNaam': 'Amsterdam'
+                    'woonplaatsNaam': 'Amsterdam',
+                    'landcode': '6030',
+                    'landnaam': 'Nederland',
                 },
                 {
+                    'adresBuitenland1': None,
+                    'adresBuitenland2': None,
+                    'adresBuitenland3': None,
                     'begindatumVerblijf': datetime(1990, 1, 1, 0, 0),
                     'einddatumVerblijf': datetime(2005, 1, 1, 0, 0),
                     'huisletter': None,
@@ -53,7 +69,9 @@ class Model0204Tests(TestCase):
                     'inOnderzoek': False,
                     'postcode': '1011 PB',
                     'straatnaam': 'Amstel',
-                    'woonplaatsNaam': 'Amsterdam'
+                    'woonplaatsNaam': 'Amsterdam',
+                    'landcode': '6030',
+                    'landnaam': 'Nederland',
                 }
             ],
             'identiteitsbewijzen': [
@@ -260,3 +278,29 @@ class Model0204Tests(TestCase):
 
         expected = [{'omschrijving': 'Deense', 'code': 54}, {'omschrijving': 'Belgische', 'code': 52}]
         self.assertEqual(result, expected)
+
+    def test_vertrokken_onbekend_waarheen(self):
+        """ Test if the person has status vertrokken onbekend waarheen. """
+
+        with open(VOW_RESPONSE_PATH) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        result = extract_data(tree)
+
+        self.assertEqual(result['persoon']['vertrokkenOnbekendWaarheen'], True)
+
+    def test_emigration(self):
+        """ Test the address with a adres outside of NL. """
+        with open(EMIGRATION_RESPONSE_PATH) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        result = extract_data(tree)
+
+        self.assertEqual(result['adres']['adresBuitenland1'], '89 Woodcote Road')
+        self.assertEqual(result['adres']['adresBuitenland2'], 'Caversham Heights')
+        self.assertEqual(result['adres']['adresBuitenland3'], 'RG4 7EZ')
+        self.assertEqual(result['adres']['landnaam'], 'Groot-Brittannië')
+
+        self.assertEqual(result['persoon']['vertrokkenOnbekendWaarheen'], False)
+
+        self.assertEqual(result['adresHistorisch'][0]['straatnaam'], 'Amstel')

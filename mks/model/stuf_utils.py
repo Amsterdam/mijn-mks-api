@@ -6,6 +6,7 @@ import re
 from jwcrypto import jwe
 from jwcrypto.common import json_encode
 
+from mks.model.gba import lookup_landen
 from mks.service.config import get_jwt_key
 
 
@@ -184,3 +185,10 @@ def to_is_amsterdam(value):
         return True
     else:
         return False
+
+
+def landcode_to_name(value: str) -> str:
+    if not value:
+        return None
+
+    return lookup_landen.get(value, None)
