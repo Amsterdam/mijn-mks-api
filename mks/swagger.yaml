@@ -187,6 +187,9 @@ definitions:
       begindatumVerblijf:
         type: string
         format: date-time
+      einddatumVerblijf:
+        type: string
+        format: date-time
       huisnummer:
         type: string
       huisletter:
@@ -199,6 +202,16 @@ definitions:
         type: string
       woonplaatsNaam:
         type: string
+      landnaam:
+        type: string
+      adresBuitenland1:
+        type: string
+      adresBuitenland2:
+        type: string
+      adresBuitenland3:
+        type: string
+      inOnderzoek:
+        type: boolean
       _adresSleutel:
         description: encrypted key to be used to get further information about adres
         type: string
