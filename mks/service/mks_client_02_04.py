@@ -13,7 +13,7 @@ from lxml import etree
 from mks.model.stuf_02_04 import extract_data
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
-from mks.service.exceptions import ExtractionError
+from mks.service.exceptions import ExtractionError, NoResultException
 
 PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2")
 with open(PRS_STUF0204TEMPLATE_PATH) as fp:
@@ -60,6 +60,9 @@ def _get_response(mks_brp_url, soap_request):
 def extract(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features='lxml-xml')
+        if tree.find('Body') is None:
+            logging.error("No Body tag. no data for person")
+            raise NoResultException
         person = tree.Body.PRS
         data = extract_data(person)
         data['crossRefNummer'] = tree.find('crossRefNummer').text
