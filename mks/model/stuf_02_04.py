@@ -67,6 +67,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'codeLandEmigratie', 'parser': to_int},
         {'name': 'datumVertrekUitNederland', 'parser': to_datetime},
         {'name': 'indicatieGeheim', 'parser': geheim_indicatie_to_bool},
+        {'name': 'aanduidingNaamgebruik', 'parser': to_string},
     ]
 
     prs_extra_fields = [
@@ -373,7 +374,9 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
 
         if type_number == 10:
             # do not show nederlandse identiteitskaart older than 3 months. passpoort etc stays
-            if result_id['datumAfloop'] + relativedelta(months=+3) < datetime.now():
+            if not result_id['datumAfloop']:
+                logging.error(f"ID without a datumEindeGeldigheid. soort: {type_number}")
+            elif result_id['datumAfloop'] + relativedelta(months=+3) < datetime.now():
                 # skip
                 continue
 
