@@ -14,7 +14,7 @@ from mks.model.stuf_3_10_hr import extract_oefent_activiteiten_uit_in, extract_o
     extract_basic_info, extract_owner_persoon
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
-from mks.service.exceptions import ExtractionError
+from mks.service.exceptions import ExtractionError, NoResultException
 
 BSN_HR_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "HR.xml.jinja2")
 with open(BSN_HR_TEMPLATE_PATH) as fp:
@@ -71,6 +71,9 @@ def get_from_kvk(kvk_number: str):
 def extract_for_bsn(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features='lxml-xml')
+
+        if tree.find('Body') is None:
+            raise NoResultException()
 
         object_data = tree.Body.find('rps.isEigenaarVan')
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
