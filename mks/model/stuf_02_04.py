@@ -415,8 +415,10 @@ def extract_data(persoon_tree: Tag):
     isAmsterdammer = persoon['mokum']
     address_current, address_history = extract_address(persoon_tree, is_amsterdammer=persoon['mokum'])
 
+    # only show VOW when last know address was in Amsterdam, otherwise we're not responsible for it.
     if address_current['landcode'] == '0000':
-        persoon['vertrokkenOnbekendWaarheen'] = True
+        if len(address_history) > 0 and address_history[0]['woonplaatsNaam'] == "Amsterdam":
+            persoon['vertrokkenOnbekendWaarheen'] = True
 
     if isAmsterdammer:
         kinderen = extract_kinderen_data(persoon_tree)
