@@ -62,7 +62,7 @@ def extract(xml_data):
         tree = BeautifulSoup(xml_data, features='lxml-xml')
         if tree.find('Body') is None:
             logging.error("No Body tag. no data for person")
-            raise NoResultException
+            raise NoResultException()
         person = tree.Body.PRS
         data = extract_data(person)
         data['crossRefNummer'] = tree.find('crossRefNummer').text
