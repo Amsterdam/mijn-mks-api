@@ -1,6 +1,6 @@
 from bs4 import Tag, ResultSet
 
-from mks.model.stuf_utils import to_string, to_date, set_fields, to_bool, as_postcode, set_extra_fields
+from mks.model.stuf_utils import to_string, to_date, set_fields, to_bool, as_postcode, set_extra_fields, is_nil
 
 
 def extract_basic_info(eigendom: Tag):
@@ -130,7 +130,7 @@ def extract_owners(owners: ResultSet):
 def extract_oefent_activiteiten_uit_in(activities: ResultSet):
     result = []
 
-    if activities is None or activities.get("xsi:nil") == 'true':
+    if is_nil(activities):
         return {}
 
     fields = [

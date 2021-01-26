@@ -145,6 +145,7 @@ class Model0204Tests(TestCase):
                 },
             ],
             'persoon': {
+                'aanduidingNaamgebruik': 'E',
                 'aanduidingNaamgebruikOmschrijving': 'Eigen geslachtsnaam',
                 'bsn': '000000001',
                 'codeGemeenteVanInschrijving': 363,

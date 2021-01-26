@@ -12,6 +12,7 @@ from lxml import etree
 
 from mks.model.stuf_3_10_hr import extract_oefent_activiteiten_uit_in, extract_owners, \
     extract_basic_info, extract_owner_persoon
+from mks.model.stuf_utils import is_nil
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
 from mks.service.exceptions import ExtractionError, NoResultException
@@ -79,7 +80,7 @@ def extract_for_bsn(xml_data):
         activiteiten = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren = tree.Body.find('object')
 
-        if object_data is None or object_data.get("xsi:nil") == 'true':
+        if is_nil(object_data):
             return {}
 
         object_data = extract_basic_info(object_data)
@@ -144,8 +145,8 @@ def extract_for_bsn(xml_data):
         is_amsterdammer = False
         for i in vestigingen:
             if i['typeringVestiging']:
-                if ((i['bezoekadres'] and i['bezoekadres']['woonplaatsNaam'] == "Amsterdam")
-                        or (i['postadres'] and i['postadres']['woonplaatsNaam'] == "Amsterdam")):
+                if ((i['bezoekadres'] and i['bezoekadres']['woonplaatsNaam'] == "Amsterdam") or
+                        (i['postadres'] and i['postadres']['woonplaatsNaam'] == "Amsterdam")):
                     is_amsterdammer = True
 
         data = {

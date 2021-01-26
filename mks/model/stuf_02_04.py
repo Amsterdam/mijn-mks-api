@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
-    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn, landcode_to_name
+    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn, landcode_to_name, is_nil
 
 
 def get_nationaliteiten(nationaliteiten: ResultSet):
@@ -23,9 +23,7 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
         {'name': 'code', 'parser': to_int},
     ]
 
-    if not nationaliteiten:
-        return []
-    if nationaliteiten[0].get("xsi:nil") == 'true':
+    if is_nil(nationaliteiten):
         return []
 
     for nat in nationaliteiten:
@@ -127,7 +125,7 @@ def extract_kinderen_data(persoon_tree: Tag):
     ]
 
     kinderen = persoon_tree.find_all('PRSPRSKND')
-    if kinderen[0].get("xsi:nil") == 'true':
+    if is_nil(kinderen):
         return []
 
     for kind in kinderen:
@@ -171,7 +169,7 @@ def extract_parents_data(persoon_tree: Tag):
     ]
 
     parents = persoon_tree.find_all('PRSPRSOUD')
-    if parents[0].get("xsi:nil") == 'true':
+    if is_nil(parents):
         return []
 
     for ouder in parents:

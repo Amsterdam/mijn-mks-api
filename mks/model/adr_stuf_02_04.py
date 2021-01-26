@@ -3,7 +3,7 @@ from datetime import datetime
 
 from bs4 import Tag
 
-from mks.model.stuf_utils import to_datetime
+from mks.model.stuf_utils import to_datetime, is_nil
 from mks.service.exceptions import NoResultException
 
 
@@ -14,7 +14,7 @@ def extract_data(adr_tree: Tag):
 
     now = datetime.now()
 
-    if not residents_data or residents_data.get("xsi:nil") == 'true':
+    if is_nil(residents_data):
         logging.error("No data for address")
         raise NoResultException()
 
