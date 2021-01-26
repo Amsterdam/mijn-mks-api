@@ -141,7 +141,8 @@ def extract_for_bsn(xml_data):
         is_amsterdammer = False
         for i in vestigingen:
             if i['typeringVestiging']:
-                if i['bezoekadres']['woonplaatsNaam'] == "Amsterdam" or i['postadres']['woonplaatsNaam'] == "Amsterdam":
+                if ((i['bezoekadres'] and i['bezoekadres']['woonplaatsNaam'] == "Amsterdam")
+                        or (i['postadres'] and i['postadres']['woonplaatsNaam'] == "Amsterdam")):
                     is_amsterdammer = True
 
         data = {
