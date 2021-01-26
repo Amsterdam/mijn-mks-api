@@ -13,24 +13,24 @@
         </zender>
         <ontvanger xmlns="">
             <organisatie/>
-            <applicatie>MADAM1</applicatie>
-            <gebruiker>ma-sys-user</gebruiker>
+            <applicatie>app</applicatie>
+            <gebruiker>user</gebruiker>
         </ontvanger>
-        <referentienummer>S16051707161</referentienummer>
+        <referentienummer>ref</referentienummer>
         <tijdstipBericht>2020120118081269</tijdstipBericht>
         <antwoord>
-            <crossRefNummer>HK-0204-RNI-VOW</crossRefNummer>
+            <crossRefNummer>ref</crossRefNummer>
         </antwoord>
     </StUF:stuurgegevens>
     <BG:body xmlns="http://www.egem.nl/StUF/sector/bg/0204">
         <PRS soortEntiteit="F">
             <a-nummer StUF:noValue="nietGeautoriseerd" xsi:nil="true"/>
-            <bsn-nummer>999993586</bsn-nummer>
-            <voornamen>Angélique</voornamen>
+            <bsn-nummer>111111111</bsn-nummer>
+            <voornamen>Angél</voornamen>
             <voorletters>A</voorletters>
             <voorvoegselGeslachtsnaam>la</voorvoegselGeslachtsnaam>
-            <geslachtsnaam>Vache</geslachtsnaam>
-            <geboortedatum>19870410</geboortedatum>
+            <geslachtsnaam>Achternaam</geslachtsnaam>
+            <geboortedatum>11111111</geboortedatum>
             <codeGeboorteland>5002</codeGeboorteland>
             <geslachtsaanduiding>V</geslachtsaanduiding>
             <datumOverlijden StUF:noValue="geenWaarde" xsi:nil="true"/>
@@ -49,7 +49,7 @@
             <PRSADRCOR soortEntiteit="R" xsi:nil="true" StUF:noValue="geenWaarde"/>
             <PRSADRINS soortEntiteit="R">
                 <tijdvakRelatie>
-                    <StUF:begindatumRelatie>20080402</StUF:begindatumRelatie>
+                    <StUF:begindatumRelatie>20080101</StUF:begindatumRelatie>
                     <StUF:einddatumRelatie StUF:noValue="geenWaarde" xsi:nil="true"/>
                 </tijdvakRelatie>
                 <extraElementen>
@@ -75,7 +75,7 @@
             </PRSADRINS>
             <PRSADRVBL soortEntiteit="R">
                 <tijdvakRelatie>
-                    <StUF:begindatumRelatie>20080402</StUF:begindatumRelatie>
+                    <StUF:begindatumRelatie>20090101</StUF:begindatumRelatie>
                     <StUF:einddatumRelatie StUF:noValue="geenWaarde" xsi:nil="true"/>
                 </tijdvakRelatie>
                 <extraElementen>
