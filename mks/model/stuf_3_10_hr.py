@@ -130,6 +130,9 @@ def extract_owners(owners: ResultSet):
 def extract_oefent_activiteiten_uit_in(activities: ResultSet):
     result = []
 
+    if activities is None or activities.get("xsi:nil") == 'true':
+        return {}
+
     fields = [
         {'name': 'vestigingsNummer', 'parser': to_string},
         {'name': 'typeringVestiging', 'parser': to_string},
