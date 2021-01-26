@@ -43,6 +43,10 @@ def is_nil(element: Union[Tag, ResultSet]) -> bool:
         if element.get('xsi:nil') == 'true':
             return True
 
+    if isinstance(element, ResultSet) and len(element) == 1:
+        if element[0].get('xsi:nil') == 'true':
+            return True
+
     if len(element) == 0:
         return True
 

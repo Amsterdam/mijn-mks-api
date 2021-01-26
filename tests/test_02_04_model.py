@@ -15,7 +15,9 @@ from mks.model.stuf_02_04 import extract_data, get_nationaliteiten  # noqa: E402
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
+RESPONSE_NO_KIDS_PARENTS_ID_PARTNERS = os.path.join(FIXTURE_PATH, "response_0204_no_kids_parents_idb_partners.xml")
 VOW_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen.xml")
+VOW_NOT_FROM_AMSTERDAM_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen_not_from_amsterdam.xml")
 EMIGRATION_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_emigration.xml")
 
 
@@ -288,6 +290,30 @@ class Model0204Tests(TestCase):
         result = extract_data(tree)
 
         self.assertEqual(result['persoon']['vertrokkenOnbekendWaarheen'], True)
+
+    def test_vertrokken_onbekend_waarheen_not_from_amsterdam(self):
+        """ Test if the person has status vertrokken onbekend waarheen. """
+
+        with open(VOW_NOT_FROM_AMSTERDAM_RESPONSE_PATH) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        result = extract_data(tree)
+
+        self.assertEqual(result['persoon']['vertrokkenOnbekendWaarheen'], False)
+
+    def test_extraction_no_kids_parents_id_partners(self):
+        """ Test if the person has status vertrokken onbekend waarheen. """
+
+        with open(RESPONSE_NO_KIDS_PARENTS_ID_PARTNERS) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        result = extract_data(tree)
+
+        self.assertEqual(result['kinderen'], [])
+        self.assertEqual(result['ouders'], [])
+        self.assertEqual(result['verbintenis'], {})
+        self.assertEqual(result['verbintenisHistorisch'], [])
+        self.assertEqual(result['identiteitsbewijzen'], [])
 
     def test_emigration(self):
         """ Test the address with a adres outside of NL. """
