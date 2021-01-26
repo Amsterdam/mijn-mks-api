@@ -1,8 +1,10 @@
+import logging
 from datetime import datetime
 
 from bs4 import Tag
 
-from mks.model.stuf_utils import to_datetime
+from mks.model.stuf_utils import to_datetime, is_nil
+from mks.service.exceptions import NoResultException
 
 
 def extract_data(adr_tree: Tag):
@@ -12,9 +14,9 @@ def extract_data(adr_tree: Tag):
 
     now = datetime.now()
 
-    # TODO: fix me
-    # if residents_data is None or residents_data.get("xsi:nil") == 'true':
-    #     pass
+    if is_nil(residents_data):
+        logging.error("No data for address")
+        raise NoResultException()
 
     for res in residents_data:
         tijdvak = res.find('tijdvakRelatie', recursive=False)

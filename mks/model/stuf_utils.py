@@ -2,7 +2,9 @@ import base64
 import json
 from datetime import datetime
 import re
+from typing import Union
 
+from bs4 import Tag, ResultSet
 from jwcrypto import jwe
 from jwcrypto.common import json_encode
 
@@ -30,6 +32,21 @@ def decrypt(encrypted_value: str):
     jwetoken.deserialize(payload)
     jwetoken.decrypt(key)
     return jwetoken.payload.decode()
+
+
+def is_nil(element: Union[Tag, ResultSet]) -> bool:
+    """ Return true if the element is empty, empty ResultSet or attr xsi:nil """
+    if not element:
+        return True
+
+    if isinstance(element, Tag):
+        if element.get('xsi:nil') == 'true':
+            return True
+
+    if len(element) == 0:
+        return True
+
+    return False
 
 
 def _set_value(tag, field, target):

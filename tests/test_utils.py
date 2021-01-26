@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from bs4 import BeautifulSoup
 
-from mks.model.stuf_utils import to_bool, encrypt, decrypt, to_datetime, to_int, to_string, as_postcode, to_date
+from mks.model.stuf_utils import to_bool, encrypt, decrypt, to_datetime, to_int, to_string, as_postcode, to_date, is_nil
 
 jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
@@ -88,3 +88,22 @@ class UtilsTest(TestCase):
 
         value = self._get_value('<a>aa</a>', 'a')
         self.assertEqual(as_postcode(value), None)
+
+    def test_is_nil(self):
+        def wrap(xmlstring):
+            xmlstring = f'''
+                <?xml version='1.0' encoding='UTF-8'?>
+                <wrap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                {xmlstring}
+                </wrap>
+            '''
+            tree = BeautifulSoup(xmlstring, features='lxml-xml')
+            return tree
+
+        s = wrap('<a xsi:nil="true">1234AA</a>')
+        self.assertTrue(is_nil(s.find('a')))
+
+        s = wrap('<a><b>1</b><b>2</b></a>')
+        self.assertFalse(is_nil(s.find_all('b')))
+
+        self.assertTrue(is_nil([]))
