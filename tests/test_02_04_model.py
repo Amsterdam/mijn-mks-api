@@ -318,6 +318,8 @@ class Model0204Tests(TestCase):
         self.assertEqual(result['adresHistorisch'], [])
         self.assertEqual(result['persoon']['nationaliteiten'], [])
 
+        self.assertFalse(result['persoon']['vertrokkenOnbekendWaarheen'])
+
     def test_emigration(self):
         """ Test the address with a adres outside of NL. """
         with open(EMIGRATION_RESPONSE_PATH) as fp:
