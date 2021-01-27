@@ -295,8 +295,8 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
     ]
 
     addresses = persoon_tree.find_all('PRSADRINS')
-    if not addresses:
-        return None, None
+    if is_nil(addresses):
+        return {}, []
 
     for address in addresses:
         address_result = {}
@@ -357,7 +357,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
 
     identiteitsbewijzen = persoon_tree.find_all('PRSIDB')
 
-    if identiteitsbewijzen[0].get("xsi:nil") == 'true':
+    if is_nil(identiteitsbewijzen):
         return []
 
     for id in identiteitsbewijzen:
@@ -416,7 +416,7 @@ def extract_data(persoon_tree: Tag):
     address_current, address_history = extract_address(persoon_tree, is_amsterdammer=persoon['mokum'])
 
     # only show VOW when last know address was in Amsterdam, otherwise we're not responsible for it.
-    if address_current['landcode'] == '0000':
+    if address_current and address_current['landcode'] == '0000':
         if len(address_history) > 0 and address_history[0]['woonplaatsNaam'] == "Amsterdam":
             persoon['vertrokkenOnbekendWaarheen'] = True
 

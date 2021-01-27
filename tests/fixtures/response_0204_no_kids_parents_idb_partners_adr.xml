@@ -69,55 +69,8 @@
             <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
           </BG:extraElementen>
 
-          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="3" StUF:sleutelGegevensbeheer="3">
-            <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie>20120101</StUF:begindatumRelatie>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
-            </BG:tijdvakRelatie>
-            <BG:extraElementen>
-              <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
-            </BG:extraElementen>
-            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="4" StUF:sleutelGegevensbeheer="4">
-              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:landcode>6030</BG:landcode>
-              <BG:postcode>1011PN</BG:postcode>
-              <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
-              <BG:straatnaam>Amstel</BG:straatnaam>
-              <BG:huisnummer>1</BG:huisnummer>
-              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:huisnummertoevoeging>I</BG:huisnummertoevoeging>
-              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:gemeentecode xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-              <BG:extraElementen>
-                <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
-                <StUF:extraElement naam="officieleStraatnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                <StUF:extraElement naam="openbareRuimteNaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
-                <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
-              </BG:extraElementen>
-            </BG:ADR>
-          </BG:PRSADRINS>
-
-          <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-            <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-            <BG:datumVerlies xsi:nil="true" StUF:noValue="geenWaarde"/>
-            <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-            </BG:tijdvakRelatie>
-            <BG:extraElementen>
-              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-            </BG:extraElementen>
-            <BG:NAT soortEntiteit="T">
-              <BG:code>1</BG:code>
-              <BG:omschrijving>Nederlandse</BG:omschrijving>
-              <BG:datumVerkrijging xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:datumVerlies xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-            </BG:NAT>
-          </BG:PRSNAT>
-
+          <BG:PRSNAT soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
+          <BG:PRSADRINS soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
           <BG:PRSIDB soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
           <BG:PRSPRSHUW soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
           <BG:PRSPRSKND soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
