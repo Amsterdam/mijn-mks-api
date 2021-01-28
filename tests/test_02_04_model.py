@@ -11,7 +11,7 @@ os.environ['BRP_GEBRUIKER'] = 'mijnAmsTestUser'
 os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'
 os.environ['MKS_JWT_KEY'] = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
-from mks.model.stuf_02_04 import extract_data, get_nationaliteiten  # noqa: E402
+from mks.model.stuf_02_04 import extract_data, get_nationaliteiten, set_opgemaakte_naam  # noqa: E402
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
@@ -335,3 +335,49 @@ class Model0204Tests(TestCase):
         self.assertEqual(result['persoon']['vertrokkenOnbekendWaarheen'], False)
 
         self.assertEqual(result['adresHistorisch'][0]['straatnaam'], 'Amstel')
+
+    def test_set_opgemaakte_naam(self):
+        """ Test set_opgemaakte_naam() """
+        def get_persoon():
+            return {
+                'opgemaakteNaam': None,
+                'voornamen': 'Voornaam Voornaam2',
+                'geslachtsnaam': 'eigengeslachtsnaam',
+                'aanduidingNaamgebruik': 'E',
+                'voorvoegselGeslachtsnaam': 'ter'
+            }
+
+        verbintenissen = []
+        persoon = get_persoon()
+        persoon['voorvoegselGeslachtsnaam'] = ''
+        set_opgemaakte_naam(persoon, verbintenissen)
+        self.assertEqual(persoon['opgemaakteNaam'], 'V.V. eigengeslachtsnaam')
+
+        persoon = get_persoon()
+        set_opgemaakte_naam(persoon, verbintenissen)
+        self.assertEqual(persoon['opgemaakteNaam'], 'V.V. ter eigengeslachtsnaam')
+
+        verbintenissen = [
+            {
+                'geslachtsnaam': 'partnergeslachtsnaam',
+                'voorvoegselGeslachtsnaam': 'van'
+            }, {
+                'geslachtsnaam': 'foute partnergeslachtsnaam',
+                'voorvoegselGeslachtsnaam': 'van'
+            }
+        ]
+
+        persoon = get_persoon()
+        persoon['aanduidingNaamgebruik'] = 'N'
+        set_opgemaakte_naam(persoon, verbintenissen)
+        self.assertEqual(persoon['opgemaakteNaam'], 'V.V. ter eigengeslachtsnaam - van partnergeslachtsnaam')
+
+        persoon = get_persoon()
+        persoon['aanduidingNaamgebruik'] = 'V'
+        set_opgemaakte_naam(persoon, verbintenissen)
+        self.assertEqual(persoon['opgemaakteNaam'], 'V.V. van partnergeslachtsnaam - ter eigengeslachtsnaam')
+
+        persoon = get_persoon()
+        persoon['aanduidingNaamgebruik'] = 'P'
+        set_opgemaakte_naam(persoon, verbintenissen)
+        self.assertEqual(persoon['opgemaakteNaam'], 'V.V. van partnergeslachtsnaam')

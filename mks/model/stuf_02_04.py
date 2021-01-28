@@ -83,8 +83,6 @@ def extract_persoon_data(persoon_tree: Tag):
     set_fields(persoon_tree, prs_fields, result)
     set_extra_fields(persoon_tree.extraElementen, prs_extra_fields, result)
 
-    opgemaakte_naam(result)
-
     # vertrokken onbekend waarheen
     result['vertrokkenOnbekendWaarheen'] = False
 
@@ -431,6 +429,12 @@ def extract_data(persoon_tree: Tag):
         verbintenis_historisch = []
         identiteitsbewijzen = []
 
+    # collect all partners in a list
+    naam_verbintenissen = verbintenis_historisch
+    if verbintenis:
+        naam_verbintenissen = [verbintenis] + naam_verbintenissen
+    set_opgemaakte_naam(persoon, [i['persoon'] for i in naam_verbintenissen])
+
     return {
         "persoon": persoon,
         "kinderen": kinderen,
@@ -443,7 +447,38 @@ def extract_data(persoon_tree: Tag):
     }
 
 
-def opgemaakte_naam(persoon):
+def _naam(persoon):
+    geslachtsnaam = persoon['geslachtsnaam']
+    if persoon['voorvoegselGeslachtsnaam']:
+        return f'{persoon["voorvoegselGeslachtsnaam"]} {geslachtsnaam}'
+    else:
+        return geslachtsnaam
+
+
+def _format_achternaam(persoon, partner):
+    aanduiding = persoon['aanduidingNaamgebruik']
+
+    if partner and partner['geslachtsnaam']:
+        if aanduiding == 'N':
+            return f"{_naam(persoon)} - {_naam(partner)}"
+        if aanduiding == 'V':
+            return f"{_naam(partner)} - {_naam(persoon)}"
+        if aanduiding == 'P':
+            return _naam(partner)
+
+    # aanduiding E is left, this is also a default
+    return _naam(persoon)
+
+
+def _get_current_or_last_partner(verbintenissen):
+    if verbintenissen:
+        return verbintenissen[0]
+    else:
+        return None
+
+
+def set_opgemaakte_naam(persoon, verbintenissen):
+    """ Set the formatted name of person. When person already has a opgemaakteNaam, don't overwrite it. """
     # in case we do not have the opgemaakteNaam
     if persoon['opgemaakteNaam'] is None:
         if persoon['voornamen']:
@@ -452,12 +487,8 @@ def opgemaakte_naam(persoon):
         else:
             initials = ""
 
-        if persoon['geslachtsnaam']:
-            geslachtsnaam = persoon['geslachtsnaam']
-            if persoon['voorvoegselGeslachtsnaam']:
-                geslachtsnaam = f'{persoon["voorvoegselGeslachtsnaam"]} {geslachtsnaam}'
-        else:
-            geslachtsnaam = ""
+        current_or_last_partner = _get_current_or_last_partner(verbintenissen)
+        geslachtsnaam = _format_achternaam(persoon, current_or_last_partner)
 
         if initials and geslachtsnaam:
             persoon['opgemaakteNaam'] = "%s %s" % (initials, geslachtsnaam)
