@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
-    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn, landcode_to_name, is_nil
+    set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn, landcode_to_name, is_nil, to_string_4x0
 
 
 def get_nationaliteiten(nationaliteiten: ResultSet):
@@ -60,7 +60,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_int},
         {'name': 'codeGemeenteVanInschrijving', 'parser': to_is_amsterdam, 'save_as': 'mokum'},
         {'name': 'geboorteplaats', 'parser': to_string},
-        {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
+        {'name': 'codeGeboorteland', 'parser': to_string_4x0, 'save_as': 'geboorteLand'},
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'codeLandEmigratie', 'parser': to_int},
         {'name': 'datumVertrekUitNederland', 'parser': to_datetime},
@@ -108,7 +108,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         {'name': 'geslachtsaanduiding', 'parser': to_string},
         {'name': 'geboortedatum', 'parser': to_datetime},
         {'name': 'geboorteplaats', 'parser': to_string},
-        {'name': 'codeGeboorteland', 'parser': to_string, 'save_as': 'geboorteLand'},
+        {'name': 'codeGeboorteland', 'parser': to_string_4x0, 'save_as': 'geboorteLand'},
         {'name': 'datumOverlijden', 'parser': to_datetime, 'save_as': 'overlijdensdatum'},  # Save as name to match 3.10
         {'name': 'adellijkeTitelPredikaat', 'parser': to_string},
     ]
@@ -274,14 +274,14 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
 
     address_fields = [
         {'name': 'woonplaatsnaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
-        {'name': 'landcode', 'parser': to_string},
+        {'name': 'landcode', 'parser': to_string_4x0},
         {'name': 'landcode', 'parser': landcode_to_name, 'save_as': 'landnaam'},
         {'name': 'postcode', 'parser': as_postcode},
         {'name': 'huisnummer', 'parser': to_string},
         {'name': 'huisletter', 'parser': to_string},
         {'name': 'huisnummertoevoeging', 'parser': to_string},
         {'name': 'straatnaam', 'parser': to_string},
-        {'name': 'gemeentecode', 'parser': to_string},
+        {'name': 'gemeentecode', 'parser': to_string_4x0},
         {'name': 'adresBuitenland1', 'parser': to_string},
         {'name': 'adresBuitenland2', 'parser': to_string},
         {'name': 'adresBuitenland3', 'parser': to_string},

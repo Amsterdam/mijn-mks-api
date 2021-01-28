@@ -159,6 +159,13 @@ def to_string(value):
     return str(value).strip()
 
 
+def to_string_4x0(value):
+    """ Return value as string padded with zeros at the front"""
+    if not value:
+        return None
+    return str(value).strip().zfill(4)
+
+
 def to_bool(value):
     if not value:
         return False
