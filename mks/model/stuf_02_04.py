@@ -364,13 +364,14 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         set_fields(id.SIB, SIB_fields, result_id)
 
         type_number = result_id['documentType']
+        original_type_number = type_number
         if type_number == 2:
             type_number = 10  # manual fix for EU ID.
 
         if type_number == 10:
             # do not show nederlandse identiteitskaart older than 3 months. passpoort etc stays
             if not result_id['datumAfloop']:
-                logging.error(f"ID without a datumEindeGeldigheid. soort: {type_number}")
+                logging.error(f"ID without a datumEindeGeldigheid. original soort: {original_type_number}")
             elif result_id['datumAfloop'] + relativedelta(months=+3) < datetime.now():
                 # skip
                 continue
