@@ -335,7 +335,6 @@ class Model0204Tests(TestCase):
         self.assertEqual(result['adres'], {})
         self.assertEqual(result['adresHistorisch'], [])
 
-
     def test_emigration(self):
         """ Test the address with a adres outside of NL. """
         with open(EMIGRATION_RESPONSE_PATH) as fp:
