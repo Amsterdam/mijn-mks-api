@@ -16,6 +16,7 @@ from mks.model.stuf_02_04 import extract_data, get_nationaliteiten, set_opgemaak
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
 RESPONSE_NO_KIDS_PARENTS_ID_PARTNERS_ADR = os.path.join(FIXTURE_PATH, "response_0204_no_kids_parents_idb_partners_adr.xml")
+RESPONSE_PUNTADRES = os.path.join(FIXTURE_PATH, "response_0204_puntadres.xml")
 VOW_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen.xml")
 VOW_NOT_FROM_AMSTERDAM_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen_not_from_amsterdam.xml")
 EMIGRATION_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_emigration.xml")
@@ -319,6 +320,21 @@ class Model0204Tests(TestCase):
         self.assertEqual(result['persoon']['nationaliteiten'], [])
 
         self.assertFalse(result['persoon']['vertrokkenOnbekendWaarheen'])
+
+    def test_punt_adres(self):
+        """ Test if the person has status vertrokken onbekend waarheen. """
+
+        with open(RESPONSE_PUNTADRES) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        result = extract_data(tree)
+        from pprint import pprint
+        pprint(result)
+
+        self.assertTrue(result['persoon']['vertrokkenOnbekendWaarheen'])
+        self.assertEqual(result['adres'], {})
+        self.assertEqual(result['adresHistorisch'], [])
+
 
     def test_emigration(self):
         """ Test the address with a adres outside of NL. """
