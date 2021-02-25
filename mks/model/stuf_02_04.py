@@ -416,6 +416,12 @@ def extract_data(persoon_tree: Tag):
         if len(address_history) > 0 and address_history[0]['woonplaatsNaam'] == "Amsterdam":
             persoon['vertrokkenOnbekendWaarheen'] = True
 
+    # Punt adres is a thing so people are not registered on an address (which has al kinds of implications for that adres)
+    # Mark them as VOW and remove that address
+    if address_current and address_current['straatnaam'] == '.':
+        persoon['vertrokkenOnbekendWaarheen'] = True
+        address_current = {}
+
     if isAmsterdammer:
         kinderen = extract_kinderen_data(persoon_tree)
         ouders = extract_parents_data(persoon_tree)
