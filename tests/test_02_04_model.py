@@ -322,15 +322,16 @@ class Model0204Tests(TestCase):
         self.assertFalse(result['persoon']['vertrokkenOnbekendWaarheen'])
 
     def test_punt_adres(self):
-        """ Test if the person has status vertrokken onbekend waarheen. """
+        """ Test if the person has status adres in onderzoek. """
 
         with open(RESPONSE_PUNTADRES) as fp:
             tree = BeautifulSoup(fp.read(), features='lxml-xml')
 
         result = extract_data(tree)
 
-        self.assertTrue(result['persoon']['vertrokkenOnbekendWaarheen'])
-        self.assertEqual(result['adres'], {})
+        self.assertEqual(result['adres']['inOnderzoek'], True)
+        # check that the previous adres is used
+        self.assertEqual(result['adres']['postcode'], '1011 PN')
         self.assertEqual(result['adresHistorisch'], [])
 
     def test_emigration(self):
