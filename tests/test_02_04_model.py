@@ -328,8 +328,6 @@ class Model0204Tests(TestCase):
             tree = BeautifulSoup(fp.read(), features='lxml-xml')
 
         result = extract_data(tree)
-        from pprint import pprint
-        pprint(result)
 
         self.assertTrue(result['persoon']['vertrokkenOnbekendWaarheen'])
         self.assertEqual(result['adres'], {})
