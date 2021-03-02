@@ -16,6 +16,7 @@ from mks.model.stuf_02_04 import extract_data, get_nationaliteiten, set_opgemaak
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
 RESPONSE_NO_KIDS_PARENTS_ID_PARTNERS_ADR = os.path.join(FIXTURE_PATH, "response_0204_no_kids_parents_idb_partners_adr.xml")
+RESPONSE_IDB = os.path.join(FIXTURE_PATH, "response_0204_idb_test.xml")
 RESPONSE_PUNTADRES = os.path.join(FIXTURE_PATH, "response_0204_puntadres.xml")
 VOW_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen.xml")
 VOW_NOT_FROM_AMSTERDAM_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen_not_from_amsterdam.xml")
@@ -395,3 +396,16 @@ class Model0204Tests(TestCase):
         persoon['aanduidingNaamgebruik'] = 'P'
         set_opgemaakte_naam(persoon, verbintenissen)
         self.assertEqual(persoon['opgemaakteNaam'], 'V.V. van partnergeslachtsnaam')
+
+    def test_idb_allow_list(self):
+        with open(RESPONSE_IDB) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        result = extract_data(tree)
+
+        # one extra (5), because type 2 becomes type 10
+        self.assertEqual(len(result['identiteitsbewijzen']), 5)
+
+        doc_types = [d['documentType'] for d in result['identiteitsbewijzen']]
+        expected = ['paspoort', 'nederlandse identiteitskaart', 'nederlandse identiteitskaart', 'vluchtelingenpaspoort', 'vreemdelingenpaspoort']
+        self.assertEqual(doc_types, expected)

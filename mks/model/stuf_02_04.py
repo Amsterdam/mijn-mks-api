@@ -376,6 +376,10 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         if type_number == 2:
             type_number = 10  # manual fix for EU ID.
 
+        # only allow these IDs
+        if type_number not in [1, 6, 7, 10]:
+            continue
+
         if type_number == 10:
             # do not show nederlandse identiteitskaart older than 3 months. passpoort etc stays
             if not result_id['datumAfloop']:
