@@ -3,7 +3,7 @@ from tma_saml import FlaskServerTMATestCase
 from mks.server import application
 
 
-class HrBsnTest(FlaskServerTMATestCase):
+class MetricsTest(FlaskServerTMATestCase):
     def setUp(self) -> None:
         self.client = self.get_tma_test_app(application)
 
