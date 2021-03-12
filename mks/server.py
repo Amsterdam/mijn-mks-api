@@ -3,6 +3,8 @@ import logging
 import connexion
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from prometheus_client import make_wsgi_app
 
 from mks import operation_resolver
 from mks import operations
@@ -35,8 +37,13 @@ webapp.add_api('swagger.yaml',
                resolver=operation_resolver.CustomOperationResolver(mapping),
                validate_responses=False)
 
+
 # set the WSGI application callable to allow using uWSGI:
 application = webapp.app
+
+application.wsgi_app = DispatcherMiddleware(application.wsgi_app, {
+    '/metrics': make_wsgi_app()
+})
 
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 import logging
 import os
-import time
 from datetime import datetime
 from io import BytesIO
 from random import randint
@@ -9,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import etree
+from prometheus_client import Histogram
 
 from mks.model.stuf_02_04 import extract_data
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
@@ -40,6 +40,9 @@ def _get_soap_request(bsn: str) -> str:
     return prs_stuf_0204_template.render(context)
 
 
+mks_request_latency = Histogram('mks_request_latency_seconds', 'Mks request time')
+
+
 def _get_response(mks_brp_url, soap_request):
     session = requests.Session()
     session.headers.update({
@@ -47,12 +50,14 @@ def _get_response(mks_brp_url, soap_request):
         'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0204/beantwoordSynchroneVraagIntegraal',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
-    request_start = time.time()
-    try:
+    # request_start = time.time()
+    with mks_request_latency.time():
+        # try:
         post_response = session.post(mks_brp_url, data=soap_request, timeout=REQUEST_TIMEOUT)
-    finally:
-        request_end = time.time()
-        logging.info(f"request took: '{request_end - request_start}' seconds")
+    # finally:
+    #     request_end = time.time()
+    #     # logging.info(f"request took: '{request_end - request_start}' seconds")
+    #     mks_request_latency.observe(request_end - request_start)
 
     return post_response.content
 
