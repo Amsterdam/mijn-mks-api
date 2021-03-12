@@ -15,4 +15,5 @@ flake8
 coverage
 
 sentry-sdk[flask]
+prometheus-client
 
