@@ -6,7 +6,8 @@ from hashlib import sha256
 from bs4 import Tag, ResultSet
 from dateutil.relativedelta import relativedelta
 
-from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen
+from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen, \
+    lookup_nationaliteiten
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
     set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn, landcode_to_name, is_nil, to_string_4x0
 
@@ -36,8 +37,8 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
     # Quick fix for Nederlandse if code == 1
     for n in result:
         if not n['omschrijving']:
-            if n['code'] == 1:
-                n['omschrijving'] = "Nederlandse"
+            code = str(n['code']).zfill(4)
+            n['omschrijving'] = lookup_nationaliteiten.get(code)
 
     result = [n for n in result if not n['datumVerlies']]
 

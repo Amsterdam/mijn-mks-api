@@ -274,13 +274,23 @@ class Model0204Tests(TestCase):
               <BG:omschrijving>Belgische</BG:omschrijving>
             </BG:NAT>
           </BG:PRSNAT>
+          
+          <!-- one where nationaliteit is not set so it has to be taken from the translation table -->
+          <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="1">
+            <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+            <BG:datumVerlies xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:NAT soortEntiteit="T">
+              <BG:code>336</BG:code>
+              <BG:omschrijving></BG:omschrijving>
+            </BG:NAT>
+          </BG:PRSNAT>
         </BG:PRS>
         """
 
         tree = BeautifulSoup(nationaliteiten_xml, features='lxml-xml')
         result = get_nationaliteiten(tree.find_all("PRSNAT"))
 
-        expected = [{'omschrijving': 'Deense', 'code': 54}, {'omschrijving': 'Belgische', 'code': 52}]
+        expected = [{'omschrijving': 'Deense', 'code': 54}, {'omschrijving': 'Belgische', 'code': 52}, {'code': 336, 'omschrijving': 'Syrische'}]
         self.assertEqual(result, expected)
 
     def test_vertrokken_onbekend_waarheen(self):
