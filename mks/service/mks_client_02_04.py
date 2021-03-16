@@ -11,6 +11,7 @@ from lxml import etree
 from prometheus_client import Histogram
 
 from mks.model.stuf_02_04 import extract_data
+from mks.prometheus_definitions import mks_connection_state
 from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
     MKS_ENDPOINT, REQUEST_TIMEOUT
 from mks.service.exceptions import ExtractionError, NoResultException
@@ -59,6 +60,7 @@ def _get_response(mks_brp_url, soap_request):
     #     # logging.info(f"request took: '{request_end - request_start}' seconds")
     #     mks_request_latency.observe(request_end - request_start)
 
+    mks_connection_state(0)  # success, mark state as running
     return post_response.content
 
 

@@ -7,6 +7,7 @@ from tma_saml import SamlVerificationException, UserType
 from urllib3.exceptions import ConnectTimeoutError
 
 from mks.model.stuf_utils import decrypt
+from mks.prometheus_definitions import mks_connection_state
 from mks.service import mks_client_02_04, adr_mks_client_02_04, mks_client_bsn_hr
 from mks.service.config import get_raw_key
 from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
@@ -30,6 +31,7 @@ def log_and_generate_response(exception, response_type='json'):
     elif e_type == InvalidBSNException:
         return 'Ongeldig BSN', 400
     elif e_type == ConnectTimeoutError:
+        mks_connection_state.set(1)
         logging.error("MKS Timeout")
         return 'Source connection timeout', 500
     elif e_type == ExtractionError:
