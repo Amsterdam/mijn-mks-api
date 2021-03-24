@@ -274,7 +274,7 @@ class Model0204Tests(TestCase):
               <BG:omschrijving>Belgische</BG:omschrijving>
             </BG:NAT>
           </BG:PRSNAT>
-          
+
           <!-- one where nationaliteit is not set so it has to be taken from the translation table -->
           <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="1">
             <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend"/>
