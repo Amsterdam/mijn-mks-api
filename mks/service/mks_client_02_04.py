@@ -60,7 +60,7 @@ def _get_response(mks_brp_url, soap_request):
     #     # logging.info(f"request took: '{request_end - request_start}' seconds")
     #     mks_request_latency.observe(request_end - request_start)
 
-    mks_connection_state(0)  # success, mark state as running
+    mks_connection_state.set(0)  # success, mark state as running
     return post_response.content
 
 
