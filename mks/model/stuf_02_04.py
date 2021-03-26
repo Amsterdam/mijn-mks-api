@@ -408,7 +408,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         docs = result_per_type[doc_type]
         docs.sort(key=lambda x: x['datumAfloop'] or datetime.min)
         # select current ones
-        new_list = [i for i in docs if i['datumAfloop'] > now]
+        new_list = [i for i in docs if (i['datumAfloop'] and i['datumAfloop'] > now)]
         # no current docs, pick last one
         if not new_list:
             new_list = [docs[-1]]
