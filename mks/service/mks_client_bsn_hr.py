@@ -142,9 +142,7 @@ def extract_for_bsn(xml_data):
             }
             rechtspersonen.append(persoon)
 
-        eigenaar = {
-
-        }
+        eigenaar = None
 
         is_amsterdammer = False
         for i in vestigingen:
