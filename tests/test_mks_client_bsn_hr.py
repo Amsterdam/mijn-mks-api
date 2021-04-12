@@ -24,8 +24,6 @@ class BsnHrTest(TestCase):
 
     def _get_expected(self):
         return {
-            'aandeelhouders': [],
-            'bestuurders': [],
             'mokum': True,
             'onderneming': {
                 'datumAanvang': date(1992, 1, 1),
@@ -35,6 +33,7 @@ class BsnHrTest(TestCase):
                 'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
                 'rechtsvorm': 'Eenmanszaak'
             },
+            'eigenaar': None,
             'rechtspersonen': [
                 {
                     'bsn': '999999999',
@@ -73,7 +72,10 @@ class BsnHrTest(TestCase):
                     'vestigingsNummer': '000000000001',
                     'websites': []
                 }
-            ]
+            ],
+            'gemachtigden': [],
+            'functionarissen': [],
+            'bestuurders': [],
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)

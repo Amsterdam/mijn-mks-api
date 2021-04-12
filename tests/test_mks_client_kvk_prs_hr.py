@@ -23,8 +23,6 @@ def get_xml_response_empty_fixture(*args):
 class KvkHrTest(TestCase):
     def _expected_result(self) -> dict:
         return {
-            'aandeelhouders': [],
-            'bestuurders': [],
             'mokum': True,
             'onderneming': {
                 'datumAanvang': date(1992, 1, 1),
@@ -34,6 +32,7 @@ class KvkHrTest(TestCase):
                 'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
                 'rechtsvorm': 'Eenmanszaak'
             },
+            'eigenaar': None,
             'rechtspersonen': [
                 {
                     'bsn': '999999999',
@@ -72,7 +71,10 @@ class KvkHrTest(TestCase):
                     'vestigingsNummer': '000000000001',
                     'websites': []
                 }
-            ]
+            ],
+            'gemachtigden': [],
+            'functionarissen': [],
+            'bestuurders': [],
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_fixture)

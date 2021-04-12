@@ -1,7 +1,7 @@
 import os
 from tma_saml import UserType
 from unittest.mock import patch
-
+from jwcrypto import jwk
 from flask_testing.utils import TestCase
 
 os.environ['TMA_CERTIFICATE'] = 'cert content'
@@ -21,7 +21,12 @@ RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
 
 def get_xml_response_fixture(*args):
     with open(RESPONSE_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode("utf-8")
+
+
+def get_jwt_key_test():
+    key = jwk.JWK.generate(kty='oct', size=256)
+    return key
 
 
 class BRPTests(TestCase):
@@ -33,6 +38,7 @@ class BRPTests(TestCase):
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
     @patch('mks.operations.get_type', lambda x: UserType.BURGER)
+    @patch('mks.model.stuf_utils.get_jwt_key', get_jwt_key_test)
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
     def test_get_brp(self):
         data = get_brp()
@@ -43,6 +49,7 @@ class BRPTests(TestCase):
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
     @patch('mks.operations.get_type', lambda x: UserType.BURGER)
+    @patch('mks.model.stuf_utils.get_jwt_key', get_jwt_key_test)
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
     def test_api_call(self):
         response = self.client.get('/brp/brp')
@@ -60,7 +67,7 @@ class BRPTests(TestCase):
         self.client.set_cookie("", "access_token", 'a')
         response = self.client.get('/brp/brp/raw')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, get_xml_response_fixture())
+        self.assertEqual(response.json, get_xml_response_fixture())
 
     @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
     @patch('mks.service.mks_client_02_04._get_response', get_xml_response_fixture)
@@ -69,12 +76,12 @@ class BRPTests(TestCase):
         # no token set
         response = self.client.get('/brp/brp/raw')
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.data, b'no access without access token')
+        self.assertEqual(response.json, 'no access without access token')
 
         self.client.set_cookie("", "access_token", 'aa')
         response = self.client.get('/brp/brp/raw')
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.data, b'no access without access token')
+        self.assertEqual(response.json, 'no access without access token')
 
 
 class StatusTest(TestCase):

@@ -18,8 +18,6 @@ class KvkHrTest(TestCase):
 
     def _expected_result(self):
         return {
-            'aandeelhouders': [],
-            'bestuurders': [],
             'mokum': True,
             'onderneming': {
                 'datumAanvang': None,
@@ -33,6 +31,7 @@ class KvkHrTest(TestCase):
                 'overigeActiviteiten': [],
                 'rechtsvorm': 'VennootschapOnderFirma'
             },
+            'eigenaar': None,
             'rechtspersonen': [
                 {
                     'bsn': None,
@@ -122,7 +121,10 @@ class KvkHrTest(TestCase):
                     'vestigingsNummer': '000000000003',
                     'websites': ['www.example.com']
                 }
-            ]
+            ],
+            'gemachtigden': [],
+            'functionarissen': [],
+            'bestuurders': [],
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_fixture)
