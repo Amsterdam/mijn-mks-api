@@ -161,9 +161,9 @@ def extract_for_bsn(xml_data):
             'eigenaar': eigenaar,
             'rechtspersonen': rechtspersonen,
             'vestigingen': vestigingen,
-            'bestuurders': bestuurders,
             'gemachtigden': gemachtigden,
             'functionarissen': functionarissen,
+            'bestuurders': bestuurders,
         }
 
         return data
@@ -264,9 +264,11 @@ def extract_for_kvk(xml_str):
         data = {
             'mokum': is_amsterdammer,
             'onderneming': onderneming,
+            'eigenaar': None,
             'rechtspersonen': rechtspersonen,
             'vestigingen': vestigingen,
-            'aandeelhouders': [],
+            'gemachtigden': [],
+            'functionarissen': [],
             'bestuurders': [],
         }
 

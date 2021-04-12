@@ -1,10 +1,9 @@
 import os
 from unittest.mock import patch
 
+from mks.server import application
 from tma_saml import FlaskServerTMATestCase
 from tma_saml.for_tests.cert_and_key import server_crt
-
-from mks.server import application
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")
@@ -14,17 +13,17 @@ RESPONSE_EMPTY_PATH = os.path.join(FIXTURE_PATH, "hr_empty_response.xml")
 
 def get_bsn_xml_response_fixture(*args):
     with open(BSN_RESPONSE_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode('utf-8')
 
 
 def get_kvk_xml_response_fixture(*args):
     with open(KVK_RESPONSE_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode('utf-8')
 
 
 def get_xml_response_empty_fixture(*args):
     with open(RESPONSE_EMPTY_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode('utf-8')
 
 
 @patch("mks.service.saml.get_tma_certificate", lambda: server_crt)
@@ -36,8 +35,10 @@ class HrBsnTest(FlaskServerTMATestCase):
     def _get_expected(self):
         return {
             'content': {
-                'aandeelhouders': [],
                 'bestuurders': [],
+                'eigenaar': None,
+                'functionarissen': [],
+                'gemachtigden': [],
                 'mokum': True,
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
@@ -86,7 +87,7 @@ class HrBsnTest(FlaskServerTMATestCase):
                         'vestigingsNummer': '000000000001',
                         'websites': []
                     }
-                ]
+                ],
             },
             'status': 'OK'}
 
@@ -104,7 +105,7 @@ class HrBsnTest(FlaskServerTMATestCase):
         self.client.set_cookie("", "access_token", 'a')
         response = self.client.get('/brp/hr/raw', headers=headers)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, get_bsn_xml_response_fixture())
+        self.assertEqual(response.json, get_bsn_xml_response_fixture())
 
 
 @patch("mks.service.saml.get_tma_certificate", lambda: server_crt)
@@ -116,9 +117,11 @@ class HrKvkTest(FlaskServerTMATestCase):
     def _get_expected(self):
         return {
             'content': {
-                'aandeelhouders': [],
-                'bestuurders': [],
                 'mokum': True,
+                'bestuurders': [],
+                'eigenaar': None,
+                'functionarissen': [],
+                'gemachtigden': [],
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
                     'datumEinde': '2020-01-01',
@@ -169,13 +172,13 @@ class HrKvkTest(FlaskServerTMATestCase):
                         'vestigingsNummer': '000000000001',
                         'websites': []
                     }
-                ]
+                ],
             },
             'status': 'OK'
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_kvk_xml_response_fixture)
-    def test_kvk(self):
+    def test_get_hr(self):
         headers = self.add_e_herkenning_headers('999999990')
         response = self.client.get('/brp/hr', headers=headers)
         self.assertEqual(response.status_code, 200)
@@ -194,11 +197,11 @@ class HrKvkTest(FlaskServerTMATestCase):
         self.client.set_cookie("", "access_token", 'a')
         response = self.client.get('/brp/hr/raw', headers=headers)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, get_kvk_xml_response_fixture())
+        self.assertEqual(response.json, get_kvk_xml_response_fixture())
 
     @patch('mks.operations.get_raw_key', lambda: 'a')
     def test_bsn_wrong_token(self):
         self.client.set_cookie("", "access_token", 'xx')
         response = self.client.get('/brp/hr/raw')
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.data, b'no access without access token')
+        self.assertEqual(response.json, 'no access without access token')
