@@ -20,10 +20,6 @@ PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2"
 with open(PRS_STUF0204TEMPLATE_PATH) as fp:
     prs_stuf_0204_template = Template(fp.read())
 
-ADR_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "ADR_stuf02.04.xml.jinja2")
-with open(ADR_STUF0204TEMPLATE_PATH) as fp:
-    adr_stuf_0204_template = Template(fp.read())
-
 log_response = False
 
 
@@ -51,14 +47,9 @@ def _get_response(mks_brp_url, soap_request):
         'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0204/beantwoordSynchroneVraagIntegraal',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
-    # request_start = time.time()
+
     with mks_request_latency.time():
-        # try:
         post_response = session.post(mks_brp_url, data=soap_request, timeout=REQUEST_TIMEOUT)
-    # finally:
-    #     request_end = time.time()
-    #     # logging.info(f"request took: '{request_end - request_start}' seconds")
-    #     mks_request_latency.observe(request_end - request_start)
 
     mks_connection_state.set(0)  # success, mark state as running
     return post_response.content
