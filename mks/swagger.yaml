@@ -2,13 +2,12 @@ swagger: '2.0'
 info:
   version: '1.0.0'
   title: BRP Informatie service
-  description: Internal service for getting BRP details. This version only supports "natuurlijke personen"
+  description: Internal service for getting BRP details.
   contact:
     email: datapunt@amsterdam.nl
     name: Datapunt Support
     url: https://data.amsterdam.nl/
 host: mijn.amsterdam.nl
-#basePath: /brp
 schemes:
   - https
 consumes:
