@@ -50,5 +50,3 @@ Direct dependencies are specified in `requirements-root.txt`. These should not h
 
 * ``pip install -r requirements-root.txt``
 * ``pip freeze > requirements.txt``
-
-

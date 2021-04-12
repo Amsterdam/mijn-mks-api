@@ -95,6 +95,7 @@ def get_bsn():
 def get_hr():
     usertype = get_type(request)
     data = None
+
     if usertype == UserType.BEDRIJF:
         data = get_hr_for_kvk()
 
