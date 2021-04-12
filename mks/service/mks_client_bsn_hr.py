@@ -142,6 +142,10 @@ def extract_for_bsn(xml_data):
             }
             rechtspersonen.append(persoon)
 
+        eigenaar = {
+
+        }
+
         is_amsterdammer = False
         for i in vestigingen:
             if i['typeringVestiging']:
@@ -149,13 +153,19 @@ def extract_for_bsn(xml_data):
                         (i['postadres'] and i['postadres']['woonplaatsNaam'] == "Amsterdam")):
                     is_amsterdammer = True
 
+        bestuurders = []
+        gemachtigden = []
+        functionarissen = []
+
         data = {
             'mokum': is_amsterdammer,
             'onderneming': onderneming,
+            'eigenaar': eigenaar,
             'rechtspersonen': rechtspersonen,
             'vestigingen': vestigingen,
-            'aandeelhouders': [],
-            'bestuurders': [],
+            'bestuurders': bestuurders,
+            'gemachtigden': gemachtigden,
+            'functionarissen': functionarissen,
         }
 
         return data
