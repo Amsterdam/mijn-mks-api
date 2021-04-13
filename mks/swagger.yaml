@@ -98,17 +98,9 @@ paths:
                     type: integer
 components:
   schemas:
-    Adres:
-      title: adres
+    AdresBasis:
       type: object
       properties:
-        begindatumVerblijf:
-          type: string
-          format: date-time
-        einddatumVerblijf:
-          type: string
-          format: date-time
-          nullable: True
         huisnummer:
           type: string
         huisletter:
@@ -122,22 +114,35 @@ components:
           type: string
         woonplaatsNaam:
           type: string
-        landnaam:
-          type: string
-        adresBuitenland1:
-          type: string
-          nullable: True
-        adresBuitenland2:
-          type: string
-          nullable: True
-        adresBuitenland3:
-          type: string
-          nullable: True
-        inOnderzoek:
-          type: boolean
-        _adresSleutel:
-          description: encrypted key to be used to get further information about adres
-          type: string
+    Adres:
+      allOf:
+        - $ref: '#/components/schemas/AdresBasis'
+        - type: object
+          properties:
+            begindatumVerblijf:
+              type: string
+              format: date-time
+            einddatumVerblijf:
+              type: string
+              format: date-time
+              nullable: True
+            landnaam:
+              type: string
+            adresBuitenland1:
+              type: string
+              nullable: True
+            adresBuitenland2:
+              type: string
+              nullable: True
+            adresBuitenland3:
+              type: string
+              nullable: True
+            inOnderzoek:
+              type: boolean
+            _adresSleutel:
+              description: encrypted key to be used to get further information about adres
+              type: string
+
     Verbintenis:
       title: verbintenis
       type: object
@@ -312,8 +317,7 @@ components:
           $ref: '#/components/schemas/Onderneming'
         eigenaar:
           nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Eigenaar'
+          $ref: '#/components/schemas/Eigenaar'
         rechtspersonen:
           type: array
           items:
@@ -338,6 +342,14 @@ components:
       type: object
     Eigenaar:
       type: object
+      properties:
+        naam:
+          type: string
+        geboortedatum:
+          type: string
+          format: date-time
+        adres:
+          $ref: '#/components/schemas/Adres'
     Rechtspersoon:
       type: object
     Vestiging:
