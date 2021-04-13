@@ -7,6 +7,11 @@ info:
     email: datapunt@amsterdam.nl
     name: Datapunt Support
     url: https://data.amsterdam.nl/
+servers:
+  - url: https://mijn.acc.amsterdam.nl/api
+    description: Acceptance server
+  - url: https://mijn.amsterdam.nl/api
+    description: Production server
 paths:
   /status/health:
     get:
@@ -89,9 +94,6 @@ paths:
                 properties:
                   residentCount:
                     type: integer
-tags: []
-servers:
-  - url: https://mijn.amsterdam.nl
 components:
   schemas:
     bsn:
