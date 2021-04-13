@@ -6,9 +6,6 @@ Wat?
 Makelaarssuite is een interne applicatie van de gemeente waar informatie uit zowel de BRP (Basisregistratie Persoonsgegevens)
 als het HR (Handelsregister c.q. Kamer van Koophandel) is te vinden.
 
-Op dit moment wordt alleen de BRP ontsloten
-
-
 Hoe?
 ====
 Bij het starten van de applicatie dient het pubieke certificaat van de TMA (Toegangsmakelaar Amsterdam) te worden gegeven
@@ -40,8 +37,6 @@ Running tests
 =============
 * activate virtual env
 * :code:`python -m unittest`
-
-There are test targets in the make file, I (Johan) could not get them to work.
 
 
 Updating dependencies
