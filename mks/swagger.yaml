@@ -8,6 +8,8 @@ info:
     name: Datapunt Support
     url: https://data.amsterdam.nl/
 servers:
+  - url: http://localhost
+    description: Development server
   - url: https://mijn.acc.amsterdam.nl/api
     description: Acceptance server
   - url: https://mijn.amsterdam.nl/api
@@ -33,7 +35,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/kvk'
+                $ref: '#/components/schemas/KVKResponse'
   /brp/bsn:
     get:
       description: Return BSN of currently logged in user.
@@ -44,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bsn'
+                $ref: '#/components/schemas/BSNResponse'
   /brp/brp/raw:
     get:
       description: Information of current user from "basisregistratie personen"
@@ -62,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/brp'
+                $ref: '#/components/schemas/BRPResponse'
   /brp/hr:
     get:
       description: Information of current user from "Handelsregister"
@@ -73,7 +75,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/hr'
+                $ref: '#/components/schemas/HRResponse'
   /brp/hr/raw:
     get:
       description: Information of current user from "Handelsregister"
@@ -96,79 +98,7 @@ paths:
                     type: integer
 components:
   schemas:
-    bsn:
-      title: bsn
-      type: object
-      properties:
-        burgerservicenummer:
-          type: integer
-      required:
-        - burgerservicenummer
-    kvk:
-      title: bsn
-      type: object
-      properties:
-        kvknummer:
-          type: integer
-      required:
-        - kvknummer
-    persoon:
-      title: persoon
-      type: object
-      properties:
-        omschrijvingAdellijkeTitel:
-          $ref: '#/components/schemas/AdellijkeTitelPredikaat'
-        aanduidingNaamgebruikOmschrijving:
-          type: string
-        bsn:
-          type: string
-        opgemaakteNaam:
-          type: string
-        geslachtsnaam:
-          type: string
-        voorvoegselGeslachtsnaam:
-          type: string
-        voornamen:
-          type: string
-        geboortelandnaam:
-          type: string
-        geboorteLand:
-          type: integer
-        geboorteplaatsnaam:
-          type: string
-        geboorteplaats:
-          type: integer
-        geboortedatum:
-          type: string
-          format: date-time
-        gemeentenaamInschrijving:
-          type: string
-        omschrijvingGeslachtsaanduiding:
-          $ref: '#/components/schemas/OmschrijvingGeslachtsaanduiding'
-        geslachtsaanduiding:
-          $ref: '#/components/schemas/Geslachtsaanduiding'
-        omschrijvingBurgerlijkeStaat:
-          type: string
-        mokum:
-          description: True if person is living in Amsterdam
-          type: boolean
-        nationaliteiten:
-          type: array
-          items:
-            $ref: '#/components/schemas/Nationaliteiten'
-        vertrokkenOnbekendWaarheen:
-          type: boolean
-        datumVertrekUitNederland:
-          description: This value can be used if `vertrokkenOnbekendWaarheen` is True
-          type: string
-          format: date-time
-        emigratieLand:
-          type: string
-        omschrijvingIndicatieGeheim:
-          type: string
-        indicatieGeheim:
-          type: boolean
-    adres:
+    Adres:
       title: adres
       type: object
       properties:
@@ -178,10 +108,12 @@ components:
         einddatumVerblijf:
           type: string
           format: date-time
+          nullable: True
         huisnummer:
           type: string
         huisletter:
           type: string
+          nullable: True
         huisnummertoevoeging:
           type: string
         postcode:
@@ -194,22 +126,26 @@ components:
           type: string
         adresBuitenland1:
           type: string
+          nullable: True
         adresBuitenland2:
           type: string
+          nullable: True
         adresBuitenland3:
           type: string
+          nullable: True
         inOnderzoek:
           type: boolean
         _adresSleutel:
           description: encrypted key to be used to get further information about adres
           type: string
-    verbintenis:
+    Verbintenis:
       title: verbintenis
       type: object
       properties:
         datumOntbinding:
           type: string
           format: date-time
+          nullable: True
         datumSluiting:
           type: string
           format: date-time
@@ -224,89 +160,9 @@ components:
         redenOntbindingOmschrijving:
           type: string
         persoon:
-          $ref: '#/components/schemas/partnerpersoon'
-    kind:
-      title: kind
-      type: object
-      properties:
-        adellijkeTitelPredikaat:
-          $ref: '#/components/schemas/AdellijkeTitelPredikaat'
-        bsn:
-          type: string
-        geslachtsnaam:
-          type: string
-        voorvoegselGeslachtsnaam:
-          type: string
-        voornamen:
-          type: string
-        geboorteLand:
-          type: integer
-        geboorteplaats:
-          type: integer
-        geboortedatum:
-          type: string
-          format: date-time
-        omschrijvingGeslachtsaanduiding:
-          $ref: '#/components/schemas/OmschrijvingGeslachtsaanduiding'
-        geslachtsaanduiding:
-          $ref: '#/components/schemas/Geslachtsaanduiding'
-        overlijdensdatum:
-          type: string
-          format: date-time
-    ouder:
-      title: ouder
-      type: object
-      properties:
-        adellijkeTitelPredikaat:
-          $ref: '#/components/schemas/AdellijkeTitelPredikaat'
-        bsn:
-          type: string
-        geslachtsnaam:
-          type: string
-        voorvoegselGeslachtsnaam:
-          type: string
-        voornamen:
-          type: string
-        geboorteLand:
-          type: integer
-        geboorteplaats:
-          type: integer
-        geboortedatum:
-          type: string
-          format: date-time
-        omschrijvingGeslachtsaanduiding:
-          $ref: '#/components/schemas/OmschrijvingGeslachtsaanduiding'
-        geslachtsaanduiding:
-          $ref: '#/components/schemas/Geslachtsaanduiding'
-        overlijdensdatum:
-          type: string
-          format: date-time
-    brp:
-      title: brp
-      type: object
-      properties:
-        persoon:
-          $ref: '#/components/schemas/persoon'
-        adres:
-          $ref: '#/components/schemas/adres'
-        verbintenis:
-          $ref: '#/components/schemas/verbintenis'
-        ouders:
-          type: array
-          items:
-            $ref: '#/components/schemas/ouder'
-        kinderen:
-          type: array
-          items:
-            $ref: '#/components/schemas/kind'
-    Geslachtsaanduiding:
-      title: Geslachtsaanduiding
-      example: M
-      type: string
-      enum:
-        - M
-        - V
+          $ref: '#/components/schemas/Persoon'
     AdellijkeTitelPredikaat:
+      nullable: true
       title: AdellijkeTitelPredikaat
       type: string
       enum:
@@ -329,6 +185,13 @@ components:
       properties:
         omschrijving:
           type: string
+    Geslachtsaanduiding:
+      title: Geslachtsaanduiding
+      example: M
+      type: string
+      enum:
+        - M
+        - V
     OmschrijvingGeslachtsaanduiding:
       title: OmschrijvingGeslachtsaanduiding
       example: Man
@@ -336,40 +199,110 @@ components:
       enum:
         - Man
         - Vrouw
-    partnerpersoon:
-      title: Partner persoon
+    Persoon:
+      title: Persoonsgegevens
       type: object
       properties:
+        adellijkeTitelPredikaat:
+          $ref: '#/components/schemas/AdellijkeTitelPredikaat'
         bsn:
+          type: string
+        geslachtsnaam:
+          type: string
+        voorvoegselGeslachtsnaam:
+          nullable: true
+          type: string
+        voornamen:
+          type: string
+        geboorteLand:
+          type: string
+        geboorteplaats:
           type: string
         geboortedatum:
           type: string
           format: date-time
         geslachtsaanduiding:
-          $ref: '#/components/schemas/OmschrijvingGeslachtsaanduiding'
+          $ref: '#/components/schemas/Geslachtsaanduiding'
         omschrijvingGeslachtsaanduiding:
           $ref: '#/components/schemas/OmschrijvingGeslachtsaanduiding'
-        geslachtsnaam:
-          type: string
-        voornamen:
-          type: string
-        voorvoegselGeslachtsnaam:
-          type: string
-        geboorteLand:
-          type: integer
-        geboorteplaats:
-          type: integer
         overlijdensdatum:
+          nullable: true
           type: string
           format: date-time
+    PersoonVolledig:
+      allOf:
+        - $ref: '#/components/schemas/Persoon'
+        - type: object
+          properties:
+            aanduidingNaamgebruikOmschrijving:
+              type: string
+            gemeentenaamInschrijving:
+              type: string
+            mokum:
+              description: True if person is living in Amsterdam
+              type: boolean
+            nationaliteiten:
+              type: array
+              items:
+                $ref: '#/components/schemas/Nationaliteiten'
+            vertrokkenOnbekendWaarheen:
+              type: boolean
+            datumVertrekUitNederland:
+              description: This value can be used if `vertrokkenOnbekendWaarheen` is True
+              type: string
+              format: date-time
+              nullable: True
+            emigratieLand:
+              type: string
+            omschrijvingIndicatieGeheim:
+              type: string
+            indicatieGeheim:
+              type: boolean
+            omschrijvingBurgerlijkeStaat:
+              type: string
     SoortVerbintenis:
+      nullable: true
       title: SoortVerbintenis
       example: H
       type: string
       enum:
         - H
         - P
-    hr:
+    BRPResponse:
+      title: brp
+      type: object
+      properties:
+        persoon:
+          $ref: '#/components/schemas/PersoonVolledig'
+        adres:
+          $ref: '#/components/schemas/Adres'
+        verbintenis:
+          $ref: '#/components/schemas/Verbintenis'
+        ouders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Persoon'
+        kinderen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Persoon'
+    BSNResponse:
+      title: bsn
+      type: object
+      properties:
+        burgerservicenummer:
+          type: string
+      required:
+        - burgerservicenummer
+    KVKResponse:
+      title: bsn
+      type: object
+      properties:
+        kvknummer:
+          type: string
+      required:
+        - kvknummer
+    HRResponse:
       title: Handelsregister
       type: object
       properties:
