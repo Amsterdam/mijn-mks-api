@@ -4,6 +4,7 @@ LABEL maintainer=datapunt@amsterdam.nl
 
 ENV PYTHONUNBUFFERED 1
 ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
+ENV APP_ENV production
 
 EXPOSE 8000
 

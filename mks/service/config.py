@@ -17,19 +17,20 @@ TMA_CERTIFICATE = os.getenv('TMA_CERTIFICATE')
 
 SENTRY_DSN = os.getenv('SENTRY_DSN', None)
 
-DEBUG = os.getenv("DEBUG", 'False') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+IS_PRODUCTION = os.getenv('APP_ENV') == 'production'
 
 
 def get_jwt_key():
     # from jwcrypto import jwk
     # key = jwk.JWK.generate(kty='oct', size=256).export()
     # in the environment is the value of "k"
-    key = os.getenv("MKS_JWT_KEY")
+    key = os.getenv('MKS_JWT_KEY')
     return jwk.JWK.from_json('{"k":"%s","kty":"oct"}' % (key, ))
 
 
 def get_raw_key():
-    raw_access_key = os.getenv("RAW_ACCESS_KEY")
+    raw_access_key = os.getenv('RAW_ACCESS_KEY')
     assert raw_access_key is not None
     assert raw_access_key != ''
     return raw_access_key

@@ -1,4 +1,4 @@
-version: "3.0"
+version: '3.0'
 services:
   test:
     build: ../../..
@@ -6,3 +6,4 @@ services:
       bash -c "mks/test.sh"
     environment:
       TMA_CERTIFICATE: 'test'
+      APP_ENV: 'test'
