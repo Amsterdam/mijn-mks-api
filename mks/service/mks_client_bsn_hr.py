@@ -139,8 +139,6 @@ def extract_for_bsn(xml_data):
             'statutaireZetel': i.get('statutaireZetel', None),
         }]
 
-        print('\n\n', eigenaren_data['adres'], '\n\n')
-
         eigenaar = {
             'naam': "%s %s" % (eigenaren_data['voornamen'], eigenaren_data['geslachtsnaam']),
             'geboortedatum': eigenaren_data['geboortedatum'],
@@ -247,16 +245,26 @@ def extract_for_kvk(xml_str):
             'hoofdactiviteit': hoofdactiviteit
         }
 
+        eigenaar = None
         rechtspersonen = []
-        for i in eigenaren_data:
-            persoon = {
+
+        for eigenaar_item in eigenaren_data:
+            rechtspersoon = {
                 'kvkNummer': object_data['kvkNummer'],
-                'rsin': i.get('nnpId', None),
-                'bsn': i.get('bsn', None),
-                'statutaireNaam': i.get('statutaireNaam', None),
-                'statutaireZetel': i.get('statutaireZetel', None),
+                'rsin': eigenaar_item.get('nnpId', None),
+                'bsn': eigenaar_item.get('bsn', None),
+                'statutaireNaam': eigenaar_item.get('statutaireNaam', None),
+                'statutaireZetel': eigenaar_item.get('statutaireZetel', None),
             }
-            rechtspersonen.append(persoon)
+            rechtspersonen.append(rechtspersoon)
+
+            # Only show natuurlijk persoon as eigenaar
+            if (eigenaar_item['type'] == 'np'):
+                eigenaar = {
+                    'naam': "%s %s" % (eigenaar_item['voornamen'], eigenaar_item['geslachtsnaam']),
+                    'geboortedatum': eigenaar_item['geboortedatum'],
+                    'adres': eigenaar_item['adres'],
+                }
 
         is_amsterdammer = False
         for i in vestigingen:
@@ -267,7 +275,7 @@ def extract_for_kvk(xml_str):
         data = {
             'mokum': is_amsterdammer,
             'onderneming': onderneming,
-            'eigenaar': None,
+            'eigenaar': eigenaar,
             'rechtspersonen': rechtspersonen,
             'vestigingen': vestigingen,
             'gemachtigden': [],

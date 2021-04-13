@@ -32,7 +32,18 @@ class KvkHrTest(TestCase):
                 'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
                 'rechtsvorm': 'Eenmanszaak'
             },
-            'eigenaar': None,
+            'eigenaar': {
+                'naam': 'Voornaam Achternaam',
+                'geboortedatum': date(1970, 1, 1),
+                'adres': {
+                    'huisletter': None,
+                    'huisnummer': '1',
+                    'huisnummertoevoeging': None,
+                    'postcode': '1012 NP',
+                    'straatnaam': 'Amstel',
+                    'woonplaatsNaam': 'Amsterdam'
+                },
+            },
             'rechtspersonen': [
                 {
                     'bsn': '999999999',

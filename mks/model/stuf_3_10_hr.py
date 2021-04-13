@@ -62,6 +62,7 @@ def extract_address(address: Tag):
     fields = [
         {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
         {'name': 'gor.straatnaam', 'parser': to_string, 'save_as': 'straatnaam'},
+        {'name': 'gor.openbareRuimteNaam', 'parser': to_string, 'save_as': '_straatnaam'},
         {'name': 'aoa.postcode', 'parser': as_postcode, 'save_as': 'postcode'},
         {'name': 'postcode', 'parser': as_postcode, 'save_as': '_postcode'},
         {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
@@ -76,6 +77,12 @@ def extract_address(address: Tag):
             result['postcode'] = result['_postcode']
 
     del result['_postcode']
+
+    if not result['straatnaam']:
+        if result['_straatnaam']:
+            result['straatnaam'] = result['_straatnaam']
+
+    del result['_straatnaam']
 
     return result
 
