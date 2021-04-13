@@ -33,7 +33,18 @@ class BsnHrTest(TestCase):
                 'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
                 'rechtsvorm': 'Eenmanszaak'
             },
-            'eigenaar': None,
+            'eigenaar': {
+                'naam': 'Voornaam Achternaam',
+                'geboortedatum': date(1970, 1, 1),
+                'adres': {
+                    'huisletter': None,
+                    'huisnummer': '199',
+                    'huisnummertoevoeging': 'K',
+                    'postcode': '1234 AB',
+                    'straatnaam': 'Straat',
+                    'woonplaatsNaam': 'Amsterdam'
+                },
+            },
             'rechtspersonen': [
                 {
                     'bsn': '999999999',

@@ -84,7 +84,7 @@ def extract_for_bsn(xml_data):
             return {}
 
         object_data = extract_basic_info(object_data)
-        eigenaren_data = [extract_owner_persoon(eigenaren)]
+        eigenaren_data = extract_owner_persoon(eigenaren)
         activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten)
 
         handelsnamen = set()
@@ -118,7 +118,7 @@ def extract_for_bsn(xml_data):
 
         handelsnamen = sorted(list(handelsnamen))
 
-        rechtsvorm = eigenaren_data[0]['rechtsvorm']
+        rechtsvorm = eigenaren_data['rechtsvorm']
         # if not rechtsvorm:
         #     rechtsvorm = "Eenmanszaak"
 
@@ -131,18 +131,21 @@ def extract_for_bsn(xml_data):
             'hoofdactiviteit': hoofdactiviteit
         }
 
-        rechtspersonen = []
-        for i in eigenaren_data:
-            persoon = {
-                'kvkNummer': object_data['kvkNummer'],
-                'rsin': i.get('nnpId', None),
-                'bsn': eigenaren_data[0].get('bsn', None),
-                'statutaireNaam': i.get('statutaireNaam', None),
-                'statutaireZetel': i.get('statutaireZetel', None),
-            }
-            rechtspersonen.append(persoon)
+        rechtspersonen = [{
+            'kvkNummer': object_data['kvkNummer'],
+            'rsin': i.get('nnpId', None),
+            'bsn': eigenaren_data.get('bsn', None),
+            'statutaireNaam': i.get('statutaireNaam', None),
+            'statutaireZetel': i.get('statutaireZetel', None),
+        }]
 
-        eigenaar = None
+        print('\n\n', eigenaren_data['adres'], '\n\n')
+
+        eigenaar = {
+            'naam': "%s %s" % (eigenaren_data['voornamen'], eigenaren_data['geslachtsnaam']),
+            'geboortedatum': eigenaren_data['geboortedatum'],
+            'adres': eigenaren_data['adres'],
+        }
 
         is_amsterdammer = False
         for i in vestigingen:
