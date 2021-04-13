@@ -34,7 +34,6 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
         result.append(nationaliteit)
 
     # For people not living in Amsterdam we dont get the omschrijving.
-    # Quick fix for Nederlandse if code == 1
     for n in result:
         if not n['omschrijving']:
             code = str(n['code']).zfill(4)
@@ -45,6 +44,12 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
     # cleanup
     for n in result:
         del n['datumVerlies']
+
+    # When person has a Dutch nationality, only show that.
+    for n in result:
+        if n['code'] == 1:
+            result = [n]
+            break
 
     return result
 
