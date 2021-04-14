@@ -244,36 +244,6 @@ class Model0204Tests(TestCase):
 
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
 
-    def test_get_multi_nationaliteiten_with_dutch(self):
-        # Cleaned up, does not contain stuff we do not use.
-        nationaliteiten_xml = """
-        <BG:PRS>
-          <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="1">
-            <BG:datumVerkrijging>19700101</BG:datumVerkrijging>
-            <BG:datumVerlies xsi:nil="true" StUF:noValue="geenWaarde"/>
-            <BG:NAT soortEntiteit="T">
-              <BG:code>54</BG:code>
-              <BG:omschrijving>Deense</BG:omschrijving>
-            </BG:NAT>
-          </BG:PRSNAT>
-
-          <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="1">
-            <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-            <BG:datumVerlies xsi:nil="true" StUF:noValue="geenWaarde"/>
-            <BG:NAT soortEntiteit="T">
-              <BG:code>1</BG:code>
-              <BG:omschrijving>Nederlandse</BG:omschrijving>
-            </BG:NAT>
-          </BG:PRSNAT>
-        </BG:PRS>
-        """
-
-        tree = BeautifulSoup(nationaliteiten_xml, features='lxml-xml')
-        result = get_nationaliteiten(tree.find_all("PRSNAT"))
-
-        expected = [{'code': 1, 'omschrijving': 'Nederlandse'}]
-        self.assertEqual(result, expected)
-
     def test_get_multi_nationaliteiten(self):
         # Cleaned up, does not contain stuff we do not use.
         nationaliteiten_xml = """

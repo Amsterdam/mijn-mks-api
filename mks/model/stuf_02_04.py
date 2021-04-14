@@ -45,11 +45,7 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
     for n in result:
         del n['datumVerlies']
 
-    # When person has a Dutch nationality, only show that.
-    for n in result:
-        if n['code'] == 1:
-            result = [n]
-            break
+    # Only showing Dutch nationality functionality is done in frontend
 
     return result
 
