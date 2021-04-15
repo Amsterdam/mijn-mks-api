@@ -266,8 +266,8 @@ def extract_for_kvk(xml_str):
             }
             rechtspersonen.append(rechtspersoon)
 
-            # Only show natuurlijk persoon as eigenaar
-            if (eigenaar is None and eigenaar_item['type'] == 'np'):
+            # Only show natuurlijk persoon as eigenaar for rechtsvorm=Eenmanszaak
+            if (rechtsvorm == 'Eenmanszaak' and eigenaar is None and eigenaar_item['type'] == 'np'):
                 eigenaar = {
                     'naam': "%s %s" % (eigenaar_item['voornamen'], eigenaar_item['geslachtsnaam']),
                     'geboortedatum': eigenaar_item['geboortedatum'],
