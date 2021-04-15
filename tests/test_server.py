@@ -36,9 +36,21 @@ class HrBsnTest(FlaskServerTMATestCase):
         return {
             'content': {
                 'bestuurders': [],
-                'eigenaar': None,
+                'eigenaar': {
+                    'adres': {
+                        'huisletter': None,
+                        'huisnummer': '199',
+                        'huisnummertoevoeging': 'K',
+                        'postcode': '1234 AB',
+                        'straatnaam': 'Straat',
+                        'woonplaatsNaam': 'Amsterdam'
+                    },
+                    'geboortedatum': '1970-01-01',
+                    'naam': 'Voornaam Achternaam'
+                },
                 'functionarissen': [],
                 'gemachtigden': [],
+                'aansprakelijken': [],
                 'mokum': True,
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
@@ -113,15 +125,28 @@ class HrKvkTest(FlaskServerTMATestCase):
 
     def setUp(self) -> None:
         self.client = self.get_tma_test_app(application)
+        self.maxDiff = None
 
     def _get_expected(self):
         return {
             'content': {
                 'mokum': True,
                 'bestuurders': [],
-                'eigenaar': None,
+                'eigenaar': {
+                    'adres': {
+                        'huisletter': None,
+                        'huisnummer': '1',
+                        'huisnummertoevoeging': None,
+                        'postcode': '1012 NP',
+                        'straatnaam': 'Amstel',
+                        'woonplaatsNaam': 'Amsterdam'
+                    },
+                    'geboortedatum': '1970-01-01',
+                    'naam': 'Voornaam Achternaam'
+                },
                 'functionarissen': [],
                 'gemachtigden': [],
+                'aansprakelijken': [],
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
                     'datumEinde': '2020-01-01',
