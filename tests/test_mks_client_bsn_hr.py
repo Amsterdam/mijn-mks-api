@@ -87,6 +87,7 @@ class BsnHrTest(TestCase):
             'gemachtigden': [],
             'functionarissen': [],
             'bestuurders': [],
+            'aansprakelijken': [],
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)

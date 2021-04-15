@@ -155,6 +155,7 @@ def extract_for_bsn(xml_data):
         bestuurders = []
         gemachtigden = []
         functionarissen = []
+        aansprakelijken = []
 
         data = {
             'mokum': is_amsterdammer,
@@ -165,6 +166,7 @@ def extract_for_bsn(xml_data):
             'gemachtigden': gemachtigden,
             'functionarissen': functionarissen,
             'bestuurders': bestuurders,
+            'aansprakelijken': aansprakelijken,
         }
 
         return data
@@ -196,6 +198,12 @@ def extract_for_kvk(xml_str):
         object_data = tree.Body.find('object')
         activiteiten_data = tree.Body.find_all('oefentActiviteitUitIn')
         eigenaren_data = tree.Body.find_all('heeftAlsEigenaar')
+
+        # TODO: Implement this
+        bestuurders_data = []
+        gemachtigden_data = []
+        functionarissen_data = []
+        aansprakelijken_data = []
 
         if not object_data:
             return {}
@@ -259,7 +267,7 @@ def extract_for_kvk(xml_str):
             rechtspersonen.append(rechtspersoon)
 
             # Only show natuurlijk persoon as eigenaar
-            if (eigenaar_item['type'] == 'np'):
+            if (eigenaar is None and eigenaar_item['type'] == 'np'):
                 eigenaar = {
                     'naam': "%s %s" % (eigenaar_item['voornamen'], eigenaar_item['geslachtsnaam']),
                     'geboortedatum': eigenaar_item['geboortedatum'],
@@ -272,15 +280,58 @@ def extract_for_kvk(xml_str):
                 if (i['bezoekadres']['woonplaatsNaam'] == "Amsterdam" or i['postadres']['woonplaatsNaam'] == "Amsterdam"):
                     is_amsterdammer = True
 
+        bestuurders = []
+
+        for bestuurder_item in bestuurders_data:
+            bestuurder = {
+                'naam': None,
+                'typeBestuurder': None,
+                'geboortedatum': None,
+                'soortBevoegdheid': None,
+            }
+            bestuurders.append(bestuurder)
+
+        gemachtigden = []
+
+        for gemachtigde_item in gemachtigden_data:
+            gemachtigde = {
+                'naam': None,
+                'typeGemachtigde': None,
+                'datumIngangMachtiging': None,
+            }
+            gemachtigden.append(gemachtigde)
+
+        functionarissen = []
+
+        for functionaris_item in functionarissen_data:
+            functionaris = {
+                'naam': None,
+                'typeFunctionaris': None,
+                'geboortedatum': None,
+            }
+            functionarissen.append(functionaris)
+
+        aansprakelijken = []
+
+        for aansprakelijke_item in aansprakelijken_data:
+            aansprakelijke = {
+                'naam': None,
+                'typeAansprakelijke': None,
+                'geboortedatum': None,
+                'soortBevoegdheid': None,
+            }
+            aansprakelijken.append(aansprakelijke)
+
         data = {
             'mokum': is_amsterdammer,
             'onderneming': onderneming,
             'eigenaar': eigenaar,
             'rechtspersonen': rechtspersonen,
             'vestigingen': vestigingen,
-            'gemachtigden': [],
-            'functionarissen': [],
-            'bestuurders': [],
+            'gemachtigden': gemachtigden,
+            'functionarissen': functionarissen,
+            'bestuurders': bestuurders,
+            'aansprakelijken': aansprakelijken,
         }
 
         return data
