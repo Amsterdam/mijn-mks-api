@@ -9,6 +9,70 @@ FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixture
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")
 BSN_NO_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_no_hr_response.xml")
 
+BSN_HR_RESPONSE = {
+    'mokum': True,
+    'nnpid': None,
+    'onderneming': {
+        'datumAanvang': date(1992, 1, 1),
+        'datumEinde': date(2020, 1, 1),
+        'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
+        'hoofdactiviteit': 'Overige administratiekantoren',
+        'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
+        'rechtsvorm': 'Eenmanszaak'
+    },
+    'eigenaar': {
+        'naam': 'Voornaam Achternaam',
+                'geboortedatum': date(1970, 1, 1),
+                'adres': {
+                    'huisletter': None,
+                    'huisnummer': '199',
+                    'huisnummertoevoeging': 'K',
+                    'postcode': '1234 AB',
+                    'straatnaam': 'Straat',
+                    'woonplaatsNaam': 'Amsterdam'
+                },
+    },
+    'rechtspersonen': [
+        {
+            'bsn': '999999999',
+            'kvkNummer': '12345678',
+            'rsin': None,
+            'statutaireNaam': None,
+            'statutaireZetel': None
+        }
+    ],
+    'vestigingen': [
+        {
+            'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus', 'Arbeidsbemiddeling'],
+            'bezoekadres': {
+                'huisletter': None,
+                'huisnummer': '1',
+                'huisnummertoevoeging': None,
+                'postcode': '1011 PN',
+                'straatnaam': 'Amstel',
+                'woonplaatsNaam': 'Amsterdam'
+            },
+            'datumAanvang': date(1992, 1, 1),
+            'datumEinde': date(2020, 1, 1),
+            'emailadres': None,
+            'faxnummer': None,
+            'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
+            'postadres': {
+                'huisletter': None,
+                'huisnummer': '1',
+                'huisnummertoevoeging': None,
+                'postcode': '1011 PN',
+                'straatnaam': 'Amstel',
+                'woonplaatsNaam': 'Amsterdam'
+            },
+            'telefoonnummer': None,
+            'typeringVestiging': 'Hoofdvestiging',
+            'vestigingsNummer': '000000000001',
+            'websites': []
+        }
+    ],
+}
+
 
 def get_bsn_xml_response_fixture(*args):
     with open(BSN_RESPONSE_PATH, 'rb') as response_file:
@@ -22,76 +86,11 @@ def get_bsn_no_hr_xml_response_fixture(*args):
 
 class BsnHrTest(TestCase):
 
-    def _get_expected(self):
-        return {
-            'mokum': True,
-            'nnpid': None,
-            'onderneming': {
-                'datumAanvang': date(1992, 1, 1),
-                'datumEinde': date(2020, 1, 1),
-                'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
-                'hoofdactiviteit': 'Overige administratiekantoren',
-                'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
-                'rechtsvorm': 'Eenmanszaak'
-            },
-            'eigenaar': {
-                'naam': 'Voornaam Achternaam',
-                'geboortedatum': date(1970, 1, 1),
-                'adres': {
-                    'huisletter': None,
-                    'huisnummer': '199',
-                    'huisnummertoevoeging': 'K',
-                    'postcode': '1234 AB',
-                    'straatnaam': 'Straat',
-                    'woonplaatsNaam': 'Amsterdam'
-                },
-            },
-            'rechtspersonen': [
-                {
-                    'bsn': '999999999',
-                    'kvkNummer': '12345678',
-                    'rsin': None,
-                    'statutaireNaam': None,
-                    'statutaireZetel': None
-                }
-            ],
-            'vestigingen': [
-                {
-                    'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus', 'Arbeidsbemiddeling'],
-                    'bezoekadres': {
-                        'huisletter': None,
-                        'huisnummer': '1',
-                        'huisnummertoevoeging': None,
-                        'postcode': '1011 PN',
-                        'straatnaam': 'Amstel',
-                        'woonplaatsNaam': 'Amsterdam'
-                    },
-                    'datumAanvang': date(1992, 1, 1),
-                    'datumEinde': date(2020, 1, 1),
-                    'emailadres': None,
-                    'faxnummer': None,
-                    'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
-                    'postadres': {
-                        'huisletter': None,
-                        'huisnummer': '1',
-                        'huisnummertoevoeging': None,
-                        'postcode': '1011 PN',
-                        'straatnaam': 'Amstel',
-                        'woonplaatsNaam': 'Amsterdam'
-                    },
-                    'telefoonnummer': None,
-                    'typeringVestiging': 'Hoofdvestiging',
-                    'vestigingsNummer': '000000000001',
-                    'websites': []
-                }
-            ],
-        }
-
     @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)
     def test_get(self):
         result = mks_client_bsn_hr.get_from_bsn('123456789')
 
-        self.assertEqual(result, self._get_expected())
+        self.assertEqual(result, BSN_HR_RESPONSE)
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_no_hr_xml_response_fixture)
     def test_no_hr_get(self):
