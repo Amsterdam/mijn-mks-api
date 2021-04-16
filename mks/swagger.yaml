@@ -334,7 +334,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Gemachtigde'
-        functionarissen:
+        overige_functionarissen:
           type: array
           items:
             $ref: '#/components/schemas/Functionaris'

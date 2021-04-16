@@ -8,6 +8,7 @@ from tma_saml.for_tests.cert_and_key import server_crt
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")
 KVK_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_kvk_prs_response.xml")
+NNP_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_nnp_response.xml")
 RESPONSE_EMPTY_PATH = os.path.join(FIXTURE_PATH, "hr_empty_response.xml")
 
 
@@ -18,6 +19,11 @@ def get_bsn_xml_response_fixture(*args):
 
 def get_kvk_xml_response_fixture(*args):
     with open(KVK_RESPONSE_PATH, 'rb') as response_file:
+        return response_file.read().decode('utf-8')
+
+
+def get_nnp_xml_response_fixture(*args):
+    with open(NNP_RESPONSE_PATH, 'rb') as response_file:
         return response_file.read().decode('utf-8')
 
 
@@ -35,7 +41,7 @@ class HrBsnTest(FlaskServerTMATestCase):
     def _get_expected(self):
         return {
             'content': {
-                'bestuurders': [],
+                'nnpid': None,
                 'eigenaar': {
                     'adres': {
                         'huisletter': None,
@@ -48,9 +54,6 @@ class HrBsnTest(FlaskServerTMATestCase):
                     'geboortedatum': '1970-01-01',
                     'naam': 'Voornaam Achternaam'
                 },
-                'functionarissen': [],
-                'gemachtigden': [],
-                'aansprakelijken': [],
                 'mokum': True,
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
@@ -125,13 +128,12 @@ class HrKvkTest(FlaskServerTMATestCase):
 
     def setUp(self) -> None:
         self.client = self.get_tma_test_app(application)
-        self.maxDiff = None
 
     def _get_expected(self):
         return {
             'content': {
                 'mokum': True,
-                'bestuurders': [],
+                'nnpid': None,
                 'eigenaar': {
                     'adres': {
                         'huisletter': None,
@@ -144,9 +146,6 @@ class HrKvkTest(FlaskServerTMATestCase):
                     'geboortedatum': '1970-01-01',
                     'naam': 'Voornaam Achternaam'
                 },
-                'functionarissen': [],
-                'gemachtigden': [],
-                'aansprakelijken': [],
                 'onderneming': {
                     'datumAanvang': '1992-01-01',
                     'datumEinde': '2020-01-01',

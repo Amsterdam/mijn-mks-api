@@ -214,7 +214,6 @@ class Model0204Tests(TestCase):
 
         result = extract_data(tree)
 
-        self.maxDiff = None
         self.assertEqual(type(result['adres']['_adresSleutel']), str)
         del result['adres']['_adresSleutel']  # changes each time
         self.assertEqual(result, self.get_result())

@@ -25,6 +25,7 @@ class BsnHrTest(TestCase):
     def _get_expected(self):
         return {
             'mokum': True,
+            'nnpid': None,
             'onderneming': {
                 'datumAanvang': date(1992, 1, 1),
                 'datumEinde': date(2020, 1, 1),
@@ -84,10 +85,6 @@ class BsnHrTest(TestCase):
                     'websites': []
                 }
             ],
-            'gemachtigden': [],
-            'functionarissen': [],
-            'bestuurders': [],
-            'aansprakelijken': [],
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)
