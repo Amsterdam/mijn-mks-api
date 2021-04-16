@@ -76,12 +76,12 @@ BSN_HR_RESPONSE = {
 
 def get_bsn_xml_response_fixture(*args):
     with open(BSN_RESPONSE_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode('utf-8')
 
 
 def get_bsn_no_hr_xml_response_fixture(*args):
     with open(BSN_NO_RESPONSE_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode('utf-8')
 
 
 class BsnHrTest(TestCase):

@@ -74,19 +74,19 @@ KVK_HR_PRS_RESPONSE = {
 }
 
 
-def get_xml_response_fixture(*args):
+def get_kvk_prs_xml_response_fixture(*args):
     with open(RESPONSE_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode('utf-8')
 
 
 def get_xml_response_empty_fixture(*args):
     with open(RESPONSE_EMPTY_PATH, 'rb') as response_file:
-        return response_file.read()
+        return response_file.read().decode('utf-8')
 
 
 class KvkHrTest(TestCase):
 
-    @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_fixture)
+    @patch('mks.service.mks_client_bsn_hr._get_response', get_kvk_prs_xml_response_fixture)
     def test_get(self):
         result = mks_client_bsn_hr.get_from_kvk('123456789')
 
