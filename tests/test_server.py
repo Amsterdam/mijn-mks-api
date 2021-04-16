@@ -7,6 +7,7 @@ from tma_saml import FlaskServerTMATestCase
 from tma_saml.for_tests.cert_and_key import server_crt
 
 from .test_mks_client_bsn_hr import BSN_HR_RESPONSE
+from .test_mks_client_kvk_prs_hr import KVK_HR_PRS_RESPONSE
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")
@@ -76,76 +77,7 @@ class HrKvkTest(FlaskServerTMATestCase):
         self.client = self.get_tma_test_app(application)
 
     def _get_expected(self):
-        return {
-            'content': {
-                'mokum': True,
-                'nnpid': None,
-                'eigenaar': {
-                    'adres': {
-                        'huisletter': None,
-                        'huisnummer': '1',
-                        'huisnummertoevoeging': None,
-                        'postcode': '1012 NP',
-                        'straatnaam': 'Amstel',
-                        'woonplaatsNaam': 'Amsterdam'
-                    },
-                    'geboortedatum': '1970-01-01',
-                    'naam': 'Voornaam Achternaam'
-                },
-                'onderneming': {
-                    'datumAanvang': '1992-01-01',
-                    'datumEinde': '2020-01-01',
-                    'handelsnamen': ['Naam 1',
-                                     'Naam 2',
-                                     'Naam 3',
-                                     'Naam 4'],
-                    'hoofdactiviteit': 'Overige administratiekantoren',
-                    'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
-                    'rechtsvorm': 'Eenmanszaak'
-                },
-                'rechtspersonen': [
-                    {
-                        'bsn': '999999999',
-                        'kvkNummer': '012345678',
-                        'rsin': None,
-                        'statutaireNaam': None,
-                        'statutaireZetel': None
-                    }
-                ],
-                'vestigingen': [
-                    {
-                        'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus',
-                                         'Arbeidsbemiddeling'],
-                        'bezoekadres': {
-                            'huisletter': None,
-                            'huisnummer': '1',
-                            'huisnummertoevoeging': None,
-                            'postcode': '1012 PN',
-                            'straatnaam': 'Amstel',
-                            'woonplaatsNaam': 'Amsterdam'
-                        },
-                        'datumAanvang': '1992-01-01',
-                        'datumEinde': '2020-01-01',
-                        'emailadres': None,
-                        'faxnummer': None,
-                        'handelsnamen': ['Naam 1', 'Naam 2', 'Naam 3', 'Naam 4'],
-                        'postadres': {
-                            'huisletter': None,
-                            'huisnummer': '1',
-                            'huisnummertoevoeging': None,
-                            'postcode': '1012 PN',
-                            'straatnaam': 'Amstel',
-                            'woonplaatsNaam': 'Amsterdam'
-                        },
-                        'telefoonnummer': None,
-                        'typeringVestiging': 'Hoofdvestiging',
-                        'vestigingsNummer': '000000000001',
-                        'websites': []
-                    }
-                ],
-            },
-            'status': 'OK'
-        }
+        return wrap_response(KVK_HR_PRS_RESPONSE)
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_kvk_xml_response_fixture)
     def test_get_hr(self):
