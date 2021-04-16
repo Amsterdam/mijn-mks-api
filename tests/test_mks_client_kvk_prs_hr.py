@@ -21,9 +21,11 @@ def get_xml_response_empty_fixture(*args):
 
 
 class KvkHrTest(TestCase):
+
     def _expected_result(self) -> dict:
         return {
             'mokum': True,
+            'nnpid': None,
             'onderneming': {
                 'datumAanvang': date(1992, 1, 1),
                 'datumEinde': date(2020, 1, 1),
@@ -83,10 +85,6 @@ class KvkHrTest(TestCase):
                     'websites': []
                 }
             ],
-            'gemachtigden': [],
-            'functionarissen': [],
-            'bestuurders': [],
-            'aansprakelijken': [],
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_fixture)
