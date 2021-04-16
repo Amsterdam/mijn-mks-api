@@ -10,7 +10,7 @@ NNP_HR_RESPONSE = {
         {
             'functie': 'Commissaris',
             'naam': 'Georges Rudy Janssen van Son',
-            'geboortedatum': date(1936, 8, 27),
+            'geboortedatum': date(1976, 10, 1),
         },
         {
             'functie': 'Commissaris',
@@ -20,12 +20,12 @@ NNP_HR_RESPONSE = {
         {
             'functie': 'Commissaris',
             'naam': 'Boris Johnsson',
-            'geboortedatum': date(1956, 10, 20)
+            'geboortedatum': date(1976, 10, 1)
         },
         {
             'functie': 'Enig aandeelhouder',
             'naam': 'Kamlawatie Katar',
-            'geboortedatum': date(1950, 10, 7)
+            'geboortedatum': date(1976, 10, 1)
         },
     ],
     'bestuurders': [
@@ -33,25 +33,25 @@ NNP_HR_RESPONSE = {
             'functie': 'Bestuurder',
             'soortBevoegdheid': 'AlleenZelfstandigBevoegd',
             'naam': 'Wesley Vlag',
-            'geboortedatum': date(1988, 7, 6),
+            'geboortedatum': date(1976, 10, 1),
         },
         {
             'functie': 'Bestuurder',
             'soortBevoegdheid': 'AlleenZelfstandigBevoegd',
             'naam': 'Hendrika Johanna Theodora Grupstal',
-            'geboortedatum': date(1971, 8, 25),
+            'geboortedatum': date(1976, 10, 1),
         },
         {
             'functie': 'Bestuurder',
             'soortBevoegdheid': 'AlleenZelfstandigBevoegd',
             'naam': 'Pierre Vlag',
-            'geboortedatum': date(1964, 1, 19),
+            'geboortedatum': date(1976, 10, 1),
         },
         {
             'functie': 'Bestuurder',
             'soortBevoegdheid': 'AlleenZelfstandigBevoegd',
             'naam': 'Dennis Uiersin',
-            'geboortedatum': date(1995, 5, 5),
+            'geboortedatum': date(1976, 10, 1),
         },
     ],
     'aansprakelijken': [],
