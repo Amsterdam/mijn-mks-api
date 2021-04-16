@@ -70,7 +70,6 @@ def _set_value(tag, field, target):
 def set_extra_fields(source, fields, target):
     for field in fields:
         tag = source.find(attrs={"naam": field['name']})
-        print('tag:', {"naam": field['name']})
         _set_value(tag, field, target)
 
 
