@@ -72,7 +72,6 @@ def _get_response(mks_url, soap_request_payload):
 
 
 def _get_from_mks(url: str = None, template: Template = None, bsn: str = None, kvk_number: str = None, nnpid: str = None):
-    # kwargs are: kvk_number or bsn
     soap_request_payload = _get_soap_request_payload(template, bsn, kvk_number, nnpid)
 
     response = _get_response(url, soap_request_payload)
