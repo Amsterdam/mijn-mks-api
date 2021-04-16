@@ -19,6 +19,7 @@ class KvkHrTest(TestCase):
     def _expected_result(self):
         return {
             'mokum': True,
+            'nnpid': '123456789',
             'onderneming': {
                 'datumAanvang': None,
                 'datumEinde': None,
@@ -122,10 +123,6 @@ class KvkHrTest(TestCase):
                     'websites': ['www.example.com']
                 }
             ],
-            'gemachtigden': [],
-            'functionarissen': [],
-            'bestuurders': [],
-            'aansprakelijken': [],
         }
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_xml_response_fixture)

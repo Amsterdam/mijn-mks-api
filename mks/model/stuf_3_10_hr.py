@@ -198,3 +198,65 @@ def extract_data_is_eigenaar_van(is_eigenaar_van: ResultSet):
         result.append(res_eigendom)
 
     return result
+
+
+def extract_bestuurders(nnp_data):
+    bestuurders = []
+    bestuurders_data = nnp_data.find_all()
+
+    for bestuurder_item in bestuurders_data:
+        bestuurder = {
+            'naam': None,
+            'typeBestuurder': None,
+            'geboortedatum': None,
+            'soortBevoegdheid': None,
+        }
+        bestuurders.append(bestuurder)
+
+    return bestuurders
+
+
+def extract_gemachtigden(nnp_data):
+    gemachtigden = []
+    gemachtigden_data = nnp_data.find_all()
+
+    for gemachtigde_item in gemachtigden_data:
+        gemachtigde = {
+            'naam': None,
+            'typeGemachtigde': None,
+            'datumIngangMachtiging': None,
+        }
+        gemachtigden.append(gemachtigde)
+
+    return gemachtigden
+
+
+def extract_overige_functionarissen(nnp_data):
+    overige_functionarissen = []
+    functionarissen_data = nnp_data.find_all()
+
+    for functionaris_item in functionarissen_data:
+        functionaris = {
+            'naam': None,
+            'typeFunctionaris': None,
+            'geboortedatum': None,
+        }
+        overige_functionarissen.append(functionaris)
+
+    return overige_functionarissen
+
+
+def extract_aansprakelijken(nnp_data):
+    aansprakelijken = []
+    aansprakelijken_data = nnp_data.find_all()
+
+    for aansprakelijke_item in aansprakelijken_data:
+        aansprakelijke = {
+            'naam': None,
+            'typeAansprakelijke': None,
+            'geboortedatum': None,
+            'soortBevoegdheid': None,
+        }
+        aansprakelijken.append(aansprakelijke)
+
+    return aansprakelijken
