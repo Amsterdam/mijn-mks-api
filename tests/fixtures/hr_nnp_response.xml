@@ -21,7 +21,7 @@
     </BG:parameters>
     <BG:antwoord>
         <BG:object StUF:entiteittype="NNP" StUF:sleutelVerzendend="10042310661080" StUF:sleutelGegevensbeheer="10042310661080">
-            <BG:inn.nnpId>999999999</BG:inn.nnpId>
+            <BG:inn.nnpId>123456789</BG:inn.nnpId>
             <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
             <BG:sub.typering xsi:nil="true" StUF:noValue="waardeOnbekend"/>
             <BG:statutaireNaam>Ballonenverkoop B.V.</BG:statutaireNaam>
