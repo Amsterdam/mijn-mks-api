@@ -8,12 +8,17 @@ from urllib3.exceptions import ConnectTimeoutError
 
 from mks.model.stuf_utils import decrypt, is_nil
 from mks.prometheus_definitions import mks_connection_state
-from mks.service import mks_client_02_04, adr_mks_client_02_04, mks_client_bsn_hr
+from mks.service import adr_mks_client_02_04, mks_client_02_04
 from mks.service.config import get_raw_key
-from mks.service.exceptions import NoResultException, InvalidBSNException, ExtractionError
-from mks.service.exceptions import ServiceException, onbekende_fout
-from mks.service.mks_client_bsn_hr import _get_from_mks, bsn_hr_template, HR_URL
-from mks.service.saml import get_bsn_from_request, get_kvk_number_from_request, get_type
+from mks.service.exceptions import (ExtractionError, InvalidBSNException,
+                                    NoResultException, ServiceException,
+                                    onbekende_fout)
+from mks.service.mks_client_hr import (_get_response_by_bsn,
+                                       _get_response_by_kvk_number,
+                                       get_from_bsn, get_from_kvk,
+                                       get_nnp_from_kvk)
+from mks.service.saml import (get_bsn_from_request,
+                              get_kvk_number_from_request, get_type)
 
 
 def log_and_generate_response(exception, response_type='json'):
@@ -90,6 +95,54 @@ def get_bsn():
         return log_and_generate_response(e)
 
 
+def get_hr_raw():
+    cookie_value = request.cookies.get('access_token')
+    if cookie_value is None or cookie_value != get_raw_key():
+        return "no access without access token", 401
+
+    usertype = get_type(request)
+    if usertype == UserType.BEDRIJF:
+        kvk = get_kvk_number_from_request(request)
+        return _get_response_by_kvk_number(kvk_number=kvk)
+
+    if usertype == UserType.BURGER:
+        bsn = get_bsn_from_saml_token()
+        return _get_response_by_bsn(bsn=bsn)
+
+
+def get_kvk_number():
+    try:
+        log_request(request)
+        return {
+            "kvknummer": get_kvk_number_from_request(request)
+        }
+    except Exception as e:
+        return log_and_generate_response(e)
+
+
+def get_hr_for_bsn():
+    try:
+        log_request(request)
+        return get_from_bsn(get_bsn_from_saml_token())
+    except Exception as e:
+        return log_and_generate_response(e)
+
+
+def get_hr_for_kvk():
+    try:
+        log_request(request)
+        hr_kvk = get_from_kvk(get_kvk_number_from_request(request))
+
+        if 'nnpid' not in hr_kvk or is_nil(hr_kvk['nnpid']):
+            return hr_kvk
+
+        hr_kvk_nnp = get_nnp_from_kvk(hr_kvk['nnpid'])
+
+        return {**hr_kvk, **hr_kvk_nnp}
+    except Exception as e:
+        return log_and_generate_response(e)
+
+
 def get_hr():
     usertype = get_type(request)
     data = None
@@ -107,54 +160,6 @@ def get_hr():
         'content': data,
         'status': 'OK'
     }
-
-
-def get_hr_raw():
-    cookie_value = request.cookies.get('access_token')
-    if cookie_value is None or cookie_value != get_raw_key():
-        return "no access without access token", 401
-
-    usertype = get_type(request)
-    if usertype == UserType.BEDRIJF:
-        kvk = get_kvk_number_from_request(request)
-        return _get_from_mks(url=HR_URL, template=bsn_hr_template, kvk_number=kvk)
-
-    if usertype == UserType.BURGER:
-        bsn = get_bsn_from_saml_token()
-        return _get_from_mks(url=HR_URL, template=bsn_hr_template, bsn=bsn)
-
-
-def get_kvk_number():
-    try:
-        log_request(request)
-        return {
-            "kvknummer": get_kvk_number_from_request(request)
-        }
-    except Exception as e:
-        return log_and_generate_response(e)
-
-
-def get_hr_for_bsn():
-    try:
-        log_request(request)
-        return mks_client_bsn_hr.get_from_bsn(get_bsn_from_saml_token())
-    except Exception as e:
-        return log_and_generate_response(e)
-
-
-def get_hr_for_kvk():
-    try:
-        log_request(request)
-        hr_kvk = mks_client_bsn_hr.get_from_kvk(get_kvk_number_from_request(request))
-
-        if 'nnpid' not in hr_kvk or is_nil(hr_kvk['nnpid']):
-            return hr_kvk
-
-        hr_kvk_nnp = mks_client_bsn_hr.get_nnp_from_kvk(hr_kvk['nnpid'])
-
-        return hr_kvk + hr_kvk_nnp
-    except Exception as e:
-        return log_and_generate_response(e)
 
 
 def get_resident_count():

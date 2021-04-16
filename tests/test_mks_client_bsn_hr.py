@@ -3,7 +3,7 @@ from datetime import date
 from unittest import TestCase
 from unittest.mock import patch
 
-from mks.service import mks_client_bsn_hr
+from mks.service import mks_client_hr
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")
@@ -86,13 +86,13 @@ def get_bsn_no_hr_xml_response_fixture(*args):
 
 class BsnHrTest(TestCase):
 
-    @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)
+    @patch('mks.service.mks_client_hr._get_response', get_bsn_xml_response_fixture)
     def test_get(self):
-        result = mks_client_bsn_hr.get_from_bsn('123456789')
+        result = mks_client_hr.get_from_bsn('123456789')
 
         self.assertEqual(result, BSN_HR_RESPONSE)
 
-    @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_no_hr_xml_response_fixture)
+    @patch('mks.service.mks_client_hr._get_response', get_bsn_no_hr_xml_response_fixture)
     def test_no_hr_get(self):
-        result = mks_client_bsn_hr.get_from_bsn('123456789')
+        result = mks_client_hr.get_from_bsn('123456789')
         self.assertEqual(result, {})

@@ -34,7 +34,7 @@ log_response = False
 HR_URL = f'{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag'
 
 
-def _get_soap_request(template: Template = None, bsn: str = None, kvk_number: str = None, nnpid: str = None):
+def _get_soap_request_payload(template: Template = None, bsn: str = None, kvk_number: str = None, nnpid: str = None):
     ref = str(randint(100000, 999999))
 
     referentienummer = f'MijnAmsterdam||{ref}'
@@ -54,7 +54,7 @@ def _get_soap_request(template: Template = None, bsn: str = None, kvk_number: st
     return template.render(context)
 
 
-def _get_response(mks_url, soap_request):
+def _get_response(mks_url, soap_request_payload):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
@@ -63,7 +63,7 @@ def _get_response(mks_url, soap_request):
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
     request_start = time.time()
     try:
-        post_response = session.post(mks_url, data=soap_request, timeout=REQUEST_TIMEOUT)
+        post_response = session.post(mks_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT)
     finally:
         request_end = time.time()
         logging.info(f"request took: '{request_end - request_start}' seconds")
@@ -73,9 +73,9 @@ def _get_response(mks_url, soap_request):
 
 def _get_from_mks(url: str = None, template: Template = None, bsn: str = None, kvk_number: str = None, nnpid: str = None):
     # kwargs are: kvk_number or bsn
-    soap_request = _get_soap_request(template, bsn, kvk_number, nnpid)
+    soap_request_payload = _get_soap_request_payload(template, bsn, kvk_number, nnpid)
 
-    response = _get_response(url, soap_request)
+    response = _get_response(url, soap_request_payload)
 
     if log_response:
         content_bytesio = BytesIO(response)
@@ -84,6 +84,18 @@ def _get_from_mks(url: str = None, template: Template = None, bsn: str = None, k
         print(formatted_xml.decode())
 
     return response
+
+
+def _get_response_by_bsn(bsn: str = None):
+    return _get_from_mks(url=HR_URL, template=bsn_hr_template, bsn=bsn)
+
+
+def _get_response_by_kvk_number(kvk_number: str = None):
+    return _get_from_mks(url=HR_URL, template=bsn_hr_template, kvk_number=kvk_number)
+
+
+def _get_response_by_nnpid(nnpid: str = None):
+    return _get_from_mks(url=HR_URL, template=nnp_template, nnpid=nnpid)
 
 
 def extract_for_bsn(xml_data):
@@ -186,37 +198,31 @@ def extract_for_bsn(xml_data):
 
 
 def extract_nnp(nnpid: str, xml_str: str):
-    try:
-        tree = BeautifulSoup(xml_str, features='lxml-xml')
+    tree = BeautifulSoup(xml_str, features='lxml-xml')
+    nnps = tree.find_all('object')
 
-        nnps = tree.Body.find_all('object')
+    if is_nil(nnps):
+        return {}
 
-        if is_nil(nnps):
-            return {}
+    nnp = None
+    for nnp_item in nnps:
+        if nnp_item.find('inn.nnpId', None).string == nnpid:
+            nnp = nnp_item
 
-        nnp = None
-        for nnp_item in nnps:
-            if nnp_item.get('inn.nnpId', None) == nnpid:
-                nnp = nnp_item
+    if is_nil(nnp):
+        return {}
 
-        if is_nil(nnp):
-            return {}
+    bestuurders = extract_bestuurders(nnp)
+    gemachtigden = extract_gemachtigden(nnp)
+    overige_functionarissen = extract_overige_functionarissen(nnp)
+    aansprakelijken = extract_aansprakelijken(nnp)
 
-        bestuurders = extract_bestuurders(nnp)
-        gemachtigden = extract_gemachtigden(nnp)
-        overige_functionarissen = extract_overige_functionarissen(nnp)
-        aansprakelijken = extract_aansprakelijken(nnp)
-
-        return {
-            'gemachtigden': gemachtigden,
-            'overigeFunctionarissen': overige_functionarissen,
-            'bestuurders': bestuurders,
-            'aansprakelijken': aansprakelijken,
-        }
-
-    except Exception as e:
-        logging.error(f"Error: {type(e)} {e}")
-        raise ExtractionError()
+    return {
+        'gemachtigden': gemachtigden,
+        'overigeFunctionarissen': overige_functionarissen,
+        'bestuurders': bestuurders,
+        'aansprakelijken': aansprakelijken,
+    }
 
 
 def extract_for_kvk(xml_str):
@@ -327,15 +333,15 @@ def extract_for_kvk(xml_str):
 
 
 def get_from_bsn(bsn: str):
-    response = _get_from_mks(url=HR_URL, template=bsn_hr_template, bsn=bsn)
+    response = _get_response_by_bsn(bsn)
     return extract_for_bsn(response)
 
 
 def get_from_kvk(kvk_number: str):
-    response = _get_from_mks(url=HR_URL, template=bsn_hr_template, kvk_number=kvk_number)
+    response = _get_response_by_kvk_number(kvk_number)
     return extract_for_kvk(response)
 
 
 def get_nnp_from_kvk(nnpid: str):
-    response = _get_from_mks(url=HR_URL, template=nnp_template, nnpid=nnpid)
+    response = _get_response_by_nnpid(nnpid)
     return extract_nnp(nnpid, response)
