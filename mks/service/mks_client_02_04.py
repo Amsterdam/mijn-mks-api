@@ -23,7 +23,7 @@ with open(PRS_STUF0204TEMPLATE_PATH) as fp:
 log_response = False
 
 
-def _get_soap_request(bsn: str) -> str:
+def _get_soap_request_payload(bsn: str) -> str:
     ref = str(randint(100000, 999999))
 
     referentienummer = f'MijnAmsterdam||{ref}'
@@ -40,7 +40,7 @@ def _get_soap_request(bsn: str) -> str:
 mks_request_latency = Histogram('mks_request_latency_seconds', 'Mks request time')
 
 
-def _get_response(mks_brp_url, soap_request):
+def _get_response(mks_brp_url, soap_request_payload):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
@@ -49,7 +49,7 @@ def _get_response(mks_brp_url, soap_request):
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
 
     with mks_request_latency.time():
-        post_response = session.post(mks_brp_url, data=soap_request, timeout=REQUEST_TIMEOUT)
+        post_response = session.post(mks_brp_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT)
 
     mks_connection_state.set(0)  # success, mark state as running
     return post_response.content
@@ -77,8 +77,8 @@ def get_0204(bsn: str):
 
 
 def get_0204_raw(bsn: str):
-    soap_request = _get_soap_request(bsn)
-    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request)
+    soap_request_payload = _get_soap_request_payload(bsn)
+    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request_payload)
 
     if log_response:
         content_bytesio = BytesIO(response)
