@@ -1,9 +1,12 @@
+import json
 import os
 from unittest.mock import patch
 
 from mks.server import application
 from tma_saml import FlaskServerTMATestCase
 from tma_saml.for_tests.cert_and_key import server_crt
+
+from .test_mks_client_bsn_hr import BSN_HR_RESPONSE
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")
@@ -32,79 +35,22 @@ def get_xml_response_empty_fixture(*args):
         return response_file.read().decode('utf-8')
 
 
+def wrap_response(response_data, status: str = 'OK'):
+    return {
+        'content': json.loads(json.dumps(response_data, default=str)),
+        'status': status
+    }
+
+
 @patch("mks.service.saml.get_tma_certificate", lambda: server_crt)
 class HrBsnTest(FlaskServerTMATestCase):
 
     def setUp(self) -> None:
         self.client = self.get_tma_test_app(application)
+        self.maxDiff = None
 
     def _get_expected(self):
-        return {
-            'content': {
-                'nnpid': None,
-                'eigenaar': {
-                    'adres': {
-                        'huisletter': None,
-                        'huisnummer': '199',
-                        'huisnummertoevoeging': 'K',
-                        'postcode': '1234 AB',
-                        'straatnaam': 'Straat',
-                        'woonplaatsNaam': 'Amsterdam'
-                    },
-                    'geboortedatum': '1970-01-01',
-                    'naam': 'Voornaam Achternaam'
-                },
-                'mokum': True,
-                'onderneming': {
-                    'datumAanvang': '1992-01-01',
-                    'datumEinde': '2020-01-01',
-                    'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
-                    'hoofdactiviteit': 'Overige administratiekantoren',
-                    'overigeActiviteiten': ['Arbeidsbemiddeling', 'Organisatie-adviesbureaus'],
-                    'rechtsvorm': 'Eenmanszaak'
-                },
-                'rechtspersonen': [
-                    {
-                        'bsn': '999999999',
-                        'kvkNummer': '12345678',
-                        'rsin': None,
-                        'statutaireNaam': None,
-                        'statutaireZetel': None
-                    }
-                ],
-                'vestigingen': [
-                    {
-                        'activiteiten': ['Overige administratiekantoren', 'Organisatie-adviesbureaus',
-                                         'Arbeidsbemiddeling'],
-                        'bezoekadres': {
-                            'huisletter': None,
-                            'huisnummer': '1',
-                            'huisnummertoevoeging': None,
-                            'postcode': '1011 PN',
-                            'straatnaam': 'Amstel',
-                            'woonplaatsNaam': 'Amsterdam'
-                        },
-                        'datumAanvang': '1992-01-01',
-                        'datumEinde': '2020-01-01',
-                        'emailadres': None,
-                        'faxnummer': None,
-                        'handelsnamen': ['Ding 1', 'Ding 2', 'Ding 3', 'Ding 4'],
-                        'postadres': {
-                            'huisletter': None,
-                            'huisnummer': '1',
-                            'huisnummertoevoeging': None,
-                            'postcode': '1011 PN',
-                            'straatnaam': 'Amstel',
-                            'woonplaatsNaam': 'Amsterdam'
-                        },
-                        'telefoonnummer': None,
-                        'typeringVestiging': 'Hoofdvestiging',
-                        'vestigingsNummer': '000000000001',
-                        'websites': []
-                    }
-                ],
-            },
-            'status': 'OK'}
+        return wrap_response(BSN_HR_RESPONSE)
 
     @patch('mks.service.mks_client_bsn_hr._get_response', get_bsn_xml_response_fixture)
     def test_bsn(self):
