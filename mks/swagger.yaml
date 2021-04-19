@@ -334,10 +334,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Gemachtigde'
-        overige_functionarissen:
+        overigeFunctionarissen:
           type: array
           items:
-            $ref: '#/components/schemas/Functionaris'
+            $ref: '#/components/schemas/OverigeFunctionaris'
+        aansprakelijken:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aansprakelijke'
     Onderneming:
       type: object
     Eigenaar:
@@ -358,5 +362,15 @@ components:
       type: object
     Gemachtigde:
       type: object
-    Functionaris:
+    Aansprakelijke:
       type: object
+    OverigeFunctionaris:
+      type: object
+      properties:
+        naam:
+          type: string
+        functie:
+          type: integer
+        geboortedatum:
+          type: string
+          format: date-time
