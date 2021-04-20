@@ -341,9 +341,29 @@ class Model0204Tests(TestCase):
         result = extract_data(tree)
 
         self.assertEqual(result['adres']['inOnderzoek'], True)
-        # check that the previous adres is used
-        self.assertEqual(result['adres']['postcode'], '1011 PN')
-        self.assertEqual(result['adresHistorisch'], [])
+        # check that the current address is limited in information
+        self.assertEqual(result['adres'], {
+            'woonplaatsNaam': 'Amsterdam',
+            'straatnaam': '.',
+            'begindatumVerblijf': datetime(2021, 1, 11, 0, 0),
+            'inOnderzoek': True, 'landcode': '0000'
+        })
+        self.assertFalse('postcode' in result['adres'])
+        # previous address should be there
+        self.assertEqual(result['adresHistorisch'], [{'adresBuitenland1': None,
+                                                      'adresBuitenland2': None,
+                                                      'adresBuitenland3': None,
+                                                      'begindatumVerblijf': datetime(2012, 1, 1, 0, 0),
+                                                      'einddatumVerblijf': datetime(2021, 1, 10, 0, 0),
+                                                      'huisletter': None,
+                                                      'huisnummer': '1',
+                                                      'huisnummertoevoeging': 'I',
+                                                      'inOnderzoek': True,
+                                                      'landcode': '6030',
+                                                      'landnaam': 'Nederland',
+                                                      'postcode': '1011 PN',
+                                                      'straatnaam': 'Amstel',
+                                                      'woonplaatsNaam': 'Amsterdam'}])
 
     def test_emigration(self):
         """ Test the address with a adres outside of NL. """

@@ -336,14 +336,16 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
     past.sort(key=lambda x: x['einddatumVerblijf'] or datetime.min, reverse=True)
 
     # Punt adres is a thing so people are not registered on an address (which has al kinds of implications for that adres)
-    # take the most recent as current and mark it as Adres in onderzoek
+    # replace the recent with minimum data and mark it as Adres in onderzoek
     # see MIJN-2825
     if current['straatnaam'] == '.':
-        # if there is a past address, use that as current (because that's what the punt adres replaced)
-        if past:
-            current = past.pop(0)
-
-        current['inOnderzoek'] = True
+        current = {
+            'woonplaatsNaam': 'Amsterdam',
+            'straatnaam': '.',
+            'begindatumVerblijf': current['begindatumVerblijf'],
+            'inOnderzoek': True,
+            'landcode': "0000"
+        }
 
     return current, past
 
