@@ -346,7 +346,9 @@ class Model0204Tests(TestCase):
             'woonplaatsNaam': 'Amsterdam',
             'straatnaam': '.',
             'begindatumVerblijf': datetime(2021, 1, 11, 0, 0),
-            'inOnderzoek': True, 'landcode': '0000'
+            'inOnderzoek': True,
+            'landcode': '0000',
+            'landnaam': 'Nederland',
         })
         self.assertFalse('postcode' in result['adres'])
         # previous address should be there

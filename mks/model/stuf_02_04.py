@@ -344,7 +344,8 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
             'straatnaam': '.',
             'begindatumVerblijf': current['begindatumVerblijf'],
             'inOnderzoek': True,
-            'landcode': "0000"
+            'landcode': '0000',
+            'landnaam': 'Nederland',
         }
 
     return current, past
