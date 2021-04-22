@@ -1,8 +1,12 @@
 import os
-from tma_saml import UserType
 from unittest.mock import patch
-from jwcrypto import jwk
+
 from flask_testing.utils import TestCase
+from jwcrypto import jwk
+from tma_saml import UserType
+from .test_mks_client_kvk_mac_hr import get_kvk_mac_xml_response_fixture
+from .test_mks_client_bsn_hr import get_bsn_xml_response_fixture
+from .test_mks_client_nnp_hr import get_nnp_xml_response_fixture
 
 os.environ['TMA_CERTIFICATE'] = 'cert content'
 os.environ['BRP_APPLICATIE'] = 'mijnAmsTestApp'
@@ -13,7 +17,6 @@ os.environ['MKS_BRP_ENDPOINT'] = 'https://example.com'
 # ignoring E402: module level import not at top of file
 from mks.operations import get_brp  # noqa: E402
 from mks.server import application  # noqa: E402
-
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
@@ -27,6 +30,33 @@ def get_xml_response_fixture(*args):
 def get_jwt_key_test():
     key = jwk.JWK.generate(kty='oct', size=256)
     return key
+
+
+class HRTests(TestCase):
+
+    def create_app(self):
+        app = application
+        app.config['TESTING'] = True
+        return app
+
+    @patch('mks.operations.get_bsn_from_saml_token', lambda: '123456789')
+    @patch('mks.operations.get_type', lambda x: UserType.BURGER)
+    @patch('mks.model.stuf_utils.get_jwt_key', get_jwt_key_test)
+    @patch('mks.service.mks_client_hr._get_response_by_bsn', lambda bsn: get_bsn_xml_response_fixture())
+    def test_get_hr_by_bsn(self):
+        response = self.client.get('/brp/hr')
+        self.assertEqual(response.json['content']['rechtspersonen'][0]['bsn'], '999999999')
+        self.assertEqual(response.json['content']['rechtspersonen'][0]['rsin'], None)
+
+    @patch('mks.model.stuf_utils.get_jwt_key', get_jwt_key_test)
+    @patch('mks.operations.get_type', lambda x: UserType.BEDRIJF)
+    @patch('mks.operations.get_kvk_number_from_request', lambda req: '123456789')
+    @patch('mks.service.mks_client_hr._get_response_by_kvk_number', lambda kvk_number: get_kvk_mac_xml_response_fixture())
+    @patch('mks.service.mks_client_hr._get_response_by_nnpid', lambda kvk_number: get_nnp_xml_response_fixture())
+    def test_get_hr_by_kvk_number(self):
+        response = self.client.get('/brp/hr')
+        self.assertEqual(response.json['content']['rechtspersonen'][0]['bsn'], None)
+        self.assertEqual(response.json['content']['rechtspersonen'][0]['rsin'], '123456789')
 
 
 class BRPTests(TestCase):

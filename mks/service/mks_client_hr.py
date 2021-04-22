@@ -21,9 +21,9 @@ from mks.service.config import (BRP_APPLICATIE, BRP_GEBRUIKER, MKS_CLIENT_CERT,
                                 REQUEST_TIMEOUT)
 from mks.service.exceptions import ExtractionError, NoResultException
 
-BSN_HR_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "HR_stuf0310.xml.jinja2")
-with open(BSN_HR_TEMPLATE_PATH) as fp:
-    bsn_hr_template = Template(fp.read())
+HR_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "HR_stuf0310.xml.jinja2")
+with open(HR_TEMPLATE_PATH) as fp:
+    hr_template = Template(fp.read())
 
 NNP_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "NNP_stuf0310.xml.jinja2")
 with open(NNP_TEMPLATE_PATH) as fp:
@@ -86,11 +86,11 @@ def _get_from_mks(url: str = None, template: Template = None, bsn: str = None, k
 
 
 def _get_response_by_bsn(bsn: str = None):
-    return _get_from_mks(url=HR_URL, template=bsn_hr_template, bsn=bsn)
+    return _get_from_mks(url=HR_URL, template=hr_template, bsn=bsn)
 
 
 def _get_response_by_kvk_number(kvk_number: str = None):
-    return _get_from_mks(url=HR_URL, template=bsn_hr_template, kvk_number=kvk_number)
+    return _get_from_mks(url=HR_URL, template=hr_template, kvk_number=kvk_number)
 
 
 def _get_response_by_nnpid(nnpid: str = None):
