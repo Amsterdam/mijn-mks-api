@@ -131,7 +131,8 @@ def get_hr_for_bsn():
 def get_hr_for_kvk():
     try:
         log_request(request)
-        hr_kvk = get_from_kvk(get_kvk_number_from_request(request))
+        kvk_number = get_kvk_number_from_request(request)
+        hr_kvk = get_from_kvk(kvk_number)
 
         if 'nnpid' not in hr_kvk or is_nil(hr_kvk['nnpid']):
             return hr_kvk
