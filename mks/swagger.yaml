@@ -35,7 +35,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KVKResponse'
+                $ref: '#/components/schemas/KVKNumberResponse'
   /brp/bsn:
     get:
       description: Return BSN of currently logged in user.
@@ -105,9 +105,10 @@ components:
           type: string
         huisletter:
           type: string
-          nullable: True
+          nullable: true
         huisnummertoevoeging:
           type: string
+          nullable: true
         postcode:
           type: string
         straatnaam:
@@ -125,18 +126,18 @@ components:
             einddatumVerblijf:
               type: string
               format: date-time
-              nullable: True
+              nullable: true
             landnaam:
               type: string
             adresBuitenland1:
               type: string
-              nullable: True
+              nullable: true
             adresBuitenland2:
               type: string
-              nullable: True
+              nullable: true
             adresBuitenland3:
               type: string
-              nullable: True
+              nullable: true
             inOnderzoek:
               type: boolean
             _adresSleutel:
@@ -150,7 +151,7 @@ components:
         datumOntbinding:
           type: string
           format: date-time
-          nullable: True
+          nullable: true
         datumSluiting:
           type: string
           format: date-time
@@ -256,7 +257,7 @@ components:
               description: This value can be used if `vertrokkenOnbekendWaarheen` is True
               type: string
               format: date-time
-              nullable: True
+              nullable: true
             emigratieLand:
               type: string
             omschrijvingIndicatieGeheim:
@@ -299,7 +300,7 @@ components:
           type: string
       required:
         - burgerservicenummer
-    KVKResponse:
+    KVKNumberResponse:
       title: bsn
       type: object
       properties:
@@ -308,42 +309,55 @@ components:
       required:
         - kvknummer
     HRResponse:
-      title: Handelsregister
       type: object
+      title: Handelsregister
       properties:
-        mokum:
-          type: boolean
-        onderneming:
-          $ref: '#/components/schemas/Onderneming'
-        eigenaar:
-          nullable: true
-          $ref: '#/components/schemas/Eigenaar'
-        rechtspersonen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Rechtspersoon'
-        vestigingen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Vestiging'
-        bestuurders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bestuurder'
-        gemachtigden:
-          type: array
-          items:
-            $ref: '#/components/schemas/Gemachtigde'
-        overigeFunctionarissen:
-          type: array
-          items:
-            $ref: '#/components/schemas/OverigeFunctionaris'
-        aansprakelijken:
-          type: array
-          items:
-            $ref: '#/components/schemas/Aansprakelijke'
+        content:
+          type: object
+          properties:
+            mokum:
+              type: boolean
+            onderneming:
+              $ref: '#/components/schemas/Onderneming'
+            eigenaar:
+              nullable: true
+              $ref: '#/components/schemas/Eigenaar'
+            rechtspersonen:
+              type: array
+              items:
+                $ref: '#/components/schemas/Rechtspersoon'
+            vestigingen:
+              type: array
+              items:
+                $ref: '#/components/schemas/Vestiging'
+            bestuurders:
+              type: array
+              items:
+                $ref: '#/components/schemas/Bestuurder'
+            gemachtigden:
+              type: array
+              items:
+                $ref: '#/components/schemas/Gemachtigde'
+            overigeFunctionarissen:
+              type: array
+              items:
+                $ref: '#/components/schemas/OverigeFunctionaris'
+            aansprakelijken:
+              type: array
+              items:
+                $ref: '#/components/schemas/Aansprakelijke'
+          required:
+            - mokum
+            - onderneming
+            - rechtspersonen
+            - vestigingen
     Onderneming:
       type: object
+      properties:
+        datumAanvang:
+          nullable: true
+          type: string
+          format: date-time
     Eigenaar:
       type: object
       properties:
@@ -370,7 +384,7 @@ components:
         naam:
           type: string
         functie:
-          type: integer
+          type: string
         geboortedatum:
           type: string
           format: date-time
