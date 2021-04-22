@@ -147,8 +147,8 @@ components:
       type: object
       properties:
         datumOntbinding:
-          $ref: '#/components/schemas/DateTime'
           nullable: true
+          $ref: '#/components/schemas/DateTime'
         datumSluiting:
           $ref: '#/components/schemas/DateTime'
         landnaamSluiting:
