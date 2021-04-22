@@ -22,7 +22,6 @@ def wrap_response(response_data, status: str = 'OK'):
 class HRTest(FlaskServerTMATestCase, TestCase):
 
     def create_app(self):
-
         application.config['TESTING'] = True
         application.testing = True
         return application
@@ -102,6 +101,5 @@ class HrKvkMacTest(HRTest):
     def test_get_mac_hr(self):
         headers = self.add_e_herkenning_headers('999999990')
         response = self.client.get('/brp/hr', headers=headers)
-        print(response)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, self._get_expected())

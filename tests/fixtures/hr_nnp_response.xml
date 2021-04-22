@@ -181,6 +181,25 @@
                     <StUF:extraElement naam="soortBevoegdheid">AlleenZelfstandigBevoegd</StUF:extraElement>
                 </StUF:extraElementen>
             </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Konopka</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorletters xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voornamen>Cammie</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19921121</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftAansprakelijke</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Vennoot</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid">BeperktBevoegd</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
         </BG:object>
     </BG:antwoord>
 </BG:nnpLa01>
