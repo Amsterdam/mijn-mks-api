@@ -54,7 +54,14 @@ NNP_HR_RESPONSE = {
             'geboortedatum': date(1976, 10, 1),
         },
     ],
-    'aansprakelijken': [],
+    'aansprakelijken': [
+        {
+            'functie': 'Vennoot',
+            'geboortedatum': '1992-11-21',
+            'naam': 'Cammie Konopka',
+            'soortBevoegdheid': 'BeperktBevoegd'
+        }
+    ],
 }
 
 
