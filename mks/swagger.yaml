@@ -121,11 +121,9 @@ components:
         - type: object
           properties:
             begindatumVerblijf:
-              type: string
-              format: date-time
+              $ref: '#/components/schemas/DateTime'
             einddatumVerblijf:
-              type: string
-              format: date-time
+              $ref: '#/components/schemas/DateTime'
               nullable: true
             landnaam:
               type: string
@@ -149,12 +147,10 @@ components:
       type: object
       properties:
         datumOntbinding:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
           nullable: true
         datumSluiting:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
         landnaamSluiting:
           type: string
         plaatsnaamSluitingOmschrijving:
@@ -212,7 +208,7 @@ components:
         adellijkeTitelPredikaat:
           $ref: '#/components/schemas/AdellijkeTitelPredikaat'
         bsn:
-          type: string
+          $ref: '#/components/schemas/BSN'
         geslachtsnaam:
           type: string
         voorvoegselGeslachtsnaam:
@@ -225,16 +221,14 @@ components:
         geboorteplaats:
           type: string
         geboortedatum:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
         geslachtsaanduiding:
           $ref: '#/components/schemas/Geslachtsaanduiding'
         omschrijvingGeslachtsaanduiding:
           $ref: '#/components/schemas/OmschrijvingGeslachtsaanduiding'
         overlijdensdatum:
           nullable: true
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
     PersoonVolledig:
       allOf:
         - $ref: '#/components/schemas/Persoon'
@@ -255,8 +249,7 @@ components:
               type: boolean
             datumVertrekUitNederland:
               description: This value can be used if `vertrokkenOnbekendWaarheen` is True
-              type: string
-              format: date-time
+              $ref: '#/components/schemas/DateTime'
               nullable: true
             emigratieLand:
               type: string
@@ -297,7 +290,7 @@ components:
       type: object
       properties:
         burgerservicenummer:
-          type: string
+          $ref: '#/components/schemas/BSN'
       required:
         - burgerservicenummer
     KVKNumberResponse:
@@ -356,28 +349,145 @@ components:
       properties:
         datumAanvang:
           nullable: true
+          $ref: '#/components/schemas/DateTime'
+        datumEinde:
+          nullable: true
+          $ref: '#/components/schemas/DateTime'
+        handelsnamen:
+          type: array
+          items:
+            type: string
+        hoofdactiviteit:
           type: string
-          format: date-time
+        overigeActiviteiten:
+          type: array
+          items:
+            type: string
+        rechtsvorm:
+          type: string
     Eigenaar:
       type: object
       properties:
         naam:
           type: string
         geboortedatum:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
         adres:
           $ref: '#/components/schemas/Adres'
     Rechtspersoon:
       type: object
+      properties:
+        bsn:
+          nullable: true
+          $ref: '#/components/schemas/BSN'
+        kvkNummer:
+          type: string
+          nullable: true
+        rsin:
+          type: string
+          nullable: true
+        statutaireNaam:
+          type: string
+          nullable: true
+        statutaireZetel:
+          type: string
+          nullable: true
     Vestiging:
       type: object
+      properties:
+        activiteiten:
+          type: array
+          items:
+            type: string
+        bezoekadres:
+          $ref: '#/components/schemas/AdresBasis'
+        datumAanvang:
+          $ref: '#/components/schemas/DateTime'
+        datumEinde:
+          nullable: true
+          $ref: '#/components/schemas/DateTime'
+        emailadres:
+          nullable: true
+          type: string
+          format: email
+        faxnummer:
+          nullable: true
+          type: string
+        handelsnamen:
+          type: array
+          items:
+            type: string
+        postadres:
+          nullable: true
+          $ref: '#/components/schemas/AdresBasis'
+        telefoonnummer:
+          nullable: true
+          type: string
+        typeringVestiging:
+          type: string # TODO: Add Enum
+        vestigingsNummer:
+          type: string
+        websites:
+          type: array
+          items:
+            type: string
     Bestuurder:
       type: object
+      properties:
+        functie:
+          type: string
+          enum:
+            - Bestuurder
+            - Lid van het besturend orgaan
+            - Lid van het leidinggevend orgaan
+            - Persoon krachtens statuten bevoegd bij ontstentenis belet van de bestuurders
+            - Vereffenaar
+        soortBevoegdheid:
+          type: string
+          enum:
+            - AlleenZelfstandigBevoegd
+            - GezamenlijkBevoegd
+        naam:
+          type: string
+        geboortedatum:
+          $ref: '#/components/schemas/DateTime'
     Gemachtigde:
       type: object
+      properties:
+        naam:
+          type: string
+        geboortedatum:
+          $ref: '#/components/schemas/DateTime'
+        functie:
+          type: string
+          enum:
+            - Beheerder
+            - Boekhouder
+            - Gevolmachtigde
+            - Handelsagent
+            - PrivaatrechtelijkGevolgmachtigde
     Aansprakelijke:
       type: object
+      properties:
+        functie:
+          type: string
+          enum:
+            - Bevoegd functionaris
+            - Lid rederij
+            - Maat
+            - Mede-eigenaar
+            - Vennoot
+            - Vereffenaar
+        soortBevoegdheid:
+          type: string
+          enum:
+            - OnbeperktBevoegd
+            - BeperktBevoegd
+            - NietBevoegd
+        naam:
+          type: string
+        geboortedatum:
+          $ref: '#/components/schemas/DateTime'
     OverigeFunctionaris:
       type: object
       properties:
@@ -385,6 +495,19 @@ components:
           type: string
         functie:
           type: string
+          enum:
+            - Bewaarder boeken en bescheiden
+            - Commissaris
+            - Enig aandeelhouder
+            - Functionaris volgens buitenlands recht
+            - Aandeelhouder niet volgestorte aandelen
+            - Lid EESV
+            - Lid van het toezichthoudend orgaan
         geboortedatum:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
+    BSN:
+      type: string
+      pattern: '^(\d{8}|\d{9})$'
+    DateTime:
+      type: string
+      format: date-time

@@ -1,7 +1,9 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
   <soapenv:Header/>
   <soapenv:Body>
-    <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204" xmlns:StUF="http://www.egem.nl/StUF/StUF0204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204"
+      xmlns:StUF="http://www.egem.nl/StUF/StUF0204"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <StUF:stuurgegevens xmlns="http://www.egem.nl/StUF/StUF0204">
         <StUF:berichtsoort>La01</StUF:berichtsoort>
         <StUF:entiteittype>PRS</StUF:entiteittype>
@@ -206,20 +208,20 @@
               <BG:soort>1</BG:soort>
             </BG:SIB>
           </BG:PRSIDB>
-            <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-                <BG:nummerIdentiteitsbewijs>PP12XYZ456</BG:nummerIdentiteitsbewijs>
-                <BG:tijdvakRelatie>
-                    <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                    <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                </BG:tijdvakRelatie>
-                <BG:extraElementen>
-                    <StUF:extraElement naam="datumAfgifte">20140101</StUF:extraElement>
-                    <StUF:extraElement naam="datumEindeGeldigheid">20250101</StUF:extraElement>
-                </BG:extraElementen>
-                <BG:SIB soortEntiteit="T">
-                    <BG:soort>1</BG:soort>
-                </BG:SIB>
-            </BG:PRSIDB>
+          <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:nummerIdentiteitsbewijs>PP12XYZ456</BG:nummerIdentiteitsbewijs>
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            </BG:tijdvakRelatie>
+            <BG:extraElementen>
+              <StUF:extraElement naam="datumAfgifte">20140101</StUF:extraElement>
+              <StUF:extraElement naam="datumEindeGeldigheid">20250101</StUF:extraElement>
+            </BG:extraElementen>
+            <BG:SIB soortEntiteit="T">
+              <BG:soort>1</BG:soort>
+            </BG:SIB>
+          </BG:PRSIDB>
 
           <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
             <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend"/>
@@ -287,7 +289,7 @@
             </BG:tijdvakRelatie>
             <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
               <BG:a-nummer xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:bsn-nummer>5678901234</BG:bsn-nummer>
+              <BG:bsn-nummer>567890123</BG:bsn-nummer>
               <BG:voornamen>Anne</BG:voornamen>
               <BG:voorletters>A</BG:voorletters>
               <BG:voorvoegselGeslachtsnaam>van</BG:voorvoegselGeslachtsnaam>
@@ -308,62 +310,62 @@
               </BG:extraElementen>
             </BG:PRS>
           </BG:PRSPRSKND>
-            <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-                <BG:tijdvakRelatie>
-                    <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                    <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                </BG:tijdvakRelatie>
-                <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-                    <BG:bsn-nummer>345678901</BG:bsn-nummer>
-                    <BG:voornamen>Iep</BG:voornamen>
-                    <BG:voorletters>I</BG:voorletters>
-                    <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
-                    <BG:geslachtsnaam>Visser</BG:geslachtsnaam>
-                    <BG:geboortedatum>19610101</BG:geboortedatum>
-                    <BG:geboorteplaats>Teheran</BG:geboorteplaats>
-                    <BG:codeGeboorteland>5012</BG:codeGeboorteland>
-                    <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
-                    <BG:tijdvakGeldigheid>
-                        <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                        <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                    </BG:tijdvakGeldigheid>
-                    <BG:extraElementen>
-                        <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                        <StUF:extraElement naam="geboortelandnaam">Iran</StUF:extraElement>
-                        <StUF:extraElement naam="geboorteplaatsnaam">Teheran</StUF:extraElement>
-                        <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Vrouw</StUF:extraElement>
-                        <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                    </BG:extraElementen>
-                </BG:PRS>
-            </BG:PRSPRSOUD>
-            <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-                <BG:tijdvakRelatie>
-                    <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                    <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                </BG:tijdvakRelatie>
-                <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-                    <BG:bsn-nummer>4567890123</BG:bsn-nummer>
-                    <BG:voornamen>Thomas</BG:voornamen>
-                    <BG:voorletters>T</BG:voorletters>
-                    <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
-                    <BG:geslachtsnaam>Jansen</BG:geslachtsnaam>
-                    <BG:geboortedatum>19510101</BG:geboortedatum>
-                    <BG:geboorteplaats>Tokio</BG:geboorteplaats>
-                    <BG:codeGeboorteland>7035</BG:codeGeboorteland>
-                    <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
-                    <BG:tijdvakGeldigheid>
-                        <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                        <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                    </BG:tijdvakGeldigheid>
-                    <BG:extraElementen>
-                        <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                        <StUF:extraElement naam="geboortelandnaam">Japan</StUF:extraElement>
-                        <StUF:extraElement naam="geboorteplaatsnaam">Osaka</StUF:extraElement>
-                        <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Man</StUF:extraElement>
-                        <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                    </BG:extraElementen>
-                </BG:PRS>
-            </BG:PRSPRSOUD>
+          <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            </BG:tijdvakRelatie>
+            <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+              <BG:bsn-nummer>345678901</BG:bsn-nummer>
+              <BG:voornamen>Iep</BG:voornamen>
+              <BG:voorletters>I</BG:voorletters>
+              <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:geslachtsnaam>Visser</BG:geslachtsnaam>
+              <BG:geboortedatum>19610101</BG:geboortedatum>
+              <BG:geboorteplaats>Teheran</BG:geboorteplaats>
+              <BG:codeGeboorteland>5012</BG:codeGeboorteland>
+              <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
+              <BG:tijdvakGeldigheid>
+                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              </BG:tijdvakGeldigheid>
+              <BG:extraElementen>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="geboortelandnaam">Iran</StUF:extraElement>
+                <StUF:extraElement naam="geboorteplaatsnaam">Teheran</StUF:extraElement>
+                <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Vrouw</StUF:extraElement>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              </BG:extraElementen>
+            </BG:PRS>
+          </BG:PRSPRSOUD>
+          <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            </BG:tijdvakRelatie>
+            <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+              <BG:bsn-nummer>456789012</BG:bsn-nummer>
+              <BG:voornamen>Thomas</BG:voornamen>
+              <BG:voorletters>T</BG:voorletters>
+              <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:geslachtsnaam>Jansen</BG:geslachtsnaam>
+              <BG:geboortedatum>19510101</BG:geboortedatum>
+              <BG:geboorteplaats>Tokio</BG:geboorteplaats>
+              <BG:codeGeboorteland>7035</BG:codeGeboorteland>
+              <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+              <BG:tijdvakGeldigheid>
+                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              </BG:tijdvakGeldigheid>
+              <BG:extraElementen>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="geboortelandnaam">Japan</StUF:extraElement>
+                <StUF:extraElement naam="geboorteplaatsnaam">Osaka</StUF:extraElement>
+                <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Man</StUF:extraElement>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              </BG:extraElementen>
+            </BG:PRS>
+          </BG:PRSPRSOUD>
 
         </BG:PRS>
       </BG:body>
