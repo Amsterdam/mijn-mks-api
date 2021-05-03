@@ -8,6 +8,7 @@ GBA_STATIC_DIR = os.path.join(STATIC_DIR, 'gba')
 lookup_landen = {}
 lookup_gemeenten = {}
 lookup_nationaliteiten = {}
+lookup_reden_ontbinding_partner = {}
 lookup_geslacht = {
     'M': 'Man',
     'V': 'Vrouw',
@@ -54,6 +55,15 @@ def load_nationaliteiten_lookup():
             lookup_nationaliteiten[row[0]] = row[1]
 
 
+def load_reden_ontbinding_partnerschap():
+    with open(os.path.join(GBA_STATIC_DIR, 'Custom Tabel41 Tabel Reden ontbinding nietigverklaring huwelijk geregistreerd partnerschap.csv')) as fh:
+        fh.readline()  # skip first line
+        reader = csv.reader(fh)
+        for row in reader:
+            lookup_reden_ontbinding_partner[row[0]] = row[1]
+
+
 load_landen_lookup()
 load_gemeenten_lookup()
 load_nationaliteiten_lookup()
+load_reden_ontbinding_partnerschap()

@@ -7,7 +7,7 @@ from bs4 import Tag, ResultSet
 from dateutil.relativedelta import relativedelta
 
 from mks.model.gba import lookup_prsidb_soort_code, lookup_geslacht, lookup_gemeenten, lookup_landen, \
-    lookup_nationaliteiten
+    lookup_nationaliteiten, lookup_reden_ontbinding_partner
 from mks.model.stuf_utils import _set_value_on, to_string, to_datetime, to_bool, to_is_amsterdam, to_int, set_fields, \
     set_extra_fields, as_postcode, encrypt, geheim_indicatie_to_bool, as_bsn, landcode_to_name, is_nil, to_string_4x0
 
@@ -238,7 +238,9 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis['persoon'])
 
-        set_reden_ontbinding_omschrijving_custom(result_verbintenis, verb.find('redenOntbinding').string)
+        einde_verbintenis_code = verb.find('redenOntbinding').string
+        if einde_verbintenis_code:
+            result_verbintenis['redenOntbindingOmschrijving'] = lookup_reden_ontbinding_partner.get(einde_verbintenis_code)
 
         result.append(result_verbintenis)
 
@@ -528,18 +530,6 @@ def set_omschrijving_geslachtsaanduiding(target):
 
     geslacht = lookup_geslacht.get(target['geslachtsaanduiding'], None)
     target['omschrijvingGeslachtsaanduiding'] = geslacht
-
-
-def set_reden_ontbinding_omschrijving_custom(verbintenis, reden):
-    reden_custom = None
-
-    # see also: https://publicaties.rvig.nl/dsresource?objectid=17001&type=org
-    if reden == 'O':
-        reden_custom = 'Overlijden'
-    elif reden == 'S':
-        reden_custom = 'Echtscheiding'
-
-    verbintenis['redenOntbindingOmschrijving'] = reden_custom
 
 
 def set_geboorteplaatsNaam(target):
