@@ -1,30 +1,40 @@
 import logging
 import os
+import time
 from datetime import datetime
 from io import BytesIO
 from random import randint
-import time
 
 import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import etree
-
-from mks.model.stuf_3_10_hr import extract_oefent_activiteiten_uit_in, extract_owners, \
-    extract_basic_info, extract_owner_persoon
+from mks.model.stuf_3_10_hr import (extract_aansprakelijken,
+                                    extract_basic_info, extract_bestuurders,
+                                    extract_gemachtigden,
+                                    extract_oefent_activiteiten_uit_in,
+                                    extract_overige_functionarissen,
+                                    extract_owner_persoon, extract_owners)
 from mks.model.stuf_utils import is_nil
-from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
-    MKS_ENDPOINT, REQUEST_TIMEOUT
+from mks.service.config import (BRP_APPLICATIE, BRP_GEBRUIKER, MKS_CLIENT_CERT,
+                                MKS_CLIENT_KEY, MKS_ENDPOINT, PROJECT_DIR,
+                                REQUEST_TIMEOUT)
 from mks.service.exceptions import ExtractionError, NoResultException
 
-BSN_HR_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "HR.xml.jinja2")
-with open(BSN_HR_TEMPLATE_PATH) as fp:
-    bsn_hr_template = Template(fp.read())
+HR_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "HR_stuf0310.xml.jinja2")
+with open(HR_TEMPLATE_PATH) as fp:
+    hr_template = Template(fp.read())
+
+NNP_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "NNP_stuf0310.xml.jinja2")
+with open(NNP_TEMPLATE_PATH) as fp:
+    nnp_template = Template(fp.read())
 
 log_response = False
 
+HR_URL = f'{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag'
 
-def _get_soap_request(bsn: str = None, kvk_number: str = None):
+
+def _get_soap_request_payload(template: Template = None, bsn: str = None, kvk_number: str = None, nnpid: str = None):
     ref = str(randint(100000, 999999))
 
     referentienummer = f'MijnAmsterdam||{ref}'
@@ -38,11 +48,13 @@ def _get_soap_request(bsn: str = None, kvk_number: str = None):
         context['bsn'] = bsn
     if kvk_number:
         context['kvk_nummer'] = kvk_number
+    if nnpid:
+        context['nnpid'] = nnpid
 
-    return bsn_hr_template.render(context)
+    return template.render(context)
 
 
-def _get_response(mks_url, soap_request):
+def _get_response(mks_url, soap_request_payload):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
@@ -51,7 +63,7 @@ def _get_response(mks_url, soap_request):
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
     request_start = time.time()
     try:
-        post_response = session.post(mks_url, data=soap_request, timeout=REQUEST_TIMEOUT)
+        post_response = session.post(mks_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT)
     finally:
         request_end = time.time()
         logging.info(f"request took: '{request_end - request_start}' seconds")
@@ -59,14 +71,30 @@ def _get_response(mks_url, soap_request):
     return post_response.content
 
 
-def get_from_bsn(bsn: str):
-    response = _get_from_mks(bsn=bsn)
-    return extract_for_bsn(response)
+def _get_from_mks(url: str = None, template: Template = None, bsn: str = None, kvk_number: str = None, nnpid: str = None):
+    soap_request_payload = _get_soap_request_payload(template, bsn, kvk_number, nnpid)
+
+    response = _get_response(url, soap_request_payload)
+
+    if log_response:
+        content_bytesio = BytesIO(response)
+        tree = etree.parse(content_bytesio)
+        formatted_xml = etree.tostring(tree, pretty_print=True)
+        print(formatted_xml.decode())
+
+    return response
 
 
-def get_from_kvk(kvk_number: str):
-    response = _get_from_mks(kvk_number=kvk_number)
-    return extract_for_kvk(response)
+def _get_response_by_bsn(bsn: str = None):
+    return _get_from_mks(url=HR_URL, template=hr_template, bsn=bsn)
+
+
+def _get_response_by_kvk_number(kvk_number: str = None):
+    return _get_from_mks(url=HR_URL, template=hr_template, kvk_number=kvk_number)
+
+
+def _get_response_by_nnpid(nnpid: str = None):
+    return _get_from_mks(url=HR_URL, template=nnp_template, nnpid=nnpid)
 
 
 def extract_for_bsn(xml_data):
@@ -84,7 +112,7 @@ def extract_for_bsn(xml_data):
             return {}
 
         object_data = extract_basic_info(object_data)
-        eigenaren_data = [extract_owner_persoon(eigenaren)]
+        eigenaar_data = extract_owner_persoon(eigenaren)
         activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten)
 
         handelsnamen = set()
@@ -118,9 +146,7 @@ def extract_for_bsn(xml_data):
 
         handelsnamen = sorted(list(handelsnamen))
 
-        rechtsvorm = eigenaren_data[0]['rechtsvorm']
-        # if not rechtsvorm:
-        #     rechtsvorm = "Eenmanszaak"
+        rechtsvorm = eigenaar_data['rechtsvorm']
 
         onderneming = {
             'datumAanvang': object_data['datumAanvang'],
@@ -131,16 +157,21 @@ def extract_for_bsn(xml_data):
             'hoofdactiviteit': hoofdactiviteit
         }
 
-        rechtspersonen = []
-        for i in eigenaren_data:
-            persoon = {
-                'kvkNummer': object_data['kvkNummer'],
-                'rsin': i.get('nnpId', None),
-                'bsn': eigenaren_data[0].get('bsn', None),
-                'statutaireNaam': i.get('statutaireNaam', None),
-                'statutaireZetel': i.get('statutaireZetel', None),
-            }
-            rechtspersonen.append(persoon)
+        rechtspersonen = [{
+            'kvkNummer': object_data['kvkNummer'],
+            'bsn': eigenaar_data.get('bsn', None),
+
+            # Eenmanszaken don't have the following properties
+            'rsin': None,
+            'statutaireNaam': None,
+            'statutaireZetel': None,
+        }]
+
+        eigenaar = {
+            'naam': "%s %s" % (eigenaar_data['voornamen'], eigenaar_data['geslachtsnaam']),
+            'geboortedatum': eigenaar_data['geboortedatum'],
+            'adres': eigenaar_data['adres'],
+        }
 
         is_amsterdammer = False
         for i in vestigingen:
@@ -151,11 +182,11 @@ def extract_for_bsn(xml_data):
 
         data = {
             'mokum': is_amsterdammer,
+            'nnpid': None,  # Eenmanszaken don't have NNPID
             'onderneming': onderneming,
+            'eigenaar': eigenaar,
             'rechtspersonen': rechtspersonen,
             'vestigingen': vestigingen,
-            'aandeelhouders': [],
-            'bestuurders': [],
         }
 
         return data
@@ -165,19 +196,32 @@ def extract_for_bsn(xml_data):
         raise ExtractionError()
 
 
-def _get_from_mks(**kwargs):
-    # kwargs are: kvk_number or bsn
-    soap_request = _get_soap_request(**kwargs)
+def extract_nnp(nnpid: str, xml_str: str):
+    tree = BeautifulSoup(xml_str, features='lxml-xml')
+    nnps = tree.find_all('object')
 
-    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag', soap_request)
+    if is_nil(nnps):
+        return {}
 
-    if log_response:
-        content_bytesio = BytesIO(response)
-        tree = etree.parse(content_bytesio)
-        formatted_xml = etree.tostring(tree, pretty_print=True)
-        print(formatted_xml.decode())
+    nnp = None
+    for nnp_item in nnps:
+        if nnp_item.find('inn.nnpId', None).string == nnpid:
+            nnp = nnp_item
 
-    return response
+    if is_nil(nnp):
+        return {}
+
+    bestuurders = extract_bestuurders(nnp)
+    gemachtigden = extract_gemachtigden(nnp)
+    overige_functionarissen = extract_overige_functionarissen(nnp)
+    aansprakelijken = extract_aansprakelijken(nnp)
+
+    return {
+        'gemachtigden': gemachtigden,
+        'overigeFunctionarissen': overige_functionarissen,
+        'bestuurders': bestuurders,
+        'aansprakelijken': aansprakelijken,
+    }
 
 
 def extract_for_kvk(xml_str):
@@ -236,16 +280,34 @@ def extract_for_kvk(xml_str):
             'hoofdactiviteit': hoofdactiviteit
         }
 
+        nnpid = None
+        eigenaar = None
         rechtspersonen = []
-        for i in eigenaren_data:
-            persoon = {
+
+        for eigenaar_item in eigenaren_data:
+
+            rsin = eigenaar_item.get('nnpId', None)
+
+            # NOTE: If there are more than 1 nnp owner with a RSIN, which one should we take?
+            if not nnpid and rsin and eigenaar_item['type'] == 'nnp':
+                nnpid = rsin
+
+            rechtspersoon = {
                 'kvkNummer': object_data['kvkNummer'],
-                'rsin': i.get('nnpId', None),
-                'bsn': i.get('bsn', None),
-                'statutaireNaam': i.get('statutaireNaam', None),
-                'statutaireZetel': i.get('statutaireZetel', None),
+                'rsin': rsin,
+                'bsn': eigenaar_item.get('bsn', None),
+                'statutaireNaam': eigenaar_item.get('statutaireNaam', None),
+                'statutaireZetel': eigenaar_item.get('statutaireZetel', None),
             }
-            rechtspersonen.append(persoon)
+            rechtspersonen.append(rechtspersoon)
+
+            # Only show natuurlijk persoon as eigenaar for rechtsvorm=Eenmanszaak
+            if (rechtsvorm == 'Eenmanszaak' and eigenaar is None and eigenaar_item['type'] == 'np'):
+                eigenaar = {
+                    'naam': "%s %s" % (eigenaar_item['voornamen'], eigenaar_item['geslachtsnaam']),
+                    'geboortedatum': eigenaar_item['geboortedatum'],
+                    'adres': eigenaar_item['adres'],
+                }
 
         is_amsterdammer = False
         for i in vestigingen:
@@ -255,11 +317,11 @@ def extract_for_kvk(xml_str):
 
         data = {
             'mokum': is_amsterdammer,
+            'nnpid': nnpid,
             'onderneming': onderneming,
+            'eigenaar': eigenaar,
             'rechtspersonen': rechtspersonen,
             'vestigingen': vestigingen,
-            'aandeelhouders': [],
-            'bestuurders': [],
         }
 
         return data
@@ -267,3 +329,18 @@ def extract_for_kvk(xml_str):
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
         raise ExtractionError()
+
+
+def get_from_bsn(bsn: str):
+    response = _get_response_by_bsn(bsn)
+    return extract_for_bsn(response)
+
+
+def get_from_kvk(kvk_number: str):
+    response = _get_response_by_kvk_number(kvk_number)
+    return extract_for_kvk(response)
+
+
+def get_nnp_from_kvk(nnpid: str):
+    response = _get_response_by_nnpid(nnpid)
+    return extract_nnp(nnpid, response)

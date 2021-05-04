@@ -47,7 +47,6 @@ class AdrTest(TestCase):
 
         result = extract(xml_data)
 
-        self.maxDiff = None
         self.assertEqual(result, self.get_result())
 
     def test_empty_extraction(self):

@@ -2,7 +2,7 @@
 
 import json
 
-import mks.service.mks_client_bsn_hr as mks_client
+import mks.service.mks_client_hr as mks_client
 
 # Turn on dumping of raw soap xml
 mks_client.log_response = True

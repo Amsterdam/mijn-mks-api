@@ -20,14 +20,10 @@ PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2"
 with open(PRS_STUF0204TEMPLATE_PATH) as fp:
     prs_stuf_0204_template = Template(fp.read())
 
-ADR_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "ADR_stuf02.04.xml.jinja2")
-with open(ADR_STUF0204TEMPLATE_PATH) as fp:
-    adr_stuf_0204_template = Template(fp.read())
-
 log_response = False
 
 
-def _get_soap_request(bsn: str) -> str:
+def _get_soap_request_payload(bsn: str) -> str:
     ref = str(randint(100000, 999999))
 
     referentienummer = f'MijnAmsterdam||{ref}'
@@ -44,21 +40,16 @@ def _get_soap_request(bsn: str) -> str:
 mks_request_latency = Histogram('mks_request_latency_seconds', 'Mks request time')
 
 
-def _get_response(mks_brp_url, soap_request):
+def _get_response(mks_brp_url, soap_request_payload):
     session = requests.Session()
     session.headers.update({
         'Content-Type': 'text/xml;charset=UTF-8',
         'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0204/beantwoordSynchroneVraagIntegraal',
     })
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
-    # request_start = time.time()
+
     with mks_request_latency.time():
-        # try:
-        post_response = session.post(mks_brp_url, data=soap_request, timeout=REQUEST_TIMEOUT)
-    # finally:
-    #     request_end = time.time()
-    #     # logging.info(f"request took: '{request_end - request_start}' seconds")
-    #     mks_request_latency.observe(request_end - request_start)
+        post_response = session.post(mks_brp_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT)
 
     mks_connection_state.set(0)  # success, mark state as running
     return post_response.content
@@ -86,8 +77,8 @@ def get_0204(bsn: str):
 
 
 def get_0204_raw(bsn: str):
-    soap_request = _get_soap_request(bsn)
-    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request)
+    soap_request_payload = _get_soap_request_payload(bsn)
+    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request_payload)
 
     if log_response:
         content_bytesio = BytesIO(response)
