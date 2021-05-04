@@ -239,8 +239,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
         set_omschrijving_geslachtsaanduiding(result_verbintenis['persoon'])
 
         einde_verbintenis_code = verb.find('redenOntbinding').string
-        if einde_verbintenis_code:
-            result_verbintenis['redenOntbindingOmschrijving'] = lookup_reden_ontbinding_partner.get(einde_verbintenis_code)
+        result_verbintenis['redenOntbindingOmschrijving'] = lookup_reden_ontbinding_partner.get(einde_verbintenis_code, None)
 
         result.append(result_verbintenis)
 
