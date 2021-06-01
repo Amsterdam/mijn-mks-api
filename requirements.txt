@@ -40,5 +40,5 @@ signxml==2.8.1
 six==1.15.0
 soupsieve==2.2
 tma-saml==0.4.2
-urllib3==1.26.4
+urllib3==1.26.5
 Werkzeug==1.0.1
