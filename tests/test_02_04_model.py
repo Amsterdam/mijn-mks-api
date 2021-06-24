@@ -386,7 +386,7 @@ class Model0204Tests(TestCase):
         self.assertEqual(result['adresHistorisch'][0]['straatnaam'], 'Amstel')
 
     def test_opgemaakte_naam_ontbinding(self):
-        """ Test the address with a adres outside of NL. """
+        """ Test the opgemaakte naam with multiple past verbindingen. """
         with open(ONTBINDING_RESPOSNE_PATH) as fp:
             tree = BeautifulSoup(fp.read(), features='lxml-xml')
 
