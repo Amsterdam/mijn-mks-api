@@ -245,7 +245,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
     # if there is no datumSluiting, sort using the minimum datetime
     # sort to be sure that the most current partner is on top
-    result.sort(key=lambda x: x['datumSluiting'] or datetime.min)
+    result.sort(key=lambda x: x['datumSluiting'] or datetime.min, reverse=True)
 
     current_results = [p for p in result if not p['datumOntbinding']]
 
@@ -501,7 +501,7 @@ def _get_current_or_last_partner(verbintenissen):
 def set_opgemaakte_naam(persoon, verbintenissen):
     """ Set the formatted name of person. When person already has a opgemaakteNaam, don't overwrite it. """
     # in case we do not have the opgemaakteNaam
-    if persoon['opgemaakteNaam'] is None:
+    if not persoon['opgemaakteNaam']:
         if persoon['voornamen']:
             initials_list = ['%s.' % i[0] for i in persoon['voornamen'].split(' ')]
             initials = ''.join(initials_list)
