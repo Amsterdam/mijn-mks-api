@@ -22,6 +22,8 @@ VOW_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekend
 VOW_NOT_FROM_AMSTERDAM_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen_not_from_amsterdam.xml")
 EMIGRATION_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_emigration.xml")
 
+ONTBINDING_RESPOSNE_PATH = os.path.join(FIXTURE_PATH, "response_0204_ontbinding.xml")
+
 
 class Model0204Tests(TestCase):
     def get_result(self):
@@ -382,6 +384,15 @@ class Model0204Tests(TestCase):
         self.assertEqual(result['persoon']['vertrokkenOnbekendWaarheen'], False)
 
         self.assertEqual(result['adresHistorisch'][0]['straatnaam'], 'Amstel')
+
+    def test_opgemaakte_naam_ontbinding(self):
+        """ Test the address with a adres outside of NL. """
+        with open(ONTBINDING_RESPOSNE_PATH) as fp:
+            tree = BeautifulSoup(fp.read(), features='lxml-xml')
+
+        result = extract_data(tree)
+
+        self.assertEqual(result['persoon']['opgemaakteNaam'], 'J. van goed')
 
     def test_set_opgemaakte_naam(self):
         """ Test set_opgemaakte_naam() """
