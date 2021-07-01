@@ -22,7 +22,7 @@ MKS_ENDPOINT = os.getenv('MKS_BRP_ENDPOINT')
 TMA_CERTIFICATE = os.getenv('TMA_CERTIFICATE')
 
 # If enabled the KVK/HR service will try to fetch information about Functionarissen from MKS
-NNPID_EXTENSION1_ENABLED = os.getenv('NNPID_EXTENSION1_ENABLED', 'False') == 'True'
+NNPID_EXTENSION1_ENABLED = not IS_PRODUCTION
 
 SENTRY_DSN = os.getenv('SENTRY_DSN', None)
 
