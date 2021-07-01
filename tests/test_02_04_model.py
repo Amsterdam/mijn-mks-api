@@ -98,7 +98,7 @@ class Model0204Tests(TestCase):
             'kinderen': [
                 {
                     'adellijkeTitelPredikaat': None,
-                    'bsn': '5678901234',
+                    'bsn': '567890123',
                     'geboorteLand': '6030',
                     'geboortedatum': datetime(2011, 1, 1, 0, 0),
                     'geboortelandnaam': 'Nederland',
@@ -117,7 +117,7 @@ class Model0204Tests(TestCase):
             'ouders': [
                 {
                     'adellijkeTitelPredikaat': None,
-                    'bsn': '4567890123',
+                    'bsn': '456789012',
                     'geboorteLand': '7035',
                     'geboortedatum': datetime(1951, 1, 1, 0, 0),
                     'geboortelandnaam': 'Japan',
@@ -214,7 +214,6 @@ class Model0204Tests(TestCase):
 
         result = extract_data(tree)
 
-        self.maxDiff = None
         self.assertEqual(type(result['adres']['_adresSleutel']), str)
         del result['adres']['_adresSleutel']  # changes each time
         self.assertEqual(result, self.get_result())

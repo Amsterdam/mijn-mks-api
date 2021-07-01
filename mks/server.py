@@ -2,13 +2,12 @@ import logging
 
 import connexion
 import sentry_sdk
+from prometheus_client import make_wsgi_app
 from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
 
-from mks import operation_resolver
-from mks import operations
-from mks.service.config import SENTRY_DSN
+from mks import operation_resolver, operations
+from mks.service.config import SENTRY_DSN, IS_PRODUCTION, IS_ACCEPTANCE
 
 logging.basicConfig(level=logging.INFO)
 webapp = connexion.App(__name__, options={"swagger_ui": False})
@@ -35,7 +34,7 @@ mapping = {
 # instead of the operationId in the yaml file.
 webapp.add_api('swagger.yaml',
                resolver=operation_resolver.CustomOperationResolver(mapping),
-               validate_responses=False)
+               validate_responses=not IS_PRODUCTION and not IS_ACCEPTANCE)
 
 
 # set the WSGI application callable to allow using uWSGI:

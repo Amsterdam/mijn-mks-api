@@ -1,0 +1,222 @@
+<BG:nnpLa01 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
+    xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <BG:stuurgegevens>
+        <StUF:berichtcode>La01</StUF:berichtcode>
+        <StUF:zender>
+            <StUF:organisatie>Amsterdam</StUF:organisatie>
+            <StUF:applicatie>HHJKLMN</StUF:applicatie>
+        </StUF:zender>
+        <StUF:ontvanger>
+            <StUF:applicatie>applicatie</StUF:applicatie>
+            <StUF:gebruiker>gebruiker</StUF:gebruiker>
+        </StUF:ontvanger>
+        <StUF:referentienummer>uiwueriuwer</StUF:referentienummer>
+        <StUF:tijdstipBericht>123123123123</StUF:tijdstipBericht>
+        <StUF:crossRefnummer>HK-NNP-scope-alles1</StUF:crossRefnummer>
+        <StUF:entiteittype>NNP</StUF:entiteittype>
+    </BG:stuurgegevens>
+    <BG:parameters>
+        <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>
+    </BG:parameters>
+    <BG:antwoord>
+        <BG:object StUF:entiteittype="NNP">
+            <BG:inn.nnpId>123456789</BG:inn.nnpId>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Janssen van Son</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:voorletters>G.R.</BG:voorletters>
+                        <BG:voornamen>Georges Rudy</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                        <BG:geboortedatum>19360827</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftOverigeFunctionaris</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Commissaris</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS" StUF:sleutelVerzendend="10042310661745">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS" StUF:sleutelVerzendend="9072717284187" StUF:sleutelGegevensbeheer="9072717284187">
+                        <BG:geslachtsnaam>Jarmander</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:voorletters>J.W.</BG:voorletters>
+                        <BG:voornamen>Joppie Wappie</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftGemachtigde</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Gevolmachtigde</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Jansen</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:voorletters>J.</BG:voorletters>
+                        <BG:voornamen>Jan</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftOverigeFunctionaris</BG:functionarisType>
+                <StUF:tijdvakGeldigheid>
+                    <StUF:beginGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <StUF:eindGeldigheid xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                </StUF:tijdvakGeldigheid>
+                <StUF:tijdstipRegistratie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Commissaris</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Vlag</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorletters xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voornamen>Wesley</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftBestuursfunctionaris</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Bestuurder</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid">AlleenZelfstandigBevoegd</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris>
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Grupstal</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:voorletters>H.</BG:voorletters>
+                        <BG:voornamen>Hendrika Johanna Theodora</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftBestuursfunctionaris</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Bestuurder</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid">AlleenZelfstandigBevoegd</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Johnsson</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorletters xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voornamen>Boris</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftOverigeFunctionaris</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Commissaris</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Vlag</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorletters xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voornamen>Pierre</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                        <BG:adellijkeTitelPredikaat xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftBestuursfunctionaris</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Bestuurder</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid">AlleenZelfstandigBevoegd</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Katar</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:voorletters>K.</BG:voorletters>
+                        <BG:voornamen>Kamlawatie</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftOverigeFunctionaris</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Enig aandeelhouder</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Uiersin</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorletters xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voornamen>Dennis</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19761001</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftBestuursfunctionaris</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Bestuurder</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid">AlleenZelfstandigBevoegd</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS">
+                        <BG:geslachtsnaam>Konopka</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorletters xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voornamen>Cammie</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geboortedatum>19921121</BG:geboortedatum>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftAansprakelijke</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Vennoot</StUF:extraElement>
+                    <StUF:extraElement naam="soortBevoegdheid">BeperktBevoegd</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
+        </BG:object>
+    </BG:antwoord>
+</BG:nnpLa01>

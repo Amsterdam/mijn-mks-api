@@ -1,6 +1,7 @@
 from bs4 import Tag, ResultSet
 
 from mks.model.stuf_utils import to_string, to_date, set_fields, to_bool, as_postcode, set_extra_fields, is_nil
+from mks.model.stuf_02_04 import _format_achternaam
 
 
 def extract_basic_info(eigendom: Tag):
@@ -62,6 +63,7 @@ def extract_address(address: Tag):
     fields = [
         {'name': 'wpl.woonplaatsNaam', 'parser': to_string, 'save_as': 'woonplaatsNaam'},
         {'name': 'gor.straatnaam', 'parser': to_string, 'save_as': 'straatnaam'},
+        {'name': 'gor.openbareRuimteNaam', 'parser': to_string, 'save_as': '_straatnaam'},
         {'name': 'aoa.postcode', 'parser': as_postcode, 'save_as': 'postcode'},
         {'name': 'postcode', 'parser': as_postcode, 'save_as': '_postcode'},
         {'name': 'aoa.huisnummer', 'parser': to_string, 'save_as': 'huisnummer'},
@@ -76,6 +78,12 @@ def extract_address(address: Tag):
             result['postcode'] = result['_postcode']
 
     del result['_postcode']
+
+    if not result['straatnaam']:
+        if result['_straatnaam']:
+            result['straatnaam'] = result['_straatnaam']
+
+    del result['_straatnaam']
 
     return result
 
@@ -191,3 +199,98 @@ def extract_data_is_eigenaar_van(is_eigenaar_van: ResultSet):
         result.append(res_eigendom)
 
     return result
+
+
+def naam_en_achternaam(persoon: dict):
+    voornamen = persoon['voornamen']
+    partner = {
+        'geslachtsnaam': persoon.get('geslachtsnaamPartner', None),
+        'voorvoegselGeslachtsnaam': persoon.get('voorvoegselGeslachtsnaamPartner', None)}
+    achternaam = _format_achternaam(persoon, partner)
+    return f'{voornamen} {achternaam}'
+
+
+def find_extra_element_value_by_name(source: Tag, name: str):
+    return source.find(attrs={"naam": name}).string
+
+
+def naam_en_geboortedatum(source: Tag):
+    source_fields = [
+        {'name': 'voornamen', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaam', 'parser': to_string},
+        {'name': 'geslachtsnaam', 'parser': to_string},
+        {'name': 'aanduidingNaamgebruik', 'parser': to_string},
+        {'name': 'geslachtsnaamPartner', 'parser': to_string},
+        {'name': 'voorvoegselGeslachtsnaamPartner', 'parser': to_string},
+        {'name': 'geboortedatum', 'parser': to_date},
+    ]
+    target_item = {}
+    set_fields(source, source_fields, target_item)
+
+    return {
+        'naam': naam_en_achternaam(target_item),
+        'geboortedatum': target_item['geboortedatum'],
+    }
+
+
+def extract_functionaris_by_type(source: Tag, typeFunctionaris: str):
+    return [functionaris for functionaris in source.find_all('inn.heeftAlsFunctionaris') if functionaris.find('functionarisType').string == typeFunctionaris]
+
+
+def extract_bestuurders(nnp_data: Tag):
+    bestuurders = []
+    bestuurders_data = extract_functionaris_by_type(nnp_data, 'heeftBestuursfunctionaris')
+
+    for bestuurder_item in bestuurders_data:
+        bestuurder = {
+            'functie': find_extra_element_value_by_name(bestuurder_item, 'functie'),
+            'soortBevoegdheid': find_extra_element_value_by_name(bestuurder_item, 'soortBevoegdheid'),
+        }
+        bestuurder.update(naam_en_geboortedatum(bestuurder_item))
+        bestuurders.append(bestuurder)
+
+    return bestuurders
+
+
+def extract_gemachtigden(nnp_data: Tag):
+    gemachtigden = []
+    gemachtigden_data = extract_functionaris_by_type(nnp_data, 'heeftGemachtigde')
+
+    for gemachtigde_item in gemachtigden_data:
+        gemachtigde = {
+            'functie': find_extra_element_value_by_name(gemachtigde_item, 'functie'),
+            'datumIngangMachtiging': None,
+        }
+        gemachtigde.update(naam_en_geboortedatum(gemachtigde_item))
+        gemachtigden.append(gemachtigde)
+
+    return gemachtigden
+
+
+def extract_overige_functionarissen(nnp_data: Tag):
+    overige_functionarissen = []
+    overige_functionarissen_data = extract_functionaris_by_type(nnp_data, 'heeftOverigeFunctionaris')
+
+    for functionaris_item in overige_functionarissen_data:
+        functionaris = {
+            'functie': find_extra_element_value_by_name(functionaris_item, 'functie'),
+        }
+        functionaris.update(naam_en_geboortedatum(functionaris_item))
+        overige_functionarissen.append(functionaris)
+
+    return overige_functionarissen
+
+
+def extract_aansprakelijken(nnp_data: Tag):
+    aansprakelijken = []
+    aansprakelijken_data = extract_functionaris_by_type(nnp_data, 'heeftAansprakelijke')
+
+    for aansprakelijke_item in aansprakelijken_data:
+        aansprakelijke = {
+            'functie': find_extra_element_value_by_name(aansprakelijke_item, 'functie'),
+            'soortBevoegdheid': find_extra_element_value_by_name(aansprakelijke_item, 'soortBevoegdheid'),
+        }
+        aansprakelijke.update(naam_en_geboortedatum(aansprakelijke_item))
+        aansprakelijken.append(aansprakelijke)
+
+    return aansprakelijken

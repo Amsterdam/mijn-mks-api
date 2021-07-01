@@ -1,7 +1,9 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
    <soapenv:Header/>
    <soapenv:Body>
-      <BG:npsLa01 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <BG:npsLa01 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
+         xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <BG:stuurgegevens>
             <StUF:berichtcode>La01</StUF:berichtcode>
             <StUF:zender>
@@ -47,11 +49,28 @@
                   <BG:gerelateerde StUF:entiteittype="TGO" StUF:sleutelVerzendend="2" StUF:sleutelGegevensbeheer="2">
                   </BG:gerelateerde>
                   <BG:inOnderzoek StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                </BG:inp.verblijftIn>
+               </BG:inp.verblijftIn>
                <BG:verblijfsadres>
-                </BG:verblijfsadres>
-                <BG:sub.correspondentieAdres>
-                </BG:sub.correspondentieAdres>
+                  <BG:aoa.identificatie>000999000990009900</BG:aoa.identificatie>
+                  <BG:wpl.identificatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                  <BG:wpl.woonplaatsNaam>Amsterdam</BG:wpl.woonplaatsNaam>
+                  <BG:aoa.woonplaatsWaarinGelegen>
+                     <BG:wpl.identificatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                     <BG:wpl.woonplaatsNaam xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                  </BG:aoa.woonplaatsWaarinGelegen>
+                  <BG:gor.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                  <BG:opr.identificatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                  <BG:gor.openbareRuimteNaam>Straat</BG:gor.openbareRuimteNaam>
+                  <BG:gor.straatnaam>Straat</BG:gor.straatnaam>
+                  <BG:aoa.postcode>1234AB</BG:aoa.postcode>
+                  <BG:aoa.huisnummer>199</BG:aoa.huisnummer>
+                  <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+                  <BG:aoa.huisnummertoevoeging>K</BG:aoa.huisnummertoevoeging>
+                  <BG:inp.locatiebeschrijving xsi:nil="true" StUF:noValue="geenWaarde"/>
+                  <BG:begindatumVerblijf>20210413</BG:begindatumVerblijf>
+               </BG:verblijfsadres>
+               <BG:sub.correspondentieAdres>
+               </BG:sub.correspondentieAdres>
                <BG:sub.telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                <BG:sub.faxnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                <BG:sub.emailadres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
@@ -98,8 +117,8 @@
                </StUF:tijdvakGeldigheid>
                <StUF:tijdstipRegistratie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                <StUF:extraElementen>
-                <StUF:extraElement naam="rechtsvorm">Eenmanszaak</StUF:extraElement>
-                </StUF:extraElementen>
+                  <StUF:extraElement naam="rechtsvorm">Eenmanszaak</StUF:extraElement>
+               </StUF:extraElementen>
                <BG:inp.heeftAlsEchtgenootPartner StUF:entiteittype="NPSNPSHUW" StUF:sleutelVerzendend="3" StUF:sleutelGegevensbeheer="3">
                </BG:inp.heeftAlsEchtgenootPartner>
                <BG:inp.heeftAlsKinderen StUF:entiteittype="NPSNPSKND" xsi:nil="true" StUF:noValue="geenWaarde"/>
