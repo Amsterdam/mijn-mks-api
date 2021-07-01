@@ -6,4 +6,3 @@ services:
       bash -c "mks/test.sh"
     environment:
       TMA_CERTIFICATE: 'test'
-      APP_ENV: 'test'

@@ -7,7 +7,10 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(PROJECT_DIR, '..', 'model', 'static')
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-IS_PRODUCTION = os.getenv('APP_ENV') == 'production'
+
+# Use the Sentry environment
+IS_PRODUCTION = os.getenv('SENTRY_ENVIRONMENT') == 'production'
+IS_ACCEPTANCE = os.getenv('SENTRY_ENVIRONMENT') == 'acceptance'
 
 REQUEST_TIMEOUT = 9 if IS_PRODUCTION else 30  # seconds
 
