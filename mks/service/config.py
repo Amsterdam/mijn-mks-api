@@ -6,7 +6,10 @@ from jwcrypto import jwk
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(PROJECT_DIR, '..', 'model', 'static')
 
-REQUEST_TIMEOUT = 9  # seconds
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+IS_PRODUCTION = os.getenv('APP_ENV') == 'production'
+
+REQUEST_TIMEOUT = 9 if IS_PRODUCTION else 30  # seconds
 
 BRP_APPLICATIE = os.getenv('BRP_APPLICATIE')
 BRP_GEBRUIKER = os.getenv('BRP_GEBRUIKER')
@@ -19,9 +22,6 @@ TMA_CERTIFICATE = os.getenv('TMA_CERTIFICATE')
 NNPID_EXTENSION1_ENABLED = os.getenv('NNPID_EXTENSION1_ENABLED', 'False') == 'True'
 
 SENTRY_DSN = os.getenv('SENTRY_DSN', None)
-
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-IS_PRODUCTION = os.getenv('APP_ENV') == 'production'
 
 
 def get_jwt_key():
