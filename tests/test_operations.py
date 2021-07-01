@@ -48,6 +48,7 @@ class HRTests(TestCase):
         self.assertEqual(response.json['content']['rechtspersonen'][0]['bsn'], '999999999')
         self.assertEqual(response.json['content']['rechtspersonen'][0]['rsin'], None)
 
+    @patch('mks.operations.NNPID_EXTENSION1_ENABLED', True)
     @patch('mks.model.stuf_utils.get_jwt_key', get_jwt_key_test)
     @patch('mks.operations.get_type', lambda x: UserType.BEDRIJF)
     @patch('mks.operations.get_kvk_number_from_request', lambda req: '123456789')
@@ -57,6 +58,11 @@ class HRTests(TestCase):
         response = self.client.get('/brp/hr')
         self.assertEqual(response.json['content']['rechtspersonen'][0]['bsn'], None)
         self.assertEqual(response.json['content']['rechtspersonen'][0]['rsin'], '123456789')
+
+        assert response.json['content']['overigeFunctionarissen']
+        assert response.json['content']['bestuurders']
+        assert response.json['content']['aansprakelijken']
+        assert response.json['content']['gemachtigden']
 
 
 class BRPTests(TestCase):

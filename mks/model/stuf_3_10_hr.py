@@ -254,11 +254,11 @@ def extract_bestuurders(nnp_data: Tag):
 
 def extract_gemachtigden(nnp_data: Tag):
     gemachtigden = []
-    gemachtigden_data = extract_functionaris_by_type(nnp_data, 'heeftGemachtigde')  # TODO: Implement this
+    gemachtigden_data = extract_functionaris_by_type(nnp_data, 'heeftGemachtigde')
 
     for gemachtigde_item in gemachtigden_data:
         gemachtigde = {
-            'typeGemachtigde': None,
+            'functie': find_extra_element_value_by_name(gemachtigde_item, 'functie'),
             'datumIngangMachtiging': None,
         }
         gemachtigde.update(naam_en_geboortedatum(gemachtigde_item))

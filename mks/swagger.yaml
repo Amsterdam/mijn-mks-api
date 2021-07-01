@@ -457,6 +457,10 @@ components:
         naam:
           type: string
         geboortedatum:
+          nullable: true
+          $ref: '#/components/schemas/DateTime'
+        datumIngangMachtiging:
+          nullable: true
           $ref: '#/components/schemas/DateTime'
         functie:
           type: string

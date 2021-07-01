@@ -9,7 +9,7 @@ from urllib3.exceptions import ConnectTimeoutError
 from mks.model.stuf_utils import decrypt, is_nil
 from mks.prometheus_definitions import mks_connection_state
 from mks.service import adr_mks_client_02_04, mks_client_02_04
-from mks.service.config import get_raw_key
+from mks.service.config import NNPID_EXTENSION1_ENABLED, get_raw_key
 from mks.service.exceptions import (ExtractionError, InvalidBSNException,
                                     NoResultException, ServiceException,
                                     onbekende_fout)
@@ -134,7 +134,7 @@ def get_hr_for_kvk():
         kvk_number = get_kvk_number_from_request(request)
         hr_kvk = get_from_kvk(kvk_number)
 
-        if 'nnpid' not in hr_kvk or is_nil(hr_kvk['nnpid']):
+        if (not NNPID_EXTENSION1_ENABLED) or ('nnpid' not in hr_kvk) or is_nil(hr_kvk['nnpid']):
             return hr_kvk
 
         hr_kvk_nnp = get_nnp_from_kvk(hr_kvk['nnpid'])

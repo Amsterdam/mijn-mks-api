@@ -42,6 +42,23 @@
                     <StUF:extraElement naam="soortBevoegdheid" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                 </StUF:extraElementen>
             </BG:inn.heeftAlsFunctionaris>
+            <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS" StUF:sleutelVerzendend="10042310661745">
+                <BG:gerelateerde>
+                    <BG:natuurlijkPersoon StUF:entiteittype="NPS" StUF:sleutelVerzendend="9072717284187" StUF:sleutelGegevensbeheer="9072717284187">
+                        <BG:geslachtsnaam>Jarmander</BG:geslachtsnaam>
+                        <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:voorletters>J.W.</BG:voorletters>
+                        <BG:voornamen>Joppie Wappie</BG:voornamen>
+                        <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:geslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <BG:voorvoegselGeslachtsnaamPartner xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    </BG:natuurlijkPersoon>
+                </BG:gerelateerde>
+                <BG:functionarisType>heeftGemachtigde</BG:functionarisType>
+                <StUF:extraElementen>
+                    <StUF:extraElement naam="functie">Gevolmachtigde</StUF:extraElement>
+                </StUF:extraElementen>
+            </BG:inn.heeftAlsFunctionaris>
             <BG:inn.heeftAlsFunctionaris StUF:entiteittype="NNPRPS">
                 <BG:gerelateerde>
                     <BG:natuurlijkPersoon StUF:entiteittype="NPS">

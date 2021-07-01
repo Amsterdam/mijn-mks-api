@@ -5,7 +5,12 @@ FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixture
 NNP_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_nnp_response.xml")
 
 NNP_HR_RESPONSE = {
-    'gemachtigden': [],
+    'gemachtigden': [{
+        'functie': 'Gevolmachtigde',
+        'naam': 'Joppie Wappie Jarmander',
+        'geboortedatum': None,
+        'datumIngangMachtiging': None,
+    }],
     'overigeFunctionarissen': [
         {
             'functie': 'Commissaris',
