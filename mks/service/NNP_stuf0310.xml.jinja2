@@ -1,29 +1,36 @@
-<ns:nnpLv01 xmlns:ns="http://www.egem.nl/StUF/sector/bg/0310">
-    <ns:stuurgegevens>
-        <stuf:berichtcode xmlns:stuf="http://www.egem.nl/StUF/StUF0301">Lv01</stuf:berichtcode>
-        <stuf:zender xmlns:stuf="http://www.egem.nl/StUF/StUF0301">
-            <stuf:applicatie>{{ applicatie }}</stuf:applicatie>
-            <stuf:gebruiker>{{ gebruiker }}</stuf:gebruiker>
-        </stuf:zender>
-        <stuf:ontvanger xmlns:stuf="http://www.egem.nl/StUF/StUF0301">
-            <stuf:organisatie>Amsterdam</stuf:organisatie>
-            <stuf:applicatie>CGM</stuf:applicatie>
-        </stuf:ontvanger>
-        <stuf:referentienummer>{{ referentienummer }}</stuf:referentienummer>
-        <stuf:tijdstipBericht>{{ timestamp }}</stuf:tijdstipBericht>
-        <stuf:entiteittype xmlns:stuf="http://www.egem.nl/StUF/StUF0301">NNP</stuf:entiteittype>
-    </ns:stuurgegevens>
-    <ns:parameters>
-        <stuf:sortering xmlns:stuf="http://www.egem.nl/StUF/StUF0301">01</stuf:sortering>
-        <stuf:indicatorVervolgvraag xmlns:stuf="http://www.egem.nl/StUF/StUF0301">false</stuf:indicatorVervolgvraag>
-        <stuf:maximumAantal xmlns:stuf="http://www.egem.nl/StUF/StUF0301">10</stuf:maximumAantal>
-        <stuf:indicatorAfnemerIndicatie xmlns:stuf="http://www.egem.nl/StUF/StUF0301">false</stuf:indicatorAfnemerIndicatie>
-        <stuf:indicatorAantal xmlns:stuf="http://www.egem.nl/StUF/StUF0301">false</stuf:indicatorAantal>
-    </ns:parameters>
-    <ns:gelijk xmlns:stuf="http://www.egem.nl/StUF/StUF0301" stuf:entiteittype="NNP">
-        <ns:nnpId>{{ nnpid }}</ns:nnpId>
-    </ns:gelijk>
-    <ns:scope>
-        <ns:object xmlns:stuf="http://www.egem.nl/StUF/StUF0301" stuf:entiteittype="NNP" stuf:scope="alles"/>
-    </ns:scope>
-</ns:nnpLv01>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ns="http://www.egem.nl/StUF/sector/bg/0310" xmlns:stuf="http://www.egem.nl/StUF/StUF0301"
+                  xmlns:xlin="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns:nnpLv01 xmlns:ns="http://www.egem.nl/StUF/sector/bg/0310">
+            <ns:stuurgegevens>
+                <stuf:berichtcode xmlns:stuf="http://www.egem.nl/StUF/StUF0301">Lv01</stuf:berichtcode>
+                <stuf:zender xmlns:stuf="http://www.egem.nl/StUF/StUF0301">
+                    <stuf:applicatie>{{ applicatie }}</stuf:applicatie>
+                    <stuf:gebruiker>{{ gebruiker }}</stuf:gebruiker>
+                </stuf:zender>
+                <stuf:ontvanger xmlns:stuf="http://www.egem.nl/StUF/StUF0301">
+                    <stuf:organisatie>Amsterdam</stuf:organisatie>
+                    <stuf:applicatie>CGM</stuf:applicatie>
+                </stuf:ontvanger>
+                <stuf:referentienummer>{{ referentienummer }}</stuf:referentienummer>
+                <stuf:tijdstipBericht>{{ timestamp }}</stuf:tijdstipBericht>
+                <stuf:entiteittype xmlns:stuf="http://www.egem.nl/StUF/StUF0301">NNP</stuf:entiteittype>
+            </ns:stuurgegevens>
+            <ns:parameters>
+                <stuf:sortering xmlns:stuf="http://www.egem.nl/StUF/StUF0301">01</stuf:sortering>
+                <stuf:indicatorVervolgvraag xmlns:stuf="http://www.egem.nl/StUF/StUF0301">false</stuf:indicatorVervolgvraag>
+                <stuf:maximumAantal xmlns:stuf="http://www.egem.nl/StUF/StUF0301">10</stuf:maximumAantal>
+                <stuf:indicatorAfnemerIndicatie xmlns:stuf="http://www.egem.nl/StUF/StUF0301">false</stuf:indicatorAfnemerIndicatie>
+                <stuf:indicatorAantal xmlns:stuf="http://www.egem.nl/StUF/StUF0301">false</stuf:indicatorAantal>
+            </ns:parameters>
+            <ns:gelijk xmlns:stuf="http://www.egem.nl/StUF/StUF0301" stuf:entiteittype="NNP">
+                <ns:nnpId>{{ nnpid }}</ns:nnpId>
+            </ns:gelijk>
+            <ns:scope>
+                <ns:object xmlns:stuf="http://www.egem.nl/StUF/StUF0301" stuf:entiteittype="NNP" stuf:scope="alles"/>
+            </ns:scope>
+        </ns:nnpLv01>
+    </soapenv:Body>
+</soapenv:Envelope>
