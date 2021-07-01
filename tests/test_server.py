@@ -96,6 +96,7 @@ class HrKvkMacTest(HRTest):
     def _get_expected(self):
         return wrap_response({**KVK_HR_MAC_RESPONSE, **NNP_HR_RESPONSE})
 
+    @patch('mks.operations.NNPID_EXTENSION1_ENABLED', True)
     @patch('mks.service.mks_client_hr._get_response_by_kvk_number', lambda kvk_number: get_kvk_mac_xml_response_fixture())
     @patch('mks.service.mks_client_hr._get_response_by_nnpid', lambda kvk_number: get_nnp_xml_response_fixture())
     def test_get_mac_hr(self):
