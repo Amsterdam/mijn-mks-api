@@ -12,29 +12,25 @@ from mks.service.config import get_jwt_key
 jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
 
-FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
+FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "adr_response.xml")
 EMPTY_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "adr_empty_response.xml")
 
 
 def get_xml_response_fixture(*args):
-    with open(RESPONSE_PATH, 'rb') as response_file:
+    with open(RESPONSE_PATH, "rb") as response_file:
         return response_file.read()
 
 
 def get_empty_xml_response_fixture(*args):
-    with open(EMPTY_RESPONSE_PATH, 'rb') as response_file:
+    with open(EMPTY_RESPONSE_PATH, "rb") as response_file:
         return response_file.read()
 
 
-@patch.dict(os.environ, {'MKS_JWT_KEY': jwk_string})
+@patch.dict(os.environ, {"MKS_JWT_KEY": jwk_string})
 class AdrTest(TestCase):
-
     def get_result(self):
-        return {
-            'residentCount': 3,
-            'crossRefNummer': 'MijnAmsterdam'
-        }
+        return {"residentCount": 3, "crossRefNummer": "MijnAmsterdam"}
 
     def test_config(self):
 
@@ -53,45 +49,50 @@ class AdrTest(TestCase):
         xml_data = get_empty_xml_response_fixture()
 
         result = extract(xml_data)
-        self.assertEqual(result, [])
+        self.assertEqual(result, None)
 
 
-@patch.dict(os.environ, {'MKS_JWT_KEY': jwk_string})
+@patch.dict(os.environ, {"MKS_JWT_KEY": jwk_string})
 class ResidentsTest(FlaskTestCase):
-
     def create_app(self):
         app = application
-        app.config['TESTING'] = True
+        app.config["TESTING"] = True
         return app
 
-    @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
+    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call(self):
-        post_body = {'addressKey': encrypt('1234')}
+        post_body = {"addressKey": encrypt("1234")}
 
-        response = self.client.post('/brp/aantal_bewoners', json=post_body)
-        self.assertEqual(response.json, {'crossRefNummer': 'MijnAmsterdam', 'residentCount': 3})
+        response = self.client.post("/brp/aantal_bewoners", json=post_body)
+        self.assertEqual(
+            response.json, {"crossRefNummer": "MijnAmsterdam", "residentCount": 3}
+        )
 
-    @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
+    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_empty(self):
-        response = self.client.post('/brp/aantal_bewoners', json=None)
+        response = self.client.post("/brp/aantal_bewoners", json=None)
         self.assert400(response)
         self.assertEqual(response.json, "adressleutel required")
 
-    @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
+    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_wrong_key(self):
-        response = self.client.post('/brp/aantal_bewoners', json={'wrongKey': ''})
+        response = self.client.post("/brp/aantal_bewoners", json={"wrongKey": ""})
         self.assert400(response)
         self.assertEqual(response.json, "adressleutel required")
 
-    @patch('mks.service.adr_mks_client_02_04._get_response', get_xml_response_fixture)
+    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_not_encrypted(self):
-        post_body = {'addressKey': '1234'}
+        post_body = {"addressKey": "1234"}
 
-        response = self.client.post('/brp/aantal_bewoners', json=post_body)
+        response = self.client.post("/brp/aantal_bewoners", json=post_body)
         self.assert400(response)
         self.assertEqual(response.json, "Invalid encrypted value")
 
-    @patch('mks.service.adr_mks_client_02_04._get_response', get_empty_xml_response_fixture)
+    @patch(
+        "mks.service.adr_mks_client_02_04._get_response", get_empty_xml_response_fixture
+    )
     def test_empty_adr(self):
-        response = self.client.post('/brp/aantal_bewoners', json={'addressKey': encrypt('1234')})
+        response = self.client.post(
+            "/brp/aantal_bewoners", json={"addressKey": encrypt("1234")}
+        )
         self.assertEqual(response.status_code, 204)

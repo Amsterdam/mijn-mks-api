@@ -15,8 +15,9 @@ from mks.service.config import get_jwt_key
 def encrypt(value: str) -> str:
     key = get_jwt_key()
 
-    jwetoken = jwe.JWE(value.encode('utf-8'),
-                       json_encode({"alg": "A256KW", "enc": "A256CBC-HS512"}))
+    jwetoken = jwe.JWE(
+        value.encode("utf-8"), json_encode({"alg": "A256KW", "enc": "A256CBC-HS512"})
+    )
     jwetoken.add_recipient(key)
     enc = json.dumps(jwetoken.serialize()).encode()
     enc = base64.b64encode(enc)
@@ -35,16 +36,16 @@ def decrypt(encrypted_value: str):
 
 
 def is_nil(element: Union[Tag, ResultSet]) -> bool:
-    """ Return true if the element is empty, empty ResultSet or attr xsi:nil """
+    """Return true if the element is empty, empty ResultSet or attr xsi:nil"""
     if not element:
         return True
 
     if isinstance(element, Tag):
-        if element.get('xsi:nil') == 'true':
+        if element.get("xsi:nil") == "true":
             return True
 
     if isinstance(element, ResultSet) and len(element) == 1:
-        if element[0].get('xsi:nil') == 'true':
+        if element[0].get("xsi:nil") == "true":
             return True
 
     if len(element) == 0:
@@ -54,7 +55,7 @@ def is_nil(element: Union[Tag, ResultSet]) -> bool:
 
 
 def _set_value(tag, field, target):
-    key = field.get('save_as', field['name'])
+    key = field.get("save_as", field["name"])
 
     if tag is None:
         value = None
@@ -62,34 +63,34 @@ def _set_value(tag, field, target):
         value = tag.string
 
     # put value through specified parser function
-    value = field['parser'](value)
+    value = field["parser"](value)
     # print(">> ", key, ":", value)
     target[key] = value
 
 
 def set_extra_fields(source, fields, target):
     for field in fields:
-        tag = source.find(attrs={"naam": field['name']})
+        tag = source.find(attrs={"naam": field["name"]})
         _set_value(tag, field, target)
 
 
 def set_fields(source, fields, target):
-    """ Iterate over the list of fields to be put on target dict from the source
+    """Iterate over the list of fields to be put on target dict from the source
 
-        source: Beautifulsoup tree
-        fields: A list of fields which data to include. Format:
-                [
-                  {
-                    'name': source field name,
-                    'parser': a function to put the value through. For example to parse a date or number,
-                    'save_as': the key name the value is stored under in the result dict
-                  },
-                  ...
-                ]
-        target: a dict where the result will be put on
-     """
+    source: Beautifulsoup tree
+    fields: A list of fields which data to include. Format:
+            [
+              {
+                'name': source field name,
+                'parser': a function to put the value through. For example to parse a date or number,
+                'save_as': the key name the value is stored under in the result dict
+              },
+              ...
+            ]
+    target: a dict where the result will be put on
+    """
     for field in fields:
-        tag = source.find(field['name'])
+        tag = source.find(field["name"])
         _set_value(tag, field, target)
 
 
@@ -122,7 +123,7 @@ def to_datetime(value):
     if not value:
         return None
     try:
-        parsed_value = datetime.strptime(str(value), '%Y%m%d')
+        parsed_value = datetime.strptime(str(value), "%Y%m%d")
         return parsed_value
     except ValueError:
         pass
@@ -137,7 +138,7 @@ def to_date(value):
     if not value:
         return None
     try:
-        parsed_value = datetime.strptime(str(value), '%Y%m%d')
+        parsed_value = datetime.strptime(str(value), "%Y%m%d")
         return parsed_value.date()
     except ValueError:
         pass
@@ -160,7 +161,7 @@ def to_string(value):
 
 
 def to_string_4x0(value):
-    """ Return value as string padded with zeros at the front"""
+    """Return value as string padded with zeros at the front"""
     if not value:
         return None
     return str(value).strip().zfill(4)
@@ -180,7 +181,7 @@ def to_bool(value):
 def geheim_indicatie_to_bool(value):
     if not value:
         return False
-    if value in ['1', '2', '3', '4', '5', '6', '7']:
+    if value in ["1", "2", "3", "4", "5", "6", "7"]:
         return True
 
     return False
@@ -190,7 +191,7 @@ def as_postcode(value):
     if not value:
         return None
     value = to_string(value)
-    match = re.match(r'(?P<num>\d{4})(?P<let>[A-Za-z]{2})', value)
+    match = re.match(r"(?P<num>\d{4})(?P<let>[A-Za-z]{2})", value)
     if not match:
         return None
 
