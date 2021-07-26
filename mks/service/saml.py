@@ -3,7 +3,12 @@
 This module interprets and verifies SAML tokens
 """
 import os
-from tma_saml import get_digi_d_bsn, get_e_herkenning_attribs, HR_KVK_NUMBER_KEY, get_user_type
+from tma_saml import (
+    get_digi_d_bsn,
+    get_e_herkenning_attribs,
+    HR_KVK_NUMBER_KEY,
+    get_user_type,
+)
 
 
 def get_bsn_from_request(request):
@@ -37,4 +42,4 @@ def get_type(request):
 
 
 def get_tma_certificate():
-    return os.getenv('TMA_CERTIFICATE')
+    return os.getenv("TMA_CERTIFICATE")

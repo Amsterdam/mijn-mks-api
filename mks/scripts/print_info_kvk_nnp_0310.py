@@ -15,9 +15,9 @@ if not kvk:
 
 printData = mks_client.get_from_kvk(kvk)
 
-if not printData['nnpid']:
-    print('!! NNPID not found, printing kvk data !!')
+if not printData["nnpid"]:
+    print("!! NNPID not found, printing kvk data !!")
 else:
-    printData = mks_client.get_nnp_from_kvk(printData['nnpid'])
+    printData = mks_client.get_nnp_from_kvk(printData["nnpid"])
 
 print(json.dumps(printData, indent=2, default=str))

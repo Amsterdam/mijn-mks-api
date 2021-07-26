@@ -3,15 +3,15 @@ import os.path
 
 from mks.service.config import STATIC_DIR
 
-GBA_STATIC_DIR = os.path.join(STATIC_DIR, 'gba')
+GBA_STATIC_DIR = os.path.join(STATIC_DIR, "gba")
 
 lookup_landen = {}
 lookup_gemeenten = {}
 lookup_nationaliteiten = {}
 lookup_reden_ontbinding_partner = {}
 lookup_geslacht = {
-    'M': 'Man',
-    'V': 'Vrouw',
+    "M": "Man",
+    "V": "Vrouw",
 }
 lookup_prsidb_soort_code = {
     1: "paspoort",
@@ -32,7 +32,10 @@ lookup_prsidb_soort_code = {
 
 
 def load_landen_lookup():
-    with open(os.path.join(GBA_STATIC_DIR, 'Tabel34 Landentabel (gesorteerd op code).csv'), encoding='utf16') as fh:
+    with open(
+        os.path.join(GBA_STATIC_DIR, "Tabel34 Landentabel (gesorteerd op code).csv"),
+        encoding="utf16",
+    ) as fh:
         fh.readline()  # Skip first line
         reader = csv.reader(fh)
         for row in reader:
@@ -40,7 +43,10 @@ def load_landen_lookup():
 
 
 def load_gemeenten_lookup():
-    with open(os.path.join(GBA_STATIC_DIR, 'Tabel33 Gemeententabel (gesorteerd op code).csv'), encoding='utf16') as fh:
+    with open(
+        os.path.join(GBA_STATIC_DIR, "Tabel33 Gemeententabel (gesorteerd op code).csv"),
+        encoding="utf16",
+    ) as fh:
         fh.readline()  # Skip first line
         reader = csv.reader(fh)
         for row in reader:
@@ -48,7 +54,12 @@ def load_gemeenten_lookup():
 
 
 def load_nationaliteiten_lookup():
-    with open(os.path.join(GBA_STATIC_DIR, 'Tabel32 Nationaliteitentabel (gesorteerd op code).csv'), encoding='utf16') as fh:
+    with open(
+        os.path.join(
+            GBA_STATIC_DIR, "Tabel32 Nationaliteitentabel (gesorteerd op code).csv"
+        ),
+        encoding="utf16",
+    ) as fh:
         fh.readline()  # Skip first line
         reader = csv.reader(fh)
         for row in reader:
@@ -56,7 +67,12 @@ def load_nationaliteiten_lookup():
 
 
 def load_reden_ontbinding_partnerschap():
-    with open(os.path.join(GBA_STATIC_DIR, 'Custom Tabel41 Tabel Reden ontbinding nietigverklaring huwelijk geregistreerd partnerschap.csv')) as fh:
+    with open(
+        os.path.join(
+            GBA_STATIC_DIR,
+            "Custom Tabel41 Tabel Reden ontbinding nietigverklaring huwelijk geregistreerd partnerschap.csv",
+        )
+    ) as fh:
         fh.readline()  # skip first line
         reader = csv.reader(fh)
         for row in reader:

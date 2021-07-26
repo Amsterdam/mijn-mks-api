@@ -12,8 +12,15 @@ from prometheus_client import Histogram
 
 from mks.model.stuf_02_04 import extract_data
 from mks.prometheus_definitions import mks_connection_state
-from mks.service.config import MKS_CLIENT_CERT, MKS_CLIENT_KEY, BRP_APPLICATIE, BRP_GEBRUIKER, PROJECT_DIR, \
-    MKS_ENDPOINT, REQUEST_TIMEOUT
+from mks.service.config import (
+    MKS_CLIENT_CERT,
+    MKS_CLIENT_KEY,
+    BRP_APPLICATIE,
+    BRP_GEBRUIKER,
+    PROJECT_DIR,
+    MKS_ENDPOINT,
+    REQUEST_TIMEOUT,
+)
 from mks.service.exceptions import ExtractionError, NoResultException
 
 PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2")
@@ -26,30 +33,34 @@ log_response = False
 def _get_soap_request_payload(bsn: str) -> str:
     ref = str(randint(100000, 999999))
 
-    referentienummer = f'MijnAmsterdam||{ref}'
+    referentienummer = f"MijnAmsterdam||{ref}"
     context = {
         "bsn": bsn,
         "applicatie": BRP_APPLICATIE,
         "gebruiker": BRP_GEBRUIKER,
         "referentienummer": referentienummer,
-        "timestamp": datetime.now().strftime('%Y%m%d%H%M%S') + '00'
+        "timestamp": datetime.now().strftime("%Y%m%d%H%M%S") + "00",
     }
     return prs_stuf_0204_template.render(context)
 
 
-mks_request_latency = Histogram('mks_request_latency_seconds', 'Mks request time')
+mks_request_latency = Histogram("mks_request_latency_seconds", "Mks request time")
 
 
 def _get_response(mks_brp_url, soap_request_payload):
     session = requests.Session()
-    session.headers.update({
-        'Content-Type': 'text/xml;charset=UTF-8',
-        'SOAPAction': 'http://www.egem.nl/StUF/sector/bg/0204/beantwoordSynchroneVraagIntegraal',
-    })
+    session.headers.update(
+        {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "SOAPAction": "http://www.egem.nl/StUF/sector/bg/0204/beantwoordSynchroneVraagIntegraal",
+        }
+    )
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
 
     with mks_request_latency.time():
-        post_response = session.post(mks_brp_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT)
+        post_response = session.post(
+            mks_brp_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT
+        )
 
     mks_connection_state.set(0)  # success, mark state as running
     return post_response.content
@@ -57,13 +68,13 @@ def _get_response(mks_brp_url, soap_request_payload):
 
 def extract(xml_data):
     try:
-        tree = BeautifulSoup(xml_data, features='lxml-xml')
-        if tree.find('Body') is None:
+        tree = BeautifulSoup(xml_data, features="lxml-xml")
+        if tree.find("Body") is None:
             logging.error("No Body tag. no data for person")
             raise NoResultException()
         person = tree.Body.PRS
         data = extract_data(person)
-        data['crossRefNummer'] = tree.find('crossRefNummer').text
+        data["crossRefNummer"] = tree.find("crossRefNummer").text
         return data
     except Exception as e:
         logging.error(f"Error: {type(e)} {e}")
@@ -78,7 +89,9 @@ def get_0204(bsn: str):
 
 def get_0204_raw(bsn: str):
     soap_request_payload = _get_soap_request_payload(bsn)
-    response = _get_response(f'{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon', soap_request_payload)
+    response = _get_response(
+        f"{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon", soap_request_payload
+    )
 
     if log_response:
         content_bytesio = BytesIO(response)

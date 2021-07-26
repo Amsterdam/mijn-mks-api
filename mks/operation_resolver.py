@@ -16,7 +16,9 @@ class CustomOperationResolver(Resolver):
 
     def resolve(self, operation):
         if operation.path not in self.functions_dictionary:
-            raise CustomOperationResolverException('Missing mapping for path: ',
-                                                   operation.path)
-        return Resolution(self.functions_dictionary[operation.path],
-                          operation.path.replace('/', '__'))
+            raise CustomOperationResolverException(
+                "Missing mapping for path: ", operation.path
+            )
+        return Resolution(
+            self.functions_dictionary[operation.path], operation.path.replace("/", "__")
+        )
