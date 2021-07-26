@@ -10,37 +10,43 @@ from mks.model.stuf_utils import decrypt, is_nil
 from mks.prometheus_definitions import mks_connection_state
 from mks.service import adr_mks_client_02_04, mks_client_02_04
 from mks.service.config import NNPID_EXTENSION1_ENABLED, get_raw_key
-from mks.service.exceptions import (ExtractionError, InvalidBSNException,
-                                    NoResultException, ServiceException,
-                                    onbekende_fout)
-from mks.service.mks_client_hr import (_get_response_by_bsn,
-                                       _get_response_by_kvk_number,
-                                       get_from_bsn, get_from_kvk,
-                                       get_nnp_from_kvk)
-from mks.service.saml import (get_bsn_from_request,
-                              get_kvk_number_from_request, get_type)
+from mks.service.exceptions import (
+    ExtractionError,
+    InvalidBSNException,
+    NoResultException,
+    ServiceException,
+    onbekende_fout,
+)
+from mks.service.mks_client_hr import (
+    _get_response_by_bsn,
+    _get_response_by_kvk_number,
+    get_from_bsn,
+    get_from_kvk,
+    get_nnp_from_kvk,
+)
+from mks.service.saml import get_bsn_from_request, get_kvk_number_from_request, get_type
 
 
-def log_and_generate_response(exception, response_type='json'):
+def log_and_generate_response(exception, response_type="json"):
     logging.error(f"exception type {type(exception)}")
     logging.exception(exception)
     e_type = type(exception)
-    if e_type == ServiceException and response_type == 'json':
+    if e_type == ServiceException and response_type == "json":
         return exception.to_dict(), 500
-    elif e_type == ServiceException and response_type == 'text':
+    elif e_type == ServiceException and response_type == "text":
         return str(exception), 500
     elif e_type == SamlVerificationException:
-        return 'Access denied', 403
+        return "Access denied", 403
     elif e_type == NoResultException:
-        return 'No results', 400
+        return "No results", 400
     elif e_type == InvalidBSNException:
-        return 'Ongeldig BSN', 400
+        return "Ongeldig BSN", 400
     elif e_type == ConnectTimeoutError:
         mks_connection_state.set(1)
         logging.error("MKS Timeout")
-        return 'Source connection timeout', 500
+        return "Source connection timeout", 500
     elif e_type == ExtractionError:
-        return 'Extraction error', 500
+        return "Extraction error", 500
     else:
         return onbekende_fout().to_dict(), 500
 
@@ -59,7 +65,10 @@ def get_brp():
     try:
         usertype = get_type(request)
         if usertype != UserType.BURGER:
-            return {"status": "error", "message": "Only requests via BSN is supported"}, 400
+            return {
+                "status": "error",
+                "message": "Only requests via BSN is supported",
+            }, 400
         log_request(request)
         response = mks_client_02_04.get_0204(get_bsn_from_saml_token())
         return response
@@ -68,7 +77,7 @@ def get_brp():
 
 
 def get_brp_raw():
-    cookie_value = request.cookies.get('access_token')
+    cookie_value = request.cookies.get("access_token")
     if cookie_value is not None and cookie_value == get_raw_key():
         log_request(request)
         response = mks_client_02_04.get_0204_raw(get_bsn_from_saml_token())
@@ -80,7 +89,7 @@ def get_brp_raw():
 def get_status_health():
     try:
         log_request(request)
-        return 'OK'
+        return "OK"
     except Exception as e:
         return log_and_generate_response(e)
 
@@ -88,15 +97,13 @@ def get_status_health():
 def get_bsn():
     try:
         log_request(request)
-        return {
-            "burgerservicenummer": get_bsn_from_saml_token()
-        }
+        return {"burgerservicenummer": get_bsn_from_saml_token()}
     except Exception as e:
         return log_and_generate_response(e)
 
 
 def get_hr_raw():
-    cookie_value = request.cookies.get('access_token')
+    cookie_value = request.cookies.get("access_token")
     if cookie_value is None or cookie_value != get_raw_key():
         return "no access without access token", 401
 
@@ -113,9 +120,7 @@ def get_hr_raw():
 def get_kvk_number():
     try:
         log_request(request)
-        return {
-            "kvknummer": get_kvk_number_from_request(request)
-        }
+        return {"kvknummer": get_kvk_number_from_request(request)}
     except Exception as e:
         return log_and_generate_response(e)
 
@@ -134,10 +139,14 @@ def get_hr_for_kvk():
         kvk_number = get_kvk_number_from_request(request)
         hr_kvk = get_from_kvk(kvk_number)
 
-        if (not NNPID_EXTENSION1_ENABLED) or ('nnpid' not in hr_kvk) or is_nil(hr_kvk['nnpid']):
+        if (
+            (not NNPID_EXTENSION1_ENABLED)
+            or ("nnpid" not in hr_kvk)
+            or is_nil(hr_kvk["nnpid"])
+        ):
             return hr_kvk
 
-        hr_kvk_nnp = get_nnp_from_kvk(hr_kvk['nnpid'])
+        hr_kvk_nnp = get_nnp_from_kvk(hr_kvk["nnpid"])
 
         return {**hr_kvk, **hr_kvk_nnp}
     except Exception as e:
@@ -157,32 +166,29 @@ def get_hr():
     if not data:
         return {}, 204
 
-    return {
-        'content': data,
-        'status': 'OK'
-    }
+    return {"content": data, "status": "OK"}
 
 
 def get_resident_count():
     request_json = request.get_json()
 
     if request_json:
-        address_key = request_json.get('addressKey')
+        address_key = request_json.get("addressKey")
 
         if address_key:
             try:
                 address_key_decrypted = decrypt(address_key)
             except Exception:
-                return 'Invalid encrypted value', 400
+                return "Invalid encrypted value", 400
 
             response = adr_mks_client_02_04.get(address_key_decrypted)
 
             if not response:
-                return {}, 204
+                return None, 204
 
             return response
 
-    return 'adressleutel required', 400
+    return "adressleutel required", 400
 
 
 def log_request(req):
