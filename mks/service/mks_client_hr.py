@@ -349,8 +349,8 @@ def extract_for_kvk(xml_str):
         for i in vestigingen:
             if i["typeringVestiging"]:
                 if (
-                    i["bezoekadres"]["woonplaatsNaam"] == "Amsterdam"
-                    or i["postadres"]["woonplaatsNaam"] == "Amsterdam"
+                    (i["bezoekadres"] is not None and i["bezoekadres"]["woonplaatsNaam"] == "Amsterdam")
+                    or (i["postadres"] is not None and i["postadres"]["woonplaatsNaam"] == "Amsterdam")
                 ):
                     is_amsterdammer = True
 
