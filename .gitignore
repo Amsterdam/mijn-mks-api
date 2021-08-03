@@ -132,3 +132,6 @@ Session.vim
 tags
 **/__pycache__/
 
+#venv
+venv
+
