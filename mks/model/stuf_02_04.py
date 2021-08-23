@@ -347,9 +347,6 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         {"name": "huisnummertoevoeging", "parser": to_string},
         {"name": "straatnaam", "parser": to_string},
         {"name": "gemeentecode", "parser": to_string_4x0},
-        {"name": "adresBuitenland1", "parser": to_string},
-        {"name": "adresBuitenland2", "parser": to_string},
-        {"name": "adresBuitenland3", "parser": to_string},
     ]
     address_extra_fields = [
         {"name": "authentiekeWoonplaatsnaam", "parser": to_string},

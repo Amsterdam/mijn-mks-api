@@ -141,17 +141,23 @@ def extract_for_bsn(xml_data):
         activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten)
 
         handelsnamen = set()
+        primaire_handelsnamen = None
         ondernemingsactiviteiten = set()
         vestigingen = []
         hoofdactiviteit = None
 
         for i in activiteiten_data:
-            handelsnamen.update(i["handelsnamen"])
+
             for j in i["activiteiten"]:
                 if j["indicatieHoofdactiviteit"]:
                     hoofdactiviteit = j["omschrijving"]
                 else:
                     ondernemingsactiviteiten.add(j["omschrijving"])
+
+            if i["typeringVestiging"] == "Hoofdvestiging":
+                primaire_handelsnamen = i["handelsnamen"]
+            else:
+                handelsnamen.update(i["handelsnamen"])
 
             vestiging = {
                 "vestigingsNummer": i["vestigingsNummer"],
@@ -171,9 +177,13 @@ def extract_for_bsn(xml_data):
 
         handelsnamen = sorted(list(handelsnamen))
 
+        if primaire_handelsnamen:
+            handelsnamen = primaire_handelsnamen + handelsnamen
+
         rechtsvorm = eigenaar_data["rechtsvorm"]
 
         onderneming = {
+            "kvkNummer": object_data["kvkNummer"],
             "datumAanvang": object_data["datumAanvang"],
             "datumEinde": object_data["datumEinde"],
             "handelsnamen": handelsnamen,
@@ -182,22 +192,12 @@ def extract_for_bsn(xml_data):
             "hoofdactiviteit": hoofdactiviteit,
         }
 
-        rechtspersonen = [
-            {
-                "kvkNummer": object_data["kvkNummer"],
-                "bsn": eigenaar_data.get("bsn", None),
-                # Eenmanszaken don't have the following properties
-                "rsin": None,
-                "statutaireNaam": None,
-                "statutaireZetel": None,
-            }
-        ]
-
         eigenaar = {
             "naam": "%s %s"
             % (eigenaar_data["voornamen"], eigenaar_data["geslachtsnaam"]),
             "geboortedatum": eigenaar_data["geboortedatum"],
             "adres": eigenaar_data["adres"],
+            "bsn": eigenaar_data.get("bsn", None),
         }
 
         is_amsterdammer = False
@@ -216,7 +216,7 @@ def extract_for_bsn(xml_data):
             "nnpid": None,  # Eenmanszaken don't have NNPID
             "onderneming": onderneming,
             "eigenaar": eigenaar,
-            "rechtspersonen": rechtspersonen,
+            "rechtspersonen": [],
             "vestigingen": vestigingen,
         }
 
@@ -271,17 +271,23 @@ def extract_for_kvk(xml_str):
         activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten_data)
 
         handelsnamen = set()
+        primaire_handelsnamen = None
         ondernemingsactiviteiten = set()
         vestigingen = []
         hoofdactiviteit = None
 
         for i in activiteiten_data:
-            handelsnamen.update(i["handelsnamen"])
+
             for j in i["activiteiten"]:
                 if j["indicatieHoofdactiviteit"]:
                     hoofdactiviteit = j["omschrijving"]
                 else:
                     ondernemingsactiviteiten.add(j["omschrijving"])
+
+            if i["typeringVestiging"] == "Hoofdvestiging":
+                primaire_handelsnamen = i["handelsnamen"]
+            else:
+                handelsnamen.update(i["handelsnamen"])
 
             vestiging = {
                 "vestigingsNummer": i["vestigingsNummer"],
@@ -298,7 +304,11 @@ def extract_for_kvk(xml_str):
                 "postadres": i["postadres"],
             }
             vestigingen.append(vestiging)
+
         handelsnamen = sorted(list(handelsnamen))
+
+        if primaire_handelsnamen:
+            handelsnamen = primaire_handelsnamen + handelsnamen
 
         rechtsvorm = eigenaren_data[0]["rechtsvorm"]
 
@@ -315,42 +325,48 @@ def extract_for_kvk(xml_str):
         eigenaar = None
         rechtspersonen = []
 
-        for eigenaar_item in eigenaren_data:
+        # Only show natuurlijk persoon as eigenaar for rechtsvorm=Eenmanszaak
+        if rechtsvorm == "Eenmanszaak":
 
-            rsin = eigenaar_item.get("nnpId", None)
+            onderneming["kvkNummer"] = object_data["kvkNummer"]
 
-            # NOTE: If there are more than 1 nnp owner with a RSIN, which one should we take?
-            if not nnpid and rsin and eigenaar_item["type"] == "nnp":
-                nnpid = rsin
+            if eigenaren_data:
+                eigenaar_item = eigenaren_data[0]
 
-            rechtspersoon = {
-                "kvkNummer": object_data["kvkNummer"],
-                "rsin": rsin,
-                "bsn": eigenaar_item.get("bsn", None),
-                "statutaireNaam": eigenaar_item.get("statutaireNaam", None),
-                "statutaireZetel": eigenaar_item.get("statutaireZetel", None),
-            }
-            rechtspersonen.append(rechtspersoon)
-
-            # Only show natuurlijk persoon as eigenaar for rechtsvorm=Eenmanszaak
-            if (
-                rechtsvorm == "Eenmanszaak"
-                and eigenaar is None
-                and eigenaar_item["type"] == "np"
-            ):
                 eigenaar = {
                     "naam": "%s %s"
                     % (eigenaar_item["voornamen"], eigenaar_item["geslachtsnaam"]),
                     "geboortedatum": eigenaar_item["geboortedatum"],
                     "adres": eigenaar_item["adres"],
+                    "bsn": eigenaar_item.get("bsn", None),
                 }
+        else:
+
+            for eigenaar_item in eigenaren_data:
+
+                rsin = eigenaar_item.get("nnpId", None)
+
+                # NOTE: If there are more than 1 nnp owner with a RSIN, which one should we take?
+                if not nnpid and rsin and eigenaar_item["type"] == "nnp":
+                    nnpid = rsin
+
+                rechtspersoon = {
+                    "kvkNummer": object_data["kvkNummer"],
+                    "rsin": rsin,
+                    "statutaireNaam": eigenaar_item.get("statutaireNaam", None),
+                    "statutaireZetel": eigenaar_item.get("statutaireZetel", None),
+                }
+                rechtspersonen.append(rechtspersoon)
 
         is_amsterdammer = False
         for i in vestigingen:
             if i["typeringVestiging"]:
                 if (
-                    (i["bezoekadres"] is not None and i["bezoekadres"]["woonplaatsNaam"] == "Amsterdam")
-                    or (i["postadres"] is not None and i["postadres"]["woonplaatsNaam"] == "Amsterdam")
+                    i["bezoekadres"] is not None
+                    and i["bezoekadres"]["woonplaatsNaam"] == "Amsterdam"
+                ) or (
+                    i["postadres"] is not None
+                    and i["postadres"]["woonplaatsNaam"] == "Amsterdam"
                 ):
                     is_amsterdammer = True
 

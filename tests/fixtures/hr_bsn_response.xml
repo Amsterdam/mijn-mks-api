@@ -51,23 +51,14 @@
                   <BG:inOnderzoek StUF:metagegeven="true" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                </BG:inp.verblijftIn>
                <BG:verblijfsadres>
-                  <BG:aoa.identificatie>000999000990009900</BG:aoa.identificatie>
-                  <BG:wpl.identificatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                  <BG:aoa.identificatie>0000000000000001</BG:aoa.identificatie>
                   <BG:wpl.woonplaatsNaam>Amsterdam</BG:wpl.woonplaatsNaam>
-                  <BG:aoa.woonplaatsWaarinGelegen>
-                     <BG:wpl.identificatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                     <BG:wpl.woonplaatsNaam xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                  </BG:aoa.woonplaatsWaarinGelegen>
-                  <BG:gor.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                  <BG:opr.identificatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                  <BG:gor.openbareRuimteNaam>Straat</BG:gor.openbareRuimteNaam>
-                  <BG:gor.straatnaam>Straat</BG:gor.straatnaam>
-                  <BG:aoa.postcode>1234AB</BG:aoa.postcode>
-                  <BG:aoa.huisnummer>199</BG:aoa.huisnummer>
+                  <BG:gor.openbareRuimteNaam>Amstel</BG:gor.openbareRuimteNaam>
+                  <BG:aoa.postcode>1012NP</BG:aoa.postcode>
+                  <BG:aoa.huisnummer>1</BG:aoa.huisnummer>
                   <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
-                  <BG:aoa.huisnummertoevoeging>K</BG:aoa.huisnummertoevoeging>
+                  <BG:aoa.huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>
                   <BG:inp.locatiebeschrijving xsi:nil="true" StUF:noValue="geenWaarde"/>
-                  <BG:begindatumVerblijf>20210413</BG:begindatumVerblijf>
                </BG:verblijfsadres>
                <BG:sub.correspondentieAdres>
                </BG:sub.correspondentieAdres>
@@ -132,7 +123,7 @@
                <BG:ing.isBijgeschrevenOp StUF:entiteittype="NPSRSDBIJ" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                <BG:rps.isEigenaarVan StUF:entiteittype="NPSMAC" StUF:sleutelVerzendend="7">
                   <BG:gerelateerde StUF:entiteittype="MAC" StUF:sleutelVerzendend="8" StUF:sleutelGegevensbeheer="8">
-                     <BG:kvkNummer>12345678</BG:kvkNummer>
+                     <BG:kvkNummer>012345678</BG:kvkNummer>
                      <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
                      <BG:datumAanvang>19920101</BG:datumAanvang>
                      <BG:datumVoortzetting xsi:nil="true" StUF:noValue="waardeOnbekend"/>
@@ -151,13 +142,13 @@
                         <BG:gerelateerde StUF:entiteittype="VES" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
                            <BG:vestigingsNummer>000000000001</BG:vestigingsNummer>
                            <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
-                           <BG:handelsnaam>Ding 1</BG:handelsnaam>
+                           <BG:handelsnaam>Primaire Handelsnaam</BG:handelsnaam>
                            <BG:volgorde>0</BG:volgorde>
-                           <BG:handelsnaam>Ding 2</BG:handelsnaam>
+                           <BG:handelsnaam>Naam 2</BG:handelsnaam>
                            <BG:volgorde>1</BG:volgorde>
-                           <BG:handelsnaam>Ding 3</BG:handelsnaam>
+                           <BG:handelsnaam>Naam 3</BG:handelsnaam>
                            <BG:volgorde>2</BG:volgorde>
-                           <BG:handelsnaam>Ding 4</BG:handelsnaam>
+                           <BG:handelsnaam>Naam 4</BG:handelsnaam>
                            <BG:volgorde>3</BG:volgorde>
                            <BG:datumAanvang>19920101</BG:datumAanvang>
                            <BG:datumEinde>20200101</BG:datumEinde>
@@ -189,7 +180,7 @@
                               <BG:opr.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                               <BG:gor.openbareRuimteNaam>Amstel</BG:gor.openbareRuimteNaam>
                               <BG:gor.straatnaam>Amstel</BG:gor.straatnaam>
-                              <BG:aoa.postcode>1011PN</BG:aoa.postcode>
+                              <BG:aoa.postcode>1012PN</BG:aoa.postcode>
                               <BG:aoa.huisnummer>1</BG:aoa.huisnummer>
                               <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
                               <BG:aoa.huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>
@@ -202,7 +193,7 @@
                                  <BG:wpl.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                                  <BG:wpl.woonplaatsNaam xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                               </BG:aoa.woonplaatsWaarinGelegen>
-                              <BG:postcode>1011PN</BG:postcode>
+                              <BG:postcode>1012PN</BG:postcode>
                               <BG:aoa.identificatie>0000000000000002</BG:aoa.identificatie>
                               <BG:wpl.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                               <BG:opr.identificatie xsi:nil="true" StUF:noValue="waardeOnbekend"/>
