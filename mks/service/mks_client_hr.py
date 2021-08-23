@@ -141,17 +141,23 @@ def extract_for_bsn(xml_data):
         activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten)
 
         handelsnamen = set()
+        primaire_handelsnamen = None
         ondernemingsactiviteiten = set()
         vestigingen = []
         hoofdactiviteit = None
 
         for i in activiteiten_data:
-            handelsnamen.update(i["handelsnamen"])
+
             for j in i["activiteiten"]:
                 if j["indicatieHoofdactiviteit"]:
                     hoofdactiviteit = j["omschrijving"]
                 else:
                     ondernemingsactiviteiten.add(j["omschrijving"])
+
+            if i["typeringVestiging"] == "Hoofdvestiging":
+                primaire_handelsnamen = i["handelsnamen"]
+            else:
+                handelsnamen.update(i["handelsnamen"])
 
             vestiging = {
                 "vestigingsNummer": i["vestigingsNummer"],
@@ -170,6 +176,9 @@ def extract_for_bsn(xml_data):
             vestigingen.append(vestiging)
 
         handelsnamen = sorted(list(handelsnamen))
+
+        if primaire_handelsnamen:
+            handelsnamen = primaire_handelsnamen + handelsnamen
 
         rechtsvorm = eigenaar_data["rechtsvorm"]
 
@@ -262,17 +271,23 @@ def extract_for_kvk(xml_str):
         activiteiten_data = extract_oefent_activiteiten_uit_in(activiteiten_data)
 
         handelsnamen = set()
+        primaire_handelsnamen = None
         ondernemingsactiviteiten = set()
         vestigingen = []
         hoofdactiviteit = None
 
         for i in activiteiten_data:
-            handelsnamen.update(i["handelsnamen"])
+
             for j in i["activiteiten"]:
                 if j["indicatieHoofdactiviteit"]:
                     hoofdactiviteit = j["omschrijving"]
                 else:
                     ondernemingsactiviteiten.add(j["omschrijving"])
+
+            if i["typeringVestiging"] == "Hoofdvestiging":
+                primaire_handelsnamen = i["handelsnamen"]
+            else:
+                handelsnamen.update(i["handelsnamen"])
 
             vestiging = {
                 "vestigingsNummer": i["vestigingsNummer"],
@@ -291,6 +306,9 @@ def extract_for_kvk(xml_str):
             vestigingen.append(vestiging)
 
         handelsnamen = sorted(list(handelsnamen))
+
+        if primaire_handelsnamen:
+            handelsnamen = primaire_handelsnamen + handelsnamen
 
         rechtsvorm = eigenaren_data[0]["rechtsvorm"]
 

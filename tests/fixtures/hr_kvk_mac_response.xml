@@ -96,7 +96,7 @@
                   <BG:gerelateerde StUF:entiteittype="VES" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="1">
                      <BG:vestigingsNummer>000000000001</BG:vestigingsNummer>
                      <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
-                     <BG:handelsnaam>Handelsnaam</BG:handelsnaam>
+                     <BG:handelsnaam>Primaire Handelsnaam</BG:handelsnaam>
                      <BG:volgorde>0</BG:volgorde>
                      <BG:datumAanvang>20000201</BG:datumAanvang>
                      <BG:datumEinde xsi:nil="true" StUF:noValue="waardeOnbekend"/>

@@ -142,7 +142,7 @@
                         <BG:gerelateerde StUF:entiteittype="VES" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
                            <BG:vestigingsNummer>000000000001</BG:vestigingsNummer>
                            <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
-                           <BG:handelsnaam>Naam 1</BG:handelsnaam>
+                           <BG:handelsnaam>Primaire Handelsnaam</BG:handelsnaam>
                            <BG:volgorde>0</BG:volgorde>
                            <BG:handelsnaam>Naam 2</BG:handelsnaam>
                            <BG:volgorde>1</BG:volgorde>

@@ -16,7 +16,7 @@ KVK_HR_MAC_RESPONSE = {
         "datumAanvang": None,
         "datumEinde": None,
         "handelsnamen": [
-            "Handelsnaam",
+            "Primaire Handelsnaam",
             "Handelsnaam 2e locatie",
             "Handelsnaam v.o.f.",
         ],
@@ -50,7 +50,7 @@ KVK_HR_MAC_RESPONSE = {
             "datumEinde": None,
             "emailadres": "email@example.com",
             "faxnummer": None,
-            "handelsnamen": ["Handelsnaam"],
+            "handelsnamen": ["Primaire Handelsnaam"],
             "postadres": {
                 "huisletter": None,
                 "huisnummer": "2",

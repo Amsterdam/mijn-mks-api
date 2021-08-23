@@ -17,7 +17,7 @@ KVK_HR_EENMANSZAAK_RESPONSE = {
         "kvkNummer": "012345678",
         "datumAanvang": date(1992, 1, 1),
         "datumEinde": date(2020, 1, 1),
-        "handelsnamen": ["Naam 1", "Naam 2", "Naam 3", "Naam 4"],
+        "handelsnamen": ["Primaire Handelsnaam", "Naam 2", "Naam 3", "Naam 4"],
         "hoofdactiviteit": "Overige administratiekantoren",
         "overigeActiviteiten": ["Arbeidsbemiddeling", "Organisatie-adviesbureaus"],
         "rechtsvorm": "Eenmanszaak",
@@ -55,7 +55,7 @@ KVK_HR_EENMANSZAAK_RESPONSE = {
             "datumEinde": date(2020, 1, 1),
             "emailadres": None,
             "faxnummer": None,
-            "handelsnamen": ["Naam 1", "Naam 2", "Naam 3", "Naam 4"],
+            "handelsnamen": ["Primaire Handelsnaam", "Naam 2", "Naam 3", "Naam 4"],
             "postadres": {
                 "huisletter": None,
                 "huisnummer": "1",
@@ -95,66 +95,3 @@ class KvkHrTest(TestCase):
         result = mks_client_hr.get_from_kvk("123456789")
 
         self.assertEqual(result, {})
-
-
-TEST = {
-    "mokum": True,
-    "nnpid": None,
-    "onderneming": {
-        "kvkNummer": "012345678",
-        "datumAanvang": date(1992, 1, 1),
-        "datumEinde": date(2020, 1, 1),
-        "handelsnamen": ["Naam 1", "Naam 2", "Naam 3", "Naam 4"],
-        "rechtsvorm": "Eenmanszaak",
-        "overigeActiviteiten": ["Arbeidsbemiddeling", "Organisatie-adviesbureaus"],
-        "hoofdactiviteit": "Overige administratiekantoren",
-    },
-    "eigenaar": {
-        "naam": "Voornaam Achternaam",
-        "geboortedatum": date(1970, 1, 1),
-        "adres": {
-            "woonplaatsNaam": "Amsterdam",
-            "straatnaam": "Straat",
-            "postcode": "1234 AB",
-            "huisnummer": "199",
-            "huisletter": None,
-            "huisnummertoevoeging": "K",
-        },
-        "bsn": "999999999",
-    },
-    "rechtspersonen": [],
-    "vestigingen": [
-        {
-            "vestigingsNummer": "000000000001",
-            "handelsnamen": ["Naam 1", "Naam 2", "Naam 3", "Naam 4"],
-            "typeringVestiging": "Hoofdvestiging",
-            "datumAanvang": date(1992, 1, 1),
-            "datumEinde": date(2020, 1, 1),
-            "telefoonnummer": None,
-            "faxnummer": None,
-            "emailadres": None,
-            "websites": [],
-            "activiteiten": [
-                "Overige administratiekantoren",
-                "Organisatie-adviesbureaus",
-                "Arbeidsbemiddeling",
-            ],
-            "bezoekadres": {
-                "woonplaatsNaam": "Amsterdam",
-                "straatnaam": "Amstel",
-                "postcode": "1011 PN",
-                "huisnummer": "1",
-                "huisletter": None,
-                "huisnummertoevoeging": None,
-            },
-            "postadres": {
-                "woonplaatsNaam": "Amsterdam",
-                "straatnaam": "Amstel",
-                "postcode": "1011 PN",
-                "huisnummer": "1",
-                "huisletter": None,
-                "huisnummertoevoeging": None,
-            },
-        }
-    ],
-}
