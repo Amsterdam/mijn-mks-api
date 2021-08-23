@@ -19,7 +19,7 @@ paths:
     get:
       description: Endpoint for checking wheter the server has started.
       responses:
-        '200':
+        "200":
           description: Returns "OK" when server is started
           content:
             application/json:
@@ -29,65 +29,65 @@ paths:
     get:
       description: Return KVK number of currently logged in user.
       responses:
-        '200':
+        "200":
           description: KVK number
           headers: {}
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KVKNumberResponse'
+                $ref: "#/components/schemas/KVKNumberResponse"
   /brp/bsn:
     get:
       description: Return BSN of currently logged in user.
       responses:
-        '200':
+        "200":
           description: BSN
           headers: {}
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BSNResponse'
+                $ref: "#/components/schemas/BSNResponse"
   /brp/brp/raw:
     get:
       description: Information of current user from "basisregistratie personen"
       responses:
-        '200':
+        "200":
           description: Basisregistratiegegevens
           headers: {}
   /brp/brp:
     get:
       description: Information of current user from "basisregistratie personen"
       responses:
-        '200':
+        "200":
           description: Basisregistratiegegevens
           headers: {}
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BRPResponse'
+                $ref: "#/components/schemas/BRPResponse"
   /brp/hr:
     get:
       description: Information of current user from "Handelsregister"
       responses:
-        '200':
+        "200":
           description: Handelsregister
           headers: {}
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HRResponse'
+                $ref: "#/components/schemas/HRResponse"
   /brp/hr/raw:
     get:
       description: Information of current user from "Handelsregister"
       responses:
-        '200':
+        "200":
           description: Handelsregister
           headers: {}
   /brp/aantal_bewoners:
     post:
       description: Number of residents living on address
       responses:
-        '200':
+        "200":
           description: response
           content:
             application/json:
@@ -117,25 +117,16 @@ components:
           type: string
     Adres:
       allOf:
-        - $ref: '#/components/schemas/AdresBasis'
+        - $ref: "#/components/schemas/AdresBasis"
         - type: object
           properties:
             begindatumVerblijf:
-              $ref: '#/components/schemas/DateTime'
+              $ref: "#/components/schemas/DateTime"
             einddatumVerblijf:
-              $ref: '#/components/schemas/DateTime'
+              $ref: "#/components/schemas/DateTime"
               nullable: true
             landnaam:
               type: string
-            adresBuitenland1:
-              type: string
-              nullable: true
-            adresBuitenland2:
-              type: string
-              nullable: true
-            adresBuitenland3:
-              type: string
-              nullable: true
             inOnderzoek:
               type: boolean
             _adresSleutel:
@@ -148,21 +139,21 @@ components:
       properties:
         datumOntbinding:
           nullable: true
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         datumSluiting:
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         landnaamSluiting:
           type: string
         plaatsnaamSluitingOmschrijving:
           type: string
         soortVerbintenis:
-          $ref: '#/components/schemas/SoortVerbintenis'
+          $ref: "#/components/schemas/SoortVerbintenis"
         soortVerbintenisOmschrijving:
           type: string
         redenOntbindingOmschrijving:
           type: string
         persoon:
-          $ref: '#/components/schemas/Persoon'
+          $ref: "#/components/schemas/Persoon"
     AdellijkeTitelPredikaat:
       nullable: true
       title: AdellijkeTitelPredikaat
@@ -206,9 +197,9 @@ components:
       type: object
       properties:
         adellijkeTitelPredikaat:
-          $ref: '#/components/schemas/AdellijkeTitelPredikaat'
+          $ref: "#/components/schemas/AdellijkeTitelPredikaat"
         bsn:
-          $ref: '#/components/schemas/BSN'
+          $ref: "#/components/schemas/BSN"
         geslachtsnaam:
           type: string
         voorvoegselGeslachtsnaam:
@@ -221,17 +212,17 @@ components:
         geboorteplaats:
           type: string
         geboortedatum:
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         geslachtsaanduiding:
-          $ref: '#/components/schemas/Geslachtsaanduiding'
+          $ref: "#/components/schemas/Geslachtsaanduiding"
         omschrijvingGeslachtsaanduiding:
-          $ref: '#/components/schemas/OmschrijvingGeslachtsaanduiding'
+          $ref: "#/components/schemas/OmschrijvingGeslachtsaanduiding"
         overlijdensdatum:
           nullable: true
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
     PersoonVolledig:
       allOf:
-        - $ref: '#/components/schemas/Persoon'
+        - $ref: "#/components/schemas/Persoon"
         - type: object
           properties:
             aanduidingNaamgebruikOmschrijving:
@@ -244,12 +235,12 @@ components:
             nationaliteiten:
               type: array
               items:
-                $ref: '#/components/schemas/Nationaliteiten'
+                $ref: "#/components/schemas/Nationaliteiten"
             vertrokkenOnbekendWaarheen:
               type: boolean
             datumVertrekUitNederland:
               description: This value can be used if `vertrokkenOnbekendWaarheen` is True
-              $ref: '#/components/schemas/DateTime'
+              $ref: "#/components/schemas/DateTime"
               nullable: true
             emigratieLand:
               type: string
@@ -272,25 +263,25 @@ components:
       type: object
       properties:
         persoon:
-          $ref: '#/components/schemas/PersoonVolledig'
+          $ref: "#/components/schemas/PersoonVolledig"
         adres:
-          $ref: '#/components/schemas/Adres'
+          $ref: "#/components/schemas/Adres"
         verbintenis:
-          $ref: '#/components/schemas/Verbintenis'
+          $ref: "#/components/schemas/Verbintenis"
         ouders:
           type: array
           items:
-            $ref: '#/components/schemas/Persoon'
+            $ref: "#/components/schemas/Persoon"
         kinderen:
           type: array
           items:
-            $ref: '#/components/schemas/Persoon'
+            $ref: "#/components/schemas/Persoon"
     BSNResponse:
       title: bsn
       type: object
       properties:
         burgerservicenummer:
-          $ref: '#/components/schemas/BSN'
+          $ref: "#/components/schemas/BSN"
       required:
         - burgerservicenummer
     KVKNumberResponse:
@@ -311,34 +302,34 @@ components:
             mokum:
               type: boolean
             onderneming:
-              $ref: '#/components/schemas/Onderneming'
+              $ref: "#/components/schemas/Onderneming"
             eigenaar:
               nullable: true
-              $ref: '#/components/schemas/Eigenaar'
+              $ref: "#/components/schemas/Eigenaar"
             rechtspersonen:
               type: array
               items:
-                $ref: '#/components/schemas/Rechtspersoon'
+                $ref: "#/components/schemas/Rechtspersoon"
             vestigingen:
               type: array
               items:
-                $ref: '#/components/schemas/Vestiging'
+                $ref: "#/components/schemas/Vestiging"
             bestuurders:
               type: array
               items:
-                $ref: '#/components/schemas/Bestuurder'
+                $ref: "#/components/schemas/Bestuurder"
             gemachtigden:
               type: array
               items:
-                $ref: '#/components/schemas/Gemachtigde'
+                $ref: "#/components/schemas/Gemachtigde"
             overigeFunctionarissen:
               type: array
               items:
-                $ref: '#/components/schemas/OverigeFunctionaris'
+                $ref: "#/components/schemas/OverigeFunctionaris"
             aansprakelijken:
               type: array
               items:
-                $ref: '#/components/schemas/Aansprakelijke'
+                $ref: "#/components/schemas/Aansprakelijke"
           required:
             - mokum
             - onderneming
@@ -349,10 +340,10 @@ components:
       properties:
         datumAanvang:
           nullable: true
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         datumEinde:
           nullable: true
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         handelsnamen:
           type: array
           items:
@@ -365,21 +356,23 @@ components:
             type: string
         rechtsvorm:
           type: string
+        kvkNummer:
+          type: string
+          nullable: true
     Eigenaar:
       type: object
       properties:
         naam:
           type: string
         geboortedatum:
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         adres:
-          $ref: '#/components/schemas/Adres'
+          $ref: "#/components/schemas/Adres"
+        bsn:
+          $ref: "#/components/schemas/BSN"
     Rechtspersoon:
       type: object
       properties:
-        bsn:
-          nullable: true
-          $ref: '#/components/schemas/BSN'
         kvkNummer:
           type: string
           nullable: true
@@ -400,12 +393,12 @@ components:
           items:
             type: string
         bezoekadres:
-          $ref: '#/components/schemas/AdresBasis'
+          $ref: "#/components/schemas/AdresBasis"
         datumAanvang:
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         datumEinde:
           nullable: true
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         emailadres:
           nullable: true
           type: string
@@ -419,7 +412,7 @@ components:
             type: string
         postadres:
           nullable: true
-          $ref: '#/components/schemas/AdresBasis'
+          $ref: "#/components/schemas/AdresBasis"
         telefoonnummer:
           nullable: true
           type: string
@@ -450,7 +443,7 @@ components:
         naam:
           type: string
         geboortedatum:
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
     Gemachtigde:
       type: object
       properties:
@@ -458,10 +451,10 @@ components:
           type: string
         geboortedatum:
           nullable: true
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         datumIngangMachtiging:
           nullable: true
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
         functie:
           type: string
           enum:
@@ -491,7 +484,7 @@ components:
         naam:
           type: string
         geboortedatum:
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
     OverigeFunctionaris:
       type: object
       properties:
@@ -508,7 +501,7 @@ components:
             - Lid EESV
             - Lid van het toezichthoudend orgaan
         geboortedatum:
-          $ref: '#/components/schemas/DateTime'
+          $ref: "#/components/schemas/DateTime"
     BSN:
       type: string
       pattern: '^(\d{8}|\d{9})$'
