@@ -166,6 +166,37 @@
             </BG:ADR>
           </BG:PRSADRINS>
 
+          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="301" StUF:sleutelGegevensbeheer="301">
+            <BG:tijdvakRelatie>
+              <StUF:begindatumRelatie>19700101</StUF:begindatumRelatie>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
+            </BG:tijdvakRelatie>
+            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072" StUF:sleutelGegevensbeheer="9072">
+              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:landcode>6030</BG:landcode>
+              <BG:postcode>1011PB</BG:postcode>
+              <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
+              <BG:straatnaam>Amstel</BG:straatnaam>
+              <BG:huisnummer>3333</BG:huisnummer>
+              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:huisnummertoevoeging>3</BG:huisnummertoevoeging>
+              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:gemeentecode>363</BG:gemeentecode>
+              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:extraElementen>
+                <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
+                <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
+                <StUF:extraElement naam="openbareRuimteNaam">Amstel</StUF:extraElement>
+                <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
+                <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
+              </BG:extraElementen>
+            </BG:ADR>
+          </BG:PRSADRINS>
+
           <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
             <BG:nummerIdentiteitsbewijs>IT01XYZ34</BG:nummerIdentiteitsbewijs>
             <BG:tijdvakRelatie>

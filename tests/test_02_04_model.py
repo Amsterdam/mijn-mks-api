@@ -74,6 +74,19 @@ class Model0204Tests(TestCase):
                     "landcode": "6030",
                     "landnaam": "Nederland",
                 },
+                {
+                    "begindatumVerblijf": datetime(1970, 1, 1, 0, 0),
+                    "einddatumVerblijf": None,
+                    "huisletter": None,
+                    "huisnummer": "3333",
+                    "huisnummertoevoeging": "3",
+                    "inOnderzoek": False,
+                    "postcode": "1011 PB",
+                    "straatnaam": "Amstel",
+                    "woonplaatsNaam": "Amsterdam",
+                    "landcode": "6030",
+                    "landnaam": "Nederland",
+                },
             ],
             "identiteitsbewijzen": [
                 {

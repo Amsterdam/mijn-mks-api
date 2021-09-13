@@ -394,7 +394,7 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
     past = []
     for address in result:
         end = address["einddatumVerblijf"]
-        if end is None or end > datetime.now():
+        if current is None and (end is None or end > datetime.now()):
             current = address
         else:
             if address.get("_adresSleutel"):
