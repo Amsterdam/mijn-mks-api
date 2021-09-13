@@ -12,7 +12,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 IS_PRODUCTION = os.getenv("SENTRY_ENVIRONMENT") == "production"
 IS_ACCEPTANCE = os.getenv("SENTRY_ENVIRONMENT") == "acceptance"
 
-REQUEST_TIMEOUT = 90 if IS_PRODUCTION else 30  # seconds
+REQUEST_TIMEOUT = 20 if IS_PRODUCTION else 30  # seconds
 
 BRP_APPLICATIE = os.getenv("BRP_APPLICATIE")
 BRP_GEBRUIKER = os.getenv("BRP_GEBRUIKER")
