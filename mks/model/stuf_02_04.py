@@ -1,6 +1,6 @@
 import logging
 from collections import defaultdict
-from datetime import datetime
+from datetime import date
 from hashlib import sha256
 
 from bs4 import Tag, ResultSet
@@ -17,7 +17,7 @@ from mks.model.gba import (
 from mks.model.stuf_utils import (
     _set_value_on,
     to_string,
-    to_datetime,
+    to_date,
     to_bool,
     to_is_amsterdam,
     to_int,
@@ -37,7 +37,7 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
     result = []
 
     fields = [
-        {"name": "datumVerlies", "parser": to_datetime},
+        {"name": "datumVerlies", "parser": to_date},
     ]
 
     nat_fields = [
@@ -78,7 +78,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {"name": "bsn-nummer", "parser": as_bsn, "save_as": "bsn"},
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "voornamen", "parser": to_string},
-        {"name": "geboortedatum", "parser": to_datetime},
+        {"name": "geboortedatum", "parser": to_date},
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
         {"name": "codeGemeenteVanInschrijving", "parser": to_int},
         {
@@ -94,7 +94,7 @@ def extract_persoon_data(persoon_tree: Tag):
         },
         {"name": "geslachtsaanduiding", "parser": to_string},
         {"name": "codeLandEmigratie", "parser": to_int},
-        {"name": "datumVertrekUitNederland", "parser": to_datetime},
+        {"name": "datumVertrekUitNederland", "parser": to_date},
         {"name": "indicatieGeheim", "parser": geheim_indicatie_to_bool},
         {"name": "aanduidingNaamgebruik", "parser": to_string},
     ]
@@ -135,7 +135,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "geslachtsaanduiding", "parser": to_string},
-        {"name": "geboortedatum", "parser": to_datetime},
+        {"name": "geboortedatum", "parser": to_date},
         {"name": "geboorteplaats", "parser": to_string},
         {
             "name": "codeGeboorteland",
@@ -144,7 +144,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         },
         {
             "name": "datumOverlijden",
-            "parser": to_datetime,
+            "parser": to_date,
             "save_as": "overlijdensdatum",
         },  # Save as name to match 3.10
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
@@ -173,7 +173,7 @@ def extract_kinderen_data(persoon_tree: Tag):
 
         result.append(result_kind)
 
-    result.sort(key=lambda x: x["geboortedatum"] or datetime.min)
+    result.sort(key=lambda x: x["geboortedatum"] or date.min)
 
     return result
 
@@ -187,7 +187,7 @@ def extract_parents_data(persoon_tree: Tag):
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "geslachtsaanduiding", "parser": to_string},
-        {"name": "geboortedatum", "parser": to_datetime},
+        {"name": "geboortedatum", "parser": to_date},
         {"name": "geboorteplaats", "parser": to_string},
         {
             "name": "codeGeboorteland",
@@ -196,7 +196,7 @@ def extract_parents_data(persoon_tree: Tag):
         },  # save as to match 3.10
         {
             "name": "datumOverlijden",
-            "parser": to_datetime,
+            "parser": to_date,
             "save_as": "overlijdensdatum",
         },  # save as to match 3.10'
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
@@ -225,7 +225,7 @@ def extract_parents_data(persoon_tree: Tag):
 
         result.append(result_parent)
 
-    result.sort(key=lambda x: x["geboortedatum"] or datetime.min)
+    result.sort(key=lambda x: x["geboortedatum"] or date.min)
 
     return result
 
@@ -234,8 +234,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
     result = []
 
     verbintenis_fields = [
-        {"name": "datumSluiting", "parser": to_datetime},
-        {"name": "datumOntbinding", "parser": to_datetime},
+        {"name": "datumSluiting", "parser": to_date},
+        {"name": "datumOntbinding", "parser": to_date},
         {"name": "soortVerbintenis", "parser": to_string},
     ]
 
@@ -251,10 +251,10 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "geslachtsaanduiding", "parser": to_string},
-        {"name": "geboortedatum", "parser": to_datetime},
+        {"name": "geboortedatum", "parser": to_date},
         {
             "name": "datumOverlijden",
-            "parser": to_datetime,
+            "parser": to_date,
             "save_as": "overlijdensdatum",
         },  # to match 3.10 field name
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
@@ -294,9 +294,9 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         result.append(result_verbintenis)
 
-    # if there is no datumSluiting, sort using the minimum datetime
+    # if there is no datumSluiting, sort using the minimum date
     # sort to be sure that the most current partner is on top
-    result.sort(key=lambda x: x["datumSluiting"] or datetime.min, reverse=True)
+    result.sort(key=lambda x: x["datumSluiting"] or date.min, reverse=True)
 
     current_results = [p for p in result if not p["datumOntbinding"]]
 
@@ -318,12 +318,12 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
     fields_tijdvak = [
         {
             "name": "begindatumRelatie",
-            "parser": to_datetime,
+            "parser": to_date,
             "save_as": "begindatumVerblijf",
         },
         {
             "name": "einddatumRelatie",
-            "parser": to_datetime,
+            "parser": to_date,
             "save_as": "einddatumVerblijf",
         },
     ]
@@ -394,14 +394,14 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
     past = []
     for address in result:
         end = address["einddatumVerblijf"]
-        if current is None and (end is None or end > datetime.now()):
+        if current is None and (end is None or end > date.today()):
             current = address
         else:
             if address.get("_adresSleutel"):
                 del address["_adresSleutel"]
             past.append(address)
 
-    past.sort(key=lambda x: x["einddatumVerblijf"] or datetime.min, reverse=True)
+    past.sort(key=lambda x: x["einddatumVerblijf"] or date.min, reverse=True)
 
     # Punt adres is a thing so people are not registered on an address (which has al kinds of implications for that adres)
     # replace the recent with minimum data and mark it as Adres in onderzoek
@@ -430,10 +430,10 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         },
     ]
     extra_fields = [
-        {"name": "datumAfgifte", "parser": to_datetime, "save_as": "datumUitgifte"},
+        {"name": "datumAfgifte", "parser": to_date, "save_as": "datumUitgifte"},
         {
             "name": "datumEindeGeldigheid",
-            "parser": to_datetime,
+            "parser": to_date,
             "save_as": "datumAfloop",
         },
     ]
@@ -467,7 +467,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
                 logging.error(
                     f"ID without a datumEindeGeldigheid. original soort: {original_type_number}"
                 )
-            elif result_id["datumAfloop"] + relativedelta(months=+3) < datetime.now():
+            elif result_id["datumAfloop"] + relativedelta(months=+3) < date.today():
                 # skip
                 continue
 
@@ -485,12 +485,12 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
 
         result_per_type[type_number].append(result_id)
 
-    now = datetime.now()
+    now = date.today()
 
     # pick current documents per type, if there isn't a valid one per type, pick the last one
     for doc_type in result_per_type:
         docs = result_per_type[doc_type]
-        docs.sort(key=lambda x: x["datumAfloop"] or datetime.min)
+        docs.sort(key=lambda x: x["datumAfloop"] or date.min)
         # select current ones
         new_list = [i for i in docs if (i["datumAfloop"] and i["datumAfloop"] > now)]
         # no current docs, pick last one
