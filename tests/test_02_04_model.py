@@ -1,5 +1,5 @@
+from datetime import date
 import os
-from datetime import datetime
 from unittest import TestCase
 
 from bs4 import BeautifulSoup
@@ -36,7 +36,7 @@ class Model0204Tests(TestCase):
             "adres": {
                 # '_adresSleutel':  # changes each time!
                 "inOnderzoek": True,
-                "begindatumVerblijf": datetime(2012, 1, 1, 0, 0),
+                "begindatumVerblijf": date(2012, 1, 1),
                 "einddatumVerblijf": None,
                 "huisletter": None,
                 "huisnummer": "1",
@@ -49,8 +49,8 @@ class Model0204Tests(TestCase):
             },
             "adresHistorisch": [
                 {
-                    "begindatumVerblijf": datetime(2005, 1, 1, 0, 0),
-                    "einddatumVerblijf": datetime(2012, 1, 1, 0, 0),
+                    "begindatumVerblijf": date(2005, 1, 1),
+                    "einddatumVerblijf": date(2012, 1, 1),
                     "huisletter": None,
                     "huisnummer": "2",
                     "huisnummertoevoeging": "H",
@@ -62,8 +62,8 @@ class Model0204Tests(TestCase):
                     "landnaam": "Nederland",
                 },
                 {
-                    "begindatumVerblijf": datetime(1990, 1, 1, 0, 0),
-                    "einddatumVerblijf": datetime(2005, 1, 1, 0, 0),
+                    "begindatumVerblijf": date(1990, 1, 1),
+                    "einddatumVerblijf": date(2005, 1, 1),
                     "huisletter": None,
                     "huisnummer": "3",
                     "huisnummertoevoeging": "3",
@@ -75,7 +75,7 @@ class Model0204Tests(TestCase):
                     "landnaam": "Nederland",
                 },
                 {
-                    "begindatumVerblijf": datetime(1970, 1, 1, 0, 0),
+                    "begindatumVerblijf": date(1970, 1, 1),
                     "einddatumVerblijf": None,
                     "huisletter": None,
                     "huisnummer": "3333",
@@ -90,15 +90,15 @@ class Model0204Tests(TestCase):
             ],
             "identiteitsbewijzen": [
                 {
-                    "datumAfloop": datetime(2025, 1, 1, 0, 0),
-                    "datumUitgifte": datetime(2014, 1, 1, 0, 0),
+                    "datumAfloop": date(2025, 1, 1),
+                    "datumUitgifte": date(2014, 1, 1),
                     "documentNummer": "PP01XYZ35",
                     "documentType": "paspoort",
                     "id": "25ee19ff7a9ecb909e2bf5ca044f1f05d2998c98888893c2075240c25a2ff0f7",
                 },
                 {
-                    "datumAfloop": datetime(2025, 1, 1, 0, 0),
-                    "datumUitgifte": datetime(2014, 1, 1, 0, 0),
+                    "datumAfloop": date(2025, 1, 1),
+                    "datumUitgifte": date(2014, 1, 1),
                     "documentNummer": "PP12XYZ456",
                     "documentType": "paspoort",
                     "id": "52882470c67c063666cedc1e01779db71d186c2cffd818af2dd5d8ec021677f0",
@@ -109,7 +109,7 @@ class Model0204Tests(TestCase):
                     "adellijkeTitelPredikaat": None,
                     "bsn": "567890123",
                     "geboorteLand": "6030",
-                    "geboortedatum": datetime(2011, 1, 1, 0, 0),
+                    "geboortedatum": date(2011, 1, 1),
                     "geboortelandnaam": "Nederland",
                     "geboorteplaats": "947",
                     "geboorteplaatsnaam": "Neer",
@@ -128,7 +128,7 @@ class Model0204Tests(TestCase):
                     "adellijkeTitelPredikaat": None,
                     "bsn": "456789012",
                     "geboorteLand": "7035",
-                    "geboortedatum": datetime(1951, 1, 1, 0, 0),
+                    "geboortedatum": date(1951, 1, 1),
                     "geboortelandnaam": "Japan",
                     "geboorteplaats": "Tokio",
                     "geboorteplaatsnaam": "Osaka",
@@ -145,7 +145,7 @@ class Model0204Tests(TestCase):
                     "adellijkeTitelPredikaat": None,
                     "bsn": "345678901",
                     "geboorteLand": "5012",
-                    "geboortedatum": datetime(1961, 1, 1, 0, 0),
+                    "geboortedatum": date(1961, 1, 1),
                     "geboortelandnaam": "Iran",
                     "geboorteplaats": "Teheran",
                     "geboorteplaatsnaam": "Teheran",
@@ -166,7 +166,7 @@ class Model0204Tests(TestCase):
                 "codeGemeenteVanInschrijving": 363,
                 "codeLandEmigratie": None,
                 "datumVertrekUitNederland": None,
-                "geboortedatum": datetime(1968, 1, 1, 0, 0),
+                "geboortedatum": date(1968, 1, 1),
                 "geboortelandnaam": "Nederland",
                 "geboorteLand": "6030",
                 "geboorteplaats": "947",
@@ -188,12 +188,12 @@ class Model0204Tests(TestCase):
             },
             "verbintenis": {
                 "datumOntbinding": None,
-                "datumSluiting": datetime(2000, 1, 1, 0, 0),
+                "datumSluiting": date(2000, 1, 1),
                 "landnaamSluiting": "Nederland",
                 "persoon": {
                     "adellijkeTitelPredikaat": None,
                     "bsn": "234567890",
-                    "geboortedatum": datetime(1970, 1, 1, 0, 0),
+                    "geboortedatum": date(1970, 1, 1),
                     "geboortelandnaam": "Nederland",
                     "geboorteplaatsnaam": "Neer",
                     "geslachtsaanduiding": "V",
@@ -359,7 +359,7 @@ class Model0204Tests(TestCase):
             {
                 "woonplaatsNaam": "Amsterdam",
                 "straatnaam": ".",
-                "begindatumVerblijf": datetime(2021, 1, 11, 0, 0),
+                "begindatumVerblijf": date(2021, 1, 11),
                 "inOnderzoek": True,
                 "landcode": "0000",
                 "landnaam": "Nederland",
@@ -371,8 +371,8 @@ class Model0204Tests(TestCase):
             result["adresHistorisch"],
             [
                 {
-                    "begindatumVerblijf": datetime(2012, 1, 1, 0, 0),
-                    "einddatumVerblijf": datetime(2021, 1, 10, 0, 0),
+                    "begindatumVerblijf": date(2012, 1, 1),
+                    "einddatumVerblijf": date(2021, 1, 10),
                     "huisletter": None,
                     "huisnummer": "1",
                     "huisnummertoevoeging": "I",

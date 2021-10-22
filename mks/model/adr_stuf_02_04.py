@@ -1,9 +1,9 @@
+from datetime import date
 import logging
-from datetime import datetime
 
 from bs4 import Tag
 
-from mks.model.stuf_utils import to_datetime, is_nil
+from mks.model.stuf_utils import to_date, is_nil
 
 
 def extract_data(adr_tree: Tag):
@@ -11,7 +11,7 @@ def extract_data(adr_tree: Tag):
 
     residents_data = adr_tree.find_all("ADRPRSVBL", recursive=False)
 
-    now = datetime.now()
+    now = date.today()
 
     if is_nil(residents_data):
         logging.error("No data for address")
@@ -19,7 +19,7 @@ def extract_data(adr_tree: Tag):
 
     for res in residents_data:
         tijdvak = res.find("tijdvakRelatie", recursive=False)
-        endDate = to_datetime(tijdvak.find("einddatumRelatie", recursive=False))
+        endDate = to_date(tijdvak.find("einddatumRelatie", recursive=False))
 
         if endDate and endDate > now:
             continue
