@@ -87,16 +87,20 @@ def get_0204(bsn: str):
     return extract(response)
 
 
-def get_0204_raw(bsn: str):
+def get_0204_raw(bsn: str, raw: bool):
     soap_request_payload = _get_soap_request_payload(bsn)
     response = _get_response(
         f"{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon", soap_request_payload
     )
 
-    if log_response:
-        content_bytesio = BytesIO(response)
-        tree = etree.parse(content_bytesio)
+    if log_response or raw:
+        tree = etree.parse(
+            BytesIO(
+                bytes(response, "utf-8")
+                if not isinstance(response, bytes)
+                else response
+            )
+        )
         formatted_xml = etree.tostring(tree, pretty_print=True)
-        print(formatted_xml.decode())
 
     return response
