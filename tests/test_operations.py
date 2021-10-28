@@ -115,7 +115,7 @@ class BRPTests(TestCase):
         self.client.set_cookie("", "access_token", "a")
         response = self.client.get("/brp/brp/raw")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, get_xml_response_fixture())
+        self.assertEqual(response.data.decode("utf-8"), get_xml_response_fixture())
 
     @patch("mks.operations.get_bsn_from_saml_token", lambda: "123456789")
     @patch("mks.service.mks_client_02_04._get_response", get_xml_response_fixture)

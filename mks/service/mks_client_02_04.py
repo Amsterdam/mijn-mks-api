@@ -101,6 +101,6 @@ def get_0204_raw(bsn: str, raw: bool):
                 else response
             )
         )
-        formatted_xml = etree.tostring(tree, pretty_print=True)
+        response = etree.tostring(tree, pretty_print=True)
 
     return response

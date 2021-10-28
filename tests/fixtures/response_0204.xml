@@ -1,9 +1,7 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
   <soapenv:Header/>
   <soapenv:Body>
-    <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204"
-      xmlns:StUF="http://www.egem.nl/StUF/StUF0204"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204" xmlns:StUF="http://www.egem.nl/StUF/StUF0204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <StUF:stuurgegevens xmlns="http://www.egem.nl/StUF/StUF0204">
         <StUF:berichtsoort>La01</StUF:berichtsoort>
         <StUF:entiteittype>PRS</StUF:entiteittype>

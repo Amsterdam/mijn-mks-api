@@ -81,7 +81,7 @@ def get_brp_raw():
     if cookie_value is not None and cookie_value == get_raw_key():
         log_request(request)
         response = mks_client_02_04.get_0204_raw(get_bsn_from_saml_token(), True)
-        return response
+        return make_response(response, 200, {"Content-type": "text/xml"})
 
     return "no access without access token", 401
 
