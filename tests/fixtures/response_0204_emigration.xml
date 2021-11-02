@@ -102,6 +102,37 @@
                         </BG:ADR>
                     </BG:PRSADRINS>
 
+                    <BG:PRSADRVBL soortEntiteit="R" StUF:sleutelVerzendend="100" StUF:sleutelGegevensbeheer="100">
+                        <BG:tijdvakRelatie>
+                            <StUF:begindatumRelatie>19900101</StUF:begindatumRelatie>
+                            <StUF:einddatumRelatie>20050101</StUF:einddatumRelatie>
+                        </BG:tijdvakRelatie>
+                        <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072" StUF:sleutelGegevensbeheer="9072">
+                            <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:landcode>6030</BG:landcode>
+                            <BG:postcode>1011PB</BG:postcode>
+                            <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
+                            <BG:straatnaam>Amstel</BG:straatnaam>
+                            <BG:huisnummer>3</BG:huisnummer>
+                            <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:huisnummertoevoeging>3</BG:huisnummertoevoeging>
+                            <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:gemeentecode>363</BG:gemeentecode>
+                            <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                            <BG:extraElementen>
+                                <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
+                                <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
+                                <StUF:extraElement naam="openbareRuimteNaam">Amstel</StUF:extraElement>
+                                <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
+                                <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
+                            </BG:extraElementen>
+                        </BG:ADR>
+                    </BG:PRSADRVBL>
+
 
 
                     <BG:PRSADRINS soortEntiteit="R">
@@ -130,6 +161,33 @@
                             <BG:ingangsdatum StUF:noValue="geenWaarde" xsi:nil="true"/>
                         </BG:ADR>
                     </BG:PRSADRINS>
+
+                    <BG:PRSADRVBL soortEntiteit="R">
+                        <BG:tijdvakRelatie>
+                            <StUF:begindatumRelatie>20101001</StUF:begindatumRelatie>
+                            <StUF:einddatumRelatie StUF:noValue="geenWaarde" xsi:nil="true"/>
+                        </BG:tijdvakRelatie>
+                        <BG:extraElementen>
+                            <StUF:extraElement naam="aanduidingGegevensInOnderzoek">N</StUF:extraElement>
+                        </BG:extraElementen>
+                        <BG:ADR soortEntiteit="F">
+                            <BG:adresBuitenland1>89 Woodcote Road</BG:adresBuitenland1>
+                            <BG:adresBuitenland2>Caversham Heights</BG:adresBuitenland2>
+                            <BG:adresBuitenland3>RG4 7EZ</BG:adresBuitenland3>
+                            <BG:landcode>6039</BG:landcode>
+                            <BG:postcode StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:postbusnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
+                            <BG:antwoordnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
+                            <BG:straatnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:huisnummer StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:huisnummertoevoeging StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:aanduidingBijHuisnummer StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:locatieomschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+                            <BG:ingangsdatum StUF:noValue="geenWaarde" xsi:nil="true"/>
+                        </BG:ADR>
+                    </BG:PRSADRBVL>
 
                     <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
                         <BG:nummerIdentiteitsbewijs>IT01XYZ34</BG:nummerIdentiteitsbewijs>

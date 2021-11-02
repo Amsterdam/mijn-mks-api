@@ -88,7 +88,8 @@
                     <adresBuitenland3 StUF:noValue="geenWaarde" xsi:nil="true"/>
                     <landcode>0000</landcode>
                     <postcode StUF:noValue="geenWaarde" xsi:nil="true"/>
-                    <woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+                      <!--<woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>-->
+                    <woonplaatsnaam>Amsterdam</woonplaatsnaam>
                     <postbusnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
                     <antwoordnummer StUF:noValue="nietOndersteund" xsi:nil="true"/>
                     <straatnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
@@ -131,6 +132,38 @@
                     </BG:extraElementen>
                 </BG:ADR>
             </BG:PRSADRINS>
+
+            <BG:PRSADRVBL soortEntiteit="R" StUF:sleutelVerzendend="10"
+                          StUF:sleutelGegevensbeheer="10">
+                <BG:tijdvakRelatie>
+                    <StUF:begindatumRelatie>19990909</StUF:begindatumRelatie>
+                    <StUF:einddatumRelatie>20081231</StUF:einddatumRelatie>
+                </BG:tijdvakRelatie>
+                <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="10"
+                        StUF:sleutelGegevensbeheer="10">
+                    <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:landcode>6030</BG:landcode>
+                    <BG:postcode>1012PN</BG:postcode>
+                    <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
+                    <BG:postbusnummer xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <BG:antwoordnummer xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <BG:straatnaam>Amstel</BG:straatnaam>
+                    <BG:huisnummer>1</BG:huisnummer>
+                    <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <BG:gemeentecode xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <BG:extraElementen>
+                        <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
+                        <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
+                        <StUF:extraElement naam="openbareRuimteNaam">Amstel</StUF:extraElement>
+                        <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
+                        <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
+                    </BG:extraElementen>
+                </BG:ADR>
+            </BG:PRSADRVBL>
             <PRSIDB soortEntiteit="R" xsi:nil="true" StUF:noValue="geenWaarde"/>
             <PRSPRSHUW soortEntiteit="R" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
         </PRS>

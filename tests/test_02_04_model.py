@@ -46,6 +46,7 @@ class Model0204Tests(TestCase):
                 "straatnaam": "Amstel",
                 "woonplaatsNaam": "Amsterdam",
                 "landcode": "6030",
+                "adresType": "correspondentie"
             },
             "adresHistorisch": [
                 {
@@ -60,6 +61,7 @@ class Model0204Tests(TestCase):
                     "woonplaatsNaam": "Amsterdam",
                     "landcode": "6030",
                     "landnaam": "Nederland",
+                    "adresType": "woon"
                 },
                 {
                     "begindatumVerblijf": date(1990, 1, 1),
@@ -73,6 +75,7 @@ class Model0204Tests(TestCase):
                     "woonplaatsNaam": "Amsterdam",
                     "landcode": "6030",
                     "landnaam": "Nederland",
+                    "adresType": "woon"
                 },
                 {
                     "begindatumVerblijf": date(1970, 1, 1),
@@ -86,6 +89,7 @@ class Model0204Tests(TestCase):
                     "woonplaatsNaam": "Amsterdam",
                     "landcode": "6030",
                     "landnaam": "Nederland",
+                    "adresType": "woon"
                 },
             ],
             "identiteitsbewijzen": [
@@ -218,7 +222,7 @@ class Model0204Tests(TestCase):
             tree = BeautifulSoup(fp.read(), features="lxml-xml")
 
         result = extract_data(tree)
-
+        self.maxDiff = None
         self.assertEqual(type(result["adres"]["_adresSleutel"]), str)
         del result["adres"]["_adresSleutel"]  # changes each time
         self.assertEqual(result, self.get_result())
@@ -382,6 +386,7 @@ class Model0204Tests(TestCase):
                     "postcode": "1011 PN",
                     "straatnaam": "Amstel",
                     "woonplaatsNaam": "Amsterdam",
+                    "adresType": "woon"
                 }
             ],
         )

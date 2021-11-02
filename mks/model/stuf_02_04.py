@@ -312,7 +312,6 @@ def extract_verbintenis_data(persoon_tree: Tag):
         "verbintenisHistorisch": past_result,
     }
 
-
 def extract_address(persoon_tree: Tag, is_amsterdammer):
     result = []
     fields_tijdvak = [
@@ -353,45 +352,20 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         {"name": "officieleStraatnaam", "parser": to_string},
     ]
 
-    addresses = persoon_tree.find_all("PRSADRINS")
-    if is_nil(addresses):
+    verblijf_addresses = persoon_tree.find_all("PRSADRVBL")
+    correspondentie_addresses = persoon_tree.find_all("PRSADRCOR")
+
+    if is_nil(verblijf_addresses) & is_nil(correspondentie_addresses):
         return {}, []
+    if not is_nil(verblijf_addresses):
+        get_adresses_and_append_to_result(verblijf_addresses, result, 'woon', address_fields, fields_tijdvak, address_extra_fields, extra_fields)
 
-    for address in addresses:
-        address_result = {}
-
-        set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
-        set_extra_fields(address, extra_fields, address_result)
-
-        address_adr = address.ADR
-        set_fields(address_adr, address_fields, address_result)
-        set_extra_fields(address_adr, address_extra_fields, address_result)
-
-        if address_result["authentiekeWoonplaatsnaam"]:
-            address_result["woonplaatsNaam"] = address_result[
-                "authentiekeWoonplaatsnaam"
-            ]
-        del address_result["authentiekeWoonplaatsnaam"]
-
-        _set_value_on(
-            address_result, "gemeentecode", "woonplaatsNaam", lookup_gemeenten
-        )
-        del address_result["gemeentecode"]
-
-        if address_result["officieleStraatnaam"]:
-            address_result["straatnaam"] = address_result["officieleStraatnaam"]
-        del address_result["officieleStraatnaam"]
-
-        # get adressleutel to be able to get data about address resident count
-        if address_adr.attrs.get("StUF:sleutelVerzendend"):
-            address_result["_adresSleutel"] = encrypt(
-                address_adr.attrs["StUF:sleutelVerzendend"]
-            )
-
-        result.append(address_result)
+    if not is_nil(correspondentie_addresses):
+        get_adresses_and_append_to_result(correspondentie_addresses, result, 'correspondentie', address_fields, fields_tijdvak, address_extra_fields, extra_fields)
 
     current = None
     past = []
+    result.sort(key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
     for address in result:
         end = address["einddatumVerblijf"]
         if current is None and (end is None or end > date.today()):
@@ -417,6 +391,40 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         }
 
     return current, past
+
+def get_adresses_and_append_to_result(addresses, result, address_type, address_fields, fields_tijdvak, address_extra_fields, extra_fields):
+     for address in addresses:
+        address_result = {}
+
+        set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
+        set_extra_fields(address, extra_fields, address_result)
+
+        address_adr = address.ADR
+        set_fields(address_adr, address_fields, address_result)
+        set_extra_fields(address_adr, address_extra_fields, address_result)
+        address_result['adresType'] = address_type
+        if address_result["authentiekeWoonplaatsnaam"]:
+            address_result["woonplaatsNaam"] = address_result[
+                "authentiekeWoonplaatsnaam"
+            ]
+        del address_result["authentiekeWoonplaatsnaam"]
+
+        _set_value_on(
+            address_result, "gemeentecode", "woonplaatsNaam", lookup_gemeenten
+        )
+        del address_result["gemeentecode"]
+
+        if address_result["officieleStraatnaam"]:
+            address_result["straatnaam"] = address_result["officieleStraatnaam"]
+        del address_result["officieleStraatnaam"]
+
+        # get adressleutel to be able to get data about address resident count
+        if address_adr.attrs.get("StUF:sleutelVerzendend"):
+            address_result["_adresSleutel"] = encrypt(
+                address_adr.attrs["StUF:sleutelVerzendend"]
+            )
+
+        result.append(address_result)    
 
 
 def extract_identiteitsbewijzen(persoon_tree: Tag):
@@ -621,3 +629,4 @@ def set_geboorteplaatsNaam(target):
 
 def set_geboorteLandnaam(target):
     _set_value_on(target, "geboorteLand", "geboortelandnaam", lookup_landen)
+
