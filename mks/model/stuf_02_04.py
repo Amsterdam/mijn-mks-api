@@ -2,7 +2,7 @@ import logging
 from collections import defaultdict
 from datetime import date
 from hashlib import sha256
-
+from enum import Enum
 from bs4 import Tag, ResultSet
 from dateutil.relativedelta import relativedelta
 
@@ -31,6 +31,9 @@ from mks.model.stuf_utils import (
     is_nil,
     to_string_4x0,
 )
+
+ADDR_COR = "correspondentie" # address type Correspondentie
+ADDR_VBL = "woon" # address type Verblijf
 
 
 def get_nationaliteiten(nationaliteiten: ResultSet):
@@ -314,6 +317,57 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
 def extract_address(persoon_tree: Tag, is_amsterdammer):
     result = []
+    
+    addresses_vbl = format_addresses(persoon_tree.find_all('PRSADRVBL'), ADDR_VBL, is_amsterdammer)
+    addresses_cor = format_addresses(persoon_tree.find_all('PRSADRCOR'), ADDR_COR, is_amsterdammer)
+    addresses = merge_sort_addresses(addresses_vbl, addresses_cor)
+    if is_nil(addresses):
+        return {}, []
+
+    return get_current_past_addresses(addresses)
+    
+def get_current_past_addresses(addresses):
+    current = None
+    past = []   
+  
+    for address in addresses:
+        end = address["einddatumVerblijf"]
+        if current is None and (end is None or end > date.today()):
+            current = address
+        else:
+            if address.get("_adresSleutel"):
+                del address["_adresSleutel"]
+            past.append(address)
+
+    past.sort(key=lambda x: x["einddatumVerblijf"] or date.min, reverse=True)
+
+    # Punt adres is a thing so people are not registered on an address (which has al kinds of implications for that adres)
+    # replace the recent with minimum data and mark it as Adres in onderzoek
+    # see MIJN-2825
+    if current["straatnaam"] == ".":
+        current = {
+            "woonplaatsNaam": "Amsterdam",
+            "straatnaam": ".",
+            "begindatumVerblijf": current["begindatumVerblijf"],
+            "inOnderzoek": True,
+            "landcode": "0000",
+            "landnaam": "Nederland",
+        }
+
+    return current, past    
+
+def merge_sort_addresses(first_group, second_group):
+    all_addresses = first_group + second_group
+    if is_nil(all_addresses):
+        return []
+    all_addresses.sort(key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
+    return all_addresses 
+
+def format_addresses(addresses, address_type, is_amsterdammer):
+    result = []
+    if is_nil(addresses):
+        return []
+        
     fields_tijdvak = [
         {
             "name": "begindatumRelatie",
@@ -351,49 +405,7 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         {"name": "authentiekeWoonplaatsnaam", "parser": to_string},
         {"name": "officieleStraatnaam", "parser": to_string},
     ]
-
-    verblijf_addresses = persoon_tree.find_all("PRSADRVBL")
-    correspondentie_addresses = persoon_tree.find_all("PRSADRCOR")
-
-    if is_nil(verblijf_addresses) & is_nil(correspondentie_addresses):
-        return {}, []
-    if not is_nil(verblijf_addresses):
-        get_adresses_and_append_to_result(verblijf_addresses, result, 'woon', address_fields, fields_tijdvak, address_extra_fields, extra_fields)
-
-    if not is_nil(correspondentie_addresses):
-        get_adresses_and_append_to_result(correspondentie_addresses, result, 'correspondentie', address_fields, fields_tijdvak, address_extra_fields, extra_fields)
-
-    current = None
-    past = []
-    result.sort(key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
-    for address in result:
-        end = address["einddatumVerblijf"]
-        if current is None and (end is None or end > date.today()):
-            current = address
-        else:
-            if address.get("_adresSleutel"):
-                del address["_adresSleutel"]
-            past.append(address)
-
-    past.sort(key=lambda x: x["einddatumVerblijf"] or date.min, reverse=True)
-
-    # Punt adres is a thing so people are not registered on an address (which has al kinds of implications for that adres)
-    # replace the recent with minimum data and mark it as Adres in onderzoek
-    # see MIJN-2825
-    if current["straatnaam"] == ".":
-        current = {
-            "woonplaatsNaam": "Amsterdam",
-            "straatnaam": ".",
-            "begindatumVerblijf": current["begindatumVerblijf"],
-            "inOnderzoek": True,
-            "landcode": "0000",
-            "landnaam": "Nederland",
-        }
-
-    return current, past
-
-def get_adresses_and_append_to_result(addresses, result, address_type, address_fields, fields_tijdvak, address_extra_fields, extra_fields):
-     for address in addresses:
+    for address in addresses:
         address_result = {}
 
         set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
@@ -424,8 +436,8 @@ def get_adresses_and_append_to_result(addresses, result, address_type, address_f
                 address_adr.attrs["StUF:sleutelVerzendend"]
             )
 
-        result.append(address_result)    
-
+        result.append(address_result)   
+    return result
 
 def extract_identiteitsbewijzen(persoon_tree: Tag):
     result = []

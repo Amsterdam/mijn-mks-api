@@ -397,7 +397,6 @@ class Model0204Tests(TestCase):
             tree = BeautifulSoup(fp.read(), features="lxml-xml")
 
         result = extract_data(tree)
-
         self.assertEqual(result["adres"]["landnaam"], "Groot-Brittannië")
 
         self.assertEqual(result["persoon"]["vertrokkenOnbekendWaarheen"], False)
