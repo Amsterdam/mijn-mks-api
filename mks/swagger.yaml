@@ -129,6 +129,8 @@ components:
               type: string
             inOnderzoek:
               type: boolean
+            adresType:
+              type: string
             _adresSleutel:
               description: encrypted key to be used to get further information about adres
               type: string
