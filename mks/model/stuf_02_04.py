@@ -5,6 +5,7 @@ from hashlib import sha256
 from enum import Enum
 from bs4 import Tag, ResultSet
 from dateutil.relativedelta import relativedelta
+from itertools import chain
 
 from mks.model.gba import (
     lookup_prsidb_soort_code,
@@ -318,56 +319,32 @@ def extract_verbintenis_data(persoon_tree: Tag):
 def extract_address(persoon_tree: Tag, is_amsterdammer):
     result = []
     
-    addresses_vbl = format_addresses(persoon_tree.find_all('PRSADRVBL'), ADDR_VBL, is_amsterdammer)
-    addresses_cor = format_addresses(persoon_tree.find_all('PRSADRCOR'), ADDR_COR, is_amsterdammer)
-    addresses = merge_sort_addresses(addresses_vbl, addresses_cor)
-    if is_nil(addresses):
-        return {}, []
-
-    return get_current_past_addresses(addresses)
-    
-def get_current_past_addresses(addresses):
-    current = None
-    past = []   
-  
-    for address in addresses:
-        end = address["einddatumVerblijf"]
-        if current is None and (end is None or end > date.today()):
-            current = address
-        else:
-            if address.get("_adresSleutel"):
-                del address["_adresSleutel"]
-            past.append(address)
-
-    past.sort(key=lambda x: x["einddatumVerblijf"] or date.min, reverse=True)
-
-    # Punt adres is a thing so people are not registered on an address (which has al kinds of implications for that adres)
-    # replace the recent with minimum data and mark it as Adres in onderzoek
-    # see MIJN-2825
-    if current["straatnaam"] == ".":
-        current = {
-            "woonplaatsNaam": "Amsterdam",
-            "straatnaam": ".",
-            "begindatumVerblijf": current["begindatumVerblijf"],
-            "inOnderzoek": True,
-            "landcode": "0000",
-            "landnaam": "Nederland",
-        }
-
-    return current, past    
-
-def merge_sort_addresses(first_group, second_group):
-    all_addresses = first_group + second_group
-    if is_nil(all_addresses):
-        return []
-    all_addresses.sort(key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
-    return all_addresses 
-
-def format_addresses(addresses, address_type, is_amsterdammer):
-    result = []
-    if is_nil(addresses):
-        return []
+    addresses_vbl_source = persoon_tree.find_all("PRSADRVBL")
+    addresses_cor_source = persoon_tree.find_all("PRSADRCOR")
         
+    addresses_vbl = format_addresses(addresses_vbl_source, ADDR_VBL, is_amsterdammer)
+    addresses_cor = format_addresses(addresses_cor_source, ADDR_COR, is_amsterdammer)
+    addresses = merge_sort_addresses(addresses_vbl, addresses_cor)
+
+    return addresses
+     
+def merge_sort_addresses(*address_lists):
+    all_addresses = list(chain(*address_lists))
+    if is_nil(all_addresses):
+        return {}, []
+    all_addresses.sort(key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
+    end = all_addresses[0]["einddatumVerblijf"]
+    hasCurrent = end is None or end > date.today()
+    address_current =  all_addresses[0] if hasCurrent else {} # Laatste inschrijfdatum
+    address_history = all_addresses[1:] if hasCurrent else all_addresses[0:]# Alle andere, beginnend met het vorige adres 
+    for address in address_history:
+        if address.get("_adresSleutel"):
+            del address["_adresSleutel"]
+
+    return address_current, address_history
+
+def format_address(address, address_type, is_amsterdammer):
+    address_result = {}
     fields_tijdvak = [
         {
             "name": "begindatumRelatie",
@@ -405,39 +382,55 @@ def format_addresses(addresses, address_type, is_amsterdammer):
         {"name": "authentiekeWoonplaatsnaam", "parser": to_string},
         {"name": "officieleStraatnaam", "parser": to_string},
     ]
-    for address in addresses:
-        address_result = {}
 
-        set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
-        set_extra_fields(address, extra_fields, address_result)
+    set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
+    set_extra_fields(address, extra_fields, address_result)
 
-        address_adr = address.ADR
-        set_fields(address_adr, address_fields, address_result)
-        set_extra_fields(address_adr, address_extra_fields, address_result)
-        address_result['adresType'] = address_type
-        if address_result["authentiekeWoonplaatsnaam"]:
-            address_result["woonplaatsNaam"] = address_result[
-                "authentiekeWoonplaatsnaam"
-            ]
-        del address_result["authentiekeWoonplaatsnaam"]
+    address_adr = address.ADR
+    set_fields(address_adr, address_fields, address_result)
+    set_extra_fields(address_adr, address_extra_fields, address_result)
+    address_result['adresType'] = address_type
+    if address_result["authentiekeWoonplaatsnaam"]:
+        address_result["woonplaatsNaam"] = address_result[
+            "authentiekeWoonplaatsnaam"
+        ]
+    del address_result["authentiekeWoonplaatsnaam"]
 
-        _set_value_on(
-            address_result, "gemeentecode", "woonplaatsNaam", lookup_gemeenten
-        )
-        del address_result["gemeentecode"]
+    _set_value_on(
+        address_result, "gemeentecode", "woonplaatsNaam", lookup_gemeenten
+    )
+    del address_result["gemeentecode"]
 
-        if address_result["officieleStraatnaam"]:
-            address_result["straatnaam"] = address_result["officieleStraatnaam"]
-        del address_result["officieleStraatnaam"]
+    if address_result["officieleStraatnaam"]:
+        address_result["straatnaam"] = address_result["officieleStraatnaam"]
+    del address_result["officieleStraatnaam"]
 
         # get adressleutel to be able to get data about address resident count
-        if address_adr.attrs.get("StUF:sleutelVerzendend"):
-            address_result["_adresSleutel"] = encrypt(
-                address_adr.attrs["StUF:sleutelVerzendend"]
-            )
+    if address_adr.attrs.get("StUF:sleutelVerzendend"):
+       address_result["_adresSleutel"] = encrypt(
+            address_adr.attrs["StUF:sleutelVerzendend"]
+        )
+    if address_result["straatnaam"] == ".":
+        address_result = {
+            "woonplaatsNaam": "Amsterdam",
+            "straatnaam": ".",
+            "begindatumVerblijf": address_result["begindatumVerblijf"],
+            "einddatumVerblijf": address_result["einddatumVerblijf"],
+            "inOnderzoek": True,
+            "landcode": "0000",
+            "landnaam": "Nederland",
+        }          
+    return address_result   
 
-        result.append(address_result)   
-    return result
+def format_addresses(addresses, address_type, is_amsterdammer):
+    if is_nil(addresses):
+        return []
+    return [
+        format_address(address, address_type, is_amsterdammer)
+        for address in addresses
+    ]
+        
+    
 
 def extract_identiteitsbewijzen(persoon_tree: Tag):
     result = []

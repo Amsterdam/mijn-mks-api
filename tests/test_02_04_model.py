@@ -364,6 +364,7 @@ class Model0204Tests(TestCase):
                 "woonplaatsNaam": "Amsterdam",
                 "straatnaam": ".",
                 "begindatumVerblijf": date(2021, 1, 11),
+                "einddatumVerblijf": None,
                 "inOnderzoek": True,
                 "landcode": "0000",
                 "landnaam": "Nederland",
