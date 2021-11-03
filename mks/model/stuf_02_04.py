@@ -33,8 +33,8 @@ from mks.model.stuf_utils import (
     to_string_4x0,
 )
 
-ADDR_COR = "correspondentie" # address type Correspondentie
-ADDR_VBL = "woon" # address type Verblijf
+ADDR_COR = "correspondentie"  # address type Correspondentie
+ADDR_VBL = "woon"  # address type Verblijf
 
 
 def get_nationaliteiten(nationaliteiten: ResultSet):
@@ -121,7 +121,8 @@ def extract_persoon_data(persoon_tree: Tag):
     # vertrokken onbekend waarheen
     result["vertrokkenOnbekendWaarheen"] = False
 
-    result["nationaliteiten"] = get_nationaliteiten(persoon_tree.find_all("PRSNAT"))
+    result["nationaliteiten"] = get_nationaliteiten(
+        persoon_tree.find_all("PRSNAT"))
 
     set_omschrijving_geslachtsaanduiding(result)
     set_geboorteLandnaam(result)
@@ -287,7 +288,8 @@ def extract_verbintenis_data(persoon_tree: Tag):
         set_extra_fields(verb, verbintenis_extra_fields, result_verbintenis)
 
         set_fields(verb.PRS, partner_fields, result_verbintenis["persoon"])
-        set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis["persoon"])
+        set_extra_fields(verb.PRS, partner_extra_fields,
+                         result_verbintenis["persoon"])
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis["persoon"])
 
@@ -316,32 +318,37 @@ def extract_verbintenis_data(persoon_tree: Tag):
         "verbintenisHistorisch": past_result,
     }
 
+
 def extract_address(persoon_tree: Tag, is_amsterdammer):
-    result = []
-    
     addresses_vbl_source = persoon_tree.find_all("PRSADRVBL")
     addresses_cor_source = persoon_tree.find_all("PRSADRCOR")
-        
-    addresses_vbl = format_addresses(addresses_vbl_source, ADDR_VBL, is_amsterdammer)
-    addresses_cor = format_addresses(addresses_cor_source, ADDR_COR, is_amsterdammer)
+    addresses_vbl = format_addresses(
+        addresses_vbl_source, ADDR_VBL, is_amsterdammer)
+    addresses_cor = format_addresses(
+        addresses_cor_source, ADDR_COR, is_amsterdammer)
     addresses = merge_sort_addresses(addresses_vbl, addresses_cor)
 
     return addresses
-     
+
+
 def merge_sort_addresses(*address_lists):
     all_addresses = list(chain(*address_lists))
     if is_nil(all_addresses):
         return {}, []
-    all_addresses.sort(key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
+    all_addresses.sort(
+        key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
     end = all_addresses[0]["einddatumVerblijf"]
     hasCurrent = end is None or end > date.today()
-    address_current =  all_addresses[0] if hasCurrent else {} # Laatste inschrijfdatum
-    address_history = all_addresses[1:] if hasCurrent else all_addresses[0:]# Alle andere, beginnend met het vorige adres 
+    # Laatste inschrijfdatum
+    address_current = all_addresses[0] if hasCurrent else {}
+    # Alle andere, beginnend met het vorige adres
+    address_history = all_addresses[1:] if hasCurrent else all_addresses[0:]
     for address in address_history:
         if address.get("_adresSleutel"):
             del address["_adresSleutel"]
 
     return address_current, address_history
+
 
 def format_address(address, address_type, is_amsterdammer):
     address_result = {}
@@ -405,9 +412,9 @@ def format_address(address, address_type, is_amsterdammer):
         address_result["straatnaam"] = address_result["officieleStraatnaam"]
     del address_result["officieleStraatnaam"]
 
-        # get adressleutel to be able to get data about address resident count
+    # get adressleutel to be able to get data about address resident count
     if address_adr.attrs.get("StUF:sleutelVerzendend"):
-       address_result["_adresSleutel"] = encrypt(
+        address_result["_adresSleutel"] = encrypt(
             address_adr.attrs["StUF:sleutelVerzendend"]
         )
     if address_result["straatnaam"] == ".":
@@ -419,8 +426,9 @@ def format_address(address, address_type, is_amsterdammer):
             "inOnderzoek": True,
             "landcode": "0000",
             "landnaam": "Nederland",
-        }          
-    return address_result   
+        }
+    return address_result
+
 
 def format_addresses(addresses, address_type, is_amsterdammer):
     if is_nil(addresses):
@@ -429,8 +437,7 @@ def format_addresses(addresses, address_type, is_amsterdammer):
         format_address(address, address_type, is_amsterdammer)
         for address in addresses
     ]
-        
-    
+
 
 def extract_identiteitsbewijzen(persoon_tree: Tag):
     result = []
@@ -505,7 +512,8 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
         docs = result_per_type[doc_type]
         docs.sort(key=lambda x: x["datumAfloop"] or date.min)
         # select current ones
-        new_list = [i for i in docs if (i["datumAfloop"] and i["datumAfloop"] > now)]
+        new_list = [i for i in docs if (
+            i["datumAfloop"] and i["datumAfloop"] > now)]
         # no current docs, pick last one
         if not new_list:
             new_list = [docs[-1]]
@@ -600,7 +608,8 @@ def set_opgemaakte_naam(persoon, verbintenissen):
     # in case we do not have the opgemaakteNaam
     if not persoon["opgemaakteNaam"]:
         if persoon["voornamen"]:
-            initials_list = ["%s." % i[0] for i in persoon["voornamen"].split(" ")]
+            initials_list = ["%s." % i[0]
+                             for i in persoon["voornamen"].split(" ")]
             initials = "".join(initials_list)
         else:
             initials = ""
@@ -629,9 +638,9 @@ def set_omschrijving_geslachtsaanduiding(target):
 
 
 def set_geboorteplaatsNaam(target):
-    _set_value_on(target, "geboorteplaats", "geboorteplaatsnaam", lookup_gemeenten)
+    _set_value_on(target, "geboorteplaats",
+                  "geboorteplaatsnaam", lookup_gemeenten)
 
 
 def set_geboorteLandnaam(target):
     _set_value_on(target, "geboorteLand", "geboortelandnaam", lookup_landen)
-

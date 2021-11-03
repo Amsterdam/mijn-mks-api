@@ -12,7 +12,8 @@ os.environ["MKS_BRP_ENDPOINT"] = "https://example.com"
 os.environ["MKS_JWT_KEY"] = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
 
-FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
+FIXTURE_PATH = os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "fixtures")
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204.xml")
 RESPONSE_NO_KIDS_PARENTS_ID_PARTNERS_ADR = os.path.join(
     FIXTURE_PATH, "response_0204_no_kids_parents_idb_partners_adr.xml"
@@ -25,9 +26,11 @@ VOW_RESPONSE_PATH = os.path.join(
 VOW_NOT_FROM_AMSTERDAM_RESPONSE_PATH = os.path.join(
     FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen_not_from_amsterdam.xml"
 )
-EMIGRATION_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "response_0204_emigration.xml")
+EMIGRATION_RESPONSE_PATH = os.path.join(
+    FIXTURE_PATH, "response_0204_emigration.xml")
 
-ONTBINDING_RESPOSNE_PATH = os.path.join(FIXTURE_PATH, "response_0204_ontbinding.xml")
+ONTBINDING_RESPOSNE_PATH = os.path.join(
+    FIXTURE_PATH, "response_0204_ontbinding.xml")
 
 
 class Model0204Tests(TestCase):
@@ -252,7 +255,8 @@ class Model0204Tests(TestCase):
         tree.find("redenOntbinding").string = "X"
         result = extract_data(tree)
 
-        self.assertEqual(result["verbintenis"]["redenOntbindingOmschrijving"], None)
+        self.assertEqual(result["verbintenis"]
+                         ["redenOntbindingOmschrijving"], None)
 
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
 
@@ -327,7 +331,8 @@ class Model0204Tests(TestCase):
 
         result = extract_data(tree)
 
-        self.assertEqual(result["persoon"]["vertrokkenOnbekendWaarheen"], False)
+        self.assertEqual(result["persoon"]
+                         ["vertrokkenOnbekendWaarheen"], False)
 
     def test_extraction_no_kids_parents_id_partners(self):
         """Test if the person has status vertrokken onbekend waarheen."""
@@ -400,7 +405,8 @@ class Model0204Tests(TestCase):
         result = extract_data(tree)
         self.assertEqual(result["adres"]["landnaam"], "Groot-Brittannië")
 
-        self.assertEqual(result["persoon"]["vertrokkenOnbekendWaarheen"], False)
+        self.assertEqual(result["persoon"]
+                         ["vertrokkenOnbekendWaarheen"], False)
 
         self.assertEqual(result["adresHistorisch"][0]["straatnaam"], "Amstel")
 
@@ -433,7 +439,8 @@ class Model0204Tests(TestCase):
 
         persoon = get_persoon()
         set_opgemaakte_naam(persoon, verbintenissen)
-        self.assertEqual(persoon["opgemaakteNaam"], "V.V. ter eigengeslachtsnaam")
+        self.assertEqual(persoon["opgemaakteNaam"],
+                         "V.V. ter eigengeslachtsnaam")
 
         verbintenissen = [
             {
@@ -465,7 +472,8 @@ class Model0204Tests(TestCase):
         persoon = get_persoon()
         persoon["aanduidingNaamgebruik"] = "P"
         set_opgemaakte_naam(persoon, verbintenissen)
-        self.assertEqual(persoon["opgemaakteNaam"], "V.V. van partnergeslachtsnaam")
+        self.assertEqual(persoon["opgemaakteNaam"],
+                         "V.V. van partnergeslachtsnaam")
 
     def test_idb_allow_list(self):
         with open(RESPONSE_IDB) as fp:
