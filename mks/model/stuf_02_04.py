@@ -322,27 +322,35 @@ def extract_verbintenis_data(persoon_tree: Tag):
 def extract_address(persoon_tree: Tag, is_amsterdammer):
     addresses_vbl_source = persoon_tree.find_all("PRSADRVBL")
     addresses_cor_source = persoon_tree.find_all("PRSADRCOR")
-    addresses_vbl = format_addresses(
-        addresses_vbl_source, ADDR_VBL, is_amsterdammer)
-    addresses_cor = format_addresses(
-        addresses_cor_source, ADDR_COR, is_amsterdammer)
+    addresses_vbl = []
+    addresses_cor = []
+    if not is_nil(addresses_vbl_source):
+        addresses_vbl = format_addresses(
+            addresses_vbl_source, ADDR_VBL, is_amsterdammer
+        )
+    if not is_nil(addresses_cor_source):
+        addresses_cor = format_addresses(
+            addresses_cor_source, ADDR_COR, is_amsterdammer
+        )
+    if not addresses_cor and not addresses_vbl:
+        return {}, []
     addresses = merge_sort_addresses(addresses_vbl, addresses_cor)
 
-    return addresses
+    return get_current_past_addresses(addresses)
 
 
 def merge_sort_addresses(*address_lists):
     all_addresses = list(chain(*address_lists))
-    if is_nil(all_addresses):
-        return {}, []
     all_addresses.sort(
         key=lambda x: x["begindatumVerblijf"] or date.min, reverse=True)
-    end = all_addresses[0]["einddatumVerblijf"]
-    hasCurrent = end is None or end > date.today()
+    return all_addresses
+
+
+def get_current_past_addresses(addresses):
     # Laatste inschrijfdatum
-    address_current = all_addresses[0] if hasCurrent else {}
+    address_current = addresses[0]
     # Alle andere, beginnend met het vorige adres
-    address_history = all_addresses[1:] if hasCurrent else all_addresses[0:]
+    address_history = addresses[1:]
     for address in address_history:
         if address.get("_adresSleutel"):
             del address["_adresSleutel"]
@@ -431,8 +439,6 @@ def format_address(address, address_type, is_amsterdammer):
 
 
 def format_addresses(addresses, address_type, is_amsterdammer):
-    if is_nil(addresses):
-        return []
     return [
         format_address(address, address_type, is_amsterdammer)
         for address in addresses
