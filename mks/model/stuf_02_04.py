@@ -335,8 +335,16 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
     if not addresses_cor and not addresses_vbl:
         return {}, []
     addresses = merge_sort_addresses(addresses_vbl, addresses_cor)
+    address_current, address_history = get_current_past_addresses(addresses)
 
-    return get_current_past_addresses(addresses)
+    return address_current, delete_address_key(address_history)
+
+
+def delete_address_key(address_history):
+    for address in address_history:
+        if address.get("_adresSleutel"):
+            del address["_adresSleutel"]
+    return address_history
 
 
 def merge_sort_addresses(*address_lists):
@@ -351,9 +359,6 @@ def get_current_past_addresses(addresses):
     address_current = addresses[0]
     # Alle andere, beginnend met het vorige adres
     address_history = addresses[1:]
-    for address in address_history:
-        if address.get("_adresSleutel"):
-            del address["_adresSleutel"]
 
     return address_current, address_history
 
