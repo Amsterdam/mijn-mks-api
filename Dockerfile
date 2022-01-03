@@ -10,7 +10,7 @@ RUN pip install uwsgi
 
 WORKDIR /app
 
-COPY mks ./app
+COPY mks ./app/mks
 COPY scripts ./scripts
 COPY requirements.txt .
 COPY uwsgi.ini .
