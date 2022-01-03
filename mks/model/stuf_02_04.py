@@ -309,7 +309,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     else:
         current_result = {}
 
-    past_result = [p for p in result if not p is current_result]
+    past_result = [p for p in result if not (p == current_result)]
 
     return {
         "verbintenis": current_result,
