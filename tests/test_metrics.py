@@ -8,6 +8,6 @@ class MetricsTest(FlaskServerTMATestCase):
         self.client = self.get_tma_test_app(application)
 
     def test_get(self):
-        response = self.client.get('/metrics')
+        response = self.client.get("/metrics")
 
         print(response.data.decode())

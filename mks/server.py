@@ -31,7 +31,7 @@ mapping = {
 # using a custom resolver to determine operations
 # instead of the operationId in the yaml file.
 webapp.add_api(
-    "swagger.yaml",
+    "openapi.yaml",
     resolver=operation_resolver.CustomOperationResolver(mapping),
     validate_responses=not IS_PRODUCTION and not IS_ACCEPTANCE,
 )

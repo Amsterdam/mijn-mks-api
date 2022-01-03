@@ -5,27 +5,36 @@ from unittest.mock import patch
 
 from bs4 import BeautifulSoup
 
-from mks.model.stuf_utils import to_bool, encrypt, decrypt, to_datetime, to_int, to_string, as_postcode, to_date, is_nil
+from mks.model.stuf_utils import (
+    to_bool,
+    encrypt,
+    decrypt,
+    to_datetime,
+    to_int,
+    to_string,
+    as_postcode,
+    to_date,
+    is_nil,
+)
 
 jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
 
-@patch.dict(os.environ, {'MKS_JWT_KEY': jwk_string})
+@patch.dict(os.environ, {"MKS_JWT_KEY": jwk_string})
 class UtilsTest(TestCase):
-
     def _get_value(self, xml, tag_name):
-        tree = BeautifulSoup(xml, features='lxml-xml')
+        tree = BeautifulSoup(xml, features="lxml-xml")
         value = tree.find(tag_name).text
         return value
 
     def test_to_bool(self):
-        self.assertFalse(to_bool(self._get_value('<a>0</a>', 'a')))
-        self.assertFalse(to_bool(self._get_value('<a>n</a>', 'a')))
-        self.assertFalse(to_bool(self._get_value('<a></a>', 'a')))
-        self.assertFalse(to_bool(self._get_value('<a />', 'a')))
+        self.assertFalse(to_bool(self._get_value("<a>0</a>", "a")))
+        self.assertFalse(to_bool(self._get_value("<a>n</a>", "a")))
+        self.assertFalse(to_bool(self._get_value("<a></a>", "a")))
+        self.assertFalse(to_bool(self._get_value("<a />", "a")))
 
-        self.assertTrue(to_bool(self._get_value('<a>1</a>', 'a')))
-        self.assertTrue(to_bool(self._get_value('<a>j</a>', 'a')))
+        self.assertTrue(to_bool(self._get_value("<a>1</a>", "a")))
+        self.assertTrue(to_bool(self._get_value("<a>j</a>", "a")))
 
     def test_encrypt_decrypt(self):
         original_value = "1234567890"
@@ -37,73 +46,73 @@ class UtilsTest(TestCase):
         self.assertEqual(decrypted, original_value)
 
     def test_to_datetime(self):
-        value = self._get_value('<a>201231</a>', 'a')
+        value = self._get_value("<a>201231</a>", "a")
         self.assertEqual(to_datetime(value), datetime(2012, 3, 1, 0, 0))
 
-        value = self._get_value('<a></a>', 'a')
+        value = self._get_value("<a></a>", "a")
         self.assertEqual(to_datetime(value), None)
 
     def test_to_date(self):
-        value = self._get_value('<a>20120301</a>', 'a')
+        value = self._get_value("<a>20120301</a>", "a")
         self.assertEqual(to_date(value), date(2012, 3, 1))
 
-        value = self._get_value('<a></a>', 'a')
+        value = self._get_value("<a></a>", "a")
         self.assertEqual(to_date(value), None)
 
     def test_to_int(self):
-        value = self._get_value('<a>1</a>', 'a')
+        value = self._get_value("<a>1</a>", "a")
         self.assertEqual(to_int(value), 1)
 
-        value = self._get_value('<a>2</a>', 'a')
+        value = self._get_value("<a>2</a>", "a")
         self.assertEqual(to_int(value), 2)
 
-        value = self._get_value('<a>1234567890123456</a>', 'a')
+        value = self._get_value("<a>1234567890123456</a>", "a")
         self.assertEqual(to_int(value), 1234567890123456)
 
-        value = self._get_value('<a>aa</a>', 'a')
+        value = self._get_value("<a>aa</a>", "a")
         with self.assertRaises(ValueError):
             to_int(value)
 
-        value = self._get_value('<a></a>', 'a')
+        value = self._get_value("<a></a>", "a")
         self.assertEqual(to_int(value), None)
 
-        value = self._get_value('<a/>', 'a')
+        value = self._get_value("<a/>", "a")
         self.assertEqual(to_int(value), None)
 
     def test_to_string(self):
-        value = self._get_value('<a>1</a>', 'a')
+        value = self._get_value("<a>1</a>", "a")
         self.assertEqual(to_string(value), "1")
-        value = self._get_value('<a>abc</a>', 'a')
+        value = self._get_value("<a>abc</a>", "a")
         self.assertEqual(to_string(value), "abc")
 
     def test_to_postcode(self):
-        value = self._get_value('<a>1234AA</a>', 'a')
+        value = self._get_value("<a>1234AA</a>", "a")
         self.assertEqual(as_postcode(value), "1234 AA")
 
-        value = self._get_value('<a>1234aa</a>', 'a')
+        value = self._get_value("<a>1234aa</a>", "a")
         self.assertEqual(as_postcode(value), "1234 AA")
 
-        value = self._get_value('<a>1234</a>', 'a')
+        value = self._get_value("<a>1234</a>", "a")
         self.assertEqual(as_postcode(value), None)
 
-        value = self._get_value('<a>aa</a>', 'a')
+        value = self._get_value("<a>aa</a>", "a")
         self.assertEqual(as_postcode(value), None)
 
     def test_is_nil(self):
         def wrap(xmlstring):
-            xmlstring = f'''
+            xmlstring = f"""
                 <?xml version='1.0' encoding='UTF-8'?>
                 <wrap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 {xmlstring}
                 </wrap>
-            '''
-            tree = BeautifulSoup(xmlstring, features='lxml-xml')
+            """
+            tree = BeautifulSoup(xmlstring, features="lxml-xml")
             return tree
 
         s = wrap('<a xsi:nil="true">1234AA</a>')
-        self.assertTrue(is_nil(s.find('a')))
+        self.assertTrue(is_nil(s.find("a")))
 
-        s = wrap('<a><b>1</b><b>2</b></a>')
-        self.assertFalse(is_nil(s.find_all('b')))
+        s = wrap("<a><b>1</b><b>2</b></a>")
+        self.assertFalse(is_nil(s.find_all("b")))
 
         self.assertTrue(is_nil([]))
