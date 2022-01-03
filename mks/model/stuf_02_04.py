@@ -298,14 +298,18 @@ def extract_verbintenis_data(persoon_tree: Tag):
     # sort to be sure that the most current partner is on top
     result.sort(key=lambda x: x["datumSluiting"] or date.min, reverse=True)
 
-    current_results = [p for p in result if not p["datumOntbinding"]]
+    current_results = [
+        p
+        for p in result
+        if not p["datumOntbinding"] and not p["redenOntbindingOmschrijving"]
+    ]
 
     if current_results:
         current_result = current_results[0]
     else:
         current_result = {}
 
-    past_result = [p for p in result if p["datumOntbinding"]]
+    past_result = [p for p in result if not p is current_result]
 
     return {
         "verbintenis": current_result,
