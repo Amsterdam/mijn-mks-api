@@ -3,7 +3,13 @@ import os
 from unittest import TestCase
 
 from bs4 import BeautifulSoup
-from mks.model.stuf_02_04 import extract_data, get_nationaliteiten, set_opgemaakte_naam
+from mks.model.stuf_02_04 import (
+    extract_data,
+    extract_verbintenis_data,
+    get_nationaliteiten,
+    set_opgemaakte_naam,
+)
+from mks.model.stuf_utils import to_date
 
 os.environ["TMA_CERTIFICATE"] = "cert content"
 os.environ["BRP_APPLICATIE"] = "mijnAmsTestApp"
@@ -32,6 +38,7 @@ ONTBINDING_RESPOSNE_PATH = os.path.join(FIXTURE_PATH, "response_0204_ontbinding.
 
 class Model0204Tests(TestCase):
     def get_result(self):
+        self.maxDiff = None
         return {
             "adres": {
                 # '_adresSleutel':  # changes each time!
@@ -186,31 +193,33 @@ class Model0204Tests(TestCase):
                 "voornamen": "Johannes",
                 "voorvoegselGeslachtsnaam": "den",
             },
-            "verbintenis": {
-                "datumOntbinding": None,
-                "datumSluiting": date(2000, 1, 1),
-                "landnaamSluiting": "Nederland",
-                "persoon": {
-                    "adellijkeTitelPredikaat": None,
-                    "bsn": "234567890",
-                    "geboortedatum": date(1970, 1, 1),
-                    "geboortelandnaam": "Nederland",
-                    "geboorteplaatsnaam": "Neer",
-                    "geslachtsaanduiding": "V",
-                    "geslachtsnaam": "Bakker",
-                    "omschrijvingAdellijkeTitel": "Jonkvrouw",
-                    "omschrijvingGeslachtsaanduiding": "Vrouw",
-                    "opgemaakteNaam": None,
-                    "overlijdensdatum": None,
-                    "voornamen": "Wilhelmina",
-                    "voorvoegselGeslachtsnaam": "van",
-                },
-                "plaatsnaamSluitingOmschrijving": "Amsterdam",
-                "soortVerbintenis": None,
-                "soortVerbintenisOmschrijving": "Huwelijk",
-                "redenOntbindingOmschrijving": "Overlijden",
-            },
-            "verbintenisHistorisch": [],
+            "verbintenis": {},
+            "verbintenisHistorisch": [
+                {
+                    "datumOntbinding": None,
+                    "datumSluiting": date(2000, 1, 1),
+                    "landnaamSluiting": "Nederland",
+                    "persoon": {
+                        "adellijkeTitelPredikaat": None,
+                        "bsn": "234567890",
+                        "geboortedatum": date(1970, 1, 1),
+                        "geboortelandnaam": "Nederland",
+                        "geboorteplaatsnaam": "Neer",
+                        "geslachtsaanduiding": "V",
+                        "geslachtsnaam": "Bakker",
+                        "omschrijvingAdellijkeTitel": "Jonkvrouw",
+                        "omschrijvingGeslachtsaanduiding": "Vrouw",
+                        "opgemaakteNaam": None,
+                        "overlijdensdatum": None,
+                        "voornamen": "Wilhelmina",
+                        "voorvoegselGeslachtsnaam": "van",
+                    },
+                    "plaatsnaamSluitingOmschrijving": "Amsterdam",
+                    "soortVerbintenis": None,
+                    "soortVerbintenisOmschrijving": "Huwelijk",
+                    "redenOntbindingOmschrijving": "Overlijden",
+                }
+            ],
         }
 
     def test_response(self):
@@ -242,7 +251,8 @@ class Model0204Tests(TestCase):
         result = extract_data(tree)
 
         self.assertEqual(
-            result["verbintenis"]["redenOntbindingOmschrijving"], "Echtscheiding"
+            result["verbintenisHistorisch"][0]["redenOntbindingOmschrijving"],
+            "Echtscheiding",
         )
 
         tree.find("redenOntbinding").string = "X"
@@ -304,6 +314,197 @@ class Model0204Tests(TestCase):
             {"code": 336, "omschrijving": "Syrische"},
         ]
         self.assertEqual(result, expected)
+
+    def test_verbintenissen(self):
+        response_xml = """
+        <BG:PRS>
+        <BG:PRSPRSHUW soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:datumSluiting>20000101</BG:datumSluiting>
+            <BG:plaatsSluiting>363</BG:plaatsSluiting>
+            <BG:landSluiting>6030</BG:landSluiting>
+            <BG:datumOntbinding xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:redenOntbinding xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:extraElementen>
+              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:extraElement naam="landnaamOntbinding" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="landnaamSluiting">Nederland</StUF:extraElement>
+              <StUF:extraElement naam="plaatsnaamOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="plaatsnaamSluitingOmschrijving">Amsterdam</StUF:extraElement>
+              <StUF:extraElement naam="redenOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="soortVerbintenisOmschrijving">Huwelijk</StUF:extraElement>
+            </BG:extraElementen>
+            <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+              <BG:bsn-nummer>234567890</BG:bsn-nummer>
+              <BG:voornamen>Wilhelmina</BG:voornamen>
+              <BG:voorletters>W</BG:voorletters>
+              <BG:voorvoegselGeslachtsnaam>van</BG:voorvoegselGeslachtsnaam>
+              <BG:geslachtsnaam>Bakker</BG:geslachtsnaam>
+              <BG:geboortedatum>19700101</BG:geboortedatum>
+              <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
+              <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:extraElementen>
+                <StUF:extraElement naam="geboortelandnaam">Nederland</StUF:extraElement>
+                <StUF:extraElement naam="geboorteplaatsnaam">Neer</StUF:extraElement>
+                <StUF:extraElement naam="omschrijvingAdellijkeTitel">Jonkvrouw</StUF:extraElement>
+                <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Vrouw</StUF:extraElement>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              </BG:extraElementen>
+            </BG:PRS>
+          </BG:PRSPRSHUW>
+          <BG:PRSPRSHUW soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:datumSluiting>20000101</BG:datumSluiting>
+            <BG:plaatsSluiting>363</BG:plaatsSluiting>
+            <BG:landSluiting>6030</BG:landSluiting>
+            <BG:datumOntbinding xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:redenOntbinding>S</BG:redenOntbinding>
+            <BG:extraElementen>
+              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:extraElement naam="landnaamOntbinding" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="landnaamSluiting">Nederland</StUF:extraElement>
+              <StUF:extraElement naam="plaatsnaamOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="plaatsnaamSluitingOmschrijving">Amsterdam</StUF:extraElement>
+              <StUF:extraElement naam="redenOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="soortVerbintenisOmschrijving">Huwelijk</StUF:extraElement>
+            </BG:extraElementen>
+            <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+              <BG:bsn-nummer>234567890</BG:bsn-nummer>
+              <BG:voornamen>Wilhelmina</BG:voornamen>
+              <BG:voorletters>W</BG:voorletters>
+              <BG:voorvoegselGeslachtsnaam>van</BG:voorvoegselGeslachtsnaam>
+              <BG:geslachtsnaam>Bakker</BG:geslachtsnaam>
+              <BG:geboortedatum>19700101</BG:geboortedatum>
+              <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
+              <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:extraElementen>
+                <StUF:extraElement naam="geboortelandnaam">Nederland</StUF:extraElement>
+                <StUF:extraElement naam="geboorteplaatsnaam">Neer</StUF:extraElement>
+                <StUF:extraElement naam="omschrijvingAdellijkeTitel">Jonkvrouw</StUF:extraElement>
+                <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Vrouw</StUF:extraElement>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              </BG:extraElementen>
+            </BG:PRS>
+          </BG:PRSPRSHUW>
+          <BG:PRSPRSHUW soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+            <BG:datumSluiting xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:plaatsSluiting xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:landSluiting xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:datumOntbinding xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:redenOntbinding>O</BG:redenOntbinding>
+            <BG:extraElementen>
+              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:extraElement naam="landnaamOntbinding" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="landnaamSluiting">Nederland</StUF:extraElement>
+              <StUF:extraElement naam="plaatsnaamOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="plaatsnaamSluitingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="redenOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="soortVerbintenisOmschrijving">Huwelijk</StUF:extraElement>
+            </BG:extraElementen>
+            <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+              <BG:bsn-nummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:voornamen>Iemand</BG:voornamen>
+              <BG:voorletters>I</BG:voorletters>
+              <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:geslachtsnaam>Achternaam</BG:geslachtsnaam>
+              <BG:geboortedatum xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:geslachtsaanduiding xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:extraElementen>
+                <StUF:extraElement naam="geboortelandnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <StUF:extraElement naam="geboorteplaatsnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <StUF:extraElement naam="omschrijvingAdellijkeTitel" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <StUF:extraElement naam="omschrijvingGeslachtsaanduiding" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              </BG:extraElementen>
+            </BG:PRS>
+          </BG:PRSPRSHUW>
+          </BG:PRS>
+        """
+
+        tree = BeautifulSoup(response_xml, features="lxml-xml")
+        verbintenissen = extract_verbintenis_data(tree)
+        self.maxDiff = None
+        self.assertEqual(
+            verbintenissen,
+            {
+                "verbintenis": {
+                    "persoon": {
+                        "bsn": "234567890",
+                        "voornamen": "Wilhelmina",
+                        "voorvoegselGeslachtsnaam": "van",
+                        "geslachtsnaam": "Bakker",
+                        "geslachtsaanduiding": "V",
+                        "geboortedatum": to_date("19700101"),
+                        "overlijdensdatum": None,
+                        "adellijkeTitelPredikaat": None,
+                        "omschrijvingAdellijkeTitel": "Jonkvrouw",
+                        "geboortelandnaam": "Nederland",
+                        "geboorteplaatsnaam": "Neer",
+                        "omschrijvingGeslachtsaanduiding": "Vrouw",
+                        "opgemaakteNaam": None,
+                    },
+                    "datumSluiting": to_date("20000101"),
+                    "datumOntbinding": None,
+                    "soortVerbintenis": None,
+                    "soortVerbintenisOmschrijving": "Huwelijk",
+                    "landnaamSluiting": "Nederland",
+                    "plaatsnaamSluitingOmschrijving": "Amsterdam",
+                    "redenOntbindingOmschrijving": None,
+                },
+                "verbintenisHistorisch": [
+                    {
+                        "persoon": {
+                            "bsn": "234567890",
+                            "voornamen": "Wilhelmina",
+                            "voorvoegselGeslachtsnaam": "van",
+                            "geslachtsnaam": "Bakker",
+                            "geslachtsaanduiding": "V",
+                            "geboortedatum": to_date("19700101"),
+                            "overlijdensdatum": None,
+                            "adellijkeTitelPredikaat": None,
+                            "omschrijvingAdellijkeTitel": "Jonkvrouw",
+                            "geboortelandnaam": "Nederland",
+                            "geboorteplaatsnaam": "Neer",
+                            "omschrijvingGeslachtsaanduiding": "Vrouw",
+                            "opgemaakteNaam": None,
+                        },
+                        "datumSluiting": to_date("20000101"),
+                        "datumOntbinding": None,
+                        "soortVerbintenis": None,
+                        "soortVerbintenisOmschrijving": "Huwelijk",
+                        "landnaamSluiting": "Nederland",
+                        "plaatsnaamSluitingOmschrijving": "Amsterdam",
+                        "redenOntbindingOmschrijving": "Echtscheiding",
+                    },
+                    {
+                        "persoon": {
+                            "bsn": None,
+                            "voornamen": "Iemand",
+                            "voorvoegselGeslachtsnaam": None,
+                            "geslachtsnaam": "Achternaam",
+                            "geslachtsaanduiding": None,
+                            "geboortedatum": None,
+                            "overlijdensdatum": None,
+                            "adellijkeTitelPredikaat": None,
+                            "omschrijvingAdellijkeTitel": None,
+                            "geboortelandnaam": None,
+                            "geboorteplaatsnaam": None,
+                            "omschrijvingGeslachtsaanduiding": None,
+                            "opgemaakteNaam": None,
+                        },
+                        "datumSluiting": None,
+                        "datumOntbinding": None,
+                        "soortVerbintenis": None,
+                        "soortVerbintenisOmschrijving": "Huwelijk",
+                        "landnaamSluiting": "Nederland",
+                        "plaatsnaamSluitingOmschrijving": None,
+                        "redenOntbindingOmschrijving": "Overlijden",
+                    },
+                ],
+            },
+        )
 
     def test_vertrokken_onbekend_waarheen(self):
         """Test if the person has status vertrokken onbekend waarheen."""

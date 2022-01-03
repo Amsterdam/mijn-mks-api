@@ -90,7 +90,7 @@ class BRPTests(TestCase):
         data = get_brp()
         self.assertEqual(data["persoon"]["bsn"], "000000001")
         self.assertEqual(
-            data["verbintenis"]["soortVerbintenisOmschrijving"], "Huwelijk"
+            data["verbintenisHistorisch"][0]["soortVerbintenisOmschrijving"], "Huwelijk"
         )
         self.assertEqual(data["crossRefNummer"], "test2")
         self.assertEqual(len(data["kinderen"]), 1)
