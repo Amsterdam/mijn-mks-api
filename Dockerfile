@@ -1,8 +1,9 @@
-FROM amsterdam/python
+FROM amsterdam/python:3.8.7-buster
 
 LABEL maintainer=datapunt@amsterdam.nl
 
 ENV PYTHONUNBUFFERED 1
+ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
 RUN apt-get update && apt-get install -y
 RUN pip install --upgrade pip
