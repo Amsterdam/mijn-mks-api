@@ -26,11 +26,7 @@ in de MKS. In het geval van een bevraging met BSN van de BRP wordt een antwoord 
 informatie over de onderhavige persoon, diens nationaliteit(en), partner, ouders en kinderen uit de brp worden geretourneerd.
 Velden die niet toegankelijk zijn om welke rede ook (niet beschikbaar, geen authorisatie, onbekend etc.) worden uit het
 resultaat weggelaten.
-Een Swagger definitie is in de root van het project te vinden.
-
-
-Ontwikkeling:
--------------
+Een openapi definitie is in de root van het project te vinden.
 
 
 Running tests
