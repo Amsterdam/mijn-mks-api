@@ -6,8 +6,7 @@ ENV PYTHONUNBUFFERED 1
 ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
 RUN apt-get update
-RUN apt-get install -y
-RUN libxml2-dev
+RUN apt-get install -y libxml2-dev
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN adduser --system datapunt
