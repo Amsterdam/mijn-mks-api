@@ -7,17 +7,17 @@ info:
     email: datapunt@amsterdam.nl
     name: Datapunt Support
     url: https://data.amsterdam.nl/
-servers:
-  - url: http://localhost
-    description: Development server
-  - url: https://mijn.acc.amsterdam.nl/api
-    description: Acceptance server
-  - url: https://mijn.amsterdam.nl/api
-    description: Production server
 paths:
   /status/health:
     get:
       description: Endpoint for checking wheter the server has started.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Returns "OK" when server is started
@@ -28,6 +28,13 @@ paths:
   /brp/kvk:
     get:
       description: Return KVK number of currently logged in user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: KVK number
@@ -39,6 +46,13 @@ paths:
   /brp/bsn:
     get:
       description: Return BSN of currently logged in user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: BSN
@@ -50,6 +64,13 @@ paths:
   /brp/brp/raw:
     get:
       description: Information of current user from "basisregistratie personen"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Basisregistratiegegevens
@@ -57,6 +78,13 @@ paths:
   /brp/brp:
     get:
       description: Information of current user from "basisregistratie personen"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Basisregistratiegegevens
@@ -68,6 +96,13 @@ paths:
   /brp/hr:
     get:
       description: Information of current user from "Handelsregister"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Handelsregister
@@ -79,6 +114,13 @@ paths:
   /brp/hr/raw:
     get:
       description: Information of current user from "Handelsregister"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Handelsregister
@@ -86,6 +128,13 @@ paths:
   /brp/aantal_bewoners:
     post:
       description: Number of residents living on address
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: response

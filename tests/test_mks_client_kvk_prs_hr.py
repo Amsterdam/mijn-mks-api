@@ -3,7 +3,7 @@ from datetime import date
 from unittest import TestCase
 from unittest.mock import patch
 
-from mks.service import mks_client_hr
+from app.service import mks_client_hr
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_kvk_prs_response.xml")
@@ -84,13 +84,13 @@ def get_xml_response_empty_fixture(*args):
 
 
 class KvkHrTest(TestCase):
-    @patch("mks.service.mks_client_hr._get_response", get_kvk_prs_xml_response_fixture)
+    @patch("app.service.mks_client_hr._get_response", get_kvk_prs_xml_response_fixture)
     def test_get(self):
         result = mks_client_hr.get_from_kvk("123456789")
 
         self.assertEqual(result, KVK_HR_EENMANSZAAK_RESPONSE)
 
-    @patch("mks.service.mks_client_hr._get_response", get_xml_response_empty_fixture)
+    @patch("app.service.mks_client_hr._get_response", get_xml_response_empty_fixture)
     def test_get_empty(self):
         result = mks_client_hr.get_from_kvk("123456789")
 

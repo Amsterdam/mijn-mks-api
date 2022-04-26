@@ -5,8 +5,9 @@ from hashlib import sha256
 
 from bs4 import Tag, ResultSet
 from dateutil.relativedelta import relativedelta
+from app.helpers import encrypt
 
-from mks.model.gba import (
+from app.model.gba import (
     lookup_prsidb_soort_code,
     lookup_geslacht,
     lookup_gemeenten,
@@ -14,7 +15,7 @@ from mks.model.gba import (
     lookup_nationaliteiten,
     lookup_reden_ontbinding_partner,
 )
-from mks.model.stuf_utils import (
+from app.model.stuf_utils import (
     _set_value_on,
     to_string,
     to_date,
@@ -24,7 +25,6 @@ from mks.model.stuf_utils import (
     set_fields,
     set_extra_fields,
     as_postcode,
-    encrypt,
     geheim_indicatie_to_bool,
     as_bsn,
     landcode_to_name,

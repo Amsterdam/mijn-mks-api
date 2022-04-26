@@ -3,13 +3,13 @@ import os
 from unittest import TestCase
 
 from bs4 import BeautifulSoup
-from mks.model.stuf_02_04 import (
+from app.model.stuf_02_04 import (
     extract_data,
     extract_verbintenis_data,
     get_nationaliteiten,
     set_opgemaakte_naam,
 )
-from mks.model.stuf_utils import to_date
+from app.model.stuf_utils import to_date
 
 os.environ["TMA_CERTIFICATE"] = "cert content"
 os.environ["BRP_APPLICATIE"] = "mijnAmsTestApp"

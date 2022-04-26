@@ -1,6 +1,6 @@
 from bs4 import Tag, ResultSet
 
-from mks.model.stuf_utils import (
+from app.model.stuf_utils import (
     to_string,
     to_date,
     set_fields,
@@ -9,7 +9,7 @@ from mks.model.stuf_utils import (
     set_extra_fields,
     is_nil,
 )
-from mks.model.stuf_02_04 import _format_achternaam
+from app.model.stuf_02_04 import _format_achternaam
 
 
 def extract_basic_info(eigendom: Tag):

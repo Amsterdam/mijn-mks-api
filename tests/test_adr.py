@@ -4,10 +4,10 @@ from unittest.mock import patch
 
 from flask_testing.utils import TestCase as FlaskTestCase
 
-from mks.model.stuf_utils import encrypt
-from mks.server import application
-from mks.service.adr_mks_client_02_04 import extract
-from mks.service.config import get_jwt_key
+from app.model.stuf_utils import encrypt
+from app.server import application
+from app.service.adr_mks_client_02_04 import extract
+from app.config import get_jwt_key
 
 jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
@@ -59,7 +59,7 @@ class ResidentsTest(FlaskTestCase):
         app.config["TESTING"] = True
         return app
 
-    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
+    @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call(self):
         post_body = {"addressKey": encrypt("1234")}
 
@@ -68,19 +68,19 @@ class ResidentsTest(FlaskTestCase):
             response.json, {"crossRefNummer": "MijnAmsterdam", "residentCount": 3}
         )
 
-    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
+    @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_empty(self):
         response = self.client.post("/brp/aantal_bewoners", json=None)
         self.assert400(response)
         self.assertEqual(response.json, "adressleutel required")
 
-    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
+    @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_wrong_key(self):
         response = self.client.post("/brp/aantal_bewoners", json={"wrongKey": ""})
         self.assert400(response)
         self.assertEqual(response.json, "adressleutel required")
 
-    @patch("mks.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
+    @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_not_encrypted(self):
         post_body = {"addressKey": "1234"}
 
@@ -89,7 +89,7 @@ class ResidentsTest(FlaskTestCase):
         self.assertEqual(response.json, "Invalid encrypted value")
 
     @patch(
-        "mks.service.adr_mks_client_02_04._get_response", get_empty_xml_response_fixture
+        "app.service.adr_mks_client_02_04._get_response", get_empty_xml_response_fixture
     )
     def test_empty_adr(self):
         response = self.client.post(

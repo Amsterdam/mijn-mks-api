@@ -4,7 +4,7 @@ from tests.test_operations import get_xml_response_fixture
 from unittest.mock import patch
 
 from flask_testing.utils import TestCase
-from mks.server import application
+from app.server import application
 from tma_saml import FlaskServerTMATestCase
 from tma_saml.for_tests.cert_and_key import server_crt
 
@@ -39,13 +39,13 @@ class HRTest(FlaskServerTMATestCase, TestCase):
         self.maxDiff = None
 
 
-@patch("mks.service.saml.get_tma_certificate", lambda: server_crt)
+@patch("app.service.saml.get_tma_certificate", lambda: server_crt)
 class HrBsnTest(HRTest):
     def _get_expected(self):
         return wrap_response(KVK_HR_EENMANSZAAK_RESPONSE)
 
     @patch(
-        "mks.service.mks_client_hr._get_response_by_bsn",
+        "app.service.mks_client_hr._get_response_by_bsn",
         lambda bsn: get_bsn_xml_response_fixture(),
     )
     def test_bsn(self):
@@ -55,26 +55,14 @@ class HrBsnTest(HRTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, self._get_expected())
 
-    @patch(
-        "mks.operations._get_response_by_bsn",
-        lambda bsn: get_bsn_xml_response_fixture(),
-    )
-    @patch("mks.operations.get_raw_key", lambda: "a")
-    def test_bsn_raw(self):
-        headers = self.add_digi_d_headers("999999990")
-        self.client.set_cookie("", "access_token", "a")
-        response = self.client.get("/brp/hr/raw", headers=headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, get_bsn_xml_response_fixture())
 
-
-@patch("mks.service.saml.get_tma_certificate", lambda: server_crt)
+@patch("app.service.saml.get_tma_certificate", lambda: server_crt)
 class HrKvkPrsTest(HRTest):
     def _get_expected(self):
         return wrap_response(KVK_HR_EENMANSZAAK_RESPONSE)
 
     @patch(
-        "mks.service.mks_client_hr._get_response_by_kvk_number",
+        "app.service.mks_client_hr._get_response_by_kvk_number",
         lambda kvk_number: get_kvk_prs_xml_response_fixture(),
     )
     def test_get_prs_hr(self):
@@ -84,7 +72,7 @@ class HrKvkPrsTest(HRTest):
         self.assertEqual(response.json, self._get_expected())
 
     @patch(
-        "mks.service.mks_client_hr._get_response_by_kvk_number",
+        "app.service.mks_client_hr._get_response_by_kvk_number",
         lambda kvk_number: get_xml_response_empty_fixture(),
     )
     def test_empty(self):
@@ -92,38 +80,18 @@ class HrKvkPrsTest(HRTest):
         response = self.client.get("/brp/hr", headers=headers)
         self.assertEqual(response.status_code, 204)
 
-    @patch(
-        "mks.operations._get_response_by_kvk_number",
-        lambda kvk_number: get_kvk_prs_xml_response_fixture(),
-    )
-    @patch("mks.operations.get_raw_key", lambda: "a")
-    def test_bsn_raw(self):
-        headers = self.add_e_herkenning_headers("999999990")
-        self.client.set_cookie("", "access_token", "a")
-        response = self.client.get("/brp/hr/raw", headers=headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, get_kvk_prs_xml_response_fixture())
 
-    @patch("mks.operations.get_raw_key", lambda: "a")
-    def test_bsn_wrong_token(self):
-        self.client.set_cookie("", "access_token", "xx")
-        response = self.client.get("/brp/hr/raw")
-        self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.json, "no access without access token")
-
-
-@patch("mks.service.saml.get_tma_certificate", lambda: server_crt)
+@patch("app.service.saml.get_tma_certificate", lambda: server_crt)
 class HrKvkMacTest(HRTest):
     def _get_expected(self):
         return wrap_response({**KVK_HR_MAC_RESPONSE, **NNP_HR_RESPONSE})
 
-    @patch("mks.operations.NNPID_EXTENSION1_ENABLED", True)
     @patch(
-        "mks.service.mks_client_hr._get_response_by_kvk_number",
+        "app.service.mks_client_hr._get_response_by_kvk_number",
         lambda kvk_number: get_kvk_mac_xml_response_fixture(),
     )
     @patch(
-        "mks.service.mks_client_hr._get_response_by_nnpid",
+        "app.service.mks_client_hr._get_response_by_nnpid",
         lambda kvk_number: get_nnp_xml_response_fixture(),
     )
     def test_get_mac_hr(self):

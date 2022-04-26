@@ -2,16 +2,13 @@ import logging
 import os
 import time
 from datetime import datetime
-from io import BytesIO
 from random import randint
 
 import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
-from lxml import etree
-
-from mks.model.adr_stuf_02_04 import extract_data
-from mks.service.config import (
+from app.model.adr_stuf_02_04 import extract_data
+from app.config import (
     MKS_CLIENT_CERT,
     MKS_CLIENT_KEY,
     BRP_APPLICATIE,
@@ -25,8 +22,6 @@ from mks.service.config import (
 ADR_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "ADR_stuf02.04.xml.jinja2")
 with open(ADR_STUF0204TEMPLATE_PATH) as fp:
     adr_stuf_0204_template = Template(fp.read())
-
-log_response = False
 
 
 def _get_soap_request_payload(adres_sleutel: str) -> str:
@@ -78,17 +73,11 @@ def extract(xml_data):
     return data
 
 
-def get(adres_sleutel: str):
+def get_resident_count(adres_sleutel: str):
     soap_request_payload = _get_soap_request_payload(adres_sleutel)
+
     response = _get_response(
         f"{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon", soap_request_payload
     )
-
-    if log_response:
-        print("adres sleutel", adres_sleutel)
-        content_bytesio = BytesIO(response)
-        tree = etree.parse(content_bytesio)
-        formatted_xml = etree.tostring(tree, pretty_print=True)
-        print(formatted_xml.decode())
 
     return extract(response)

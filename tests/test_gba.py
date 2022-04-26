@@ -7,7 +7,7 @@ os.environ["BRP_GEBRUIKER"] = "mijnAmsTestUser"
 os.environ["MKS_BRP_ENDPOINT"] = "https://example.com"
 
 # ignoring E402: module level import not at top of file
-from mks.model.gba import (
+from app.model.gba import (
     lookup_landen,
     lookup_gemeenten,
     lookup_prsidb_soort_code,

@@ -3,7 +3,7 @@ import logging
 
 from bs4 import Tag
 
-from mks.model.stuf_utils import to_date, is_nil
+from app.model.stuf_utils import to_date, is_nil
 
 
 def extract_data(adr_tree: Tag):

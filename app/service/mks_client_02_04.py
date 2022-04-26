@@ -1,18 +1,13 @@
 import logging
 import os
 from datetime import datetime
-from io import BytesIO
 from random import randint
 
 import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
-from lxml import etree
-from prometheus_client import Histogram
-
-from mks.model.stuf_02_04 import extract_data
-from mks.prometheus_definitions import mks_connection_state
-from mks.service.config import (
+from app.model.stuf_02_04 import extract_data
+from app.config import (
     MKS_CLIENT_CERT,
     MKS_CLIENT_KEY,
     BRP_APPLICATIE,
@@ -21,13 +16,11 @@ from mks.service.config import (
     MKS_ENDPOINT,
     REQUEST_TIMEOUT,
 )
-from mks.service.exceptions import ExtractionError, NoResultException
+from app.service.exceptions import ExtractionError, NoResultException
 
 PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2")
 with open(PRS_STUF0204TEMPLATE_PATH) as fp:
     prs_stuf_0204_template = Template(fp.read())
-
-log_response = False
 
 
 def _get_soap_request_payload(bsn: str) -> str:
@@ -44,9 +37,6 @@ def _get_soap_request_payload(bsn: str) -> str:
     return prs_stuf_0204_template.render(context)
 
 
-mks_request_latency = Histogram("mks_request_latency_seconds", "Mks request time")
-
-
 def _get_response(mks_brp_url, soap_request_payload):
     session = requests.Session()
     session.headers.update(
@@ -57,12 +47,10 @@ def _get_response(mks_brp_url, soap_request_payload):
     )
     session.cert = (MKS_CLIENT_CERT, MKS_CLIENT_KEY)
 
-    with mks_request_latency.time():
-        post_response = session.post(
-            mks_brp_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT
-        )
+    post_response = session.post(
+        mks_brp_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT
+    )
 
-    mks_connection_state.set(0)  # success, mark state as running
     return post_response.content
 
 
@@ -92,15 +80,5 @@ def get_0204_raw(bsn: str, as_xml: bool = False):
     response = _get_response(
         f"{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon", soap_request_payload
     )
-
-    if log_response or as_xml:
-        tree = etree.parse(
-            BytesIO(
-                bytes(response, "utf-8")
-                if not isinstance(response, bytes)
-                else response
-            )
-        )
-        response = etree.tostring(tree, pretty_print=True)
 
     return response

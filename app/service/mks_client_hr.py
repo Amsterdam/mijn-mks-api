@@ -2,14 +2,22 @@ import logging
 import os
 import time
 from datetime import datetime
-from io import BytesIO
 from random import randint
 
 import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
-from lxml import etree
-from mks.model.stuf_3_10_hr import (
+
+from app.config import (
+    BRP_APPLICATIE,
+    BRP_GEBRUIKER,
+    MKS_CLIENT_CERT,
+    MKS_CLIENT_KEY,
+    MKS_ENDPOINT,
+    PROJECT_DIR,
+    REQUEST_TIMEOUT,
+)
+from app.model.stuf_3_10_hr import (
     extract_aansprakelijken,
     extract_basic_info,
     extract_bestuurders,
@@ -19,17 +27,8 @@ from mks.model.stuf_3_10_hr import (
     extract_owner_persoon,
     extract_owners,
 )
-from mks.model.stuf_utils import is_nil
-from mks.service.config import (
-    BRP_APPLICATIE,
-    BRP_GEBRUIKER,
-    MKS_CLIENT_CERT,
-    MKS_CLIENT_KEY,
-    MKS_ENDPOINT,
-    PROJECT_DIR,
-    REQUEST_TIMEOUT,
-)
-from mks.service.exceptions import ExtractionError, NoResultException
+from app.model.stuf_utils import is_nil
+from app.service.exceptions import ExtractionError, NoResultException
 
 HR_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "HR_stuf0310.xml.jinja2")
 with open(HR_TEMPLATE_PATH) as fp:
@@ -38,8 +37,6 @@ with open(HR_TEMPLATE_PATH) as fp:
 NNP_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "NNP_stuf0310.xml.jinja2")
 with open(NNP_TEMPLATE_PATH) as fp:
     nnp_template = Template(fp.read())
-
-log_response = False
 
 HR_URL = f"{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag"
 
@@ -100,12 +97,6 @@ def _get_from_mks(
     soap_request_payload = _get_soap_request_payload(template, bsn, kvk_number, nnpid)
 
     response = _get_response(url, soap_request_payload)
-
-    if log_response:
-        content_bytesio = BytesIO(response)
-        tree = etree.parse(content_bytesio)
-        formatted_xml = etree.tostring(tree, pretty_print=True)
-        print(formatted_xml.decode())
 
     return response
 

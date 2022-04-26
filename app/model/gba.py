@@ -1,7 +1,7 @@
 import csv
 import os.path
 
-from mks.service.config import STATIC_DIR
+from app.config import STATIC_DIR
 
 GBA_STATIC_DIR = os.path.join(STATIC_DIR, "gba")
 

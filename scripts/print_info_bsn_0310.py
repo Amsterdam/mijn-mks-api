@@ -3,10 +3,7 @@
 import json
 from sys import argv
 
-import mks.service.mks_client_hr as mks_client
-
-# Turn on dumping of raw soap xml
-mks_client.log_response = True
+import app.service.mks_client_hr as mks_client
 
 # Change me to get the datas
 bsn = argv[1]

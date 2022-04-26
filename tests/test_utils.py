@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from bs4 import BeautifulSoup
 
-from mks.model.stuf_utils import (
+from app.model.stuf_utils import (
     to_bool,
     encrypt,
     decrypt,
