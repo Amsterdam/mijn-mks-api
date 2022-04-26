@@ -3,9 +3,10 @@ from unittest import TestCase
 from unittest.mock import patch
 
 from flask_testing.utils import TestCase as FlaskTestCase
+from app.auth import FlaskServerTestCase
 
-from app.model.stuf_utils import encrypt
-from app.server import application
+from app.helpers import encrypt
+from app.server import app
 from app.service.adr_mks_client_02_04 import extract
 from app.config import get_jwt_key
 
@@ -53,46 +54,52 @@ class AdrTest(TestCase):
 
 
 @patch.dict(os.environ, {"MKS_JWT_KEY": jwk_string})
-class ResidentsTest(FlaskTestCase):
-    def create_app(self):
-        app = application
-        app.config["TESTING"] = True
-        return app
+class ResidentsTest(FlaskServerTestCase):
+    app = app
 
     @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call(self):
         post_body = {"addressKey": encrypt("1234")}
 
-        response = self.client.post("/brp/aantal_bewoners", json=post_body)
+        response = self.post_secure("/brp/aantal_bewoners", json=post_body)
         self.assertEqual(
-            response.json, {"crossRefNummer": "MijnAmsterdam", "residentCount": 3}
+            response.json,
+            {
+                "content": {"crossRefNummer": "MijnAmsterdam", "residentCount": 3},
+                "status": "OK",
+            },
         )
 
     @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_empty(self):
-        response = self.client.post("/brp/aantal_bewoners", json=None)
-        self.assert400(response)
-        self.assertEqual(response.json, "adressleutel required")
+        response = self.post_secure("/brp/aantal_bewoners", json="")
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json["message"], "bad request")
+        self.assertEqual(response.json["status"], "ERROR")
 
     @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_wrong_key(self):
-        response = self.client.post("/brp/aantal_bewoners", json={"wrongKey": ""})
-        self.assert400(response)
-        self.assertEqual(response.json, "adressleutel required")
+        response = self.post_secure("/brp/aantal_bewoners", json={"wrongKey": ""})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json["message"], "bad request")
+        self.assertEqual(response.json["status"], "ERROR")
 
     @patch("app.service.adr_mks_client_02_04._get_response", get_xml_response_fixture)
     def test_adr_call_not_encrypted(self):
         post_body = {"addressKey": "1234"}
 
-        response = self.client.post("/brp/aantal_bewoners", json=post_body)
-        self.assert400(response)
-        self.assertEqual(response.json, "Invalid encrypted value")
+        response = self.post_secure("/brp/aantal_bewoners", json=post_body)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json["message"], "bad request")
+        self.assertEqual(response.json["status"], "ERROR")
 
     @patch(
         "app.service.adr_mks_client_02_04._get_response", get_empty_xml_response_fixture
     )
     def test_empty_adr(self):
-        response = self.client.post(
+        response = self.post_secure(
             "/brp/aantal_bewoners", json={"addressKey": encrypt("1234")}
         )
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json["content"], None)
+        self.assertEqual(response.json["status"], "OK")

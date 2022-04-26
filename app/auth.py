@@ -189,3 +189,15 @@ class FlaskServerTestCase(unittest.TestCase):
                 location,
                 headers=self.add_authorization_headers(profile_type, headers=headers),
             )
+
+    def post_secure(
+        self, location, profile_type=PROFILE_TYPE_PRIVATE, headers=None, json=None
+    ):
+        with patch.object(jwt.PyJWKClient, "fetch_data") as fetch_data_mock:
+            fetch_data_mock.return_value = self.rsa_public_key_test
+            headers = self.add_authorization_headers(profile_type, headers=headers)
+            return self.client.post(
+                location,
+                headers=headers,
+                json=json,
+            )

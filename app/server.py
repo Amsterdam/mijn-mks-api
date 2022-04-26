@@ -35,26 +35,36 @@ def get_brp():
 
 
 @app.route("/brp/hr", methods=["GET"])
+@auth.login_required
+@validate_openapi
 def get_hr():
     user = auth.get_current_user()
 
     if user["type"] == auth.PROFILE_TYPE_PRIVATE:
         hr = mks_client_hr.get_from_bsn(user["id"])
     else:
-        hr = mks_client_hr.get_from_kvk(user["id"])
+        hr = mks_client_hr.get_hr_for_kvk(user["id"])
 
     return success_response_json(hr)
 
 
-@app.route("/brp/aantal_bewoners/:key", methods=["GET"])
+@app.route("/brp/aantal_bewoners", methods=["POST"])
 @auth.login_required
+@validate_openapi
 def get_aantal_bewonders():
     request_json = request.get_json()
 
     if request_json:
-        address_key = request_json.get("addressKey")
-        aantal_bewoners = get_resident_count(decrypt(address_key))
-        return success_response_json(aantal_bewoners)
+        try:
+            address_key = request_json.get("addressKey")
+            if address_key:
+                aantal_bewoners = get_resident_count(decrypt(address_key))
+                return success_response_json(aantal_bewoners)
+        except Exception as error:
+            logging.error(error)
+            pass
+
+    return error_response_json("bad request", 400)
 
 
 @app.route("/status/health")

@@ -2,6 +2,7 @@ import base64
 import json
 import os
 from functools import wraps
+from jinja2 import Template
 
 import yaml
 from flask import request
@@ -14,7 +15,7 @@ from openapi_core.validation.request.validators import RequestValidator
 from openapi_core.validation.response.validators import ResponseValidator
 from yaml import load
 
-from app.config import BASE_PATH, ENABLE_OPENAPI_VALIDATION, get_jwt_key
+from app.config import BASE_PATH, ENABLE_OPENAPI_VALIDATION, SERVICES_DIR, get_jwt_key
 
 openapi_spec = None
 
@@ -83,3 +84,9 @@ def decrypt(encrypted_value: str):
     jwetoken.deserialize(payload)
     jwetoken.decrypt(key)
     return jwetoken.payload.decode()
+
+
+def get_request_template(name):
+    filename = os.path.join(SERVICES_DIR, f"{name}.jinja2")
+    with open(filename) as fp:
+        return Template(fp.read())

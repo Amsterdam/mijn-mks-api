@@ -10,5 +10,6 @@ jwcrypto
 lxml
 openapi-core
 pyjwt
+python-dateutil
 requests
 sentry-sdk[flask]

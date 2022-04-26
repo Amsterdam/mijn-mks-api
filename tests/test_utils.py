@@ -4,11 +4,10 @@ from unittest import TestCase
 from unittest.mock import patch
 
 from bs4 import BeautifulSoup
+from app.helpers import decrypt, encrypt
 
 from app.model.stuf_utils import (
     to_bool,
-    encrypt,
-    decrypt,
     to_datetime,
     to_int,
     to_string,

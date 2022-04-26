@@ -14,9 +14,9 @@ from app.config import (
     MKS_CLIENT_CERT,
     MKS_CLIENT_KEY,
     MKS_ENDPOINT,
-    PROJECT_DIR,
     REQUEST_TIMEOUT,
 )
+from app.helpers import get_request_template
 from app.model.stuf_3_10_hr import (
     extract_aansprakelijken,
     extract_basic_info,
@@ -30,13 +30,9 @@ from app.model.stuf_3_10_hr import (
 from app.model.stuf_utils import is_nil
 from app.service.exceptions import ExtractionError, NoResultException
 
-HR_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "HR_stuf0310.xml.jinja2")
-with open(HR_TEMPLATE_PATH) as fp:
-    hr_template = Template(fp.read())
 
-NNP_TEMPLATE_PATH = os.path.join(PROJECT_DIR, "NNP_stuf0310.xml.jinja2")
-with open(NNP_TEMPLATE_PATH) as fp:
-    nnp_template = Template(fp.read())
+hr_template = get_request_template("HR_stuf0310.xml")
+nnp_template = get_request_template("NNP_stuf0310.xml")
 
 HR_URL = f"{MKS_ENDPOINT}/CGS/StUF/0301/BG/0310/services/BeantwoordVraag"
 
@@ -255,7 +251,7 @@ def extract_for_kvk(xml_str):
         eigenaren_data = tree.Body.find_all("heeftAlsEigenaar")
 
         if not object_data:
-            return {}
+            return None
 
         object_data = extract_basic_info(object_data)
         eigenaren_data = extract_owners(eigenaren_data)
@@ -390,3 +386,14 @@ def get_from_kvk(kvk_number: str):
 def get_nnp_from_kvk(nnpid: str):
     response = _get_response_by_nnpid(nnpid)
     return extract_nnp(nnpid, response)
+
+
+def get_hr_for_kvk(kvk_number: str):
+    hr_kvk = get_from_kvk(kvk_number)
+
+    if not hr_kvk or (not ("nnpid" in hr_kvk)) or is_nil(hr_kvk["nnpid"]):
+        return hr_kvk
+
+    hr_kvk_nnp = get_nnp_from_kvk(hr_kvk["nnpid"])
+
+    return {**hr_kvk, **hr_kvk_nnp}

@@ -6,21 +6,19 @@ from random import randint
 import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
+from app.helpers import get_request_template
 from app.model.stuf_02_04 import extract_data
 from app.config import (
     MKS_CLIENT_CERT,
     MKS_CLIENT_KEY,
     BRP_APPLICATIE,
     BRP_GEBRUIKER,
-    PROJECT_DIR,
     MKS_ENDPOINT,
     REQUEST_TIMEOUT,
 )
 from app.service.exceptions import ExtractionError, NoResultException
 
-PRS_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "PRS_stuf02.04.xml.jinja2")
-with open(PRS_STUF0204TEMPLATE_PATH) as fp:
-    prs_stuf_0204_template = Template(fp.read())
+prs_stuf_0204_template = get_request_template("PRS_stuf02.04.xml")
 
 
 def _get_soap_request_payload(bsn: str) -> str:

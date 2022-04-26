@@ -7,6 +7,7 @@ from random import randint
 import requests
 from bs4 import BeautifulSoup
 from jinja2 import Template
+from app.helpers import get_request_template
 from app.model.adr_stuf_02_04 import extract_data
 from app.config import (
     MKS_CLIENT_CERT,
@@ -19,9 +20,7 @@ from app.config import (
 )
 
 
-ADR_STUF0204TEMPLATE_PATH = os.path.join(PROJECT_DIR, "ADR_stuf02.04.xml.jinja2")
-with open(ADR_STUF0204TEMPLATE_PATH) as fp:
-    adr_stuf_0204_template = Template(fp.read())
+adr_stuf_0204_template = get_request_template("ADR_stuf02.04.xml")
 
 
 def _get_soap_request_payload(adres_sleutel: str) -> str:

@@ -1,14 +1,14 @@
-from datetime import date
+from datetime import date, time
 from json import JSONEncoder
 import logging
 import os
-import time
 
 from jwcrypto import jwk
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_DIR = os.path.join(PROJECT_DIR, "..", "model", "static")
+STATIC_DIR = os.path.join(PROJECT_DIR, "model", "static")
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
+SERVICES_DIR = os.path.join(BASE_PATH, "service")
 
 # Sentry configuration.
 SENTRY_DSN = os.getenv("SENTRY_DSN")

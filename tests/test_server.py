@@ -1,12 +1,9 @@
 import json
 from tests.test_mks_client_bsn_hr import get_bsn_xml_response_fixture
-from tests.test_operations import get_xml_response_fixture
 from unittest.mock import patch
 
-from flask_testing.utils import TestCase
-from app.server import application
-from tma_saml import FlaskServerTMATestCase
-from tma_saml.for_tests.cert_and_key import server_crt
+from app.server import app
+from app.auth import PROFILE_TYPE_COMMERCIAL, FlaskServerTestCase
 
 from .test_mks_client_kvk_mac_hr import (
     KVK_HR_MAC_RESPONSE,
@@ -19,8 +16,6 @@ from .test_mks_client_kvk_prs_hr import (
 )
 from .test_mks_client_nnp_hr import NNP_HR_RESPONSE, get_nnp_xml_response_fixture
 
-# from tma_saml.for_tests.fixtures import generate_saml_token_for_kvk, generate_saml_token_for_bsn
-
 
 def wrap_response(response_data, status: str = "OK"):
     return {
@@ -29,63 +24,33 @@ def wrap_response(response_data, status: str = "OK"):
     }
 
 
-class HRTest(FlaskServerTMATestCase, TestCase):
-    def create_app(self):
-        application.config["TESTING"] = True
-        application.testing = True
-        return application
+class HRTest(FlaskServerTestCase):
+    app = app
 
-    def setUp(self) -> None:
-        self.maxDiff = None
-
-
-@patch("app.service.saml.get_tma_certificate", lambda: server_crt)
-class HrBsnTest(HRTest):
-    def _get_expected(self):
+    def _get_expected_private(self):
         return wrap_response(KVK_HR_EENMANSZAAK_RESPONSE)
 
+    def _get_expected_commercial(self):
+        return wrap_response({**KVK_HR_MAC_RESPONSE, **NNP_HR_RESPONSE})
+
+    @patch(
+        "app.service.mks_client_hr.HR_URL",
+        "http://localhost/some/api/endpoint",
+    )
     @patch(
         "app.service.mks_client_hr._get_response_by_bsn",
         lambda bsn: get_bsn_xml_response_fixture(),
     )
     def test_bsn(self):
-        headers = self.add_digi_d_headers("999999990")
-        response = self.client.get("/brp/hr", headers=headers)
+        response = self.get_secure("/brp/hr")
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, self._get_expected())
-
-
-@patch("app.service.saml.get_tma_certificate", lambda: server_crt)
-class HrKvkPrsTest(HRTest):
-    def _get_expected(self):
-        return wrap_response(KVK_HR_EENMANSZAAK_RESPONSE)
+        self.assertEqual(response.json, self._get_expected_private())
 
     @patch(
-        "app.service.mks_client_hr._get_response_by_kvk_number",
-        lambda kvk_number: get_kvk_prs_xml_response_fixture(),
+        "app.service.mks_client_hr.HR_URL",
+        "http://localhost/some/api/endpoint",
     )
-    def test_get_prs_hr(self):
-        headers = self.add_e_herkenning_headers("999999990")
-        response = self.client.get("/brp/hr", headers=headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, self._get_expected())
-
-    @patch(
-        "app.service.mks_client_hr._get_response_by_kvk_number",
-        lambda kvk_number: get_xml_response_empty_fixture(),
-    )
-    def test_empty(self):
-        headers = self.add_e_herkenning_headers("999999990")
-        response = self.client.get("/brp/hr", headers=headers)
-        self.assertEqual(response.status_code, 204)
-
-
-@patch("app.service.saml.get_tma_certificate", lambda: server_crt)
-class HrKvkMacTest(HRTest):
-    def _get_expected(self):
-        return wrap_response({**KVK_HR_MAC_RESPONSE, **NNP_HR_RESPONSE})
-
     @patch(
         "app.service.mks_client_hr._get_response_by_kvk_number",
         lambda kvk_number: get_kvk_mac_xml_response_fixture(),
@@ -95,7 +60,14 @@ class HrKvkMacTest(HRTest):
         lambda kvk_number: get_nnp_xml_response_fixture(),
     )
     def test_get_mac_hr(self):
-        headers = self.add_e_herkenning_headers("999999990")
-        response = self.client.get("/brp/hr", headers=headers)
+        response = self.get_secure("/brp/hr", profile_type=PROFILE_TYPE_COMMERCIAL)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, self._get_expected())
+        self.assertEqual(response.json, self._get_expected_commercial())
+
+    @patch(
+        "app.service.mks_client_hr._get_response_by_kvk_number",
+        lambda kvk_number: get_xml_response_empty_fixture(),
+    )
+    def test_empty(self):
+        response = self.get_secure("/brp/hr", profile_type=PROFILE_TYPE_COMMERCIAL)
+        self.assertEqual(response.status_code, 200)

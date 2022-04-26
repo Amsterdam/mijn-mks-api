@@ -4,7 +4,7 @@ import json
 from sys import argv
 
 import app.service.adr_mks_client_02_04 as mks_client
-from app.model.stuf_utils import decrypt  # noqa: F401
+from app.helpers import decrypt  # noqa: F401
 
 
 adres_sleutel = argv[1]

@@ -94,4 +94,4 @@ class KvkHrTest(TestCase):
     def test_get_empty(self):
         result = mks_client_hr.get_from_kvk("123456789")
 
-        self.assertEqual(result, {})
+        self.assertEqual(result, None)
