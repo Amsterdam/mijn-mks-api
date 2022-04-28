@@ -1,7 +1,5 @@
 FROM amsterdam/python:3.9.6-buster
 
-ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
-
 RUN apt-get install -y libxml2-dev
 
 WORKDIR /api
