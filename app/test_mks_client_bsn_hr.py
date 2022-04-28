@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from app.service import mks_client_hr
 
-from tests.test_mks_client_kvk_prs_hr import KVK_HR_EENMANSZAAK_RESPONSE
+from app.test_mks_client_kvk_prs_hr import KVK_HR_EENMANSZAAK_RESPONSE
 
 FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 BSN_RESPONSE_PATH = os.path.join(FIXTURE_PATH, "hr_bsn_response.xml")

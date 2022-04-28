@@ -1,5 +1,5 @@
 import json
-from tests.test_mks_client_bsn_hr import get_bsn_xml_response_fixture
+from app.test_mks_client_bsn_hr import get_bsn_xml_response_fixture
 from unittest.mock import patch
 
 from app.server import app
