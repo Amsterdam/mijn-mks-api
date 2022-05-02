@@ -12,10 +12,6 @@ COPY uwsgi.ini /api
 COPY /test.sh /api
 COPY .flake8 /api
 
-COPY /cert/*.crt /usr/local/share/ca-certificates/extras/
-RUN chmod -R 644 /usr/local/share/ca-certificates/extras/ \
-	&& update-ca-certificates
-
 RUN pip install --no-cache-dir -r /api/requirements.txt
 
 USER datapunt
