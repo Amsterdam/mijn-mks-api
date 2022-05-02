@@ -121,7 +121,7 @@ def extract_for_bsn(xml_data):
         eigenaren = tree.Body.find("object")
 
         if is_nil(object_data):
-            return {}
+            return None
 
         object_data = extract_basic_info(object_data)
         eigenaar_data = extract_owner_persoon(eigenaren)

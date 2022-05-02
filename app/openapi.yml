@@ -296,6 +296,9 @@ components:
           type: object
           nullable: true
           properties:
+            nnpid:
+              nullable: true
+              type: string
             mokum:
               type: boolean
             onderneming:
