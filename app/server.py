@@ -51,7 +51,7 @@ def get_hr():
 @app.route("/brp/aantal_bewoners", methods=["POST"])
 @auth.login_required
 @validate_openapi
-def get_aantal_bewonders():
+def get_aantal_bewoners():
     request_json = request.get_json()
 
     if request_json:
