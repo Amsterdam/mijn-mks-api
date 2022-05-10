@@ -84,8 +84,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  residentCount:
-                    type: integer
+                  content:
+                    type: object
+                    properties:
+                      residentCount:
+                        type: integer
+                  status:
+                    type: string
+                    enum:
+                      - "OK"
         default:
           description: Unexpected error
           content:
