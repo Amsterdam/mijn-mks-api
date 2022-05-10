@@ -58,8 +58,8 @@ def get_aantal_bewoners():
         try:
             address_key = request_json.get("addressKey")
             if address_key:
-                aantal_bewoners = get_resident_count(decrypt(address_key))
-                return success_response_json({"residentCount": aantal_bewoners})
+                resident_count_payload = get_resident_count(decrypt(address_key))
+                return success_response_json(resident_count_payload)
         except Exception as error:
             logging.error(error)
             pass
