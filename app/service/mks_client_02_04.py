@@ -68,9 +68,9 @@ def extract(xml_data):
 
 
 def get_0204(bsn: str):
-    response = get_0204_raw(bsn)
-
-    return extract(response)
+    raw_response_content = get_0204_raw(bsn)
+    logging.debug(raw_response_content)
+    return extract(raw_response_content)
 
 
 def get_0204_raw(bsn: str, as_xml: bool = False):

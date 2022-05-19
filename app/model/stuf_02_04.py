@@ -340,6 +340,13 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
                 "save_as": "inOnderzoek",
             }
         )
+        # extra_fields.append(
+        #     {
+        #         "name": "Aanduidingonderzoekadres",
+        #         "parser": to_bool,
+        #         "save_as": "inOnderzoek",
+        #     }
+        # )
 
     address_fields = [
         {"name": "woonplaatsnaam", "parser": to_string, "save_as": "woonplaatsNaam"},
