@@ -17,6 +17,7 @@ from app.model.gba import (
 )
 from app.model.stuf_utils import (
     _set_value_on,
+    onderzoek_adres_to_bool,
     to_string,
     to_date,
     to_bool,
@@ -109,6 +110,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {"name": "omschrijvingIndicatieGeheim", "parser": to_string},
         {"name": "opgemaakteNaam", "parser": to_string},
         {"name": "omschrijvingAdellijkeTitel", "parser": to_string},
+        {"name": "Aanduidingonderzoekadres", "parser": onderzoek_adres_to_bool},
     ]
 
     set_fields(persoon_tree, prs_fields, result)
@@ -331,22 +333,6 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
             "save_as": "einddatumVerblijf",
         },
     ]
-    extra_fields = []
-    if is_amsterdammer:
-        extra_fields.append(
-            {
-                "name": "aanduidingGegevensInOnderzoek",
-                "parser": to_bool,
-                "save_as": "inOnderzoek",
-            }
-        )
-        # extra_fields.append(
-        #     {
-        #         "name": "Aanduidingonderzoekadres",
-        #         "parser": to_bool,
-        #         "save_as": "inOnderzoek",
-        #     }
-        # )
 
     address_fields = [
         {"name": "woonplaatsnaam", "parser": to_string, "save_as": "woonplaatsNaam"},
@@ -372,7 +358,6 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         address_result = {}
 
         set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
-        set_extra_fields(address, extra_fields, address_result)
 
         address_adr = address.ADR
         set_fields(address_adr, address_fields, address_result)
@@ -413,19 +398,6 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
             past.append(address)
 
     past.sort(key=lambda x: x["einddatumVerblijf"] or date.min, reverse=True)
-
-    # Punt adres is a thing so people are not registered on an address (which has al kinds of implications for that adres)
-    # replace the recent with minimum data and mark it as Adres in onderzoek
-    # see MIJN-2825
-    if current["straatnaam"] == ".":
-        current = {
-            "woonplaatsNaam": "Amsterdam",
-            "straatnaam": ".",
-            "begindatumVerblijf": current["begindatumVerblijf"],
-            "inOnderzoek": True,
-            "landcode": "0000",
-            "landnaam": "Nederland",
-        }
 
     return current, past
 

@@ -193,3 +193,12 @@ def landcode_to_name(value: str) -> str:
         return None
 
     return lookup_landen.get(value, None)
+
+
+def onderzoek_adres_to_bool(value: str) -> bool:
+    if not value:
+        return False
+    # Deze waardes corresponderen met 2 verschillende onderzoekstypen:
+    # 080000: Er wordt onderzocht of persoon nog op dit adres woont.
+    # 089999: Er is vastgesteld dat persoon niet meer op adres woont maar onderzoek naar huidige verblijfplaats loopt nog.
+    return value in ["080000", "089999"]
