@@ -54,4 +54,5 @@ class CustomJSONEncoder(JSONEncoder):
 
 def get_jwt_key():
     key = os.getenv("MKS_JWT_KEY")
-    return jwk.JWK.from_json('{"k":"%s","kty":"oct"}' % (key,))
+    jwk_json = '{"k":"%s","kty":"oct", "kid":"test"}' % (key,)
+    return jwk.JWK.from_json(jwk_json)

@@ -85,6 +85,7 @@ paths:
                 type: object
                 properties:
                   content:
+                    nullable: true
                     type: object
                     properties:
                       residentCount:
@@ -130,8 +131,6 @@ components:
               nullable: true
             landnaam:
               type: string
-            inOnderzoek:
-              type: boolean
             _adresSleutel:
               description: encrypted key to be used to get further information about adres
               type: string

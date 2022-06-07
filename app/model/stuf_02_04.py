@@ -17,7 +17,7 @@ from app.model.gba import (
 )
 from app.model.stuf_utils import (
     _set_value_on,
-    onderzoek_adres_to_bool,
+    to_adres_in_onderzoek,
     to_string,
     to_date,
     to_bool,
@@ -110,7 +110,11 @@ def extract_persoon_data(persoon_tree: Tag):
         {"name": "omschrijvingIndicatieGeheim", "parser": to_string},
         {"name": "opgemaakteNaam", "parser": to_string},
         {"name": "omschrijvingAdellijkeTitel", "parser": to_string},
-        {"name": "Aanduidingonderzoekadres", "parser": onderzoek_adres_to_bool},
+        {
+            "name": "Aanduidingonderzoekadres",
+            "save_as": "adresInOnderzoek",
+            "parser": to_adres_in_onderzoek,
+        },
     ]
 
     set_fields(persoon_tree, prs_fields, result)
@@ -501,7 +505,7 @@ def extract_data(persoon_tree: Tag):
             len(address_history) > 0
             and address_history[0]["woonplaatsNaam"] == "Amsterdam"
         ):
-            if address_current["straatnaam"] != ".":
+            if not persoon["adresInOnderzoen"]:
                 persoon["vertrokkenOnbekendWaarheen"] = True
 
     if isAmsterdammer:

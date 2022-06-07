@@ -65,7 +65,6 @@ def error_response_json(message: str, code: int = 500):
 
 def encrypt(value: str) -> str:
     key = get_jwt_key()
-
     jwetoken = jwe.JWE(
         value.encode("utf-8"), json_encode({"alg": "A256KW", "enc": "A256CBC-HS512"})
     )

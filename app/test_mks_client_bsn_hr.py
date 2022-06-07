@@ -33,4 +33,4 @@ class BsnHrTest(TestCase):
     )
     def test_no_hr_get(self):
         result = mks_client_hr.get_from_bsn("123456789")
-        self.assertEqual(result, {})
+        self.assertEqual(result, None)

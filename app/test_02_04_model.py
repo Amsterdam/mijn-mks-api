@@ -42,7 +42,6 @@ class Model0204Tests(TestCase):
         return {
             "adres": {
                 # '_adresSleutel':  # changes each time!
-                "inOnderzoek": True,
                 "begindatumVerblijf": date(2012, 1, 1),
                 "einddatumVerblijf": None,
                 "huisletter": None,
@@ -61,7 +60,6 @@ class Model0204Tests(TestCase):
                     "huisletter": None,
                     "huisnummer": "2",
                     "huisnummertoevoeging": "H",
-                    "inOnderzoek": False,
                     "postcode": "1011 PN",
                     "straatnaam": "Amstel",
                     "woonplaatsNaam": "Amsterdam",
@@ -74,7 +72,6 @@ class Model0204Tests(TestCase):
                     "huisletter": None,
                     "huisnummer": "3",
                     "huisnummertoevoeging": "3",
-                    "inOnderzoek": False,
                     "postcode": "1011 PB",
                     "straatnaam": "Amstel",
                     "woonplaatsNaam": "Amsterdam",
@@ -87,7 +84,6 @@ class Model0204Tests(TestCase):
                     "huisletter": None,
                     "huisnummer": "3333",
                     "huisnummertoevoeging": "3",
-                    "inOnderzoek": False,
                     "postcode": "1011 PB",
                     "straatnaam": "Amstel",
                     "woonplaatsNaam": "Amsterdam",
@@ -192,6 +188,7 @@ class Model0204Tests(TestCase):
                 "vertrokkenOnbekendWaarheen": False,
                 "voornamen": "Johannes",
                 "voorvoegselGeslachtsnaam": "den",
+                "adresInOnderzoek": None,
             },
             "verbintenis": {},
             "verbintenisHistorisch": [
@@ -553,39 +550,7 @@ class Model0204Tests(TestCase):
 
         result = extract_data(tree)
 
-        self.assertEqual(result["adres"]["inOnderzoek"], True)
-        # check that the current address is limited in information
-        self.assertEqual(
-            result["adres"],
-            {
-                "woonplaatsNaam": "Amsterdam",
-                "straatnaam": ".",
-                "begindatumVerblijf": date(2021, 1, 11),
-                "inOnderzoek": True,
-                "landcode": "0000",
-                "landnaam": "Nederland",
-            },
-        )
-        self.assertFalse("postcode" in result["adres"])
-        # previous address should be there
-        self.assertEqual(
-            result["adresHistorisch"],
-            [
-                {
-                    "begindatumVerblijf": date(2012, 1, 1),
-                    "einddatumVerblijf": date(2021, 1, 10),
-                    "huisletter": None,
-                    "huisnummer": "1",
-                    "huisnummertoevoeging": "I",
-                    "inOnderzoek": True,
-                    "landcode": "6030",
-                    "landnaam": "Nederland",
-                    "postcode": "1011 PN",
-                    "straatnaam": "Amstel",
-                    "woonplaatsNaam": "Amsterdam",
-                }
-            ],
-        )
+        self.assertEqual(result["persoon"]["adresInOnderzoek"], "080000")
 
     def test_emigration(self):
         """Test the address with a adres outside of NL."""

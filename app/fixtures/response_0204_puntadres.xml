@@ -55,6 +55,7 @@
                         <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="geenWaarde"/>
                     </BG:tijdvakGeldigheid>
                     <BG:extraElementen>
+                        <StUF:extraElement naam="Aanduidingonderzoekadres">080000</StUF:extraElement>
                         <StUF:extraElement naam="aanduidingBijzonderNederlanderschapOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
                         <StUF:extraElement naam="aanduidingGegevensInOnderzoek">N</StUF:extraElement>
                         <StUF:extraElement naam="aanduidingNaamgebruikOmschrijving">Eigen geslachtsnaam</StUF:extraElement>
