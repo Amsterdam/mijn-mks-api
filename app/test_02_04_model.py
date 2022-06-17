@@ -24,7 +24,9 @@ RESPONSE_NO_KIDS_PARENTS_ID_PARTNERS_ADR = os.path.join(
     FIXTURE_PATH, "response_0204_no_kids_parents_idb_partners_adr.xml"
 )
 RESPONSE_IDB = os.path.join(FIXTURE_PATH, "response_0204_idb_test.xml")
-RESPONSE_PUNTADRES = os.path.join(FIXTURE_PATH, "response_0204_puntadres.xml")
+RESPONSE_ADRES_ONDERZOEK = os.path.join(
+    FIXTURE_PATH, "response_0204_adres_in_onderzoek1.xml"
+)
 VOW_RESPONSE_PATH = os.path.join(
     FIXTURE_PATH, "response_0204_vertrokkenonbekendwaarheen.xml"
 )
@@ -188,7 +190,7 @@ class Model0204Tests(TestCase):
                 "vertrokkenOnbekendWaarheen": False,
                 "voornamen": "Johannes",
                 "voorvoegselGeslachtsnaam": "den",
-                "adresInOnderzoek": None,
+                "adresInOnderzoek": "080000",  # Value provided by adrins.extraelement.aanduidingGegevensInOnderzoek
             },
             "verbintenis": {},
             "verbintenisHistorisch": [
@@ -542,14 +544,31 @@ class Model0204Tests(TestCase):
 
         self.assertFalse(result["persoon"]["vertrokkenOnbekendWaarheen"])
 
-    def test_punt_adres(self):
+    def test_adres_in_onderzoek(self):
         """Test if the person has status adres in onderzoek."""
 
-        with open(RESPONSE_PUNTADRES) as fp:
+        with open(RESPONSE_ADRES_ONDERZOEK) as fp:
             tree = BeautifulSoup(fp.read(), features="lxml-xml")
 
         result = extract_data(tree)
+        self.assertEqual(result["persoon"]["adresInOnderzoek"], "080000")
 
+        # Wrong value for Aanduidingonderzoekadres
+        tree.Body.find("PRSADRINS").find("StUF:extraElement").string = "N"
+        tree.Body.find("StUF:extraElement").string = "090000"
+
+        result = extract_data(tree)
+        self.assertEqual(result["persoon"]["adresInOnderzoek"], None)
+
+        # Punt adres value for Aanduidingonderzoekadres
+        tree.Body.find("StUF:extraElement").string = "089999"
+        result = extract_data(tree)
+        self.assertEqual(result["persoon"]["adresInOnderzoek"], "089999")
+
+        # No value for Aanduidingonderzoekadres, value is provided by ADR.extraElement.aanduidingGegevensInOnderzoek
+        tree.Body.find("StUF:extraElement").string = ""
+        tree.Body.find("PRSADRINS").find("StUF:extraElement").string = "J"
+        result = extract_data(tree)
         self.assertEqual(result["persoon"]["adresInOnderzoek"], "080000")
 
     def test_emigration(self):

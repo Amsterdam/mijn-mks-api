@@ -354,7 +354,18 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         {"name": "officieleStraatnaam", "parser": to_string},
     ]
 
+    extra_fields = []
+    if is_amsterdammer:
+        extra_fields.append(
+            {
+                "name": "aanduidingGegevensInOnderzoek",
+                "parser": to_bool,
+                "save_as": "inOnderzoek",
+            }
+        )
+
     addresses = persoon_tree.find_all("PRSADRINS")
+
     if is_nil(addresses):
         return {}, []
 
@@ -362,8 +373,10 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         address_result = {}
 
         set_fields(address.tijdvakRelatie, fields_tijdvak, address_result)
+        set_extra_fields(address, extra_fields, address_result)
 
         address_adr = address.ADR
+
         set_fields(address_adr, address_fields, address_result)
         set_extra_fields(address_adr, address_extra_fields, address_result)
 
@@ -392,6 +405,7 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
 
     current = None
     past = []
+
     for address in result:
         end = address["einddatumVerblijf"]
         if current is None and (end is None or end > date.today()):
@@ -399,6 +413,10 @@ def extract_address(persoon_tree: Tag, is_amsterdammer):
         else:
             if address.get("_adresSleutel"):
                 del address["_adresSleutel"]
+
+            if "inOnderzoek" in address:
+                del address["inOnderzoek"]
+
             past.append(address)
 
     past.sort(key=lambda x: x["einddatumVerblijf"] or date.min, reverse=True)
@@ -499,13 +517,22 @@ def extract_data(persoon_tree: Tag):
         persoon_tree, is_amsterdammer=persoon["mokum"]
     )
 
+    # Transfer adres in onderzoek to the persoon, this is the new standard element for adresOnderzoek.
+    if address_current and "inOnderzoek" in address_current:
+        if not persoon["adresInOnderzoek"] and address_current["inOnderzoek"] is True:
+            # 080000: Er wordt onderzocht of persoon nog op dit huidig adres verblijft.
+            persoon["adresInOnderzoek"] = "080000"
+
+        address_current.pop("inOnderzoek", None)
+
     # only show VOW when last know address was in Amsterdam, otherwise we're not responsible for it.
     if address_current and address_current["landcode"] == "0000":
         if (
             len(address_history) > 0
             and address_history[0]["woonplaatsNaam"] == "Amsterdam"
         ):
-            if not persoon["adresInOnderzoen"]:
+            # adresInOnderzoek takes presedence over VOW
+            if not persoon["adresInOnderzoek"]:
                 persoon["vertrokkenOnbekendWaarheen"] = True
 
     if isAmsterdammer:

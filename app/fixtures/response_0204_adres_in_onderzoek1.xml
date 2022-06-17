@@ -71,44 +71,10 @@
                     </BG:extraElementen>
 
                     <BG:PRSNAT soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
-                    <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="10042310661869" StUF:sleutelGegevensbeheer="10042310661869">
-                        <BG:tijdvakRelatie>
-                            <StUF:begindatumRelatie>20210111</StUF:begindatumRelatie>
-                            <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
-                        </BG:tijdvakRelatie>
-                        <BG:extraElementen>
-                            <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                        </BG:extraElementen>
-                        <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072717190564" StUF:sleutelGegevensbeheer="9072717190564">
-                            <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                            <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                            <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                            <BG:landcode>6030</BG:landcode>
-                            <BG:postcode xsi:nil="true" StUF:noValue="geenWaarde"/>
-                            <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
-                            <BG:straatnaam>.</BG:straatnaam>
-                            <BG:huisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
-                            <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
-                            <BG:huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>
-                            <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
-                            <BG:gemeentecode>363</BG:gemeentecode>
-                            <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                            <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                            <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                            <BG:extraElementen>
-                                <StUF:extraElement naam="authentiekeWoonplaatsnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                                <StUF:extraElement naam="officieleStraatnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                                <StUF:extraElement naam="openbareRuimteNaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                                <StUF:extraElement naam="woonplaatsNaamBAG" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                                <StUF:extraElement naam="woonplaatsnaamBAG" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                            </BG:extraElementen>
-                        </BG:ADR>
-                    </BG:PRSADRINS>
-
                     <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="3" StUF:sleutelGegevensbeheer="3">
                         <BG:tijdvakRelatie>
                             <StUF:begindatumRelatie>20120101</StUF:begindatumRelatie>
-                            <StUF:einddatumRelatie>20210110</StUF:einddatumRelatie>
+                            <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
                         </BG:tijdvakRelatie>
                         <BG:extraElementen>
                             <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
@@ -125,7 +91,7 @@
                             <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
                             <BG:huisnummertoevoeging>I</BG:huisnummertoevoeging>
                             <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
-                            <BG:gemeentecode xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                            <BG:gemeentecode>363</BG:gemeentecode>
                             <BG:extraElementen>
                                 <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
                                 <StUF:extraElement naam="officieleStraatnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
