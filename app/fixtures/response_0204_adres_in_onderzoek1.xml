@@ -1,0 +1,113 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204" xmlns:StUF="http://www.egem.nl/StUF/StUF0204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <StUF:stuurgegevens xmlns="http://www.egem.nl/StUF/StUF0204">
+                <StUF:berichtsoort>La01</StUF:berichtsoort>
+                <StUF:entiteittype>PRS</StUF:entiteittype>
+                <StUF:sectormodel>BG</StUF:sectormodel>
+                <StUF:versieStUF>0204</StUF:versieStUF>
+                <StUF:versieSectormodel>0204</StUF:versieSectormodel>
+                <StUF:zender>
+                    <StUF:organisatie>Org</StUF:organisatie>
+                    <StUF:applicatie>app</StUF:applicatie>
+                </StUF:zender>
+                <StUF:ontvanger>
+                    <StUF:applicatie>app</StUF:applicatie>
+                    <StUF:gebruiker>user</StUF:gebruiker>
+                </StUF:ontvanger>
+                <StUF:referentienummer>ref</StUF:referentienummer>
+                <StUF:tijdstipBericht>2020042709453063</StUF:tijdstipBericht>
+                <StUF:antwoord>
+                    <StUF:crossRefNummer>test2</StUF:crossRefNummer>
+                </StUF:antwoord>
+            </StUF:stuurgegevens>
+            <BG:body xmlns="http://www.egem.nl/StUF/sector/bg/0204">
+                <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="1" StUF:sleutelGegevensbeheer="2">
+                    <BG:bsn-nummer>1</BG:bsn-nummer>
+                    <BG:voornamen>Johannes</BG:voornamen>
+                    <BG:voorletters>J</BG:voorletters>
+                    <BG:voorvoegselGeslachtsnaam>den</BG:voorvoegselGeslachtsnaam>
+                    <BG:geslachtsnaam>Boer</BG:geslachtsnaam>
+                    <BG:geboortedatum>19680101</BG:geboortedatum>
+                    <BG:geboorteplaats>947</BG:geboorteplaats>
+                    <BG:codeGeboorteland>6030</BG:codeGeboorteland>
+                    <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+                    <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:indicatieGeheim>0</BG:indicatieGeheim>
+                    <BG:adellijkeTitelPredikaat>R</BG:adellijkeTitelPredikaat>
+                    <BG:codeGemeenteVanInschrijving>363</BG:codeGemeenteVanInschrijving>
+                    <BG:codeLandEmigratie xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:datumVertrekUitNederland xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    <BG:verblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <BG:datumVerkrijgingVerblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <BG:datumVerliesVerblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    <BG:aanduidingBijzonderNederlanderschap xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <BG:aanduidingNaamgebruik>E</BG:aanduidingNaamgebruik>
+                    <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                    <BG:tijdvakGeldigheid>
+                        <StUF:begindatumTijdvakGeldigheid>20130101</StUF:begindatumTijdvakGeldigheid>
+                        <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="geenWaarde"/>
+                    </BG:tijdvakGeldigheid>
+                    <BG:extraElementen>
+                        <StUF:extraElement naam="Aanduidingonderzoekadres">080000</StUF:extraElement>
+                        <StUF:extraElement naam="aanduidingBijzonderNederlanderschapOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <StUF:extraElement naam="aanduidingGegevensInOnderzoek">N</StUF:extraElement>
+                        <StUF:extraElement naam="aanduidingNaamgebruikOmschrijving">Eigen geslachtsnaam</StUF:extraElement>
+                        <StUF:extraElement naam="geboortelandnaam">Nederland</StUF:extraElement>
+                        <StUF:extraElement naam="geboorteplaatsnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                        <StUF:extraElement naam="gemeentenaamInschrijving">Amsterdam</StUF:extraElement>
+                        <StUF:extraElement naam="omschrijvingAdellijkeTitel">Ridder</StUF:extraElement>
+                        <StUF:extraElement naam="omschrijvingBurgerlijkeStaat">Gehuwd</StUF:extraElement>
+                        <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Man</StUF:extraElement>
+                        <StUF:extraElement naam="omschrijvingIndicatieGeheim">Geen beperking</StUF:extraElement>
+                        <StUF:extraElement naam="omschrijvingVerblijfstitel" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                        <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                    </BG:extraElementen>
+
+                    <BG:PRSNAT soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="3" StUF:sleutelGegevensbeheer="3">
+                        <BG:tijdvakRelatie>
+                            <StUF:begindatumRelatie>20120101</StUF:begindatumRelatie>
+                            <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        </BG:tijdvakRelatie>
+                        <BG:extraElementen>
+                            <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
+                        </BG:extraElementen>
+                        <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="4" StUF:sleutelGegevensbeheer="4">
+                            <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:landcode>6030</BG:landcode>
+                            <BG:postcode>1011PN</BG:postcode>
+                            <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
+                            <BG:straatnaam>Amstel</BG:straatnaam>
+                            <BG:huisnummer>1</BG:huisnummer>
+                            <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:huisnummertoevoeging>I</BG:huisnummertoevoeging>
+                            <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+                            <BG:gemeentecode>363</BG:gemeentecode>
+                            <BG:extraElementen>
+                                <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
+                                <StUF:extraElement naam="officieleStraatnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                                <StUF:extraElement naam="openbareRuimteNaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                                <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
+                                <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
+                            </BG:extraElementen>
+                        </BG:ADR>
+                    </BG:PRSADRINS>
+                    <BG:PRSIDB soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <BG:PRSPRSHUW soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <BG:PRSPRSKND soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
+                    <BG:PRSPRSOUD soortEntiteit="R" StUF:noValue="geenWaarde" xsi:nil="true"/>
+
+                </BG:PRS>
+            </BG:body>
+        </BG:synchroonAntwoordBericht>
+    </soapenv:Body>
+</soapenv:Envelope>

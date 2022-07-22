@@ -1,0 +1,526 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: BRP Informatie service
+  description: Internal service for getting BRP details.
+  contact:
+    email: datapunt@amsterdam.nl
+    name: Datapunt Support
+    url: https://data.amsterdam.nl/
+paths:
+  /status/health:
+    get:
+      summary: returns "OK"
+      responses:
+        "200":
+          description: Returns "OK"
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - "OK"
+  /brp/brp:
+    get:
+      description: Information of current user from "basisregistratie personen"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Basisregistratiegegevens
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BRPResponse"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /brp/hr:
+    get:
+      description: Information of current user from "Handelsregister"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Handelsregister
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HRResponse"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /brp/aantal_bewoners:
+    post:
+      description: Number of residents living on address
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    nullable: true
+                    type: object
+                    properties:
+                      residentCount:
+                        type: integer
+                  status:
+                    type: string
+                    enum:
+                      - "OK"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    AdresBasis:
+      type: object
+      properties:
+        huisnummer:
+          type: string
+        huisletter:
+          type: string
+          nullable: true
+        huisnummertoevoeging:
+          type: string
+          nullable: true
+        postcode:
+          type: string
+        straatnaam:
+          type: string
+        woonplaatsNaam:
+          type: string
+    Adres:
+      allOf:
+        - $ref: "#/components/schemas/AdresBasis"
+        - type: object
+          properties:
+            begindatumVerblijf:
+              $ref: "#/components/schemas/Date"
+            einddatumVerblijf:
+              $ref: "#/components/schemas/Date"
+              nullable: true
+            landnaam:
+              type: string
+            _adresSleutel:
+              description: encrypted key to be used to get further information about adres
+              type: string
+
+    Verbintenis:
+      title: verbintenis
+      type: object
+      properties:
+        datumOntbinding:
+          nullable: true
+          $ref: "#/components/schemas/Date"
+        datumSluiting:
+          $ref: "#/components/schemas/Date"
+        landnaamSluiting:
+          type: string
+        plaatsnaamSluitingOmschrijving:
+          type: string
+        soortVerbintenis:
+          $ref: "#/components/schemas/SoortVerbintenis"
+        soortVerbintenisOmschrijving:
+          type: string
+        redenOntbindingOmschrijving:
+          type: string
+        persoon:
+          $ref: "#/components/schemas/Persoon"
+    AdellijkeTitelPredikaat:
+      nullable: true
+      title: AdellijkeTitelPredikaat
+      type: string
+      enum:
+        - Baron
+        - Barones
+        - Graaf
+        - Gravin
+        - Hertog
+        - Hertogin
+        - Jonkheer
+        - Jonkvrouw
+        - Markies
+        - Markiezin
+        - Prins
+        - Prinses
+        - Ridder
+    Nationaliteiten:
+      title: Nationaliteiten
+      type: object
+      properties:
+        omschrijving:
+          type: string
+    Geslachtsaanduiding:
+      title: Geslachtsaanduiding
+      example: M
+      type: string
+      enum:
+        - M
+        - V
+    OmschrijvingGeslachtsaanduiding:
+      title: OmschrijvingGeslachtsaanduiding
+      example: Man
+      type: string
+      enum:
+        - Man
+        - Vrouw
+    Persoon:
+      title: Persoonsgegevens
+      type: object
+      properties:
+        adellijkeTitelPredikaat:
+          $ref: "#/components/schemas/AdellijkeTitelPredikaat"
+        bsn:
+          $ref: "#/components/schemas/BSN"
+        geslachtsnaam:
+          type: string
+        voorvoegselGeslachtsnaam:
+          nullable: true
+          type: string
+        voornamen:
+          type: string
+        geboorteLand:
+          type: string
+        geboorteplaats:
+          type: string
+        geboortedatum:
+          $ref: "#/components/schemas/Date"
+        geslachtsaanduiding:
+          $ref: "#/components/schemas/Geslachtsaanduiding"
+        omschrijvingGeslachtsaanduiding:
+          $ref: "#/components/schemas/OmschrijvingGeslachtsaanduiding"
+        overlijdensdatum:
+          nullable: true
+          $ref: "#/components/schemas/Date"
+    PersoonVolledig:
+      allOf:
+        - $ref: "#/components/schemas/Persoon"
+        - type: object
+          properties:
+            aanduidingNaamgebruikOmschrijving:
+              type: string
+            gemeentenaamInschrijving:
+              type: string
+            mokum:
+              description: True if person is living in Amsterdam
+              type: boolean
+            nationaliteiten:
+              type: array
+              items:
+                $ref: "#/components/schemas/Nationaliteiten"
+            vertrokkenOnbekendWaarheen:
+              type: boolean
+            datumVertrekUitNederland:
+              description: This value can be used if `vertrokkenOnbekendWaarheen` is True
+              $ref: "#/components/schemas/Date"
+              nullable: true
+            emigratieLand:
+              type: string
+            omschrijvingIndicatieGeheim:
+              type: string
+            indicatieGeheim:
+              type: boolean
+            omschrijvingBurgerlijkeStaat:
+              type: string
+    SoortVerbintenis:
+      nullable: true
+      title: SoortVerbintenis
+      example: H
+      type: string
+      enum:
+        - H
+        - P
+    BRPResponse:
+      title: brp
+      type: object
+      properties:
+        persoon:
+          $ref: "#/components/schemas/PersoonVolledig"
+        adres:
+          $ref: "#/components/schemas/Adres"
+        verbintenis:
+          $ref: "#/components/schemas/Verbintenis"
+        ouders:
+          type: array
+          items:
+            $ref: "#/components/schemas/Persoon"
+        kinderen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Persoon"
+    BSNResponse:
+      title: bsn
+      type: object
+      properties:
+        burgerservicenummer:
+          $ref: "#/components/schemas/BSN"
+      required:
+        - burgerservicenummer
+    KVKNumberResponse:
+      title: bsn
+      type: object
+      properties:
+        kvknummer:
+          type: string
+      required:
+        - kvknummer
+    HRResponse:
+      type: object
+      title: Handelsregister
+      properties:
+        content:
+          type: object
+          nullable: true
+          properties:
+            nnpid:
+              nullable: true
+              type: string
+            mokum:
+              type: boolean
+            onderneming:
+              $ref: "#/components/schemas/Onderneming"
+            eigenaar:
+              nullable: true
+              $ref: "#/components/schemas/Eigenaar"
+            rechtspersonen:
+              type: array
+              items:
+                $ref: "#/components/schemas/Rechtspersoon"
+            vestigingen:
+              type: array
+              items:
+                $ref: "#/components/schemas/Vestiging"
+            bestuurders:
+              type: array
+              items:
+                $ref: "#/components/schemas/Bestuurder"
+            gemachtigden:
+              type: array
+              items:
+                $ref: "#/components/schemas/Gemachtigde"
+            overigeFunctionarissen:
+              type: array
+              items:
+                $ref: "#/components/schemas/OverigeFunctionaris"
+            aansprakelijken:
+              type: array
+              items:
+                $ref: "#/components/schemas/Aansprakelijke"
+          required:
+            - mokum
+            - onderneming
+            - rechtspersonen
+            - vestigingen
+    Onderneming:
+      type: object
+      properties:
+        datumAanvang:
+          nullable: true
+          $ref: "#/components/schemas/Date"
+        datumEinde:
+          nullable: true
+          $ref: "#/components/schemas/Date"
+        handelsnamen:
+          type: array
+          items:
+            type: string
+        hoofdactiviteit:
+          type: string
+        overigeActiviteiten:
+          type: array
+          items:
+            type: string
+        rechtsvorm:
+          type: string
+        kvkNummer:
+          type: string
+          nullable: true
+    Eigenaar:
+      type: object
+      nullable: true
+      properties:
+        naam:
+          type: string
+        geboortedatum:
+          $ref: "#/components/schemas/Date"
+        adres:
+          $ref: "#/components/schemas/Adres"
+        bsn:
+          $ref: "#/components/schemas/BSN"
+    Rechtspersoon:
+      type: object
+      properties:
+        kvkNummer:
+          type: string
+          nullable: true
+        rsin:
+          type: string
+          nullable: true
+        statutaireNaam:
+          type: string
+          nullable: true
+        statutaireZetel:
+          type: string
+          nullable: true
+    Vestiging:
+      type: object
+      properties:
+        activiteiten:
+          type: array
+          items:
+            type: string
+        bezoekadres:
+          $ref: "#/components/schemas/AdresBasis"
+        datumAanvang:
+          $ref: "#/components/schemas/Date"
+        datumEinde:
+          nullable: true
+          $ref: "#/components/schemas/Date"
+        emailadres:
+          nullable: true
+          type: string
+        faxnummer:
+          nullable: true
+          type: string
+        handelsnamen:
+          type: array
+          items:
+            type: string
+        postadres:
+          nullable: true
+          $ref: "#/components/schemas/AdresBasis"
+        telefoonnummer:
+          nullable: true
+          type: string
+        typeringVestiging:
+          type: string # TODO: Add Enum
+        vestigingsNummer:
+          type: string
+        websites:
+          type: array
+          items:
+            type: string
+    Bestuurder:
+      type: object
+      properties:
+        functie:
+          type: string
+          enum:
+            - Bestuurder
+            - Lid van het besturend orgaan
+            - Lid van het leidinggevend orgaan
+            - Persoon krachtens statuten bevoegd bij ontstentenis belet van de bestuurders
+            - Vereffenaar
+        soortBevoegdheid:
+          type: string
+          enum:
+            - AlleenZelfstandigBevoegd
+            - GezamenlijkBevoegd
+        naam:
+          type: string
+        geboortedatum:
+          $ref: "#/components/schemas/Date"
+    Gemachtigde:
+      type: object
+      properties:
+        naam:
+          type: string
+        geboortedatum:
+          nullable: true
+          $ref: "#/components/schemas/Date"
+        datumIngangMachtiging:
+          nullable: true
+          $ref: "#/components/schemas/Date"
+        functie:
+          type: string
+          enum:
+            - Beheerder
+            - Boekhouder
+            - Gevolmachtigde
+            - Handelsagent
+            - PrivaatrechtelijkGevolgmachtigde
+    Aansprakelijke:
+      type: object
+      properties:
+        functie:
+          type: string
+          enum:
+            - Bevoegd functionaris
+            - Lid rederij
+            - Maat
+            - Mede-eigenaar
+            - Vennoot
+            - Vereffenaar
+        soortBevoegdheid:
+          type: string
+          enum:
+            - OnbeperktBevoegd
+            - BeperktBevoegd
+            - NietBevoegd
+        naam:
+          type: string
+        geboortedatum:
+          $ref: "#/components/schemas/Date"
+    OverigeFunctionaris:
+      type: object
+      properties:
+        naam:
+          type: string
+        functie:
+          type: string
+          enum:
+            - Bewaarder boeken en bescheiden
+            - Commissaris
+            - Enig aandeelhouder
+            - Functionaris volgens buitenlands recht
+            - Aandeelhouder niet volgestorte aandelen
+            - Lid EESV
+            - Lid van het toezichthoudend orgaan
+        geboortedatum:
+          $ref: "#/components/schemas/Date"
+    BSN:
+      type: string
+      pattern: '^(\d{8}|\d{9})$'
+    Date:
+      type: string
+      format: date
+      nullable: true
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - "ERROR"
+        message:
+          type: string
