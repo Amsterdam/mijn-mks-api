@@ -12,7 +12,7 @@ click==7.1.2
 clickclick==20.10.2
 connexion==2.7.0
 coverage==5.5
-cryptography==3.4.7
+cryptography==39.0.1
 defusedxml==0.7.1
 Deprecated==1.2.13
 dictpath==0.1.3
