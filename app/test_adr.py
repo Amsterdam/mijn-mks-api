@@ -2,7 +2,6 @@ import os
 from unittest import TestCase
 from unittest.mock import patch
 
-from flask_testing.utils import TestCase as FlaskTestCase
 from app.auth import FlaskServerTestCase
 
 from app.helpers import encrypt
@@ -34,7 +33,6 @@ class AdrTest(TestCase):
         return {"residentCount": 3, "crossRefNummer": "MijnAmsterdam"}
 
     def test_config(self):
-
         key = get_jwt_key().export()
 
         self.assertIn(jwk_string, key)
