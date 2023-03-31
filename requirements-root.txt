@@ -8,7 +8,9 @@ flask
 flask_httpauth
 jwcrypto
 lxml
-openapi-core
+openapi-core==0.14.2
+openapi-schema-validator==0.2.3
+openapi-spec-validator==0.4.0
 pyjwt
 python-dateutil
 requests
