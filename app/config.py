@@ -1,8 +1,8 @@
-from datetime import date, time
-from flask.json.provider import DefaultJSONProvider
 import logging
 import os
+from datetime import date, time
 
+from flask.json.provider import DefaultJSONProvider
 from jwcrypto import jwk
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
