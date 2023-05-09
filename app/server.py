@@ -1,12 +1,11 @@
 import logging
-
 import sentry_sdk
 from flask import Flask, request
 from requests import HTTPError
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 from app import auth
-from app.config import IS_DEV, SENTRY_DSN, CustomJSONEncoder
+from app.config import IS_DEV, SENTRY_DSN, UpdatedJSONProvider
 from app.helpers import (
     decrypt,
     error_response_json,
@@ -17,7 +16,7 @@ from app.service import mks_client_02_04, mks_client_hr
 from app.service.adr_mks_client_02_04 import get_resident_count
 
 app = Flask(__name__)
-app.json_encoder = CustomJSONEncoder
+app.json = UpdatedJSONProvider(app)
 
 if SENTRY_DSN:  # pragma: no cover
     sentry_sdk.init(
@@ -74,7 +73,6 @@ def health_check():
 
 @app.errorhandler(Exception)
 def handle_error(error):
-
     error_message_original = f"{type(error)}:{str(error)}"
 
     msg_auth_exception = "Auth error occurred"

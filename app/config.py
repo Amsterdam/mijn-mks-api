@@ -1,8 +1,8 @@
-from datetime import date, time
-from json import JSONEncoder
 import logging
 import os
+from datetime import date, time
 
+from flask.json.provider import DefaultJSONProvider
 from jwcrypto import jwk
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -42,14 +42,15 @@ logging.basicConfig(
 )
 
 
-class CustomJSONEncoder(JSONEncoder):
+class UpdatedJSONProvider(DefaultJSONProvider):
     def default(self, obj):
         if isinstance(obj, time):
             return obj.isoformat(timespec="minutes")
+
         if isinstance(obj, date):
             return obj.isoformat()
 
-        return JSONEncoder.default(self, obj)
+        return super().default(obj)
 
 
 def get_jwt_key():

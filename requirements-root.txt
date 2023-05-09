@@ -1,6 +1,5 @@
 beautifulsoup4
 black
-connexion
 coverage
 cryptography
 flake8
