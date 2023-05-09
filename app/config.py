@@ -41,15 +41,17 @@ logging.basicConfig(
     level=LOG_LEVEL,
 )
 
+
 class UpdatedJSONProvider(DefaultJSONProvider):
     def default(self, obj):
         if isinstance(obj, time):
             return obj.isoformat(timespec="minutes")
-        
+
         if isinstance(obj, date):
             return obj.isoformat()
-        
+
         return super().default(obj)
+
 
 def get_jwt_key():
     key = os.getenv("MKS_JWT_KEY")
