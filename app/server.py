@@ -66,6 +66,7 @@ def get_aantal_bewoners():
     return error_response_json("bad request", 400)
 
 
+@app.route("/")
 @app.route("/status/health")
 def health_check():
     return success_response_json("OK")
