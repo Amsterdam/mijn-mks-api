@@ -209,18 +209,18 @@ def to_adres_in_onderzoek(value: str):
     return None
 
 def geboortedatum_to_string(value, tag):
-    if value == None:
+    if value is None:
         return None
-    
-    indicatie = tag.get("indOnvolledigeDatum") # J, M, D, V of None
+
+    indicatie = tag.get("indOnvolledigeDatum")  # J, M, D, V of None
     valueAsDate = to_date(value)
 
     if indicatie == "J":
         return "00 00 0000"
     elif indicatie == "M":
-        return f"00 00 {valueAsDate.year}" # 00 00 1957
+        return f"00 00 {valueAsDate.year}"  # 00 00 1957
     elif indicatie == "D":
-        return f"00 {calendar.month_name[valueAsDate.month]} {valueAsDate.year}" # 00 juli 1957
+        return f"00 {calendar.month_name[valueAsDate.month]} {valueAsDate.year}"  # 00 juli 1957
 
     # Indicatie niet aanwezig of niet herkend, retouneer de gevonden datum.
     return to_date(value)
