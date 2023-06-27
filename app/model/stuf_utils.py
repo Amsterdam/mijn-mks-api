@@ -27,7 +27,7 @@ def is_nil(element: Union[Tag, ResultSet]) -> bool:
     return False
 
 
-def _set_value(tag, field, target, withTag = False):
+def _set_value(tag, field, target, withTag=False):
     key = field.get("save_as", field["name"])
 
     if tag is None:
