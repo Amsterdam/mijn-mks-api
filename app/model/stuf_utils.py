@@ -1,5 +1,6 @@
 from datetime import datetime
 import re
+import calendar
 from typing import Union
 
 from bs4 import Tag, ResultSet
@@ -35,7 +36,7 @@ def _set_value(tag, field, target):
         value = tag.string
 
     # put value through specified parser function
-    value = field["parser"](value)
+    value = field["parser"](value, tag)
     # print(">> ", key, ":", value)
     target[key] = value
 
@@ -206,3 +207,20 @@ def to_adres_in_onderzoek(value: str):
         return value
 
     return None
+
+def geboortedatum_to_string(value, tag):
+    if value == None:
+        return None
+    
+    indicatie = tag.get("indOnvolledigeDatum") # J, M, D, V of None
+    valueAsDate = to_date(value)
+
+    if indicatie == "J":
+        return "00 00 0000"
+    elif indicatie == "M":
+        return f"00 00 {valueAsDate.year}" # 00 00 1957
+    elif indicatie == "D":
+        return f"00 {calendar.month_name[valueAsDate.month]} {valueAsDate.year}" # 00 juli 1957
+
+    # Indicatie niet aanwezig of niet herkend, retouneer de gevonden datum.
+    return to_date(value)

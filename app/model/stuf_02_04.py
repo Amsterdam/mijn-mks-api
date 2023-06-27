@@ -31,6 +31,7 @@ from app.model.stuf_utils import (
     landcode_to_name,
     is_nil,
     to_string_4x0,
+    geboortedatum_to_string
 )
 
 
@@ -80,6 +81,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "voornamen", "parser": to_string},
         {"name": "geboortedatum", "parser": to_date},
+        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
         {"name": "codeGemeenteVanInschrijving", "parser": to_int},
         {
