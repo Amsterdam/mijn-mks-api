@@ -172,6 +172,7 @@ class Model0204Tests(TestCase):
                 "codeLandEmigratie": None,
                 "datumVertrekUitNederland": None,
                 "geboortedatum": date(1968, 1, 1),
+                "geregistreerdeGeboortedatum": date(1968, 1, 1),
                 "geboortelandnaam": "Nederland",
                 "geboorteLand": "6030",
                 "geboorteplaats": "947",

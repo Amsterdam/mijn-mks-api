@@ -31,7 +31,8 @@ from app.model.stuf_utils import (
     landcode_to_name,
     is_nil,
     to_string_4x0,
-    geboortedatum_to_string
+    geboortedatum_to_string,
+    set_fields_with_attributes
 )
 
 
@@ -81,7 +82,6 @@ def extract_persoon_data(persoon_tree: Tag):
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "voornamen", "parser": to_string},
         {"name": "geboortedatum", "parser": to_date},
-        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
         {"name": "codeGemeenteVanInschrijving", "parser": to_int},
         {
@@ -119,8 +119,13 @@ def extract_persoon_data(persoon_tree: Tag):
         },
     ]
 
+    prs_fields_with_attrs = [
+        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+    ]
+
     set_fields(persoon_tree, prs_fields, result)
     set_extra_fields(persoon_tree.extraElementen, prs_extra_fields, result)
+    set_fields_with_attributes(persoon_tree, prs_fields_with_attrs, result)
 
     # vertrokken onbekend waarheen
     result["vertrokkenOnbekendWaarheen"] = False
