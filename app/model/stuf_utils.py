@@ -88,7 +88,7 @@ def _set_value_on(target_dict, sourcefield, targetfield, lookup):
         target_dict[targetfield] = value
 
 
-def to_datetime(value, tag):
+def to_datetime(value):
     """
     :param value:
     :return:
@@ -103,7 +103,7 @@ def to_datetime(value, tag):
     return None
 
 
-def to_date(value, tag):
+def to_date(value):
     """
     :param value:
     :return:
@@ -118,7 +118,7 @@ def to_date(value, tag):
     return None
 
 
-def to_int(value, tag):
+def to_int(value):
     # our xml parser, automatically converts numbers. So this converter doesn't do much.
     if value == 0:
         return 0
@@ -127,20 +127,20 @@ def to_int(value, tag):
     return int(value)
 
 
-def to_string(value, tag):
+def to_string(value):
     if not value:
         return None
     return str(value).strip()
 
 
-def to_string_4x0(value, tag):
+def to_string_4x0(value):
     """Return value as string padded with zeros at the front"""
     if not value:
         return None
     return str(value).strip().zfill(4)
 
 
-def to_bool(value, tag):
+def to_bool(value):
     if not value:
         return False
     elif value.lower() in ["0", "n"]:
@@ -151,7 +151,7 @@ def to_bool(value, tag):
     return False
 
 
-def geheim_indicatie_to_bool(value, tag):
+def geheim_indicatie_to_bool(value):
     if not value:
         return False
     if value in ["1", "2", "3", "4", "5", "6", "7"]:
@@ -160,7 +160,7 @@ def geheim_indicatie_to_bool(value, tag):
     return False
 
 
-def as_postcode(value, tag):
+def as_postcode(value):
     if not value:
         return None
     value = to_string(value)
@@ -171,13 +171,13 @@ def as_postcode(value, tag):
     return f"{match['num']} {match['let'].upper()}"
 
 
-def as_bsn(value: str, tag) -> str:
+def as_bsn(value: str) -> str:
     if not value:
         return None
     return value.zfill(9)
 
 
-def to_is_amsterdam(value, tag):
+def to_is_amsterdam(value):
     if not value:
         return False
 
@@ -196,7 +196,7 @@ def landcode_to_name(value: str) -> str:
     return lookup_landen.get(value, None)
 
 
-def to_adres_in_onderzoek(value: str, tag):
+def to_adres_in_onderzoek(value: str):
     if not value:
         return None
 
