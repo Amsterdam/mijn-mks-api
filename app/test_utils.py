@@ -117,7 +117,7 @@ class UtilsTest(TestCase):
         self.assertTrue(is_nil([]))
 
     def test_geboortedatum_to_string(self):
-        dates = [["J","00 00 0000"], ["M", "00 00 1957"], ["D", "00 July 1957"], ["V", "1 July 1957"]]
+        dates = [["J","00 00 0000"], ["M", "00 00 1957"], ["D", "00 juli 1957"], ["V", "1 juli 1957"]]
 
         for testDate in dates:
             xml = wrap(f"<BG:geboortedatum StUF:indOnvolledigeDatum=\"{testDate[0]}\">19570701</BG:geboortedatum>")
