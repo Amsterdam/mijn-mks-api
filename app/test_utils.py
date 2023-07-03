@@ -14,7 +14,7 @@ from app.model.stuf_utils import (
     as_postcode,
     to_date,
     is_nil,
-    geboortedatum_to_string,
+    set_indicatie_geboortedatum,
 )
 
 jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
@@ -116,7 +116,7 @@ class UtilsTest(TestCase):
 
         self.assertTrue(is_nil([]))
 
-    def test_geboortedatum_to_string(self):
+    def test_set_indicatie_geboortedatum(self):
         dates = [["J","J"], ["M", "M"], ["D", "D"], ["V", "V"], ["",""]]
 
         for testDate in dates:
@@ -124,4 +124,4 @@ class UtilsTest(TestCase):
             tag = xml.find("geboortedatum")
             value = tag.string
 
-            self.assertEqual(geboortedatum_to_string(value, tag), testDate[1])
+            self.assertEqual(set_indicatie_geboortedatum(value, tag), testDate[1])
