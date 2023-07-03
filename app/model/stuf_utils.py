@@ -214,7 +214,7 @@ def to_adres_in_onderzoek(value: str):
 
     return None
 
-def geboortedatum_to_string(value, tag):
+def set_indicatie_geboortedatum(value, tag):
     if value is None:
         return None
 

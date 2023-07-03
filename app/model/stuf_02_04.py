@@ -31,7 +31,7 @@ from app.model.stuf_utils import (
     landcode_to_name,
     is_nil,
     to_string_4x0,
-    geboortedatum_to_string,
+    set_indicatie_geboortedatum,
     set_fields_with_attributes
 )
 
@@ -120,7 +120,7 @@ def extract_persoon_data(persoon_tree: Tag):
     ]
 
     prs_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
     ]
 
     set_fields(persoon_tree, prs_fields, result)
@@ -172,7 +172,7 @@ def extract_kinderen_data(persoon_tree: Tag):
     ]
 
     knd_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
     ]
 
     kinderen = persoon_tree.find_all("PRSPRSKND")
@@ -229,7 +229,7 @@ def extract_parents_data(persoon_tree: Tag):
     ]
 
     parent_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
     ]
 
     parents = persoon_tree.find_all("PRSPRSOUD")
@@ -292,7 +292,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     ]
 
     partner_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
     ]
 
     verbintenissen = persoon_tree.find_all("PRSPRSHUW")
