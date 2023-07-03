@@ -229,5 +229,4 @@ def geboortedatum_to_string(value, tag):
     elif indicatie == "D":
         return f"00 {calendar.month_name[valueAsDate.month]} {valueAsDate.year}"  # 00 juli 1957
 
-    # Indicatie niet aanwezig of niet herkend, retouneer de gevonden datum.
-    return to_date(value)
+    return f"{valueAsDate.day} {calendar.month_name[valueAsDate.month]} {valueAsDate.year}"

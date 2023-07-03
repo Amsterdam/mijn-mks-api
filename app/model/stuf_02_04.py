@@ -171,6 +171,10 @@ def extract_kinderen_data(persoon_tree: Tag):
         {"name": "opgemaakteNaam", "parser": to_string},
     ]
 
+    knd_fields_with_attrs = [
+        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+    ]
+
     kinderen = persoon_tree.find_all("PRSPRSKND")
     if is_nil(kinderen):
         return []
@@ -179,6 +183,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         result_kind = {}
         set_fields(kind.PRS, knd_fields, result_kind)
         set_extra_fields(kind.PRS, knd_extra_fields, result_kind)
+        set_fields_with_attributes(kind.PRS, knd_fields_with_attrs, result_kind)
 
         set_omschrijving_geslachtsaanduiding(result_kind)
         set_geboorteLandnaam(result_kind)
@@ -223,6 +228,10 @@ def extract_parents_data(persoon_tree: Tag):
         {"name": "opgemaakteNaam", "parser": to_string},
     ]
 
+    parent_fields_with_attrs = [
+        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+    ]
+
     parents = persoon_tree.find_all("PRSPRSOUD")
     if is_nil(parents):
         return []
@@ -231,6 +240,7 @@ def extract_parents_data(persoon_tree: Tag):
         result_parent = {}
         set_fields(ouder.PRS, parent_fields, result_parent)
         set_extra_fields(ouder.PRS, parent_extra_fields, result_parent)
+        set_fields_with_attributes(ouder.PRS, parent_fields_with_attrs, result_parent)
 
         set_omschrijving_geslachtsaanduiding(result_parent)
         set_geboorteLandnaam(result_parent)
@@ -281,6 +291,10 @@ def extract_verbintenis_data(persoon_tree: Tag):
         {"name": "opgemaakteNaam", "parser": to_string},
     ]
 
+    partner_fields_with_attrs = [
+        {"name": "geboortedatum", "parser": geboortedatum_to_string, "save_as": "geregistreerdeGeboortedatum"},
+    ]
+
     verbintenissen = persoon_tree.find_all("PRSPRSHUW")
 
     if verbintenissen[0].get("xsi:nil") == "true":
@@ -297,6 +311,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         set_fields(verb.PRS, partner_fields, result_verbintenis["persoon"])
         set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis["persoon"])
+        set_fields_with_attributes(verb.PRS, partner_fields_with_attrs, result_verbintenis["persoon"])
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis["persoon"])
 
