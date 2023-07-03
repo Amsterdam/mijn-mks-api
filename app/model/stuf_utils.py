@@ -1,7 +1,5 @@
 from datetime import datetime
 import re
-import calendar
-import locale
 from typing import Union
 
 from bs4 import Tag, ResultSet
@@ -220,15 +218,6 @@ def geboortedatum_to_string(value, tag):
     if value is None:
         return None
 
-    locale.setlocale(locale.LC_ALL, 'nl_NL')
     indicatie = tag.get("indOnvolledigeDatum")  # J, M, D, V of None
-    valueAsDate = to_date(value)
 
-    if indicatie == "J":
-        return "00 00 0000"
-    elif indicatie == "M":
-        return f"00 00 {valueAsDate.year}"  # 00 00 1957
-    elif indicatie == "D":
-        return f"00 {calendar.month_name[valueAsDate.month]} {valueAsDate.year}"  # 00 juli 1957
-
-    return f"{valueAsDate.day} {calendar.month_name[valueAsDate.month]} {valueAsDate.year}"
+    return indicatie
