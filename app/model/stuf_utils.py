@@ -214,10 +214,8 @@ def to_adres_in_onderzoek(value: str):
 
     return None
 
-def set_indicatie_geboortedatum(value, tag):
-    if value is None:
-        return None
 
-    indicatie = tag.get("indOnvolledigeDatum")  # J, M, D, V of None
+def set_indicatie_geboortedatum(value, tag):
+    indicatie = tag.get("StUF:indOnvolledigeDatum")  # J, M, D, V of None
 
     return indicatie

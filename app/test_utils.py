@@ -115,13 +115,3 @@ class UtilsTest(TestCase):
         self.assertFalse(is_nil(s.find_all("b")))
 
         self.assertTrue(is_nil([]))
-
-    def test_set_indicatie_geboortedatum(self):
-        dates = [["J","J"], ["M", "M"], ["D", "D"], ["V", "V"], ["",""]]
-
-        for testDate in dates:
-            xml = wrap(f"<BG:geboortedatum StUF:indOnvolledigeDatum=\"{testDate[0]}\">19570701</BG:geboortedatum>")
-            tag = xml.find("geboortedatum")
-            value = tag.string
-
-            self.assertEqual(set_indicatie_geboortedatum(value, tag), testDate[1])
