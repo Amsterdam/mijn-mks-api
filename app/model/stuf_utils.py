@@ -26,7 +26,7 @@ def is_nil(element: Union[Tag, ResultSet]) -> bool:
     return False
 
 
-def _set_value(tag, field, target):
+def _set_value(tag, field, target, withTag=False):
     key = field.get("save_as", field["name"])
 
     if tag is None:
@@ -35,7 +35,8 @@ def _set_value(tag, field, target):
         value = tag.string
 
     # put value through specified parser function
-    value = field["parser"](value)
+    value = field["parser"](value, tag) if withTag else field["parser"](value)
+
     # print(">> ", key, ":", value)
     target[key] = value
 
@@ -64,6 +65,12 @@ def set_fields(source, fields, target):
     for field in fields:
         tag = source.find(field["name"])
         _set_value(tag, field, target)
+
+
+def set_fields_with_attributes(source, fields, target):
+    for field in fields:
+        tag = source.find(field["name"])
+        _set_value(tag, field, target, True)
 
 
 def _set_value_on(target_dict, sourcefield, targetfield, lookup):
@@ -206,3 +213,11 @@ def to_adres_in_onderzoek(value: str):
         return value
 
     return None
+
+def set_indicatie_geboortedatum(value, tag):
+    if value is None:
+        return None
+
+    indicatie = tag.get("indOnvolledigeDatum")  # J, M, D, V of None
+
+    return indicatie
