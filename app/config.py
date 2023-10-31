@@ -1,6 +1,8 @@
+import base64
 import logging
 import os
 from datetime import date, time
+import tempfile
 
 from flask.json.provider import DefaultJSONProvider
 from jwcrypto import jwk
@@ -25,14 +27,30 @@ IS_AP = IS_ACCEPTANCE or IS_PRODUCTION
 IS_OT = IS_DEV or IS_TEST
 
 # App constants
-ENABLE_OPENAPI_VALIDATION = os.getenv("ENABLE_OPENAPI_VALIDATION", not IS_TAP)
 VERIFY_JWT_SIGNATURE = os.getenv("VERIFY_JWT_SIGNATURE", IS_AP)
 REQUEST_TIMEOUT = 20 if IS_PRODUCTION else 30  # seconds
 
 BRP_APPLICATIE = os.getenv("BRP_APPLICATIE")
 BRP_GEBRUIKER = os.getenv("BRP_GEBRUIKER")
+
 MKS_CLIENT_CERT = os.getenv("MIJN_DATA_CLIENT_CERT")
 MKS_CLIENT_KEY = os.getenv("MIJN_DATA_CLIENT_KEY")
+
+# TODO: Add other AZ env conditions after migration.
+if IS_TEST:
+    # https://stackoverflow.com/a/46570364/756075
+    # Server security / certificates
+    cert = tempfile.NamedTemporaryFile(delete=False)
+    cert.write(base64.b64decode(MKS_CLIENT_CERT))
+    cert.close()
+
+    key = tempfile.NamedTemporaryFile(delete=False)
+    key.write(base64.b64decode(MKS_CLIENT_KEY))
+    key.close()
+
+    MKS_CLIENT_CERT = cert.name
+    MKS_CLIENT_KEY = key.name
+
 MKS_ENDPOINT = os.getenv("MKS_BRP_ENDPOINT")
 
 SENTRY_DSN = os.getenv("SENTRY_DSN", None)
