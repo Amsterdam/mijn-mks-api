@@ -14,10 +14,20 @@ from app.model.stuf_utils import (
     as_postcode,
     to_date,
     is_nil,
+    set_indicatie_geboortedatum,
 )
 
 jwk_string = "RsKzMu5cIx92FSzLZz1RmsdLg7wJQPTwsCrkOvNNlqg"
 
+def wrap(xmlstring):
+    xmlstring = f"""
+        <?xml version='1.0' encoding='UTF-8'?>
+        <wrap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        {xmlstring}
+        </wrap>
+    """
+    tree = BeautifulSoup(xmlstring, features="lxml-xml")
+    return tree
 
 @patch.dict(os.environ, {"MKS_JWT_KEY": jwk_string})
 class UtilsTest(TestCase):
@@ -98,16 +108,6 @@ class UtilsTest(TestCase):
         self.assertEqual(as_postcode(value), None)
 
     def test_is_nil(self):
-        def wrap(xmlstring):
-            xmlstring = f"""
-                <?xml version='1.0' encoding='UTF-8'?>
-                <wrap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                {xmlstring}
-                </wrap>
-            """
-            tree = BeautifulSoup(xmlstring, features="lxml-xml")
-            return tree
-
         s = wrap('<a xsi:nil="true">1234AA</a>')
         self.assertTrue(is_nil(s.find("a")))
 
