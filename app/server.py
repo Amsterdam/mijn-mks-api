@@ -10,7 +10,6 @@ from app.helpers import (
     decrypt,
     error_response_json,
     success_response_json,
-    validate_openapi,
 )
 from app.service import mks_client_02_04, mks_client_hr
 from app.service.adr_mks_client_02_04 import get_resident_count
@@ -26,7 +25,6 @@ if SENTRY_DSN:  # pragma: no cover
 
 @app.route("/brp/brp", methods=["GET"])
 @auth.login_required
-@validate_openapi
 def get_brp():
     user = auth.get_current_user()
     brp = mks_client_02_04.get_0204(user["id"])
@@ -35,7 +33,6 @@ def get_brp():
 
 @app.route("/brp/hr", methods=["GET"])
 @auth.login_required
-@validate_openapi
 def get_hr():
     user = auth.get_current_user()
 
@@ -49,7 +46,6 @@ def get_hr():
 
 @app.route("/brp/aantal_bewoners", methods=["POST"])
 @auth.login_required
-@validate_openapi
 def get_aantal_bewoners():
     request_json = request.get_json()
 
@@ -66,6 +62,7 @@ def get_aantal_bewoners():
     return error_response_json("bad request", 400)
 
 
+@app.route("/")
 @app.route("/status/health")
 def health_check():
     return success_response_json("OK")
