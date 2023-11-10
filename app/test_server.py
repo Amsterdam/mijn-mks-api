@@ -1,9 +1,10 @@
 import json
-from app.test_mks_client_bsn_hr import get_bsn_xml_response_fixture
+import os
 from unittest.mock import patch
 
-from app.server import app
 from app.auth import PROFILE_TYPE_COMMERCIAL, FlaskServerTestCase
+from app.server import app
+from app.test_mks_client_bsn_hr import get_bsn_xml_response_fixture
 
 from .test_mks_client_kvk_mac_hr import (
     KVK_HR_MAC_RESPONSE,
@@ -11,7 +12,6 @@ from .test_mks_client_kvk_mac_hr import (
 )
 from .test_mks_client_kvk_prs_hr import (
     KVK_HR_EENMANSZAAK_RESPONSE,
-    get_kvk_prs_xml_response_fixture,
     get_xml_response_empty_fixture,
 )
 from .test_mks_client_nnp_hr import NNP_HR_RESPONSE, get_nnp_xml_response_fixture
@@ -24,8 +24,24 @@ def wrap_response(response_data, status: str = "OK"):
     }
 
 
-class HRTest(FlaskServerTestCase):
+@patch.dict(
+    os.environ,
+    {
+        "MA_BUILD_ID": "999",
+        "MA_GIT_SHA": "abcdefghijk",
+        "MA_OTAP_ENV": "unittesting",
+    },
+)
+class ApiTests(FlaskServerTestCase):
     app = app
+
+    def test_status(self):
+        response = self.client.get("/status/health")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data.decode(),
+            '{"content":{"buildId":"999","gitSha":"abcdefghijk","otapEnv":"unittesting"},"status":"OK"}\n',
+        )
 
     def _get_expected_private(self):
         return wrap_response(KVK_HR_EENMANSZAAK_RESPONSE)
