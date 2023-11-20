@@ -33,11 +33,12 @@ REQUEST_TIMEOUT = 20 if IS_PRODUCTION else 30  # seconds
 BRP_APPLICATIE = os.getenv("BRP_APPLICATIE")
 BRP_GEBRUIKER = os.getenv("BRP_GEBRUIKER")
 
+MIJN_DATA_CLIENT_CERT = os.getenv("MIJN_DATA_CLIENT_CERT")
 MKS_CLIENT_CERT = os.getenv("MIJN_DATA_CLIENT_CERT", os.getenv("MKS_CLIENT_CERT"))
 MKS_CLIENT_KEY = os.getenv("MIJN_DATA_CLIENT_KEY", os.getenv("MKS_CLIENT_KEY"))
 
 # TODO: Add other AZ env conditions after migration.
-if IS_TEST:
+if IS_TAP and MIJN_DATA_CLIENT_CERT is not None:
     # https://stackoverflow.com/a/46570364/756075
     # Server security / certificates
     cert = tempfile.NamedTemporaryFile(delete=False)
