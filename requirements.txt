@@ -32,7 +32,7 @@ click==8.1.7
     # via
     #   black
     #   flask
-coverage==7.3.2
+coverage==7.3.3
     # via -r requirements-root.txt
 cryptography==41.0.7
     # via
@@ -49,7 +49,7 @@ flask==3.0.0
     #   sentry-sdk
 flask-httpauth==4.8.0
     # via -r requirements-root.txt
-frozenlist==1.4.0
+frozenlist==1.4.1
     # via
     #   aiohttp
     #   aiosignal
@@ -96,7 +96,7 @@ python-dateutil==2.8.2
     # via -r requirements-root.txt
 requests==2.31.0
     # via -r requirements-root.txt
-sentry-sdk[flask]==1.39.0
+sentry-sdk[flask]==1.39.1
     # via -r requirements-root.txt
 six==1.16.0
     # via python-dateutil

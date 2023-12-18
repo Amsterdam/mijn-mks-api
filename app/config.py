@@ -25,6 +25,7 @@ IS_TEST = SENTRY_ENV == "test"
 IS_TAP = IS_PRODUCTION or IS_ACCEPTANCE or IS_TEST
 IS_AP = IS_ACCEPTANCE or IS_PRODUCTION
 IS_OT = IS_DEV or IS_TEST
+IS_AZ = os.getenv("IS_AZ", False)
 
 # App constants
 VERIFY_JWT_SIGNATURE = os.getenv("VERIFY_JWT_SIGNATURE", IS_AP)
@@ -38,7 +39,7 @@ MKS_CLIENT_CERT = os.getenv("MIJN_DATA_CLIENT_CERT", os.getenv("MKS_CLIENT_CERT"
 MKS_CLIENT_KEY = os.getenv("MIJN_DATA_CLIENT_KEY", os.getenv("MKS_CLIENT_KEY"))
 
 # TODO: Add other AZ env conditions after migration.
-if IS_TAP and MIJN_DATA_CLIENT_CERT is not None:
+if IS_AZ and IS_TAP and MIJN_DATA_CLIENT_CERT is not None:
     # https://stackoverflow.com/a/46570364/756075
     # Server security / certificates
     cert = tempfile.NamedTemporaryFile(delete=False)
