@@ -282,7 +282,8 @@ def extract_functionaris_by_type(source: Tag, typeFunctionaris: str):
     return [
         functionaris
         for functionaris in source.find_all("inn.heeftAlsFunctionaris")
-        if functionaris.find("functionarisType").string == typeFunctionaris
+        if functionaris.find("functionarisType")
+        and functionaris.find("functionarisType").string == typeFunctionaris
     ]
 
 
