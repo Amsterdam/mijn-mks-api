@@ -10,4 +10,4 @@ lxml
 pyjwt
 python-dateutil
 requests
-sentry-sdk[flask]
+azure-monitor-opentelemetry
