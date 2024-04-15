@@ -1,59 +1,77 @@
 import logging
 import os
+
+from azure.monitor.opentelemetry import configure_azure_monitor
 from flask import Flask, request
+from opentelemetry import trace
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.trace import get_tracer_provider
 from requests import HTTPError
+from requests.exceptions import HTTPError
 
 from app import auth
-from app.config import IS_DEV, UpdatedJSONProvider
-from app.helpers import (
-    decrypt,
-    error_response_json,
-    success_response_json,
+from app.config import (
+    IS_DEV,
+    UpdatedJSONProvider,
+    get_application_insights_connection_string,
 )
+from app.helpers import decrypt, error_response_json, success_response_json
 from app.service import mks_client_02_04, mks_client_hr
 from app.service.adr_mks_client_02_04 import get_resident_count
 
+# See also: https://medium.com/@tedisaacs/auto-instrumenting-python-fastapi-and-monitoring-with-azure-application-insights-768a59d2f4b9
+if get_application_insights_connection_string():
+    configure_azure_monitor()
+
+tracer = trace.get_tracer(__name__, tracer_provider=get_tracer_provider())
+
+
 app = Flask(__name__)
 app.json = UpdatedJSONProvider(app)
+
+FlaskInstrumentor.instrument_app(app)
 
 
 @app.route("/brp/brp", methods=["GET"])
 @auth.login_required
 def get_brp():
-    user = auth.get_current_user()
-    brp = mks_client_02_04.get_0204(user["id"])
-    return success_response_json(brp)
+    with tracer.start_as_current_span("/brp"):
+        user = auth.get_current_user()
+        brp = mks_client_02_04.get_0204(user["id"])
+        return success_response_json(brp)
 
 
 @app.route("/brp/hr", methods=["GET"])
 @auth.login_required
 def get_hr():
-    user = auth.get_current_user()
+    with tracer.start_as_current_span("/hr"):
+        user = auth.get_current_user()
 
-    if user["type"] == auth.PROFILE_TYPE_PRIVATE:
-        hr = mks_client_hr.get_from_bsn(user["id"])
-    else:
-        hr = mks_client_hr.get_hr_for_kvk(user["id"])
+        if user["type"] == auth.PROFILE_TYPE_PRIVATE:
+            hr = mks_client_hr.get_from_bsn(user["id"])
+        else:
+            hr = mks_client_hr.get_hr_for_kvk(user["id"])
 
-    return success_response_json(hr)
+        return success_response_json(hr)
 
 
 @app.route("/brp/aantal_bewoners", methods=["POST"])
 @auth.login_required
 def get_aantal_bewoners():
-    request_json = request.get_json()
+    with tracer.start_as_current_span("/aantal_bewoners"):
+        request_json = request.get_json()
 
-    if request_json:
-        try:
-            address_key = request_json.get("addressKey")
-            if address_key:
-                resident_count_payload = get_resident_count(decrypt(address_key))
-                return success_response_json(resident_count_payload)
-        except Exception as error:
-            logging.error(error)
-            pass
+        if request_json:
+            try:
+                address_key = request_json.get("addressKey")
+                if address_key:
+                    resident_count_payload = get_resident_count(decrypt(address_key))
+                    return success_response_json(resident_count_payload)
+            except Exception as error:
+                logging.error(error)
+                pass
 
-    return error_response_json("bad request", 400)
+        return error_response_json("bad request", 400)
 
 
 @app.route("/")
@@ -91,7 +109,11 @@ def handle_error(error):
     elif auth.is_auth_exception(error):
         return error_response_json(msg_auth_exception, 401)
 
-    return error_response_json(msg_server_error, 500)
+    return error_response_json(
+        msg_server_error,
+        msg_server_error,
+        error.code if hasattr(error, "code") else 500,
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover

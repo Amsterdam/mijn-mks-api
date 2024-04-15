@@ -80,3 +80,7 @@ def get_jwt_key():
     key = os.getenv("MKS_JWT_KEY")
     jwk_json = '{"k":"%s","kty":"oct", "kid":"test"}' % (key,)
     return jwk.JWK.from_json(jwk_json)
+
+
+def get_application_insights_connection_string():
+    return os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING", None)
