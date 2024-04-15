@@ -1,12 +1,10 @@
 import logging
 import os
-import sentry_sdk
 from flask import Flask, request
 from requests import HTTPError
-from sentry_sdk.integrations.flask import FlaskIntegration
 
 from app import auth
-from app.config import IS_AZ, IS_DEV, SENTRY_DSN, SENTRY_ENV, UpdatedJSONProvider
+from app.config import IS_DEV, UpdatedJSONProvider
 from app.helpers import (
     decrypt,
     error_response_json,
@@ -17,14 +15,6 @@ from app.service.adr_mks_client_02_04 import get_resident_count
 
 app = Flask(__name__)
 app.json = UpdatedJSONProvider(app)
-
-if SENTRY_DSN:  # pragma: no cover
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        environment=f"{'az-' if IS_AZ else ''}{SENTRY_ENV}",
-        integrations=[FlaskIntegration()],
-        with_locals=False,
-    )
 
 
 @app.route("/brp/brp", methods=["GET"])
