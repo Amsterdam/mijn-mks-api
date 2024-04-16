@@ -6,7 +6,6 @@ from flask import Flask, request
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.trace import get_tracer_provider
-from requests import HTTPError
 from requests.exceptions import HTTPError
 
 from app import auth
@@ -24,7 +23,6 @@ if get_application_insights_connection_string():
     configure_azure_monitor()
 
 tracer = trace.get_tracer(__name__, tracer_provider=get_tracer_provider())
-
 
 app = Flask(__name__)
 app.json = UpdatedJSONProvider(app)

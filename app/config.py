@@ -5,6 +5,11 @@ from datetime import date, time
 import tempfile
 
 from flask.json.provider import DefaultJSONProvider
+from azure.monitor.opentelemetry import configure_azure_monitor
+from flask import Flask, make_response
+from opentelemetry import trace
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.trace import get_tracer_provider
 from jwcrypto import jwk
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -52,8 +57,6 @@ if IS_AZ and IS_TAP and MIJN_DATA_CLIENT_CERT is not None:
     MKS_CLIENT_KEY = key.name
 
 MKS_ENDPOINT = os.getenv("MKS_BRP_ENDPOINT")
-
-SENTRY_DSN = os.getenv("SENTRY_DSN", None)
 
 # Set-up logging
 LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR").upper()
