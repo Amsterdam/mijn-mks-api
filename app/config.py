@@ -5,11 +5,6 @@ from datetime import date, time
 import tempfile
 
 from flask.json.provider import DefaultJSONProvider
-from azure.monitor.opentelemetry import configure_azure_monitor
-from flask import Flask, make_response
-from opentelemetry import trace
-from opentelemetry.instrumentation.flask import FlaskInstrumentor
-from opentelemetry.trace import get_tracer_provider
 from jwcrypto import jwk
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,7 +12,7 @@ STATIC_DIR = os.path.join(PROJECT_DIR, "model", "static")
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 SERVICES_DIR = os.path.join(BASE_PATH, "service")
 
-OTAP_ENV = os.getenv("SENTRY_ENVIRONMENT")
+OTAP_ENV = os.getenv("OTAP_ENV")
 
 # Environment determination
 IS_PRODUCTION = OTAP_ENV == "production"
