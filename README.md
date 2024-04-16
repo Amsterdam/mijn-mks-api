@@ -8,6 +8,21 @@ MKS API
 - HR gegevens op basis van KVK nummer
 - Overzicht ID kaarten en Paspoorten
 
+### Local env
+```
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements-root.txt
+
+// unittest
+python -m unittest
+
+// requirements.txt maken
+make requirements
+
+// dev server
+sh scripts/run-dev.sh
+```
 
 ### Kenmerken
 - Het bronsysteem is een soap/stuf api MKS, deze haalt gegevens uit de brp.
