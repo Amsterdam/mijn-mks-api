@@ -109,7 +109,6 @@ def handle_error(error):
 
     return error_response_json(
         msg_server_error,
-        msg_server_error,
         error.code if hasattr(error, "code") else 500,
     )
 
