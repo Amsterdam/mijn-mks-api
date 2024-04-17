@@ -12,15 +12,13 @@ STATIC_DIR = os.path.join(PROJECT_DIR, "model", "static")
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 SERVICES_DIR = os.path.join(BASE_PATH, "service")
 
-# Sentry configuration.
-SENTRY_DSN = os.getenv("SENTRY_DSN")
-SENTRY_ENV = os.getenv("SENTRY_ENVIRONMENT")
+OTAP_ENV = os.getenv("MA_OTAP_ENV")
 
 # Environment determination
-IS_PRODUCTION = SENTRY_ENV == "production"
-IS_ACCEPTANCE = SENTRY_ENV == "acceptance"
-IS_DEV = SENTRY_ENV == "development"
-IS_TEST = SENTRY_ENV == "test"
+IS_PRODUCTION = OTAP_ENV == "production"
+IS_ACCEPTANCE = OTAP_ENV == "acceptance"
+IS_DEV = OTAP_ENV == "development"
+IS_TEST = OTAP_ENV == "test"
 
 IS_TAP = IS_PRODUCTION or IS_ACCEPTANCE or IS_TEST
 IS_AP = IS_ACCEPTANCE or IS_PRODUCTION
@@ -55,8 +53,6 @@ if IS_AZ and IS_TAP and MIJN_DATA_CLIENT_CERT is not None:
 
 MKS_ENDPOINT = os.getenv("MKS_BRP_ENDPOINT")
 
-SENTRY_DSN = os.getenv("SENTRY_DSN", None)
-
 # Set-up logging
 LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR").upper()
 
@@ -82,3 +78,7 @@ def get_jwt_key():
     key = os.getenv("MKS_JWT_KEY")
     jwk_json = '{"k":"%s","kty":"oct", "kid":"test"}' % (key,)
     return jwk.JWK.from_json(jwk_json)
+
+
+def get_application_insights_connection_string():
+    return os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING", None)
