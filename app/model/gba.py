@@ -13,7 +13,7 @@ lookup_geslacht = {
     "M": "Man",
     "V": "Vrouw",
 }
-lookup_prsidb_soort_code = {
+lookup_persoonidb_soort_code = {
     1: "paspoort",
     2: "europese identiteitskaart",
     3: "toeristenkaart",
