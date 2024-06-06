@@ -205,10 +205,10 @@ def extract_kinderen_data(persoon_tree: Tag):
     return result
 
 
-def extract_parents_data(persoon_tree: Tag):
+def extract_ouders_data(persoon_tree: Tag):
     result = []
 
-    parent_fields = [
+    ouder_fields = [
         {"name": "bsn-nummer", "parser": as_bsn, "save_as": "bsn"},
         {"name": "voornamen", "parser": to_string},
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
@@ -229,7 +229,7 @@ def extract_parents_data(persoon_tree: Tag):
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
     ]
 
-    parent_extra_fields = [
+    ouder_extra_fields = [
         {"name": "omschrijvingAdellijkeTitel", "parser": to_string},
         {"name": "geboortelandnaam", "parser": to_string},
         {"name": "geboorteplaatsnaam", "parser": to_string},
@@ -237,7 +237,7 @@ def extract_parents_data(persoon_tree: Tag):
         {"name": "opgemaakteNaam", "parser": to_string},
     ]
 
-    parent_fields_with_attrs = [
+    ouder_fields_with_attrs = [
         {
             "name": "geboortedatum",
             "parser": set_indicatie_geboortedatum,
@@ -245,21 +245,21 @@ def extract_parents_data(persoon_tree: Tag):
         },
     ]
 
-    parents = persoon_tree.find_all("PRSPRSOUD")
-    if is_nil(parents):
+    ouders = persoon_tree.find_all("PRSPRSOUD")
+    if is_nil(ouders):
         return []
 
-    for ouder in parents:
-        result_parent = {}
-        set_fields(ouder.PRS, parent_fields, result_parent)
-        set_extra_fields(ouder.PRS, parent_extra_fields, result_parent)
-        set_fields_with_attributes(ouder.PRS, parent_fields_with_attrs, result_parent)
+    for ouder in ouders:
+        result_ouder = {}
+        set_fields(ouder.PRS, ouder_fields, result_ouder)
+        set_extra_fields(ouder.PRS, ouder_extra_fields, result_ouder)
+        set_fields_with_attributes(ouder.PRS, ouder_fields_with_attrs, result_ouder)
 
-        set_omschrijving_geslachtsaanduiding(result_parent)
-        set_geboorteLandnaam(result_parent)
-        set_geboorteplaatsNaam(result_parent)
+        set_omschrijving_geslachtsaanduiding(result_ouder)
+        set_geboorteLandnaam(result_ouder)
+        set_geboorteplaatsNaam(result_ouder)
 
-        result.append(result_parent)
+        result.append(result_ouder)
 
     result.sort(key=lambda x: x["geboortedatum"] or date.min)
 
@@ -578,7 +578,7 @@ def extract_data(persoon_tree: Tag):
 
     if isAmsterdammer:
         kinderen = extract_kinderen_data(persoon_tree)
-        ouders = extract_parents_data(persoon_tree)
+        ouders = extract_ouders_data(persoon_tree)
         verbintenis = verbintenissen["verbintenis"]
         verbintenis_historisch = verbintenissen["verbintenisHistorisch"]
         identiteitsbewijzen = extract_identiteitsbewijzen(persoon_tree)
