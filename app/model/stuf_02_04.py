@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from app.helpers import encrypt
 
 from app.model.gba import (
-    lookup_prsidb_soort_code,
+    lookup_persoonidb_soort_code,
     lookup_geslacht,
     lookup_gemeenten,
     lookup_landen,
@@ -79,7 +79,7 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
 def extract_persoon_data(persoon_tree: Tag):
     result = {}
 
-    prs_fields = [
+    persoon_fields = [
         {"name": "bsn-nummer", "parser": as_bsn, "save_as": "bsn"},
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "voornamen", "parser": to_string},
@@ -104,7 +104,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {"name": "aanduidingNaamgebruik", "parser": to_string},
     ]
 
-    prs_extra_fields = [
+    persoon_extra_fields = [
         {"name": "aanduidingNaamgebruikOmschrijving", "parser": to_string},
         {"name": "geboortelandnaam", "parser": to_string},
         {"name": "geboorteplaatsnaam", "parser": to_string},
@@ -121,7 +121,7 @@ def extract_persoon_data(persoon_tree: Tag):
         },
     ]
 
-    prs_fields_with_attrs = [
+    persoon_fields_with_attrs = [
         {
             "name": "geboortedatum",
             "parser": set_indicatie_geboortedatum,
@@ -129,9 +129,9 @@ def extract_persoon_data(persoon_tree: Tag):
         },
     ]
 
-    set_fields(persoon_tree, prs_fields, result)
-    set_extra_fields(persoon_tree.extraElementen, prs_extra_fields, result)
-    set_fields_with_attributes(persoon_tree, prs_fields_with_attrs, result)
+    set_fields(persoon_tree, persoon_fields, result)
+    set_extra_fields(persoon_tree.extraElementen, persoon_extra_fields, result)
+    set_fields_with_attributes(persoon_tree, persoon_fields_with_attrs, result)
 
     # vertrokken onbekend waarheen
     result["vertrokkenOnbekendWaarheen"] = False
@@ -147,7 +147,7 @@ def extract_persoon_data(persoon_tree: Tag):
 def extract_kinderen_data(persoon_tree: Tag):
     result = []
 
-    knd_fields = [
+    kind_fields = [
         {"name": "bsn-nummer", "parser": as_bsn, "save_as": "bsn"},
         {"name": "voornamen", "parser": to_string},
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
@@ -168,7 +168,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
     ]
 
-    knd_extra_fields = [
+    kind_extra_fields = [
         {"name": "omschrijvingAdellijkeTitel", "parser": to_string},
         {"name": "geboortelandnaam", "parser": to_string},
         {"name": "geboorteplaatsnaam", "parser": to_string},
@@ -176,7 +176,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         {"name": "opgemaakteNaam", "parser": to_string},
     ]
 
-    knd_fields_with_attrs = [
+    kind_fields_with_attrs = [
         {
             "name": "geboortedatum",
             "parser": set_indicatie_geboortedatum,
@@ -190,9 +190,9 @@ def extract_kinderen_data(persoon_tree: Tag):
 
     for kind in kinderen:
         result_kind = {}
-        set_fields(kind.PRS, knd_fields, result_kind)
-        set_extra_fields(kind.PRS, knd_extra_fields, result_kind)
-        set_fields_with_attributes(kind.PRS, knd_fields_with_attrs, result_kind)
+        set_fields(kind.PRS, kind_fields, result_kind)
+        set_extra_fields(kind.PRS, kind_extra_fields, result_kind)
+        set_fields_with_attributes(kind.PRS, kind_fields_with_attrs, result_kind)
 
         set_omschrijving_geslachtsaanduiding(result_kind)
         set_geboorteLandnaam(result_kind)
@@ -518,7 +518,7 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
                 continue
 
         try:
-            result_id["documentType"] = lookup_prsidb_soort_code[type_number]
+            result_id["documentType"] = lookup_persoonidb_soort_code[type_number]
         except Exception as e:
             logging.info(f"unknown document type {type_number} {type(e)} {e}")
             result_id["documentType"] = (
