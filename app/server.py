@@ -55,7 +55,7 @@ def get_brp():
     with tracer.start_as_current_span("/brp"):
         user = auth.get_current_user()
         brp = mks_client_02_04.get_0204(user["id"])
-        if not IS_SHOW_BSN_ENABLED:
+        if IS_SHOW_BSN_ENABLED:
             remove_atr(brp, "bsn")
             loop_throug_and_remove_bsn(
                 brp, ["kinderen", "ouders", "verbintenisHistorisch"]
