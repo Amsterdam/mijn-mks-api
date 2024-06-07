@@ -595,15 +595,6 @@ def extract_data(persoon_tree: Tag):
         naam_verbintenissen = [verbintenis] + naam_verbintenissen
     set_opgemaakte_naam(persoon, [i["persoon"] for i in naam_verbintenissen])
 
-    if IS_PRODUCTION:
-        persoon["bsn"] = None
-
-        for kind in kinderen:
-            kind.bsn = None
-
-        for ouder in ouders:
-            ouder.bsn = None
-
     return {
         "persoon": persoon,
         "kinderen": kinderen,

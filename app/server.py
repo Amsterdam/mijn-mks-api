@@ -11,6 +11,7 @@ from requests.exceptions import HTTPError
 from app import auth
 from app.config import (
     IS_DEV,
+    IS_SHOW_BSN_ENABLED,
     UpdatedJSONProvider,
     get_application_insights_connection_string,
 )
@@ -27,6 +28,24 @@ tracer = trace.get_tracer(__name__, tracer_provider=get_tracer_provider())
 app = Flask(__name__)
 app.json = UpdatedJSONProvider(app)
 
+
+def loop_throug(dict_list, keys):
+    for key in keys:
+        for dict in dict_list[key]:
+            remove_atr(dict, "bsn")
+
+
+def remove_atr(object, atr):
+    if isinstance(object, dict):
+        for key in list(object.keys()):
+            if key == atr:
+                print("IS DICT", atr, object[key])
+                object.pop(key)
+                return object
+            else:
+                remove_atr(object[key], atr)
+
+
 FlaskInstrumentor.instrument_app(app)
 
 
@@ -36,6 +55,10 @@ def get_brp():
     with tracer.start_as_current_span("/brp"):
         user = auth.get_current_user()
         brp = mks_client_02_04.get_0204(user["id"])
+        if not IS_SHOW_BSN_ENABLED:
+            remove_atr(brp, "bsn")
+            loop_throug(brp, ["kinderen", "ouders", "verbintenisHistorisch"])
+
         return success_response_json(brp)
 
 
