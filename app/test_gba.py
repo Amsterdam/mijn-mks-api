@@ -10,7 +10,7 @@ os.environ["MKS_BRP_ENDPOINT"] = "https://example.com"
 from app.model.gba import (
     lookup_landen,
     lookup_gemeenten,
-    lookup_prsidb_soort_code,
+    lookup_persoonidb_soort_code,
     lookup_nationaliteiten,
 )  # noqa: E402
 
@@ -23,7 +23,7 @@ class TestGba(TestCase):
         self.assertEqual(lookup_gemeenten["0363"], "Amsterdam")
 
     def test_prsidb_soort_code_lookup(self):
-        self.assertEqual(lookup_prsidb_soort_code[1], "paspoort")
+        self.assertEqual(lookup_persoonidb_soort_code[1], "paspoort")
 
     def test_nationaliteiten_lookup(self):
         self.assertEqual(lookup_nationaliteiten["0336"], "Syrische")

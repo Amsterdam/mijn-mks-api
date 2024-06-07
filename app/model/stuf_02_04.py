@@ -2,13 +2,15 @@ import logging
 from collections import defaultdict
 from datetime import date
 from hashlib import sha256
+from app.config import IS_PRODUCTION
 
+# from config import IS_PRODUCTION
 from bs4 import Tag, ResultSet
 from dateutil.relativedelta import relativedelta
 from app.helpers import encrypt
 
 from app.model.gba import (
-    lookup_prsidb_soort_code,
+    lookup_persoonidb_soort_code,
     lookup_geslacht,
     lookup_gemeenten,
     lookup_landen,
@@ -32,7 +34,7 @@ from app.model.stuf_utils import (
     is_nil,
     to_string_4x0,
     set_indicatie_geboortedatum,
-    set_fields_with_attributes
+    set_fields_with_attributes,
 )
 
 
@@ -77,7 +79,7 @@ def get_nationaliteiten(nationaliteiten: ResultSet):
 def extract_persoon_data(persoon_tree: Tag):
     result = {}
 
-    prs_fields = [
+    persoon_fields = [
         {"name": "bsn-nummer", "parser": as_bsn, "save_as": "bsn"},
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "voornamen", "parser": to_string},
@@ -102,7 +104,7 @@ def extract_persoon_data(persoon_tree: Tag):
         {"name": "aanduidingNaamgebruik", "parser": to_string},
     ]
 
-    prs_extra_fields = [
+    persoon_extra_fields = [
         {"name": "aanduidingNaamgebruikOmschrijving", "parser": to_string},
         {"name": "geboortelandnaam", "parser": to_string},
         {"name": "geboorteplaatsnaam", "parser": to_string},
@@ -119,13 +121,17 @@ def extract_persoon_data(persoon_tree: Tag):
         },
     ]
 
-    prs_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
+    persoon_fields_with_attrs = [
+        {
+            "name": "geboortedatum",
+            "parser": set_indicatie_geboortedatum,
+            "save_as": "indicatieGeboortedatum",
+        },
     ]
 
-    set_fields(persoon_tree, prs_fields, result)
-    set_extra_fields(persoon_tree.extraElementen, prs_extra_fields, result)
-    set_fields_with_attributes(persoon_tree, prs_fields_with_attrs, result)
+    set_fields(persoon_tree, persoon_fields, result)
+    set_extra_fields(persoon_tree.extraElementen, persoon_extra_fields, result)
+    set_fields_with_attributes(persoon_tree, persoon_fields_with_attrs, result)
 
     # vertrokken onbekend waarheen
     result["vertrokkenOnbekendWaarheen"] = False
@@ -135,14 +141,13 @@ def extract_persoon_data(persoon_tree: Tag):
     set_omschrijving_geslachtsaanduiding(result)
     set_geboorteLandnaam(result)
     set_geboorteplaatsNaam(result)
-
     return result
 
 
 def extract_kinderen_data(persoon_tree: Tag):
     result = []
 
-    knd_fields = [
+    kind_fields = [
         {"name": "bsn-nummer", "parser": as_bsn, "save_as": "bsn"},
         {"name": "voornamen", "parser": to_string},
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
@@ -163,7 +168,7 @@ def extract_kinderen_data(persoon_tree: Tag):
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
     ]
 
-    knd_extra_fields = [
+    kind_extra_fields = [
         {"name": "omschrijvingAdellijkeTitel", "parser": to_string},
         {"name": "geboortelandnaam", "parser": to_string},
         {"name": "geboorteplaatsnaam", "parser": to_string},
@@ -171,8 +176,12 @@ def extract_kinderen_data(persoon_tree: Tag):
         {"name": "opgemaakteNaam", "parser": to_string},
     ]
 
-    knd_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
+    kind_fields_with_attrs = [
+        {
+            "name": "geboortedatum",
+            "parser": set_indicatie_geboortedatum,
+            "save_as": "indicatieGeboortedatum",
+        },
     ]
 
     kinderen = persoon_tree.find_all("PRSPRSKND")
@@ -181,9 +190,9 @@ def extract_kinderen_data(persoon_tree: Tag):
 
     for kind in kinderen:
         result_kind = {}
-        set_fields(kind.PRS, knd_fields, result_kind)
-        set_extra_fields(kind.PRS, knd_extra_fields, result_kind)
-        set_fields_with_attributes(kind.PRS, knd_fields_with_attrs, result_kind)
+        set_fields(kind.PRS, kind_fields, result_kind)
+        set_extra_fields(kind.PRS, kind_extra_fields, result_kind)
+        set_fields_with_attributes(kind.PRS, kind_fields_with_attrs, result_kind)
 
         set_omschrijving_geslachtsaanduiding(result_kind)
         set_geboorteLandnaam(result_kind)
@@ -196,10 +205,10 @@ def extract_kinderen_data(persoon_tree: Tag):
     return result
 
 
-def extract_parents_data(persoon_tree: Tag):
+def extract_ouders_data(persoon_tree: Tag):
     result = []
 
-    parent_fields = [
+    ouder_fields = [
         {"name": "bsn-nummer", "parser": as_bsn, "save_as": "bsn"},
         {"name": "voornamen", "parser": to_string},
         {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
@@ -220,7 +229,7 @@ def extract_parents_data(persoon_tree: Tag):
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
     ]
 
-    parent_extra_fields = [
+    ouder_extra_fields = [
         {"name": "omschrijvingAdellijkeTitel", "parser": to_string},
         {"name": "geboortelandnaam", "parser": to_string},
         {"name": "geboorteplaatsnaam", "parser": to_string},
@@ -228,25 +237,29 @@ def extract_parents_data(persoon_tree: Tag):
         {"name": "opgemaakteNaam", "parser": to_string},
     ]
 
-    parent_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
+    ouder_fields_with_attrs = [
+        {
+            "name": "geboortedatum",
+            "parser": set_indicatie_geboortedatum,
+            "save_as": "indicatieGeboortedatum",
+        },
     ]
 
-    parents = persoon_tree.find_all("PRSPRSOUD")
-    if is_nil(parents):
+    ouders = persoon_tree.find_all("PRSPRSOUD")
+    if is_nil(ouders):
         return []
 
-    for ouder in parents:
-        result_parent = {}
-        set_fields(ouder.PRS, parent_fields, result_parent)
-        set_extra_fields(ouder.PRS, parent_extra_fields, result_parent)
-        set_fields_with_attributes(ouder.PRS, parent_fields_with_attrs, result_parent)
+    for ouder in ouders:
+        result_ouder = {}
+        set_fields(ouder.PRS, ouder_fields, result_ouder)
+        set_extra_fields(ouder.PRS, ouder_extra_fields, result_ouder)
+        set_fields_with_attributes(ouder.PRS, ouder_fields_with_attrs, result_ouder)
 
-        set_omschrijving_geslachtsaanduiding(result_parent)
-        set_geboorteLandnaam(result_parent)
-        set_geboorteplaatsNaam(result_parent)
+        set_omschrijving_geslachtsaanduiding(result_ouder)
+        set_geboorteLandnaam(result_ouder)
+        set_geboorteplaatsNaam(result_ouder)
 
-        result.append(result_parent)
+        result.append(result_ouder)
 
     result.sort(key=lambda x: x["geboortedatum"] or date.min)
 
@@ -292,7 +305,11 @@ def extract_verbintenis_data(persoon_tree: Tag):
     ]
 
     partner_fields_with_attrs = [
-        {"name": "geboortedatum", "parser": set_indicatie_geboortedatum, "save_as": "indicatieGeboortedatum"},
+        {
+            "name": "geboortedatum",
+            "parser": set_indicatie_geboortedatum,
+            "save_as": "indicatieGeboortedatum",
+        },
     ]
 
     verbintenissen = persoon_tree.find_all("PRSPRSHUW")
@@ -311,14 +328,16 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         set_fields(verb.PRS, partner_fields, result_verbintenis["persoon"])
         set_extra_fields(verb.PRS, partner_extra_fields, result_verbintenis["persoon"])
-        set_fields_with_attributes(verb.PRS, partner_fields_with_attrs, result_verbintenis["persoon"])
+        set_fields_with_attributes(
+            verb.PRS, partner_fields_with_attrs, result_verbintenis["persoon"]
+        )
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis["persoon"])
 
         einde_verbintenis_code = verb.find("redenOntbinding").string
-        result_verbintenis[
-            "redenOntbindingOmschrijving"
-        ] = lookup_reden_ontbinding_partner.get(einde_verbintenis_code, None)
+        result_verbintenis["redenOntbindingOmschrijving"] = (
+            lookup_reden_ontbinding_partner.get(einde_verbintenis_code, None)
+        )
 
         result.append(result_verbintenis)
 
@@ -499,12 +518,12 @@ def extract_identiteitsbewijzen(persoon_tree: Tag):
                 continue
 
         try:
-            result_id["documentType"] = lookup_prsidb_soort_code[type_number]
+            result_id["documentType"] = lookup_persoonidb_soort_code[type_number]
         except Exception as e:
             logging.info(f"unknown document type {type_number} {type(e)} {e}")
-            result_id[
-                "documentType"
-            ] = f"onbekend type ({type_number})"  # unknown doc type
+            result_id["documentType"] = (
+                f"onbekend type ({type_number})"  # unknown doc type
+            )
 
         hash = sha256()
         hash.update(result_id["documentNummer"].encode())
@@ -559,7 +578,7 @@ def extract_data(persoon_tree: Tag):
 
     if isAmsterdammer:
         kinderen = extract_kinderen_data(persoon_tree)
-        ouders = extract_parents_data(persoon_tree)
+        ouders = extract_ouders_data(persoon_tree)
         verbintenis = verbintenissen["verbintenis"]
         verbintenis_historisch = verbintenissen["verbintenisHistorisch"]
         identiteitsbewijzen = extract_identiteitsbewijzen(persoon_tree)

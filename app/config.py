@@ -25,6 +25,10 @@ IS_AP = IS_ACCEPTANCE or IS_PRODUCTION
 IS_OT = IS_DEV or IS_TEST
 IS_AZ = os.getenv("IS_AZ", False)
 
+IS_SHOW_BSN_ENABLED = (
+    os.getenv("MKS_IS_SHOW_BSN_ENABLED", "false" if IS_PRODUCTION else "true") == "true"
+)
+
 # App constants
 VERIFY_JWT_SIGNATURE = os.getenv("VERIFY_JWT_SIGNATURE", IS_AP)
 REQUEST_TIMEOUT = 20 if IS_PRODUCTION else 30  # seconds

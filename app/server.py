@@ -11,10 +11,11 @@ from requests.exceptions import HTTPError
 from app import auth
 from app.config import (
     IS_DEV,
+    IS_SHOW_BSN_ENABLED,
     UpdatedJSONProvider,
     get_application_insights_connection_string,
 )
-from app.helpers import decrypt, error_response_json, success_response_json
+from app.helpers import decrypt, error_response_json, remove_attr, success_response_json
 from app.service import mks_client_02_04, mks_client_hr
 from app.service.adr_mks_client_02_04 import get_resident_count
 
@@ -27,6 +28,7 @@ tracer = trace.get_tracer(__name__, tracer_provider=get_tracer_provider())
 app = Flask(__name__)
 app.json = UpdatedJSONProvider(app)
 
+
 FlaskInstrumentor.instrument_app(app)
 
 
@@ -36,6 +38,10 @@ def get_brp():
     with tracer.start_as_current_span("/brp"):
         user = auth.get_current_user()
         brp = mks_client_02_04.get_0204(user["id"])
+
+        if not IS_SHOW_BSN_ENABLED:
+            remove_attr(brp, "bsn")
+
         return success_response_json(brp)
 
 
