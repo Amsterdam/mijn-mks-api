@@ -29,7 +29,7 @@ app = Flask(__name__)
 app.json = UpdatedJSONProvider(app)
 
 
-def loop_throug(dict_list, keys):
+def loop_throug_and_remove_bsn(dict_list, keys):
     for key in keys:
         for dict in dict_list[key]:
             remove_atr(dict, "bsn")
@@ -57,7 +57,9 @@ def get_brp():
         brp = mks_client_02_04.get_0204(user["id"])
         if not IS_SHOW_BSN_ENABLED:
             remove_atr(brp, "bsn")
-            loop_throug(brp, ["kinderen", "ouders", "verbintenisHistorisch"])
+            loop_throug_and_remove_bsn(
+                brp, ["kinderen", "ouders", "verbintenisHistorisch"]
+            )
 
         return success_response_json(brp)
 
