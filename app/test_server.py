@@ -2,8 +2,8 @@ import json
 import os
 from unittest.mock import patch
 
-from app.auth import PROFILE_TYPE_COMMERCIAL, PROFILE_TYPE_PRIVATE, FlaskServerTestCase
-from app.server import app, remove_atr
+from app.auth import PROFILE_TYPE_COMMERCIAL, FlaskServerTestCase
+from app.server import app
 from app.test_mks_client_bsn_hr import get_bsn_xml_response_fixture
 from .test_02_04_model import RESPONSE_PATH, BRP_RESPONSE
 from .test_mks_client_kvk_mac_hr import (
