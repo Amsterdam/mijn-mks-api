@@ -39,7 +39,6 @@ def remove_atr(object, atr):
     if isinstance(object, dict):
         for key in list(object.keys()):
             if key == atr:
-                print("IS DICT", atr, object[key])
                 object.pop(key)
                 return object
             else:
