@@ -75,10 +75,11 @@ class ApiTests(FlaskServerTestCase):
         "app.service.mks_client_02_04.get_0204_raw",
         lambda bsn: get_bsn_xml_brp_response_fixture(),
     )
-    def test_brp_show_bsn(self):
+    def test_brp_show_no_bsn(self):
         response = self.get_secure("/brp/brp")
         self.assertEqual(response.status_code, 200)
         supposed_result = self._get_expected_private()["content"]
+        del supposed_result["bsn"]
         self.assertEqual(response.json["content"]["persoon"], supposed_result)
 
     @patch(
