@@ -3,6 +3,7 @@ import os
 from unittest.mock import patch
 
 from app.auth import PROFILE_TYPE_COMMERCIAL, FlaskServerTestCase
+from app.helpers import remove_attr
 from app.server import app
 from app.test_mks_client_bsn_hr import get_bsn_xml_response_fixture
 from .test_02_04_model import RESPONSE_PATH, BRP_RESPONSE
@@ -105,3 +106,29 @@ class ApiTests(FlaskServerTestCase):
     def test_empty(self):
         response = self.get_secure("/brp/hr", profile_type=PROFILE_TYPE_COMMERCIAL)
         self.assertEqual(response.status_code, 200)
+
+
+@patch(
+    "app.server.IS_SHOW_BSN_ENABLED",
+    False,
+)
+class ApiTestsBSNRemoved(FlaskServerTestCase):
+
+    app = app
+
+    @patch(
+        "app.service.mks_client_02_04.get_0204_raw",
+        lambda bsn: get_bsn_xml_brp_response_fixture(),
+    )
+    def test_brp_show_bsn(self):
+        response = self.get_secure("/brp/brp")
+        self.assertEqual(response.status_code, 200)
+
+        self.assertRaises(KeyError, lambda: response.json["content"]["persoon"]["bsn"])
+
+    def test_remove_attr(self):
+        obj = {"bsn": "xxx", "kids": [{"bsn": "xxx", "grandkids": [{"bsn": "xxx"}]}]}
+
+        remove_attr(obj, "bsn")
+
+        self.assertEqual(obj, {"kids": [{"grandkids": [{}]}]})

@@ -44,3 +44,15 @@ def get_request_template(name):
     filename = os.path.join(SERVICES_DIR, f"{name}.jinja2")
     with open(filename) as fp:
         return Template(fp.read())
+
+
+def remove_attr(input, attr):
+    if isinstance(input, dict):
+        for key in list(input.keys()):
+            if key == attr:
+                input.pop(key)
+            else:
+                remove_attr(input[key], attr)
+    if isinstance(input, list):
+        for list_item in input:
+            remove_attr(list_item, attr)
