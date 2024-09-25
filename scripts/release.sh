@@ -2,6 +2,11 @@
 
 set -e
 
+if [ $# -eq 0 ]; then
+    echo "Missing flag. Use --minor, --major or --patch"
+    exit 1
+fi
+
 BRANCH="production-release"
 
 git fetch origin && \
@@ -13,25 +18,20 @@ echo "Fetched origin, created release-branch."
 NEW_TAG_D="-1"
 NEW_TAG=$NEW_TAG_D
 
-if [ $# -eq 0 ]; then
-    echo "No arguments provided"
-    exit 1
-fi
-
 for cmd in "$@"
 do
 	case $cmd in
 		"--major")
 			echo "Incrementing Major Version"
-      NEW_TAG=$(sh ./semver.sh -v major)
+      NEW_TAG=$(./semver.sh -v major)
 			;;
 		"--minor")
 			echo "Incrementing Minor Version"
-      NEW_TAG=$(sh ./semver.sh -v minor)
+      NEW_TAG=$(./semver.sh -v minor)
 			;;
 		"--patch")
 			echo "Incrementing Patch Version"
-      NEW_TAG=$(sh ./semver.sh -v patch)
+      NEW_TAG=$(./semver.sh -v patch)
 			;;
         *)
             echo "No version specified"
