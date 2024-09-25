@@ -49,5 +49,5 @@
 
 ```
 ~ cd scripts
-~ sh release.sh --minor [--major [--patch]]
+~ ./release.sh --minor [--major [--patch]]
 ```
