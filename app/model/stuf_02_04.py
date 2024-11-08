@@ -334,10 +334,25 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
         set_omschrijving_geslachtsaanduiding(result_verbintenis["persoon"])
 
+        # Either datumOntbinding or redenOntbinding is set, treat this verbindtenis as historical
         einde_verbintenis_code = verb.find("redenOntbinding").string
-        result_verbintenis["redenOntbindingOmschrijving"] = (
-            lookup_reden_ontbinding_partner.get(einde_verbintenis_code, None)
-        )
+        if (
+            result_verbintenis["persoon"].get("datumOntbinding")
+            or einde_verbintenis_code
+        ):
+            result_verbintenis["redenOntbindingOmschrijving"] = (
+                lookup_reden_ontbinding_partner.get(
+                    einde_verbintenis_code,
+                    (
+                        f"{einde_verbintenis_code} - onbekend"
+                        if einde_verbintenis_code
+                        else None
+                    ),
+                )
+            )
+        else:
+            result_verbintenis.pop("redenOntbindingOmschrijving", None)
+            result_verbintenis.pop("datumOntbinding", None)
 
         result.append(result_verbintenis)
 
@@ -348,7 +363,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     current_results = [
         p
         for p in result
-        if not p["datumOntbinding"] and not p["redenOntbindingOmschrijving"]
+        if not p.get("datumOntbinding") and not p.get("redenOntbindingOmschrijving")
     ]
 
     if current_results:
