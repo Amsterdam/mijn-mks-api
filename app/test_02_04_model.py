@@ -264,7 +264,7 @@ class Model0204Tests(TestCase):
         tree.find("redenOntbinding").string = "X"
         result = extract_data(tree)
 
-        self.assertEqual(result["verbintenis"]["redenOntbindingOmschrijving"], None)
+        self.assertEqual(result["verbintenis"].get("redenOntbindingOmschrijving"), None)
 
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
 
@@ -453,12 +453,10 @@ class Model0204Tests(TestCase):
                         "opgemaakteNaam": None,
                     },
                     "datumSluiting": to_date("20000101"),
-                    "datumOntbinding": None,
                     "soortVerbintenis": None,
                     "soortVerbintenisOmschrijving": "Huwelijk",
                     "landnaamSluiting": "Nederland",
                     "plaatsnaamSluitingOmschrijving": "Amsterdam",
-                    "redenOntbindingOmschrijving": None,
                 },
                 "verbintenisHistorisch": [
                     {
