@@ -53,6 +53,8 @@ def get_hr():
 
         if user["type"] == auth.PROFILE_TYPE_PRIVATE:
             hr = mks_client_hr.get_from_bsn(user["id"])
+            if not IS_SHOW_BSN_ENABLED and hasattr(hr, "eigenaar"):
+                remove_attr(hr["eigenaar"], "bsn")
         else:
             hr = mks_client_hr.get_hr_for_kvk(user["id"])
 
