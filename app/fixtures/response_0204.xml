@@ -1,7 +1,9 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-  <soapenv:Header/>
+  <soapenv:Header />
   <soapenv:Body>
-    <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204" xmlns:StUF="http://www.egem.nl/StUF/StUF0204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <BG:synchroonAntwoordBericht xmlns:BG="http://www.egem.nl/StUF/sector/bg/0204"
+      xmlns:StUF="http://www.egem.nl/StUF/StUF0204"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <StUF:stuurgegevens xmlns="http://www.egem.nl/StUF/StUF0204">
         <StUF:berichtsoort>La01</StUF:berichtsoort>
         <StUF:entiteittype>PRS</StUF:entiteittype>
@@ -33,98 +35,106 @@
           <BG:geboorteplaats>947</BG:geboorteplaats>
           <BG:codeGeboorteland>6030</BG:codeGeboorteland>
           <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
-          <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde"/>
+          <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde" />
           <BG:indicatieGeheim>0</BG:indicatieGeheim>
           <BG:adellijkeTitelPredikaat>R</BG:adellijkeTitelPredikaat>
           <BG:codeGemeenteVanInschrijving>363</BG:codeGemeenteVanInschrijving>
-          <BG:codeLandEmigratie xsi:nil="true" StUF:noValue="geenWaarde"/>
-          <BG:datumVertrekUitNederland xsi:nil="true" StUF:noValue="geenWaarde"/>
-          <BG:verblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-          <BG:datumVerkrijgingVerblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-          <BG:datumVerliesVerblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-          <BG:aanduidingBijzonderNederlanderschap xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+          <BG:codeLandEmigratie xsi:nil="true" StUF:noValue="geenWaarde" />
+          <BG:datumVertrekUitNederland xsi:nil="true" StUF:noValue="geenWaarde" />
+          <BG:verblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+          <BG:datumVerkrijgingVerblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+          <BG:datumVerliesVerblijfstitel xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+          <BG:aanduidingBijzonderNederlanderschap xsi:nil="true" StUF:noValue="waardeOnbekend" />
           <BG:aanduidingNaamgebruik>E</BG:aanduidingNaamgebruik>
-          <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-          <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-          <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-          <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-          <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-          <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+          <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend" />
+          <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend" />
+          <BG:e-mailAdres xsi:nil="true" StUF:noValue="waardeOnbekend" />
+          <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend" />
+          <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend" />
+          <BG:telefoonnummer xsi:nil="true" StUF:noValue="waardeOnbekend" />
           <BG:tijdvakGeldigheid>
             <StUF:begindatumTijdvakGeldigheid>20130101</StUF:begindatumTijdvakGeldigheid>
-            <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="geenWaarde" />
           </BG:tijdvakGeldigheid>
           <BG:extraElementen>
-            <StUF:extraElement naam="aanduidingBijzonderNederlanderschapOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+            <StUF:extraElement naam="aanduidingBijzonderNederlanderschapOmschrijving" xsi:nil="true"
+              StUF:noValue="waardeOnbekend" />
             <StUF:extraElement naam="aanduidingGegevensInOnderzoek">N</StUF:extraElement>
             <StUF:extraElement naam="aanduidingNaamgebruikOmschrijving">Eigen geslachtsnaam</StUF:extraElement>
             <StUF:extraElement naam="geboortelandnaam">Nederland</StUF:extraElement>
-            <StUF:extraElement naam="geboorteplaatsnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+            <StUF:extraElement naam="geboorteplaatsnaam" xsi:nil="true"
+              StUF:noValue="waardeOnbekend" />
             <StUF:extraElement naam="gemeentenaamInschrijving">Amsterdam</StUF:extraElement>
             <StUF:extraElement naam="omschrijvingAdellijkeTitel">Ridder</StUF:extraElement>
             <StUF:extraElement naam="omschrijvingBurgerlijkeStaat">Gehuwd</StUF:extraElement>
             <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Man</StUF:extraElement>
             <StUF:extraElement naam="omschrijvingIndicatieGeheim">Geen beperking</StUF:extraElement>
-            <StUF:extraElement naam="omschrijvingVerblijfstitel" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-            <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            <StUF:extraElement naam="omschrijvingVerblijfstitel" xsi:nil="true"
+              StUF:noValue="nietGeautoriseerd" />
+            <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
           </BG:extraElementen>
 
           <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="3" StUF:sleutelGegevensbeheer="3">
             <BG:tijdvakRelatie>
               <StUF:begindatumRelatie>20120101</StUF:begindatumRelatie>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde" />
             </BG:tijdvakRelatie>
             <BG:extraElementen>
               <StUF:extraElement naam="aanduidingGegevensInOnderzoek">J</StUF:extraElement>
             </BG:extraElementen>
             <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="4" StUF:sleutelGegevensbeheer="4">
-              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="geenWaarde" />
+              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="geenWaarde" />
+              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:landcode>6030</BG:landcode>
               <BG:postcode>1011PN</BG:postcode>
               <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
               <BG:straatnaam>Amstel</BG:straatnaam>
               <BG:huisnummer>1</BG:huisnummer>
-              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:huisnummertoevoeging>I</BG:huisnummertoevoeging>
-              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:gemeentecode xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde" />
+              <BG:gemeentecode xsi:nil="true" StUF:noValue="waardeOnbekend" />
               <BG:extraElementen>
                 <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
-                <StUF:extraElement naam="officieleStraatnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-                <StUF:extraElement naam="openbareRuimteNaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <StUF:extraElement naam="officieleStraatnaam" xsi:nil="true"
+                  StUF:noValue="waardeOnbekend" />
+                <StUF:extraElement naam="openbareRuimteNaam" xsi:nil="true"
+                  StUF:noValue="waardeOnbekend" />
                 <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
                 <StUF:extraElement naam="woonplaatsnaamBAG">Amsterdam</StUF:extraElement>
               </BG:extraElementen>
             </BG:ADR>
           </BG:PRSADRINS>
 
-          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="100" StUF:sleutelGegevensbeheer="100">
+          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="100"
+            StUF:sleutelGegevensbeheer="100">
             <BG:tijdvakRelatie>
               <StUF:begindatumRelatie>20050101</StUF:begindatumRelatie>
               <StUF:einddatumRelatie>20120101</StUF:einddatumRelatie>
             </BG:tijdvakRelatie>
             <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="907" StUF:sleutelGegevensbeheer="907">
-              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:landcode>6030</BG:landcode>
               <BG:postcode>1011PN</BG:postcode>
               <!--<BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>-->
-              <BG:woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+              <BG:woonplaatsnaam StUF:noValue="geenWaarde" xsi:nil="true" />
               <BG:straatnaam>Amstel</BG:straatnaam>
               <BG:huisnummer>2</BG:huisnummer>
-              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:huisnummertoevoeging>H</BG:huisnummertoevoeging>
-              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:gemeentecode>363</BG:gemeentecode>
-              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:extraElementen>
-                <!--<StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>-->
-                <StUF:extraElement naam="authentiekeWoonplaatsnaam" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+                <!--<StUF:extraElement
+                naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>-->
+                <StUF:extraElement naam="authentiekeWoonplaatsnaam" xsi:nil="true"
+                  StUF:noValue="waardeOnbekend" />
                 <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
                 <StUF:extraElement naam="openbareRuimteNaam">Amstel</StUF:extraElement>
                 <StUF:extraElement naam="woonplaatsNaamBAG">Amsterdam</StUF:extraElement>
@@ -133,27 +143,29 @@
             </BG:ADR>
           </BG:PRSADRINS>
 
-          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="100" StUF:sleutelGegevensbeheer="100">
+          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="100"
+            StUF:sleutelGegevensbeheer="100">
             <BG:tijdvakRelatie>
               <StUF:begindatumRelatie>19900101</StUF:begindatumRelatie>
               <StUF:einddatumRelatie>20050101</StUF:einddatumRelatie>
             </BG:tijdvakRelatie>
-            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072" StUF:sleutelGegevensbeheer="9072">
-              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072"
+              StUF:sleutelGegevensbeheer="9072">
+              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:landcode>6030</BG:landcode>
               <BG:postcode>1011PB</BG:postcode>
               <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
               <BG:straatnaam>Amstel</BG:straatnaam>
               <BG:huisnummer>3</BG:huisnummer>
-              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:huisnummertoevoeging>3</BG:huisnummertoevoeging>
-              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:gemeentecode>363</BG:gemeentecode>
-              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:extraElementen>
                 <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
                 <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
@@ -164,27 +176,29 @@
             </BG:ADR>
           </BG:PRSADRINS>
 
-          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="301" StUF:sleutelGegevensbeheer="301">
+          <BG:PRSADRINS soortEntiteit="R" StUF:sleutelVerzendend="301"
+            StUF:sleutelGegevensbeheer="301">
             <BG:tijdvakRelatie>
               <StUF:begindatumRelatie>19700101</StUF:begindatumRelatie>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="geenWaarde" />
             </BG:tijdvakRelatie>
-            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072" StUF:sleutelGegevensbeheer="9072">
-              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+            <BG:ADR soortEntiteit="F" StUF:sleutelVerzendend="9072"
+              StUF:sleutelGegevensbeheer="9072">
+              <BG:adresBuitenland1 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:adresBuitenland2 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:adresBuitenland3 xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:landcode>6030</BG:landcode>
               <BG:postcode>1011PB</BG:postcode>
               <BG:woonplaatsnaam>Amsterdam</BG:woonplaatsnaam>
               <BG:straatnaam>Amstel</BG:straatnaam>
               <BG:huisnummer>3333</BG:huisnummer>
-              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:huisletter xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:huisnummertoevoeging>3</BG:huisnummertoevoeging>
-              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:aanduidingBijHuisnummer xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:gemeentecode>363</BG:gemeentecode>
-              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:centroidXCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:centroidYCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:centroidZCoordinaat xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:extraElementen>
                 <StUF:extraElement naam="authentiekeWoonplaatsnaam">Amsterdam</StUF:extraElement>
                 <StUF:extraElement naam="officieleStraatnaam">Amstel</StUF:extraElement>
@@ -198,8 +212,8 @@
           <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
             <BG:nummerIdentiteitsbewijs>IT01XYZ34</BG:nummerIdentiteitsbewijs>
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:extraElementen>
               <StUF:extraElement naam="datumAfgifte">20090101</StUF:extraElement>
@@ -212,12 +226,12 @@
           <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
             <BG:nummerIdentiteitsbewijs>PP01XYZ35</BG:nummerIdentiteitsbewijs>
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:extraElementen>
               <StUF:extraElement naam="datumAfgifte">20140101</StUF:extraElement>
-              <StUF:extraElement naam="datumEindeGeldigheid">20250101</StUF:extraElement>
+              <StUF:extraElement naam="datumEindeGeldigheid">20320101</StUF:extraElement>
             </BG:extraElementen>
             <BG:SIB soortEntiteit="T">
               <BG:soort>1</BG:soort>
@@ -226,8 +240,8 @@
           <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
             <BG:nummerIdentiteitsbewijs>PP01XYZ34</BG:nummerIdentiteitsbewijs>
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:extraElementen>
               <StUF:extraElement naam="datumAfgifte">20090101</StUF:extraElement>
@@ -240,12 +254,12 @@
           <BG:PRSIDB soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
             <BG:nummerIdentiteitsbewijs>PP12XYZ456</BG:nummerIdentiteitsbewijs>
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:extraElementen>
               <StUF:extraElement naam="datumAfgifte">20140101</StUF:extraElement>
-              <StUF:extraElement naam="datumEindeGeldigheid">20250101</StUF:extraElement>
+              <StUF:extraElement naam="datumEindeGeldigheid">20320101</StUF:extraElement>
             </BG:extraElementen>
             <BG:SIB soortEntiteit="T">
               <BG:soort>1</BG:soort>
@@ -253,39 +267,45 @@
           </BG:PRSIDB>
 
           <BG:PRSNAT soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-            <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend"/>
-            <BG:datumVerlies xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:datumVerkrijging xsi:nil="true" StUF:noValue="waardeOnbekend" />
+            <BG:datumVerlies xsi:nil="true" StUF:noValue="geenWaarde" />
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:extraElementen>
-              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true"
+                StUF:noValue="nietGeautoriseerd" />
             </BG:extraElementen>
             <BG:NAT soortEntiteit="T">
               <BG:code>1</BG:code>
               <BG:omschrijving>Nederlandse</BG:omschrijving>
-              <BG:datumVerkrijging xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <BG:datumVerlies xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:datumVerkrijging xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <BG:datumVerlies xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:NAT>
           </BG:PRSNAT>
-          <BG:PRSPRSHUW soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+          <BG:PRSPRSHUW soortEntiteit="R" StUF:sleutelVerzendend="10"
+            StUF:sleutelGegevensbeheer="10">
             <BG:datumSluiting>20000101</BG:datumSluiting>
             <BG:plaatsSluiting>363</BG:plaatsSluiting>
             <BG:landSluiting>6030</BG:landSluiting>
-            <BG:datumOntbinding xsi:nil="true" StUF:noValue="geenWaarde"/>
+            <BG:datumOntbinding xsi:nil="true" StUF:noValue="geenWaarde" />
             <BG:redenOntbinding>O</BG:redenOntbinding>
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:extraElementen>
-              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:extraElement naam="landnaamOntbinding" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true"
+                StUF:noValue="nietGeautoriseerd" />
+              <StUF:extraElement naam="landnaamOntbinding" xsi:nil="true"
+                StUF:noValue="waardeOnbekend" />
               <StUF:extraElement naam="landnaamSluiting">Nederland</StUF:extraElement>
-              <StUF:extraElement naam="plaatsnaamOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="plaatsnaamOntbindingOmschrijving" xsi:nil="true"
+                StUF:noValue="waardeOnbekend" />
               <StUF:extraElement naam="plaatsnaamSluitingOmschrijving">Amsterdam</StUF:extraElement>
-              <StUF:extraElement naam="redenOntbindingOmschrijving" xsi:nil="true" StUF:noValue="waardeOnbekend"/>
+              <StUF:extraElement naam="redenOntbindingOmschrijving" xsi:nil="true"
+                StUF:noValue="waardeOnbekend" />
               <StUF:extraElement naam="soortVerbintenisOmschrijving">Huwelijk</StUF:extraElement>
             </BG:extraElementen>
             <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
@@ -296,28 +316,30 @@
               <BG:geslachtsnaam>Bakker</BG:geslachtsnaam>
               <BG:geboortedatum>19700101</BG:geboortedatum>
               <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
-              <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde"/>
-              <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:datumOverlijden xsi:nil="true" StUF:noValue="geenWaarde" />
+              <BG:aanduidingNaamgebruik xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:tijdvakGeldigheid>
-                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               </BG:tijdvakGeldigheid>
               <BG:extraElementen>
                 <StUF:extraElement naam="geboortelandnaam">Nederland</StUF:extraElement>
                 <StUF:extraElement naam="geboorteplaatsnaam">Neer</StUF:extraElement>
                 <StUF:extraElement naam="omschrijvingAdellijkeTitel">Jonkvrouw</StUF:extraElement>
                 <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Vrouw</StUF:extraElement>
-                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true"
+                  StUF:noValue="nietGeautoriseerd" />
               </BG:extraElementen>
             </BG:PRS>
           </BG:PRSPRSHUW>
-          <BG:PRSPRSKND soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+          <BG:PRSPRSKND soortEntiteit="R" StUF:sleutelVerzendend="10"
+            StUF:sleutelGegevensbeheer="10">
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
-              <BG:a-nummer xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <BG:a-nummer xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               <BG:bsn-nummer>567890123</BG:bsn-nummer>
               <BG:voornamen>Anne</BG:voornamen>
               <BG:voorletters>A</BG:voorletters>
@@ -328,70 +350,77 @@
               <BG:codeGeboorteland>6030</BG:codeGeboorteland>
               <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
               <BG:tijdvakGeldigheid>
-                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               </BG:tijdvakGeldigheid>
               <BG:extraElementen>
-                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true"
+                  StUF:noValue="nietGeautoriseerd" />
                 <StUF:extraElement naam="geboortelandnaam">Nederland</StUF:extraElement>
                 <StUF:extraElement naam="geboorteplaatsnaam">Neer</StUF:extraElement>
                 <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Vrouw</StUF:extraElement>
               </BG:extraElementen>
             </BG:PRS>
           </BG:PRSPRSKND>
-          <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+          <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10"
+            StUF:sleutelGegevensbeheer="10">
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
               <BG:bsn-nummer>345678901</BG:bsn-nummer>
               <BG:voornamen>Iep</BG:voornamen>
               <BG:voorletters>I</BG:voorletters>
-              <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:geslachtsnaam>Visser</BG:geslachtsnaam>
               <BG:geboortedatum>19610101</BG:geboortedatum>
               <BG:geboorteplaats>Teheran</BG:geboorteplaats>
               <BG:codeGeboorteland>5012</BG:codeGeboorteland>
               <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
               <BG:tijdvakGeldigheid>
-                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               </BG:tijdvakGeldigheid>
               <BG:extraElementen>
-                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true"
+                  StUF:noValue="nietGeautoriseerd" />
                 <StUF:extraElement naam="geboortelandnaam">Iran</StUF:extraElement>
                 <StUF:extraElement naam="geboorteplaatsnaam">Teheran</StUF:extraElement>
                 <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Vrouw</StUF:extraElement>
-                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true"
+                  StUF:noValue="nietGeautoriseerd" />
               </BG:extraElementen>
             </BG:PRS>
           </BG:PRSPRSOUD>
-          <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
+          <BG:PRSPRSOUD soortEntiteit="R" StUF:sleutelVerzendend="10"
+            StUF:sleutelGegevensbeheer="10">
             <BG:tijdvakRelatie>
-              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+              <StUF:begindatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+              <StUF:einddatumRelatie xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
             </BG:tijdvakRelatie>
             <BG:PRS soortEntiteit="F" StUF:sleutelVerzendend="10" StUF:sleutelGegevensbeheer="10">
               <BG:bsn-nummer>456789012</BG:bsn-nummer>
               <BG:voornamen>Thomas</BG:voornamen>
               <BG:voorletters>T</BG:voorletters>
-              <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+              <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde" />
               <BG:geslachtsnaam>Jansen</BG:geslachtsnaam>
               <BG:geboortedatum>19510101</BG:geboortedatum>
               <BG:geboorteplaats>Tokio</BG:geboorteplaats>
               <BG:codeGeboorteland>7035</BG:codeGeboorteland>
               <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
               <BG:tijdvakGeldigheid>
-                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
-                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:begindatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
+                <StUF:einddatumTijdvakGeldigheid xsi:nil="true" StUF:noValue="nietGeautoriseerd" />
               </BG:tijdvakGeldigheid>
               <BG:extraElementen>
-                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="aanduidingGegevensInOnderzoek" xsi:nil="true"
+                  StUF:noValue="nietGeautoriseerd" />
                 <StUF:extraElement naam="geboortelandnaam">Japan</StUF:extraElement>
                 <StUF:extraElement naam="geboorteplaatsnaam">Osaka</StUF:extraElement>
                 <StUF:extraElement naam="omschrijvingGeslachtsaanduiding">Man</StUF:extraElement>
-                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true" StUF:noValue="nietGeautoriseerd"/>
+                <StUF:extraElement naam="opgemaakteNaam" xsi:nil="true"
+                  StUF:noValue="nietGeautoriseerd" />
               </BG:extraElementen>
             </BG:PRS>
           </BG:PRSPRSOUD>
