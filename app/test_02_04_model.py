@@ -91,14 +91,14 @@ BRP_RESPONSE = {
     ],
     "identiteitsbewijzen": [
         {
-            "datumAfloop": date(2025, 1, 1),
+            "datumAfloop": date(2032, 1, 1),
             "datumUitgifte": date(2014, 1, 1),
             "documentNummer": "PP01XYZ35",
             "documentType": "paspoort",
             "id": "25ee19ff7a9ecb909e2bf5ca044f1f05d2998c98888893c2075240c25a2ff0f7",
         },
         {
-            "datumAfloop": date(2025, 1, 1),
+            "datumAfloop": date(2032, 1, 1),
             "datumUitgifte": date(2014, 1, 1),
             "documentNummer": "PP12XYZ456",
             "documentType": "paspoort",
