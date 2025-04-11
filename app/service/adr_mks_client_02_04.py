@@ -81,4 +81,6 @@ def get_resident_count(adres_sleutel: str):
         f"{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon", soap_request_payload
     )
 
+    print(response)
+
     return extract(response)
