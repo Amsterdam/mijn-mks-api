@@ -75,6 +75,8 @@ def extract(xml_data):
 def get_resident_count(adres_sleutel: str):
     soap_request_payload = _get_soap_request_payload(adres_sleutel)
 
+    print(soap_request_payload)
+
     response = _get_response(
         f"{MKS_ENDPOINT}/CGS/StUF/services/BGSynchroon", soap_request_payload
     )
