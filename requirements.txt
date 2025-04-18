@@ -6,19 +6,22 @@
 #
 asgiref==3.8.1
     # via opentelemetry-instrumentation-asgi
-azure-core==1.32.0
+azure-core==1.33.0
     # via
     #   azure-core-tracing-opentelemetry
+    #   azure-identity
     #   azure-monitor-opentelemetry
     #   azure-monitor-opentelemetry-exporter
     #   msrest
 azure-core-tracing-opentelemetry==1.0.0b12
     # via azure-monitor-opentelemetry
-azure-monitor-opentelemetry==1.6.5
+azure-identity==1.21.0
+    # via azure-monitor-opentelemetry-exporter
+azure-monitor-opentelemetry==1.6.8
     # via -r requirements-root.txt
-azure-monitor-opentelemetry-exporter==1.0.0b35
+azure-monitor-opentelemetry-exporter==1.0.0b36
     # via azure-monitor-opentelemetry
-beautifulsoup4==4.13.3
+beautifulsoup4==4.13.4
     # via -r requirements-root.txt
 black==25.1.0
     # via -r requirements-root.txt
@@ -36,19 +39,22 @@ click==8.1.8
     # via
     #   black
     #   flask
-coverage==7.7.1
+coverage==7.8.0
     # via -r requirements-root.txt
 cryptography==44.0.2
     # via
     #   -r requirements-root.txt
+    #   azure-identity
     #   jwcrypto
+    #   msal
+    #   pyjwt
 deprecated==1.2.18
     # via
     #   opentelemetry-api
     #   opentelemetry-semantic-conventions
 fixedint==0.1.6
     # via azure-monitor-opentelemetry-exporter
-flake8==7.1.2
+flake8==7.2.0
     # via -r requirements-root.txt
 flask==3.1.0
     # via
@@ -68,7 +74,7 @@ jinja2==3.1.6
     # via flask
 jwcrypto==1.5.6
     # via -r requirements-root.txt
-lxml==5.3.1
+lxml==5.3.2
     # via -r requirements-root.txt
 markupsafe==3.0.2
     # via
@@ -76,6 +82,12 @@ markupsafe==3.0.2
     #   werkzeug
 mccabe==0.7.0
     # via flake8
+msal==1.32.0
+    # via
+    #   azure-identity
+    #   msal-extensions
+msal-extensions==1.3.1
+    # via azure-identity
 msrest==0.7.1
     # via azure-monitor-opentelemetry-exporter
 mypy-extensions==1.0.0
@@ -174,20 +186,23 @@ platformdirs==4.3.7
     # via black
 psutil==6.1.1
     # via azure-monitor-opentelemetry-exporter
-pycodestyle==2.12.1
+pycodestyle==2.13.0
     # via flake8
 pycparser==2.22
     # via cffi
-pyflakes==3.2.0
+pyflakes==3.3.2
     # via flake8
-pyjwt==2.10.1
-    # via -r requirements-root.txt
+pyjwt[crypto]==2.10.1
+    # via
+    #   -r requirements-root.txt
+    #   msal
 python-dateutil==2.9.0.post0
     # via -r requirements-root.txt
 requests==2.32.3
     # via
     #   -r requirements-root.txt
     #   azure-core
+    #   msal
     #   msrest
     #   requests-oauthlib
 requests-oauthlib==2.0.0
@@ -198,13 +213,14 @@ six==1.17.0
     #   python-dateutil
 soupsieve==2.6
     # via beautifulsoup4
-typing-extensions==4.13.0
+typing-extensions==4.13.2
     # via
     #   azure-core
+    #   azure-identity
     #   beautifulsoup4
     #   jwcrypto
     #   opentelemetry-sdk
-urllib3==2.3.0
+urllib3==2.4.0
     # via requests
 werkzeug==3.1.3
     # via flask
