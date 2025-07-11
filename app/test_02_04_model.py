@@ -192,7 +192,7 @@ BRP_RESPONSE = {
         "voorvoegselGeslachtsnaam": "den",
         "adresInOnderzoek": "080000",  # Value provided by adrins.extraelement.aanduidingGegevensInOnderzoek
     },
-    "verbintenis": {},
+    "verbintenis": None,
     "verbintenisHistorisch": [
         {
             "datumOntbinding": None,
@@ -264,7 +264,10 @@ class Model0204Tests(TestCase):
         tree.find("redenOntbinding").string = "X"
         result = extract_data(tree)
 
-        self.assertEqual(result["verbintenis"].get("redenOntbindingOmschrijving"), None)
+        self.assertEqual(
+            result["verbintenisHistorisch"][0]["redenOntbindingOmschrijving"],
+            "X - onbekend",
+        )
 
     # TODO: geslachtsomschrijving being set, geboorteplaatsNaam, geboorteLandnaam
 
@@ -543,7 +546,7 @@ class Model0204Tests(TestCase):
 
         self.assertEqual(result["kinderen"], [])
         self.assertEqual(result["ouders"], [])
-        self.assertEqual(result["verbintenis"], {})
+        self.assertEqual(result["verbintenis"], None)
         self.assertEqual(result["verbintenisHistorisch"], [])
         self.assertEqual(result["identiteitsbewijzen"], [])
         self.assertEqual(result["adres"], {})

@@ -316,7 +316,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
 
     if verbintenissen[0].get("xsi:nil") == "true":
         return {
-            "verbintenis": {},
+            "verbintenis": None,
             "verbintenisHistorisch": [],
         }
 
@@ -369,7 +369,7 @@ def extract_verbintenis_data(persoon_tree: Tag):
     if current_results:
         current_result = current_results[0]
     else:
-        current_result = {}
+        current_result = None
 
     past_result = [p for p in result if not (p == current_result)]
 
