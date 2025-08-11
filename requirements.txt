@@ -15,11 +15,11 @@ azure-core==1.35.0
     #   msrest
 azure-core-tracing-opentelemetry==1.0.0b12
     # via azure-monitor-opentelemetry
-azure-identity==1.23.0
+azure-identity==1.24.0
     # via azure-monitor-opentelemetry-exporter
-azure-monitor-opentelemetry==1.6.10
+azure-monitor-opentelemetry==1.6.13
     # via -r requirements-root.txt
-azure-monitor-opentelemetry-exporter==1.0.0b39
+azure-monitor-opentelemetry-exporter==1.0.0b41
     # via azure-monitor-opentelemetry
 beautifulsoup4==4.13.4
     # via -r requirements-root.txt
@@ -27,31 +27,27 @@ black==25.1.0
     # via -r requirements-root.txt
 blinker==1.9.0
     # via flask
-certifi==2025.7.9
+certifi==2025.8.3
     # via
     #   msrest
     #   requests
 cffi==1.17.1
     # via cryptography
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
     # via requests
 click==8.2.1
     # via
     #   black
     #   flask
-coverage==7.9.2
+coverage==7.10.3
     # via -r requirements-root.txt
-cryptography==45.0.5
+cryptography==45.0.6
     # via
     #   -r requirements-root.txt
     #   azure-identity
     #   jwcrypto
     #   msal
     #   pyjwt
-deprecated==1.2.18
-    # via
-    #   opentelemetry-api
-    #   opentelemetry-semantic-conventions
 fixedint==0.1.6
     # via azure-monitor-opentelemetry-exporter
 flake8==7.3.0
@@ -64,7 +60,7 @@ flask-httpauth==4.8.0
     # via -r requirements-root.txt
 idna==3.10
     # via requests
-importlib-metadata==8.6.1
+importlib-metadata==8.7.0
     # via opentelemetry-api
 isodate==0.7.2
     # via msrest
@@ -83,7 +79,7 @@ markupsafe==3.0.2
     #   werkzeug
 mccabe==0.7.0
     # via flake8
-msal==1.32.3
+msal==1.33.0
     # via
     #   azure-identity
     #   msal-extensions
@@ -95,7 +91,7 @@ mypy-extensions==1.1.0
     # via black
 oauthlib==3.3.1
     # via requests-oauthlib
-opentelemetry-api==1.31.1
+opentelemetry-api==1.36.0
     # via
     #   azure-core-tracing-opentelemetry
     #   azure-monitor-opentelemetry-exporter
@@ -112,7 +108,7 @@ opentelemetry-api==1.31.1
     #   opentelemetry-instrumentation-wsgi
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
-opentelemetry-instrumentation==0.52b1
+opentelemetry-instrumentation==0.57b0
     # via
     #   opentelemetry-instrumentation-asgi
     #   opentelemetry-instrumentation-dbapi
@@ -124,36 +120,36 @@ opentelemetry-instrumentation==0.52b1
     #   opentelemetry-instrumentation-urllib
     #   opentelemetry-instrumentation-urllib3
     #   opentelemetry-instrumentation-wsgi
-opentelemetry-instrumentation-asgi==0.52b1
+opentelemetry-instrumentation-asgi==0.57b0
     # via opentelemetry-instrumentation-fastapi
-opentelemetry-instrumentation-dbapi==0.52b1
+opentelemetry-instrumentation-dbapi==0.57b0
     # via opentelemetry-instrumentation-psycopg2
-opentelemetry-instrumentation-django==0.52b1
+opentelemetry-instrumentation-django==0.57b0
     # via azure-monitor-opentelemetry
-opentelemetry-instrumentation-fastapi==0.52b1
+opentelemetry-instrumentation-fastapi==0.57b0
     # via azure-monitor-opentelemetry
-opentelemetry-instrumentation-flask==0.52b1
+opentelemetry-instrumentation-flask==0.57b0
     # via azure-monitor-opentelemetry
-opentelemetry-instrumentation-psycopg2==0.52b1
+opentelemetry-instrumentation-psycopg2==0.57b0
     # via azure-monitor-opentelemetry
-opentelemetry-instrumentation-requests==0.52b1
+opentelemetry-instrumentation-requests==0.57b0
     # via azure-monitor-opentelemetry
-opentelemetry-instrumentation-urllib==0.52b1
+opentelemetry-instrumentation-urllib==0.57b0
     # via azure-monitor-opentelemetry
-opentelemetry-instrumentation-urllib3==0.52b1
+opentelemetry-instrumentation-urllib3==0.57b0
     # via azure-monitor-opentelemetry
-opentelemetry-instrumentation-wsgi==0.52b1
+opentelemetry-instrumentation-wsgi==0.57b0
     # via
     #   opentelemetry-instrumentation-django
     #   opentelemetry-instrumentation-flask
 opentelemetry-resource-detector-azure==0.1.5
     # via azure-monitor-opentelemetry
-opentelemetry-sdk==1.31.1
+opentelemetry-sdk==1.36.0
     # via
     #   azure-monitor-opentelemetry
     #   azure-monitor-opentelemetry-exporter
     #   opentelemetry-resource-detector-azure
-opentelemetry-semantic-conventions==0.52b1
+opentelemetry-semantic-conventions==0.57b0
     # via
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-asgi
@@ -166,7 +162,7 @@ opentelemetry-semantic-conventions==0.52b1
     #   opentelemetry-instrumentation-urllib3
     #   opentelemetry-instrumentation-wsgi
     #   opentelemetry-sdk
-opentelemetry-util-http==0.52b1
+opentelemetry-util-http==0.57b0
     # via
     #   opentelemetry-instrumentation-asgi
     #   opentelemetry-instrumentation-django
@@ -220,14 +216,15 @@ typing-extensions==4.14.1
     #   azure-identity
     #   beautifulsoup4
     #   jwcrypto
+    #   opentelemetry-api
     #   opentelemetry-sdk
+    #   opentelemetry-semantic-conventions
 urllib3==2.5.0
     # via requests
 werkzeug==3.1.3
     # via flask
 wrapt==1.17.2
     # via
-    #   deprecated
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-dbapi
     #   opentelemetry-instrumentation-urllib3
