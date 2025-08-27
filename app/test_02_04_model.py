@@ -120,7 +120,6 @@ BRP_RESPONSE = {
             "omschrijvingAdellijkeTitel": None,
             "omschrijvingGeslachtsaanduiding": "Vrouw",
             "opgemaakteNaam": None,
-            "overlijdensdatum": None,
             "voornamen": "Anne",
             "voorvoegselGeslachtsnaam": "van",
         }
@@ -140,7 +139,6 @@ BRP_RESPONSE = {
             "omschrijvingAdellijkeTitel": None,
             "omschrijvingGeslachtsaanduiding": "Man",
             "opgemaakteNaam": None,
-            "overlijdensdatum": None,
             "voornamen": "Thomas",
             "voorvoegselGeslachtsnaam": None,
         },
@@ -158,7 +156,6 @@ BRP_RESPONSE = {
             "omschrijvingAdellijkeTitel": None,
             "omschrijvingGeslachtsaanduiding": "Vrouw",
             "opgemaakteNaam": None,
-            "overlijdensdatum": None,
             "voornamen": "Iep",
             "voorvoegselGeslachtsnaam": None,
         },

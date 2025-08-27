@@ -160,11 +160,6 @@ def extract_kinderen_data(persoon_tree: Tag):
             "parser": to_string_4x0,
             "save_as": "geboorteLand",
         },
-        {
-            "name": "datumOverlijden",
-            "parser": to_date,
-            "save_as": "overlijdensdatum",
-        },  # Save as name to match 3.10
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
     ]
 
@@ -221,11 +216,6 @@ def extract_ouders_data(persoon_tree: Tag):
             "parser": to_string,
             "save_as": "geboorteLand",
         },  # save as to match 3.10
-        {
-            "name": "datumOverlijden",
-            "parser": to_date,
-            "save_as": "overlijdensdatum",
-        },  # save as to match 3.10'
         {"name": "adellijkeTitelPredikaat", "parser": to_string},
     ]
 
