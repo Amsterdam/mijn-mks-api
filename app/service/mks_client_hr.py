@@ -76,6 +76,10 @@ def _get_response(mks_url, soap_request_payload):
         post_response = session.post(
             mks_url, data=soap_request_payload, timeout=REQUEST_TIMEOUT
         )
+        logging.debug(post_response)
+    except Exception as e:
+        logging.error(f"Error occurred: {e}")
+        logging.debug(e)
     finally:
         request_end = time.time()
         logging.info(f"request took: '{request_end - request_start}' seconds")
@@ -375,6 +379,7 @@ def extract_for_kvk(xml_str):
 
 def get_from_bsn(bsn: str):
     response = _get_response_by_bsn(bsn)
+    logging.debug(response)
     return extract_for_bsn(response)
 
 

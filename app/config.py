@@ -58,7 +58,7 @@ if IS_AZ and IS_TAP and MIJN_DATA_CLIENT_CERT is not None:
 MKS_ENDPOINT = os.getenv("MKS_BRP_ENDPOINT")
 
 # Set-up logging
-LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR").upper()
+LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG").upper()
 
 logging.basicConfig(
     format="%(asctime)s,%(msecs)d %(levelname)-8s [%(pathname)s:%(lineno)d in function %(funcName)s] %(message)s",

@@ -53,10 +53,14 @@ def get_hr():
 
         if user["type"] == auth.PROFILE_TYPE_PRIVATE:
             hr = mks_client_hr.get_from_bsn(user["id"])
+            logging.debug("Private profile HR data:")
             if not IS_SHOW_BSN_ENABLED and hasattr(hr, "eigenaar"):
                 remove_attr(hr["eigenaar"], "bsn")
         else:
+            logging.debug("Commercial profile HR data:")
             hr = mks_client_hr.get_hr_for_kvk(user["id"])
+
+        logging.debug(hr)
 
         return success_response_json(hr)
 
