@@ -109,6 +109,18 @@ def _get_response_by_nnpid(nnpid: str = None):
     return _get_from_mks(url=HR_URL, template=nnp_template, nnpid=nnpid)
 
 
+def get_naam_eigenaar(eigenaar_item):
+    return "%s%s%s" % (
+        eigenaar_item["voornamen"] + " ",
+        (
+            eigenaar_item.get("voorvoegselGeslachtsnaam") + " "
+            if eigenaar_item.get("voorvoegselGeslachtsnaam")
+            else ""
+        ),
+        eigenaar_item["geslachtsnaam"],
+    )
+
+
 def extract_for_bsn(xml_data):
     try:
         tree = BeautifulSoup(xml_data, features="lxml-xml")
@@ -180,8 +192,7 @@ def extract_for_bsn(xml_data):
         }
 
         eigenaar = {
-            "naam": "%s %s"
-            % (eigenaar_data["voornamen"], eigenaar_data["geslachtsnaam"]),
+            "naam": get_naam_eigenaar(eigenaar_data),
             "geboortedatum": eigenaar_data["geboortedatum"],
             "adres": eigenaar_data["adres"],
             "bsn": eigenaar_data.get("bsn", None),
@@ -321,8 +332,7 @@ def extract_for_kvk(xml_str):
                 eigenaar_item = eigenaren_data[0]
 
                 eigenaar = {
-                    "naam": "%s %s"
-                    % (eigenaar_item["voornamen"], eigenaar_item["geslachtsnaam"]),
+                    "naam": get_naam_eigenaar(eigenaar_item),
                     "geboortedatum": eigenaar_item["geboortedatum"],
                     "adres": eigenaar_item["adres"],
                     "bsn": eigenaar_item.get("bsn", None),
