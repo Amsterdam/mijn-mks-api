@@ -128,6 +128,7 @@ def extract_owner_persoon(owner: Tag):
         {"name": "inp.bsn", "parser": to_string, "save_as": "bsn"},
         {"name": "geslachtsnaam", "parser": to_string},
         {"name": "voornamen", "parser": to_string},
+        {"name": "voorvoegselGeslachtsnaam", "parser": to_string},
         {"name": "geboortedatum", "parser": to_date},
     ]
 

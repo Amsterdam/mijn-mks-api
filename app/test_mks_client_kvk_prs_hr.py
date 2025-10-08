@@ -24,7 +24,7 @@ KVK_HR_EENMANSZAAK_RESPONSE = {
     },
     "eigenaar": {
         "bsn": "999999999",
-        "naam": "Voornaam Achternaam",
+        "naam": "Voornaam van Achternaam",
         "geboortedatum": date(1970, 1, 1),
         "adres": {
             "huisletter": None,
