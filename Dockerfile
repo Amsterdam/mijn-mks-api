@@ -63,12 +63,15 @@ COPY conf/uwsgi.ini /api/
 COPY conf/sshd_config /etc/ssh/
 
 RUN <<EOF
-echo "$SSH_PASSWD" | chpasswd
-
 # AZ AppService allows SSH into a App instance.
 if [ "$MA_CONTAINER_SSH_ENABLED" = "true" ]; then
-    echo "Starting SSH ..."
-    service ssh start
+  if [ -n "$SSH_PASSWD"]; then
+    echo 'ERROR: Build argument SSH_PASSWD is required, try --build-arg="MA_CONTAINER_SSH_ENABLED=true,SSH_PASSWD=<user:password>"' >&2
+    exit 1
+  fi
+  echo "$SSH_PASSWD" | chpasswd
+  echo "Starting SSH ..."
+  service ssh start
 fi
 EOF
 
