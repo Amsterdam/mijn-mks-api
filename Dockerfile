@@ -60,13 +60,19 @@ ARG MA_CONTAINER_SSH_ENABLED=false
 ENV MA_CONTAINER_SSH_ENABLED=$MA_CONTAINER_SSH_ENABLED
 
 COPY conf/uwsgi.ini /api/
-COPY conf/docker-entrypoint.sh /api/
 COPY conf/sshd_config /etc/ssh/
 
-RUN chmod u+x /api/docker-entrypoint.sh \
-  && echo "$SSH_PASSWD" | chpasswd
+RUN <<EOF
+echo "$SSH_PASSWD" | chpasswd
+
+# AZ AppService allows SSH into a App instance.
+if [ "$MA_CONTAINER_SSH_ENABLED" = "true" ]; then
+    echo "Starting SSH ..."
+    service ssh start
+fi
+EOF
 
 USER www-data
-ENTRYPOINT [ "/bin/sh", "/api/docker-entrypoint.sh"]
+ENTRYPOINT uwsgi --uid www-data --gid www-data --ini /api/uwsgi.ini
 
 FROM publish AS publish-final
